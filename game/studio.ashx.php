@@ -1,0 +1,41 @@
+<?php
+	ob_start();
+?>
+-- Setup studio cmd bar & load core scripts
+
+pcall(function() game:GetService("InsertService"):SetFreeModelUrl("http://www.lambda.cam/Game/Tools/InsertAsset.ashx?type=fm&q=%s&pg=%d&rs=%d") end)
+pcall(function() game:GetService("InsertService"):SetFreeDecalUrl("http://www.lambda.cam/Game/Tools/InsertAsset.ashx?type=fd&q=%s&pg=%d&rs=%d") end)
+
+game:GetService("ScriptInformationProvider"):SetAssetUrl("http://www.lambda.cam/Asset/")
+game:GetService("InsertService"):SetBaseSetsUrl("http://www.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
+game:GetService("InsertService"):SetUserSetsUrl("http://www.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d")
+game:GetService("InsertService"):SetCollectionUrl("http://www.lambda.cam/Game/Tools/InsertAsset.ashx?sid=%d")
+game:GetService("InsertService"):SetAssetUrl("http://www.lambda.cam/Asset/?id=%d")
+game:GetService("InsertService"):SetAssetVersionUrl("http://www.lambda.cam/Asset/?assetversionid=%d")
+
+pcall(function() game:GetService("SocialService"):SetFriendUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsFriendsWith&playerid=%d&userid=%d") end)
+pcall(function() game:GetService("SocialService"):SetBestFriendUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsBestFriendsWith&playerid=%d&userid=%d") end)
+pcall(function() game:GetService("SocialService"):SetGroupUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsInGroup&playerid=%d&groupid=%d") end)
+pcall(function() game:GetService("SocialService"):SetGroupRankUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRank&playerid=%d&groupid=%d") end)
+pcall(function() game:GetService("SocialService"):SetGroupRoleUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRole&playerid=%d&groupid=%d") end)
+pcall(function() game:GetService("GamePassService"):SetPlayerHasPassUrl("http://www.lambda.cam/Game/GamePass/GamePassHandler.ashx?Action=HasPass&UserID=%d&PassID=%d") end)
+
+local result = pcall(function() game:GetService("ScriptContext"):AddStarterScript(37801172) end)
+if not result then
+  pcall(function() game:GetService("ScriptContext"):AddCoreScript(37801172,game:GetService("ScriptContext"),"StarterScript") end)
+end
+<?php
+    function get_signature($script)
+    {
+        $signature = "";
+        openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
+        return base64_encode($signature);
+    }    
+
+    header("Content-Type: text/plain");
+
+    $script = "\r\n" . ob_get_clean();
+    $signature = get_signature($script);
+
+    echo "%". $signature . "%" . $script;
+?>

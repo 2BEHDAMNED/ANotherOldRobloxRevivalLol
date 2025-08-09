@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine on 
+    RewriteCond %{REQUEST_FILENAME} !-d 
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.+?)/?$ $1.php [L]
+</IfModule>
+
+# User pages :)
+<IfModule mod_rewrite.c>
+    RewriteEngine on 
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+
+	RewriteRule ^users/([0-9]+)/profile$ /users/profile.php?id=$1 [L]
+
+	RewriteRule ^users/([0-9]+)$  /users/profile.php?id=$1&redirect=true [L]
+	RewriteRule ^users/([0-9]+)/$ /users/profile.php?id=$1&redirect=true [L]
+	
+	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)$ /users/canmanage.php?id=$1&place=$2 [L]
+</IfModule>
+
+DirectoryIndex index.php index.html Default.aspx Default.aspx.php
+ErrorDocument 404 /core/error/404.php
+
+AddType text/x-component .htc
