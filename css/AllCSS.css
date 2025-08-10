@@ -60,7 +60,6 @@ a:hover {
 }
 
 #Header #ProfileSign {
-	background: url('/images/header/signs/profile.png') 100% round;
 	width: 195px;
 	
 	transform: rotate(-3deg);
@@ -80,28 +79,87 @@ a:hover {
 	width: 200px\9;
 	margin-bottom: -50px\9;
 	margin-left: -50px\9;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/header/signs/profile.png', sizingMethod='scale')
-		progid:DXImageTransform.Microsoft.Matrix(
+	filter: progid:DXImageTransform.Microsoft.Matrix(
 			M11 = 0.998629535 ,
 			M12 = 0.05233596,
 			M21 = -0.05233596,
 			M22 = 0.998629535 ,
 			sizingMethod = 'auto expand'
 	);
+
+	overflow: visible;
+}
+
+#Header #ProfileSign[logged=false] #background {
+	height: 100px\9;
+}
+
+#Header #ProfileSign[logged=true] #background {
+	height: 160px\9;
+}
+
+
+#Header #ProfileSign #background {
+	width: 220px;
+	height: 100%;
+	
+	position:absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#Header #ProfileSign #RegisterSign,
+#Header #ProfileSign #LoginSign {
+	padding: 10px;
+	width: 80px;
+	height: 54px;
+	display: block;
+	position: absolute;
+	padding-top: 38px;
+	font-weight: bold;
+	z-index: 4;
+	filter: none;
+}
+
+#Header #ProfileSign #RegisterSign {
+	left: -3px;
+	top: -25px;
+}
+
+#Header #ProfileSign #LoginSign {
+	top: -25px;
+	right: -11px;
 }
 
 #Header #ProfileSign a {
 	color: white;
 }
 
+#Header #ProfileSign hr {
+	margin:2px 0px;
+	color:white;
+	position: relative;
+	z-index: 2;
+}
+
+#Header #ProfileSign #UsernameRow {
+	position: relative;
+	z-index: 2;
+}
+
 #Header #ProfileSign #CreditsRow {
 	padding-bottom:5px;
+	position: relative;
+	z-index: 2;
 }
 
 #Header #ProfileSign #CreditsRow span {
 	display:inline-block;
 	font-size: 12px;
-	width:48%;
+	width:46%;
 	height: 20px;
 
 	width:25%\9;
@@ -110,6 +168,9 @@ a:hover {
 #Header #ProfileSign #CreditsRow span img {
 	margin-bottom: -3px;
 	image-rendering: crisp-edges;
+	border: none;
+
+	width: 20px\9;
 }
 
 #Header #ProfileSign #CreditsRow span.Separator {
@@ -179,6 +240,28 @@ a:hover {
 	background: rgb(0,0,0)
 }
 
+#Footer {
+	text-align: center;
+	background: #222;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+#Footer #FooterContainer {
+	width: 800px;
+	margin:0 auto;
+}
+
+#Footer #Links {
+	margin: 12px auto;
+    margin-top: 0px;
+}
+
+#Footer #Legalese {
+	width: 600px;
+	margin: 20px auto;
+	margin-bottom: 0px;
+}
 
 #Body {
 	border: 4px solid black;
@@ -186,6 +269,26 @@ a:hover {
 	border-top: none;
 	width: 900px;
 	margin: 0 auto;
-	padding: 5px;
+	padding: 0px;
 	color:white;
+}
+
+#BodyContainer {
+	padding: 5px;
+}
+
+h3 {
+	background: black;
+	padding: 5px 20px;
+	width: fit-content;
+	font-family: punk;
+	font-size:18px;
+}
+
+h2 {
+	background: black;
+	padding: 5px 20px;
+	width: fit-content;
+	font-family: punk;
+	font-size:22px;
 }
