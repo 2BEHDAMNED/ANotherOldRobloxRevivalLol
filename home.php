@@ -8,14 +8,13 @@
 		die(header("Location: /"));
 	}
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
-		<title>Home - Iota</title>
+		<title>Home - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css">
 		<script src="/js/jquery.js"></script>
-		<script src="/js/jquery.imageloader.js"></script>
 		<script src="/js/main.js"></script>
 		<?php if($user->blurb == ""): ?>
 		<style>
@@ -27,10 +26,10 @@
 	</head>
 	<body>
 		<div id="Container">
-			<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
-			<div id="WrapperBody">
-				<div id="Body">
-					<div id="HomePage">
+		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
+			<div id="Body">
+				<div id="BodyContainer">
+				<div id="HomePage">
 						<div id="HelloUser">
 							<a href="/users/<?= $user->id ?>/profile"><img id="ProfilePicture" src="/images/spinner100x100.gif" data-src="/images/avatar.png"></a>
 							<div id="HelloStuff">

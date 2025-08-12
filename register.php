@@ -8,15 +8,15 @@
 
 	session_start();
 
-	if(isset($_POST['Iota$Signup$Username']) &&
-	   isset($_POST['Iota$Signup$Password']) &&
-	   isset($_POST['Iota$Signup$ConfirmPassword']) &&
-	   isset($_POST['Iota$Signup$AccessKey']) &&
-	   isset($_POST['Iota$Signup$Submit'])) {
-		$username = trim($_POST['Iota$Signup$Username']);
-		$password = trim($_POST['Iota$Signup$Password']);
-		$confirm_password = trim($_POST['Iota$Signup$ConfirmPassword']);
-		$accesskey = trim($_POST['Iota$Signup$AccessKey']);
+	if(isset($_POST['ANORRL$Signup$Username']) &&
+	   isset($_POST['ANORRL$Signup$Password']) &&
+	   isset($_POST['ANORRL$Signup$ConfirmPassword']) &&
+	   isset($_POST['ANORRL$Signup$AccessKey']) &&
+	   isset($_POST['ANORRL$Signup$Submit'])) {
+		$username = trim($_POST['ANORRL$Signup$Username']);
+		$password = trim($_POST['ANORRL$Signup$Password']);
+		$confirm_password = trim($_POST['ANORRL$Signup$ConfirmPassword']);
+		$accesskey = trim($_POST['ANORRL$Signup$AccessKey']);
 
 		$result = UserUtils::RegisterUser($username, $password, $confirm_password, $accesskey);
 
@@ -28,43 +28,29 @@
 		}
 	}
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
-		<title>Iota</title>
+		<title>ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/registerchecker.js"></script>
-		<script src="/js/jquery.imageloader.js"></script>
-		<script>
-			$(function() {
-				$('img').imageloader();
-			});
-		</script>
-		<style>
-			#Body {
-				position:relative;
-			}
-
-			#FormPanel input[type=password] {
-				margin-top:10px;
-			}
-		</style>
+		<!-- TODO: Add images on left and right when you get the right images -->
 	</head>
 	<body>
 		<div id="Container">
-			<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
-			<div id="WrapperBody" style="position:relative">
-				<div id="Body">
-					<div id="FormPanel">
+		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
+			<div id="Body">
+				<div id="BodyContainer">
+				<div id="FormPanel">
 						<form method="POST">
-							<p>
+							<div>
 								<h2>Registration</h2>
 								<span>You should have been direct messaged by our discord bot for the access key!</span>
-							</p>
-							<p>
-								<span>Username</span>
+							</div>
+							<div>
+								<h4>Username</h4>
 								<span class="Validator" id="v_username">
 									<?php 
 										if(isset($_SESSION['signup_errors'])) {
@@ -72,10 +58,10 @@
 										}
 									?>
 								</span>
-								<input type="text" id="Iota_Signup_Username" name="Iota$Signup$Username" placeholder="a-z A-Z 0-9 and 3-20 characters!" maxlength="20" minlength="3" required>
-							</p>
-							<p>
-								<span>Password</span>
+								<input type="text" id="ANORRL_Signup_Username" name="ANORRL$Signup$Username" placeholder="a-z A-Z 0-9 and 3-20 characters!" maxlength="20" minlength="3" required>
+							</div>
+							<div>
+								<h4>Password</h4>
 								<span class="Validator" id="v_password">
 									<?php 
 										if(isset($_SESSION['signup_errors'])) {
@@ -84,11 +70,11 @@
 									?>
 								</span>
 								<span class="Validator" id="v_confirmpassword"></span>
-								<input type="password" id="Iota_Signup_Password"        name="Iota$Signup$Password"        placeholder="Should be a really solid one!" required>
-								<input type="password" id="Iota_Signup_ConfirmPassword" name="Iota$Signup$ConfirmPassword" placeholder="Needs to match the first one!" required>
-							</p>
-							<p>
-								<span>Access Key</span>
+								<input type="password" id="ANORRL_Signup_Password"        name="ANORRL$Signup$Password"        placeholder="Should be a really solid one!" required>
+								<input type="password" id="ANORRL_Signup_ConfirmPassword" name="ANORRL$Signup$ConfirmPassword" placeholder="Needs to match the first one!" required>
+							</div>
+							<div>
+								<h4>Access Key</h4>
 								<span class="Validator" id="v_access">
 									<?php 
 										if(isset($_SESSION['signup_errors'])) {
@@ -96,11 +82,11 @@
 										}
 									?>
 								</span>
-								<input type="password" id="Iota_Signup_AccessKey" name="Iota$Signup$AccessKey" placeholder="Check your discord for it!" maxlength="36" required>
-							</p>
-							<p>
-								<input type="submit" id="Iota_Signup_Submit" name="Iota$Signup$Submit" value="Register">
-							</p>
+								<input type="password" id="ANORRL_Signup_AccessKey" name="ANORRL$Signup$AccessKey" placeholder="Check your discord for it!" maxlength="36" required>
+							</div>
+							<div style="margin-top: 10px;">
+								<input type="submit" id="ANORRL_Signup_Submit" name="ANORRL$Signup$Submit" value="Register">
+							</div>
 						</form>
 					</div>
 				</div>
@@ -110,5 +96,6 @@
 	</body>
 </html>
 <?php 
+	unset($_SESSION['login_errors']);
 	session_destroy();
 ?>

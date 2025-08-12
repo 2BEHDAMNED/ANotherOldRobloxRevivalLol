@@ -190,8 +190,8 @@
 				return User::FromSecurityKey($_SESSION['SESSION_TOKEN_YAA']);	
 			}
 
-			if(isset($_COOKIE['IOTASECURITY'])) {
-				return User::FromSecurityKey(urldecode($_COOKIE['IOTASECURITY']));	
+			if(isset($_COOKIE['ANORRLSECURITY'])) {
+				return User::FromSecurityKey(urldecode($_COOKIE['ANORRLSECURITY']));	
 			}
 			elseif(isset($_COOKIE['_ROBLOSECURITY'])) {
 				return User::FromSecurityKey(urldecode($_COOKIE['_ROBLOSECURITY']));
@@ -207,7 +207,7 @@
 
 		public static function RemoveCookies(): void {
 			setcookie(".ROBLOSECURITY", "", -1, "/", $_SERVER['SERVER_NAME'], true);
-			setcookie("IOTASECURITY", "", -1, "/", $_SERVER['SERVER_NAME'], true);
+			setcookie("ANORRLSECURITY", "", -1, "/", $_SERVER['SERVER_NAME'], true);
 		}
 	}
 

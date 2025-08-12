@@ -5,6 +5,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css">
 		<script src="/js/jquery.js"></script>
+		<script src="/js/main.js"></script>
 	</head>
 	<body>
 		<div id="Container">

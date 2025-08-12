@@ -1,126 +1,117 @@
 // SURELY THERE'S A BETTER WAY OF DOING THIS
 
-var pattern = /^[a-zA-Z0-9]{3,20}$/;
-
-function IsUsernameValid(input) {
-	return input.trim().length != 0 && pattern.test(input);
+if(typeof(ANORRL) == "undefined") {
+	ANORRL = {}
 }
 
-function CheckUsername(element, input) {
-	if(input.length != 0) {
-		if(IsUsernameValid(input)) {
+ANORRL.Register = {
+	pattern: /^[a-zA-Z0-9]{3,20}$/,
+	
+	IsUsernameValid: function(input) {
+		return input.trim().length != 0 && ANORRL.Register.pattern.test(input);
+	},
+
+	CheckUsername: function(element, input) {
+		if(input.length != 0) {
+			if(ANORRL.Register.IsUsernameValid(input)) {
+				$("#v_username").html("");
+				$(element).removeClass("Invalid");
+				$(element).addClass("Valid");
+			} else {
+				$("#v_username").html("a-z A-Z 0-9 and 3-20 characters only!");
+				$(element).addClass("Invalid");
+				$(element).removeClass("Valid");
+			}
+		} else {
 			$("#v_username").html("");
-			$(element).removeClass("Invalid");
-			$(element).addClass("Valid");
-		} else {
-			$("#v_username").html("a-z A-Z 0-9 and 3-20 characters only!");
-			$(element).addClass("Invalid");
 			$(element).removeClass("Valid");
+			$(element).removeClass("Invalid");
 		}
-	} else {
-		$("#v_username").html("");
-		$(element).removeClass("Valid");
-		$(element).removeClass("Invalid");
-	}
-}
+	},
+	CheckMainPassword: function(element, input) {
 
-function CheckMainPassword(element, input) {
-	if(input.length != 0) {
-		if(input.length >= 7) {
+		var confirmPasswordElement = $("#ANORRL_Signup_ConfirmPassword");
+	
+		if(input.length != 0) {
+			if(input.length >= 7) {
+				$("#v_password").html("");
+				$(element).removeClass("Invalid");
+				$(element).addClass("Valid");
+			} else {
+				$("#v_password").html("Password must be minimum 7 characters!");
+				$(element).addClass("Invalid");
+				$(element).removeClass("Valid");
+			}
+	
+			if(input != confirmPasswordElement.val()) {
+				$("#v_confirmpassword").html("Passwords do not match!");
+				confirmPasswordElement.addClass("Invalid");
+				confirmPasswordElement.removeClass("Valid");
+			} else {
+				$("#v_confirmpassword").html("");
+				confirmPasswordElement.removeClass("Invalid");
+				confirmPasswordElement.addClass("Valid");
+			}
+		} else {
 			$("#v_password").html("");
-			$(element).removeClass("Invalid");
-			$(element).addClass("Valid");
-		} else {
-			$("#v_password").html("Password must be minimum 7 characters!");
-			$(element).addClass("Invalid");
+			confirmPasswordElement.removeClass("Invalid");
+			confirmPasswordElement.removeClass("Valid");
 			$(element).removeClass("Valid");
+			$(element).removeClass("Invalid");
 		}
+	},
 
-		if(input != $("#Iota_Signup_ConfirmPassword").val()) {
-			$("#v_confirmpassword").html("Passwords do not match!");
-			$("#Iota_Signup_ConfirmPassword").addClass("Invalid");
-			$("#Iota_Signup_ConfirmPassword").removeClass("Valid");
+	CheckSecondPassword: function(element, input) {
+		if(input.length != 0) {
+			if(input == $("#ANORRL_Signup_Password").val()) {
+				$("#v_confirmpassword").html("");
+				$(element).removeClass("Invalid");
+				$(element).addClass("Valid");
+			} else {
+				$("#v_confirmpassword").html("Passwords do not match!");
+				$(element).addClass("Invalid");
+				$(element).removeClass("Valid");
+			}
 		} else {
 			$("#v_confirmpassword").html("");
-			$("#Iota_Signup_ConfirmPassword").removeClass("Invalid");
-			$("#Iota_Signup_ConfirmPassword").addClass("Valid");
-		}
-	} else {
-		$("#v_password").html("");
-		$("#Iota_Signup_ConfirmPassword").removeClass("Invalid");
-		$("#Iota_Signup_ConfirmPassword").removeClass("Valid");
-		$(element).removeClass("Valid");
-		$(element).removeClass("Invalid");
-	}
-}
-
-function CheckSecondPassword(element, input) {
-	if(input.length != 0) {
-		if(input == $("#Iota_Signup_Password").val()) {
-			$("#v_confirmpassword").html("");
-			$(element).removeClass("Invalid");
-			$(element).addClass("Valid");
-		} else {
-			$("#v_confirmpassword").html("Passwords do not match!");
-			$(element).addClass("Invalid");
 			$(element).removeClass("Valid");
+			$(element).removeClass("Invalid");
 		}
-	} else {
-		$("#v_confirmpassword").html("");
-		$(element).removeClass("Valid");
-		$(element).removeClass("Invalid");
-	}
-}
-
-function CheckAccessKey(element, input) {
-	if(input.length != 0) {
-		if(input.length == 36) {
+	},
+	CheckAccessKey: function(element, input) {
+		if(input.length != 0) {
+			if(input.length == 36) {
+				$("#v_access").html("");
+				$(element).removeClass("Invalid");
+				$(element).addClass("Valid");
+			} else {
+				$("#v_access").html("Invalid access key.");
+				$(element).addClass("Invalid");
+				$(element).removeClass("Valid");
+			}
+		} else {
 			$("#v_access").html("");
-			$(element).removeClass("Invalid");
-			$(element).addClass("Valid");
-		} else {
-			$("#v_access").html("Invalid access key.");
-			$(element).addClass("Invalid");
 			$(element).removeClass("Valid");
+			$(element).removeClass("Invalid");
 		}
-	} else {
-		$("#v_access").html("");
-		$(element).removeClass("Valid");
-		$(element).removeClass("Invalid");
 	}
 }
 
 $(function(){
-	$("#Iota_Signup_Username").on("input", function() {
-		CheckUsername(this, $(this).val());
+	$("#ANORRL_Signup_Username").on("input change", function() {
+		ANORRL.Register.CheckUsername(this, $(this).val());
 	})
 
-	$("#Iota_Signup_Username").on("change", function() {
-		CheckUsername(this,$(this).val());
+	$("#ANORRL_Signup_Password").on("input change", function() {
+		ANORRL.Register.CheckMainPassword(this, $(this).val());
 	})
 
-	$("#Iota_Signup_Password").on("input", function() {
-		CheckMainPassword(this, $(this).val());
+	$("#ANORRL_Signup_ConfirmPassword").on("input change", function() {
+		ANORRL.Register.CheckSecondPassword(this, $(this).val());
 	})
 
-	$("#Iota_Signup_Password").on("change", function() {
-		CheckMainPassword(this,$(this).val());
-	})
-
-	$("#Iota_Signup_ConfirmPassword").on("input", function() {
-		CheckSecondPassword(this, $(this).val());
-	})
-
-	$("#Iota_Signup_ConfirmPassword").on("change", function() {
-		CheckSecondPassword(this,$(this).val());
-	})
-
-	$("#Iota_Signup_AccessKey").on("input", function() {
-		CheckAccessKey(this, $(this).val());
-	})
-
-	$("#Iota_Signup_AccessKey").on("change", function() {
-		CheckAccessKey(this,$(this).val());
+	$("#ANORRL_Signup_AccessKey").on("input change", function() {
+		ANORRL.Register.CheckAccessKey(this, $(this).val());
 	})
 
 	$("form").submit(function (e) {

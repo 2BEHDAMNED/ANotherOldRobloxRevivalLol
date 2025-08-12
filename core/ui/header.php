@@ -21,13 +21,13 @@
 			<span title="Your friends"><a href="/my/friends"><img src="/images/icons/friends.png"> 1</a></span>
 		</div>
 	</div>
-	<a id="LogoutSign" href="/">LOGOUT</a>
+	<a id="LogoutSign" href="javascript:ANORRL.Logout()">LOGOUT</a>
 	<?php else: ?>
-	<div id="ProfileSign" logged="true">
+	<div id="ProfileSign" logged="false">
 		<img id="background" src="/images/header/signs/profile.png"> <!-- DO NOT FUCKING REMOVE -->
-		<a href="" id="RegisterSign">Register</a>
+		<a href="/register" id="RegisterSign">Register</a>
 		<img src="/images/sign_2way.png" style="width: 72px;padding: 10px 0;padding-top: 30px;padding-bottom:5px;z-index: 2;position: relative;">
-		<a href="" id="LoginSign">Login</a>
+		<a href="/login" id="LoginSign">Login</a>
 	</div>
 	<?php endif ?>
 	<div id="Logo">

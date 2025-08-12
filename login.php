@@ -8,12 +8,12 @@
 		die(header("Location: /home"));
 	}
 
-	if(isset($_POST['Iota$Login$Username']) &&
-	   isset($_POST['Iota$Login$Password']) &&
-	   isset($_POST['Iota$Login$Submit'])) {
+	if(isset($_POST['ANORRL$Login$Username']) &&
+	   isset($_POST['ANORRL$Login$Password']) &&
+	   isset($_POST['ANORRL$Login$Submit'])) {
 		
-		$username = trim($_POST['Iota$Login$Username']);
-		$password = trim($_POST['Iota$Login$Password']);
+		$username = trim($_POST['ANORRL$Login$Username']);
+		$password = trim($_POST['ANORRL$Login$Password']);
 
 		$result = UserUtils::LoginUser($username, $password);
 
@@ -25,38 +25,24 @@
 		}
 	}
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
-		<title>Iota</title>
+		<title>ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/loginchecker.js"></script>
-		<script src="/js/jquery.imageloader.js"></script>
-		<script>
-			$(function() {
-				$('img').imageloader();
-			});
-		</script>
-		<style>
-			#Body {
-				position:relative;
-			}
-		</style>
+		<!-- TODO: Add images on left and right when you get the right images -->
 	</head>
 	<body>
 		<div id="Container">
-			<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
-			<div id="WrapperBody" style="position:relative">
-				<div id="Body">
-					<pre>
-<?php print_r($_SESSION) ?>
-					</pre>
+		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
+			<div id="Body">
+				<div id="BodyContainer">
 					<div id="FormPanel">
-						
 						<form method="POST">
-							<p>
+							<div>
 								<h2>Welcome back!</h2>
 								<span>If you do not have an account then,<br><a href="/register">register here!</a></span>
 								<span class="Validator">
@@ -66,9 +52,9 @@
 										}
 									?>
 								</span>
-							</p>
-							<p>
-								<span>Username</span>
+							</div>
+							<div>
+								<h4>Username</h4>
 								<span class="Validator" id="v_username">
 									<?php 
 										if(isset($_SESSION['login_errors'])) {
@@ -76,10 +62,11 @@
 										}
 									?>
 								</span>
-								<input type="text" id="Iota_Login_Username" name="Iota$Login$Username" minlength="3" maxlength="20" required>
-							</p>
-							<p>
-								<span>Password</span>
+								<input type="text" id="ANORRL_Login_Username" name="ANORRL$Login$Username" minlength="3" maxlength="20" required>
+							</div>
+							<div>
+								<h4>Password</h4>
+
 								<span class="Validator" id="v_password">
 									<?php 
 										if(isset($_SESSION['login_errors'])) {
@@ -87,11 +74,11 @@
 										}
 									?>
 								</span>
-								<input type="password" id="Iota_Login_Password" name="Iota$Login$Password" minlength="7" required>
+								<input type="password" id="ANORRL_Login_Password" name="ANORRL$Login$Password" minlength="7" required>
 							</p>
-							<p>
-								<input type="submit" id="Iota_Login_Submit" name="Iota$Login$Submit" value="Login">
-							</p>
+							<div>
+								<input type="submit" id="ANORRL_Login_Submit" name="ANORRL$Login$Submit" value="Login">
+							</div>
 						</form>						
 					</div>
 				</div>
