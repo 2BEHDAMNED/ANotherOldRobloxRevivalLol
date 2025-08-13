@@ -11,20 +11,20 @@
 	}
 
 	if(!IsRewrite()) {
-		die(header("Location: /home"));
+		die(header("Location: /my/home"));
 	}
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
 
 	// No id parameter? GET OUT!
 	if(!isset($_GET['id'])) {
-		die(header("Location: /home"));
+		die(header("Location: /my/home"));
 	}
 
 	$get_user = User::FromID(intval($_GET['id']));
 
 	if($get_user == null) {
-		die(header("Location: /home"));
+		die(header("Location: /my/home"));
 	}
 ?>
 {"Success":true,"CanManage":true}

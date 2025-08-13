@@ -183,7 +183,6 @@
 		public static function RetrieveUser(): User|null {
 			if(session_status() != PHP_SESSION_ACTIVE) {
 				session_start();
-				
 			}
 
 			if(isset($_SESSION['SESSION_TOKEN_YAA'])) {
@@ -201,13 +200,13 @@
 		}
 
 		static function SetCookies($security): void {
-			setcookie(".ROBLOSECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME'], true);
-			setcookie("IOTASECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME'], true);
+			setcookie(".ROBLOSECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
+			setcookie("IOTASECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
 		}
 
 		public static function RemoveCookies(): void {
-			setcookie(".ROBLOSECURITY", "", -1, "/", $_SERVER['SERVER_NAME'], true);
-			setcookie("ANORRLSECURITY", "", -1, "/", $_SERVER['SERVER_NAME'], true);
+			setcookie(".ROBLOSECURITY", "", -1, "/", $_SERVER['SERVER_NAME']);
+			setcookie("ANORRLSECURITY", "", -1, "/", $_SERVER['SERVER_NAME']);
 		}
 	}
 

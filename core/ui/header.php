@@ -43,4 +43,17 @@
 		<a href="/people">People</a>
 		<a href="/forums">Forums</a>
 	</div>
+	
+	<?php if($header_check_user != null): ?>
+	<div id="UserLinks" >
+		<a href="/my/home"      <?php if($_SERVER['SCRIPT_NAME'] == "/my/home.php"     ):?>selected<?php endif ?>>Home</a>
+		<a href="/my/profile"   <?php if($_SERVER['SCRIPT_NAME'] == "/my/profile.php"  ):?>selected<?php endif ?>>Account</a>
+		<a href="/my/messages"  <?php if($_SERVER['SCRIPT_NAME'] == "/my/messsages.php"):?>selected<?php endif ?>>Inbox</a>
+		<a href="/my/character" <?php if($_SERVER['SCRIPT_NAME'] == "/my/character.php"):?>selected<?php endif ?>>Character</a>
+		<a href="/my/friends"   <?php if($_SERVER['SCRIPT_NAME'] == "/my/friends.php"  ):?>selected<?php endif ?>>Friends</a>
+		<a href="/my/places"    <?php if($_SERVER['SCRIPT_NAME'] == "/my/places.php"   ):?>selected<?php endif ?>>Places</a>
+		<a href="/my/stuff"     <?php if($_SERVER['SCRIPT_NAME'] == "/my/stuff.php"    ):?>selected<?php endif ?>>Stuff</a>
+		<a href="/my/sets"      <?php if($_SERVER['SCRIPT_NAME'] == "/my/sets.php"     ):?>selected<?php endif ?>>Sets</a>
+	</div>
+	<?php endif ?>
 </div>

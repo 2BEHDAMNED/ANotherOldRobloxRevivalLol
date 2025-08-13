@@ -3,7 +3,7 @@
 	$user = UserUtils::RetrieveUser();
 
 	if($user != null) {
-		die(header("Location: /home"));
+		die(header("Location: /my/home"));
 	}
 
 	session_start();
@@ -21,7 +21,7 @@
 		$result = UserUtils::RegisterUser($username, $password, $confirm_password, $accesskey);
 
 		if($result == "success") {
-			die(header("Location: /home"));
+			die(header("Location: /my/home"));
 		} else {
 			$_SESSION['signup_errors'] = $result;
 			die(header("Location: /register"));

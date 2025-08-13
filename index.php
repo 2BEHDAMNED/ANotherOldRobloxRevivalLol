@@ -230,7 +230,7 @@
 	</head>
 	<body>
 		<div id="Container">
-		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
+			<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
 					<div id="IntroductionBox">

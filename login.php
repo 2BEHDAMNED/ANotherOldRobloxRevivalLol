@@ -5,7 +5,7 @@
 	$user = UserUtils::RetrieveUser();
 
 	if($user != null) {
-		die(header("Location: /home"));
+		die(header("Location: /my/home"));
 	}
 
 	if(isset($_POST['ANORRL$Login$Username']) &&
@@ -18,7 +18,7 @@
 		$result = UserUtils::LoginUser($username, $password);
 
 		if($result["login"] != "Incorrect details provided!") {
-			die(header("Location: /home"));
+			die(header("Location: /my/home"));
 		} else {
 			$_SESSION['login_errors'] = $result;
 			die(header("Location: /"));

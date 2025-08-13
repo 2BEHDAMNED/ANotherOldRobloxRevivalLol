@@ -44,5 +44,7 @@
 		}
 		
 		echo $contents;
+	} else {
+		die(http_response_code(404));
 	}
 ?>

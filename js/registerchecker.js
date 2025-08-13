@@ -115,6 +115,13 @@ $(function(){
 	})
 
 	$("form").submit(function (e) {
+		// Basically, IE literally doesn't want to check if anything has been changed to an input unless directly by keys
+		// This just runs all the checks before submission.
+		ANORRL.Login.CheckUsername(document.getElementById("ANORRL_Signup_Username"), $("#ANORRL_Signup_Username").val());
+		ANORRL.Login.CheckMainPassword(document.getElementById("ANORRL_Signup_Password"), $("#ANORRL_Signup_Password").val());
+		ANORRL.Login.CheckSecondPassword(document.getElementById("ANORRL_Signup_ConfirmPassword"), $("#ANORRL_Signup_ConfirmPassword").val());
+		ANORRL.Login.CheckAccessKey(document.getElementById("ANORRL_Signup_AccessKey"), $("#ANORRL_Signup_AccessKey").val());
+		
 		if(!($(".Invalid").length == 0 && $(".Valid").length == 4)) {
 			e.preventDefault();
 			alert("Holy shit you have so much wrong");
