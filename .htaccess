@@ -1,10 +1,3 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine on 
-    RewriteCond %{REQUEST_FILENAME} !-d 
-    RewriteCond %{REQUEST_FILENAME}.php -f
-    RewriteRule ^(.+?)/?$ $1.php [L]
-</IfModule>
-
 # User pages :)
 <IfModule mod_rewrite.c>
     RewriteEngine on 
@@ -15,7 +8,42 @@
 
 	RewriteRule ^users/([0-9]+)$  /users/profile.php?id=$1&redirect=true [L]
 	RewriteRule ^users/([0-9]+)/$ /users/profile.php?id=$1&redirect=true [L]
+
+	RewriteRule ^asset/?$ /core/utilities/assetdeliverer.php [L]
+	RewriteRule ^Asset/?$ /core/utilities/assetdeliverer.php [L]
+	
+	RewriteRule ^Login/Negotiate.ashx$ /core/authentication/negotiate.php [L]
+	
+	RewriteRule ^game/gameserver.ashx$ /core/gamescripts/gameserver.php
+	RewriteRule ^game/join.ashx$ /core/gamescripts/join.php
+	RewriteRule ^game/studio.ashx$ /core/gamescripts/studio.php
+	RewriteRule ^game/visit.ashx$ /core/gamescripts/visit.php
+
+	# Only exists bc of windows!
+	RewriteRule ^Game/gameserver.ashx$ /core/gamescripts/gameserver.php
+	RewriteRule ^Game/join.ashx$ /core/gamescripts/join.php
+	RewriteRule ^Game/studio.ashx$ /core/gamescripts/studio.php
+	RewriteRule ^Game/visit.ashx$ /core/gamescripts/visit.php
 </IfModule>
+
+<Files "assetdeliverer.php">
+	Require all granted
+</Files>
+<Files "gameserver.php">
+	Require all granted
+</Files>
+<Files "join.php">
+	Require all granted
+</Files>
+<Files "studio.php">
+	Require all granted
+</Files>
+<Files "visit.php">
+	Require all granted
+</Files>
+<Files "negotiate.php">
+	Require all granted
+</Files>
 
 DirectoryIndex index.php index.html Default.aspx Default.aspx.php
 ErrorDocument 404 /core/error/404.php

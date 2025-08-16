@@ -15,7 +15,7 @@ if false then
    local l = Instance.new("ImageLabel")
    m.Name = "AdGUI"
    l.BackgroundTransparency = 1
-   l.Image = "http://www.lambda.cam/asset/?id=23573247"
+   l.Image = "http://arl.lambda.cam/asset/?id=23573247"
    l.Position = UDim2.new(.3,5,0,5)
    l.Size = UDim2.new(0,470,0,165)
    l.Parent = m
@@ -47,7 +47,7 @@ pcall(function() settings()["Task Scheduler"].PriorityMethod = Enum.PriorityMeth
 
 function reportContentProvider(time, queueLength, blocking)
 	pcall(function()
-		game:HttpGet("http://www.lambda.cam/Analytics/ContentProvider.ashx?t=" .. time .. "&ql=" .. queueLength, blocking)
+		game:HttpGet("http://arl.lambda.cam/Analytics/ContentProvider.ashx?t=" .. time .. "&ql=" .. queueLength, blocking)
 	end)
 end
 function reportCdn(blocking)
@@ -59,7 +59,7 @@ function reportCdn(blocking)
 		cdnSuccess = newCdnSuccess
 		cdnFailure = newCdnFailure
 		if successDelta > 0 or failureDelta > 0 then
-			game:HttpGet("http://www.lambda.cam/Game/Cdn.ashx?source=client&success=" .. successDelta .. "&failure=" .. failureDelta, blocking)
+			game:HttpGet("http://arl.lambda.cam/Game/Cdn.ashx?source=client&success=" .. successDelta .. "&failure=" .. failureDelta, blocking)
 		end
 	end)
 end
@@ -69,7 +69,7 @@ function reportDuration(category, result, duration, blocking,errorType)
 		errorType = ''
 	end
 	local platform = settings().Diagnostics.OsPlatform
-	pcall(function() game:HttpGet("http://www.lambda.cam/Game/JoinRate.ashx?st=0&i=0&p=-1&c=" .. category .. "&r=" .. result .. "&d=" .. (math.floor(duration*1000)) .. "&ip=localhost&errorType=" .. errorType .. "&platform=" .. platform, blocking) end)
+	pcall(function() game:HttpGet("http://arl.lambda.cam/Game/JoinRate.ashx?st=0&i=0&p=-1&c=" .. category .. "&r=" .. result .. "&d=" .. (math.floor(duration*1000)) .. "&ip=localhost&errorType=" .. errorType .. "&platform=" .. platform, blocking) end)
 end
 -- arguments ---------------------------------------
 local threadSleepTime = ...
@@ -104,17 +104,17 @@ end)
 
 game:GetService("ChangeHistoryService"):SetEnabled(false)
 game:GetService("ContentProvider"):SetThreadPool(16)
-game:GetService("InsertService"):SetBaseSetsUrl("http://www.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
-game:GetService("InsertService"):SetUserSetsUrl("http://www.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d")
-game:GetService("InsertService"):SetCollectionUrl("http://www.lambda.cam/Game/Tools/InsertAsset.ashx?sid=%d")
-game:GetService("InsertService"):SetAssetUrl("http://www.lambda.cam/Asset/?id=%d")
-game:GetService("InsertService"):SetAssetVersionUrl("http://www.lambda.cam/Asset/?assetversionid=%d")
+game:GetService("InsertService"):SetBaseSetsUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
+game:GetService("InsertService"):SetUserSetsUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d")
+game:GetService("InsertService"):SetCollectionUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?sid=%d")
+game:GetService("InsertService"):SetAssetUrl("http://arl.lambda.cam/Asset/?id=%d")
+game:GetService("InsertService"):SetAssetVersionUrl("http://arl.lambda.cam/Asset/?assetversionid=%d")
 
-pcall(function() game:GetService("SocialService"):SetFriendUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsFriendsWith&playerid=%d&userid=%d") end)
-pcall(function() game:GetService("SocialService"):SetBestFriendUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsBestFriendsWith&playerid=%d&userid=%d") end)
-pcall(function() game:GetService("SocialService"):SetGroupUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsInGroup&playerid=%d&groupid=%d") end)
-pcall(function() game:GetService("SocialService"):SetGroupRankUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRank&playerid=%d&groupid=%d") end)
-pcall(function() game:GetService("SocialService"):SetGroupRoleUrl("http://www.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRole&playerid=%d&groupid=%d") end)
+pcall(function() game:GetService("SocialService"):SetFriendUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsFriendsWith&playerid=%d&userid=%d") end)
+pcall(function() game:GetService("SocialService"):SetBestFriendUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsBestFriendsWith&playerid=%d&userid=%d") end)
+pcall(function() game:GetService("SocialService"):SetGroupUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsInGroup&playerid=%d&groupid=%d") end)
+pcall(function() game:GetService("SocialService"):SetGroupRankUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRank&playerid=%d&groupid=%d") end)
+pcall(function() game:GetService("SocialService"):SetGroupRoleUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRole&playerid=%d&groupid=%d") end)
 pcall(function() game:SetCreatorID(0, Enum.CreatorType.User) end)
 
 -- Bubble chat.  This is all-encapsulated to allow us to turn it off with a config setting
@@ -337,10 +337,9 @@ local success, err = pcall(function()
 	client.ConnectionAccepted:connect(onConnectionAccepted)
 	client.ConnectionRejected:connect(onConnectionRejected)
 	connectionFailed = client.ConnectionFailed:connect(onConnectionFailed)
-	client.Ticket = ""	
 	ifSeleniumThenSetCookie("SeleniumTest2", "Successfully connected to server")
 	
-	playerConnectSucces, player = pcall(function() return client:PlayerConnect(0, "localhost", 53640, 0, threadSleepTime) end)
+	playerConnectSucces, player = pcall(function() return client:PlayerConnect(<?= rand() ?>, "localhost", 53640, 0, threadSleepTime) end)
 	if not playerConnectSucces then
 		--Old player connection scheme
 		player = game:GetService("Players"):CreateLocalPlayer(0)
@@ -363,9 +362,16 @@ local success, err = pcall(function()
 	-- Overriden
 	onPlayerAdded(player)
 	
-	pcall(function() player.Name = [========[Player]========] end)
-	player.CharacterAppearance = ""	
-	if not test then visit:SetUploadUrl("")end
+	pcall(function() player.Name = [========[Guest<?= rand() ?>]========] end)
+	player.CharacterAppearance = client.Ticket
+
+	player.CharacterAdded:connect(function(char)
+		local stringVal = Instance.new("StringValue", player)
+		stringVal.Name = "TicketCheck"
+		stringVal.Value = client.Ticket
+	end)
+
+	pcall(function() visit:SetUploadUrl("") end)
 	
 	analytics("Connect Client")
 end)
@@ -399,7 +405,7 @@ if 0 then
 end
 
 pcall(function() game:SetScreenshotInfo("") end)
-pcall(function() game:SetVideoInfo('<?xml version="1.0"?><entry xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007"><media:group><media:title type="plain"><![CDATA[ROBLOX Place]]></media:title><media:description type="plain"><![CDATA[ For more games visit http://www.lambda.cam]]></media:description><media:category scheme="http://gdata.youtube.com/schemas/2007/categories.cat">Games</media:category><media:keywords>ROBLOX, video, free game, online virtual world</media:keywords></media:group></entry>') end)
+pcall(function() game:SetVideoInfo('<?xml version="1.0"?><entry xmlns="http://arl.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007"><media:group><media:title type="plain"><![CDATA[ROBLOX Place]]></media:title><media:description type="plain"><![CDATA[ For more games visit http://arl.lambda.cam]]></media:description><media:category scheme="http://gdata.youtube.com/schemas/2007/categories.cat">Games</media:category><media:keywords>ROBLOX, video, free game, online virtual world</media:keywords></media:group></entry>') end)
 -- use single quotes here because the video info string may have unescaped double quotes
 
 analytics("Join Finished")

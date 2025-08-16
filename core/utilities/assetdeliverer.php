@@ -1,5 +1,29 @@
 <?php
-	$id = intval($_GET["id"]);
+
+	function IsRewrite() {
+		if(!empty($_SERVER['IIS_WasUrlRewritten']))
+			return true;
+		else if(array_key_exists('HTTP_MOD_REWRITE',$_SERVER))
+			return true;
+		else if( array_key_exists('REDIRECT_URL', $_SERVER))
+			return true;
+		else
+			return false;
+	}
+
+	if(!isset($_GET['id']) && !isset($_GET['ID'])) {
+		die(http_response_code(500));
+	}
+
+	if(isset($_GET['id'])) {
+		$id = intval($_GET["id"]);
+	} else if(isset($_GET['ID'])) {
+		$id = intval($_GET["ID"]);
+	}
+
+	if(!IsRewrite()) {
+		die(header("Location: /asset/?id=".$id));
+	}
 
 	function checkMimeType($contents) {
 		$file_info = new finfo(FILEINFO_MIME_TYPE);
@@ -26,6 +50,7 @@
 		53878047, // BackpackBuilder
 		53878057, // LoadoutScript
 		53878053, // BackpackResizer
+		97188756, // chat script
 	];
 
 	$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$id;

@@ -1,0 +1,1 @@
+{"status": 2, "authenticationUrl": "http://arl.lambda.cam/Login/Negotiate.ashx", "authenticationTicket": "a", "joinScriptUrl": "http://arl.lambda.cam/game/Join.ashx"}

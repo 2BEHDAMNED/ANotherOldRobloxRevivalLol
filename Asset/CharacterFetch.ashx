@@ -1,1 +1,1 @@
-http://rbx.lambda.cam/Asset/BodyColors.ashx?userId=1
+http://arl.lambda.cam/Asset/BodyColors.ashx?userId=1
