@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<script>
-			function JoinGame() {
-				window.external.ExecScriptUrl("http://arl.lambda.cam/game/join.ashx");
-			}
-		</script>
-	</head>
-	<body>
-		<h1>Hi</h1>
-		<p>Welcome</p>
-		<a href="javascript:JoinGame()">Join</a>
-	</body>
+    <head>
+        <title>Hello everybody</title>
+    </head>
+    <body>
+        <h1>My name is markiplier</h1>
+        <p>And today we will be playing <b>five nights at freddys</b></p>
+    </body>
 </html>

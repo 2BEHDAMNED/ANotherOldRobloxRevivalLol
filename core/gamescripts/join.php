@@ -6,8 +6,7 @@ function onPlayerAdded(player)
 	-- override
 end
 
---[[
-if false then
+if true then
  delay(0, function()
    while (game.Players.LocalPlayer == nil) do wait(1) end
    while (game.Players.LocalPlayer:FindFirstChild("PlayerGui") == nil) do wait (1) end
@@ -26,10 +25,9 @@ if false then
    m:Remove()
  end)
 end
---]]
 
 -- MultiplayerSharedScript.lua inserted here ------ Prepended to GroupBuild.lua and Join.lua --
-pcall(function() game:SetPlaceID(-1, false) end)
+pcall(function() game:SetPlaceID(1818, true) end)
 
 local startTime = tick()
 local loadResolved = false
@@ -339,12 +337,10 @@ local success, err = pcall(function()
 	connectionFailed = client.ConnectionFailed:connect(onConnectionFailed)
 	ifSeleniumThenSetCookie("SeleniumTest2", "Successfully connected to server")
 	
-	playerConnectSucces, player = pcall(function() return client:PlayerConnect(<?= rand() ?>, "localhost", 53640, 0, threadSleepTime) end)
+	playerConnectSucces, player = pcall(function() return client:PlayerConnect(<?= rand() ?>, "arl.lambda.cam", 53640, 0, threadSleepTime) end)
 	if not playerConnectSucces then
-		--Old player connection scheme
-		player = game:GetService("Players"):CreateLocalPlayer(0)
-		analytics("Created Player")
-		client:Connect("localhost", 53640, 0, threadSleepTime)
+		setMessage("Failed to create player")
+		return true, false
 	else
 		analytics("Created Player")
 	end
@@ -354,16 +350,17 @@ local success, err = pcall(function()
 		delay(60*5, function() registerPlay("rbx_evt_fmp") end)
 	end)
 
-	player:SetSuperSafeChat(false)
-	pcall(function() player:SetMembershipType(Enum.MembershipType.None) end)
-	pcall(function() player:SetAccountAge(360) end)
+	pcall(function() player:SetSuperSafeChat(false) end)
+	pcall(function() player:SetUnder13(false) end)
+	pcall(function() player:SetMembershipType(Enum.MembershipType.BuildersClub) end)
+	pcall(function() player:SetAccountAge(365) end)
 	player.Idled:connect(onPlayerIdled)
 	
 	-- Overriden
 	onPlayerAdded(player)
 	
-	pcall(function() player.Name = [========[Guest<?= rand() ?>]========] end)
-	player.CharacterAppearance = client.Ticket
+	pcall(function() player.Name = [========[U<?= rand() ?>]========] end)
+	--player.CharacterAppearance = client.Ticket
 
 	player.CharacterAdded:connect(function(char)
 		local stringVal = Instance.new("StringValue", player)

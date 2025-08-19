@@ -1,4 +1,7 @@
 <?php
+
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/status.php";
+
 	/**
 	 * Data of the user.
 	 */
@@ -91,13 +94,27 @@
 		 * Returns the system badges (Homestead and the alike)
 		 * @return void
 		 */
-		function GetIotaBadges() {}
+		function GetProfileBadges() {}
 
 		/**
 		 * Returns badges created by the users (from games)
 		 * @return void
 		 */
 		function GetUserBadges() {}
+
+		function GetLatestStatus(): Status|null {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `statuses` WHERE `status_poster` = ? ORDER BY `status_posted` DESC");
+			$stmt_getuser->bind_param('s', $security);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			if($result->num_rows == 0) {
+				return null;
+			} else {
+				return new Status($result->fetch_assoc());
+			}
+		}
 
 		/**
 		 * Returns paged list of the user's created games

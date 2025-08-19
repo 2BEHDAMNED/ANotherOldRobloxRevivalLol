@@ -50,7 +50,6 @@
 		53878047, // BackpackBuilder
 		53878057, // LoadoutScript
 		53878053, // BackpackResizer
-		97188756, // chat script
 	];
 
 	$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$id;
@@ -59,8 +58,8 @@
 		$contents = fread($handle, filesize($filename)); 
 		fclose($handle);
 		header("Content-Type: ".checkMimeType($contents));
-		$contents = str_replace("www.roblox.com", "www.lambda.cam",$contents);
-		$contents = str_replace("api.roblox.com", "www.lambda.cam",$contents);
+		$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
+		$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
 		if(in_array($id, $sign_ids)) {
 			$contents = "%$id%\r\n" . $contents;
 			openssl_sign($contents, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);

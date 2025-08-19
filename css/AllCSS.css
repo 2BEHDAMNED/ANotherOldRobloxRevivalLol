@@ -181,7 +181,7 @@ a:hover {
 }
 
 #Header #LogoutSign {
-	background: url('/images/header/signs/logout.png') 100% round; /* Practically useless in ie (overwritten by filters) */
+	background: url('/images/header/signs/logout.png') round; /* Practically useless in ie (overwritten by filters) */
 	transform: rotate(3deg);
 	position: relative;
 	float: right;
@@ -226,7 +226,7 @@ a:hover {
 	z-index: 2;
 
 	background: url(/images/header/navbar.jpg) repeat-x;
-	background-size: 47px auto;
+	background-size: 48px auto;
 }
 
 #Header #Links a {
@@ -299,38 +299,28 @@ a:hover {
 }
 
 h4 {
-	background: black;
-	padding: 5px 20px;
-	width: fit-content;
-	font-family: punk;
 	font-size:14px;
 }
 
 h3 {
-	background: black;
-	padding: 5px 20px;
-	width: fit-content;
-	font-family: punk;
 	font-size:18px;
 }
 
 h2 {
-	background: black;
-	padding: 5px 20px;
-	width: fit-content;
-	font-family: punk;
 	font-size:22px;
-	block-size: fit-content;
-	overflow:auto;
 }
 
 
 h1 {
+	font-size:28px;
+}
+
+h1, h2, h3, h4 {
 	background: black;
 	padding: 5px 20px;
 	width: fit-content;
 	font-family: punk;
-	font-size:28px;
+	font-weight: 500;
 	block-size: fit-content;
 	overflow:auto;
 }

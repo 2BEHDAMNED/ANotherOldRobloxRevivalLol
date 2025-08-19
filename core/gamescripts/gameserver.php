@@ -90,6 +90,10 @@ pcall(function() settings().Diagnostics:LegacyScriptMode() end)
 
 -----------------------------------START GAME SHARED SCRIPT------------------------------
 
+
+placeId = 1818
+url = "http://arl.lambda.cam"
+
 local assetId = placeId -- might be able to remove this now
 
 local scriptContext = game:GetService('ScriptContext')
@@ -134,7 +138,7 @@ if url~=nil then
 	end)
 end
 
-pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(true) end)
+pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(false) end)
 settings().Diagnostics.LuaRamLimit = 0
 --settings().Network:SetThroughputSensitivity(0.08, 0.01)
 --settings().Network.SendRate = 35
@@ -198,7 +202,7 @@ if placeId~=nil and url~=nil then
 	wait()
 	
 	-- load the game
-	game:Load(url .. "/asset/?id=" .. placeId)
+	--game:Load(url .. "/asset/?id=" .. placeId)
 end
 
 -- Now start the connection

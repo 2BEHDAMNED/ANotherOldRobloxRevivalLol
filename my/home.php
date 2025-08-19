@@ -47,8 +47,8 @@
 			}
 
 			#StatusContainer {
-				display: inline-block;
-				vertical-align: top;
+				display: table-cell;
+				vertical-align: middle;
 				border: 2px solid black;
 				background: #222;
 				padding:10px;
@@ -59,7 +59,7 @@
 				text-align: center;
 				word-wrap: anywhere;
 				position: relative;
-				display: table;
+				
 			}
 
 			#StatusContainer #Status {
@@ -293,15 +293,16 @@
 								<a href="/users/<?= $user->id ?>/profile"><img id="ProfilePicture" src="/images/avatar.png"></a>
 								<div id="StatusContainer">
 								<?php 
-									if($user->blurb != "") {
+									if($user->GetLatestStatus() != null) {
+										$status = $user->GetLatestStatus()->content;
 										echo <<<EOT
 											<span id="Quotation" style="top: 4px;left: 7px;">&quot;</span>
-												<span id="Status">Fun status stuff here!</span>
+												<span id="Status">$status</span>
 											<span id="Quotation" style="bottom: -10px;right: 7px;">&quot;</span>								
 										EOT;
 									} else {
 										echo <<<EOT
-											<span id="NoStatus">Seems like you have no status... Try setting one <a href="/my/profile">here!</a></span>
+											<span id="NoStatus">Seems like you have no status... Try sending one!</span>
 										EOT;
 									}
 								?>
