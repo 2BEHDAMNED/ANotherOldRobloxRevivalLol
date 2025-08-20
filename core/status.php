@@ -45,23 +45,71 @@
 				if($latest_status != null) {
 					// check if user hasn't posted one in 30s
 
-					$difference = (time()-($latest_status->time_posted->getTimestamp()-3600));
+					$offset = 3600; // windows blehh
+					//$offset = -3600; //prod
+
+					$difference = (time()-($latest_status->time_posted->getTimestamp()+$offset));
+
+					//die(strval($difference));
 
 					$calculated_time = 30 - $difference; 
 
 					if($difference < 30) {
-						return ["error" => "You need to wait $calculated_time seconds before posting again."];
+						return ["error"=> true, "reason" => "You need to wait $calculated_time seconds before posting again."];
 					}
 				}
 
 				$blockedchars = array('𒐫', '‮', '﷽', '𒈙', '⸻ ', '꧅');
 				$status_id = self::GenerateID();
-				$status_content = str_replace($blockedchars, '', $contents);;
+				$status_content = str_replace($blockedchars, '', trim($contents));
+
+				if(strlen($status_content) < 4) {
+					return ["error"=> true, "reason" => "Status was too short! (4 characters minimum)"];
+				}
+				if(strlen($status_content) > 64) {
+					return ["error"=> true, "reason" => "Status was too long! (64 characters minimum)"];
+				}
+
+				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+				$stmt = $con->prepare('INSERT INTO `statuses`(`status_id`, `status_poster`, `status_content`) VALUES (?, ?, ?)');
+				$stmt -> bind_param('sis',  $status_id, $user->id, $status_content);
+				$stmt -> execute();
+
+				return ["error" => false];
+			} else {
+				return ["error"=> true, "reason" => "User is not logged in."];
 			}
 		}
 
+		public static function GetLatestFeedsPaged(int $pagenum, int $count): array {
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getallusers = $con->prepare("SELECT * FROM `statuses` ORDER BY `status_posted` DESC LIMIT ?, ?");
+			$page = (($pagenum-1)*$count);
+			$stmt_getallusers->bind_param('ii', $page, $count);
+			$stmt_getallusers->execute();
+			$result = $stmt_getallusers->get_result();
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					array_push($result_array, new Status($row));
+				}
+				return $result_array;
+			}
+			return [];
+		}
+
+		public static function GetLatestFeedsCount(): int {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getallusers = $con->prepare("SELECT * FROM `statuses`");
+			$stmt_getallusers->execute();
+			$result = $stmt_getallusers->get_result();
+			return $result->num_rows;
+		}
+
 		function __construct($rowdata) {
-			$this->id = intval($rowdata['status_id']);
+			$this->id = ($rowdata['status_id']);
 			$this->poster = User::FromID(intval($rowdata['status_poster']));
 			$this->content = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['status_content']));
 			$this->time_posted = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['status_posted']);

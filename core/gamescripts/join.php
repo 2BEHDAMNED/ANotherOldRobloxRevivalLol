@@ -6,7 +6,7 @@ function onPlayerAdded(player)
 	-- override
 end
 
-if true then
+--[[if true then
  delay(0, function()
    while (game.Players.LocalPlayer == nil) do wait(1) end
    while (game.Players.LocalPlayer:FindFirstChild("PlayerGui") == nil) do wait (1) end
@@ -24,7 +24,7 @@ if true then
 
    m:Remove()
  end)
-end
+end]]
 
 -- MultiplayerSharedScript.lua inserted here ------ Prepended to GroupBuild.lua and Join.lua --
 pcall(function() game:SetPlaceID(1818, true) end)

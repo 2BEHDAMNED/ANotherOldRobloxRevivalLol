@@ -105,7 +105,7 @@
 		function GetLatestStatus(): Status|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `statuses` WHERE `status_poster` = ? ORDER BY `status_posted` DESC");
-			$stmt_getuser->bind_param('s', $security);
+			$stmt_getuser->bind_param('i', $this->id);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
