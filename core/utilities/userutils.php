@@ -34,7 +34,7 @@
 		 * @param string $accesskey
 		 * @return array|string
 		 */
-		public static function RegisterUser(?string $username, ?string $password, ?string $confirm_password, ?string $accesskey): string|array {
+		public static function RegisterUser(string $username, string $password, string $confirm_password, string $accesskey): string|array {
 			$errors = [];
 
 			if(preg_match("/^[a-zA-Z0-9]{3,20}$/", $username)) {
@@ -83,7 +83,7 @@
 		 * @param mixed $password
 		 * @return string|array
 		 */
-		public static function LoginUser(?string $username, ?string $password): string|array {
+		public static function LoginUser(string $username, string $password): string|array {
 			$errors = [];
 
 			include $_SERVER['DOCUMENT_ROOT'].'/core/connection.php';
@@ -136,7 +136,7 @@
 		 * @param mixed $accesskey
 		 * @return bool
 		 */
-		static function IsValidKey(?string $accesskey): bool {
+		static function IsValidKey(string $accesskey): bool {
 			include $_SERVER['DOCUMENT_ROOT'].'/core/connection.php';
 			$stmt_checkkey = $con->prepare('SELECT `access_key` FROM `accesskeys` WHERE `access_key` = ?;');
 			$stmt_checkkey->bind_param('s', $accesskey);
@@ -150,7 +150,7 @@
 		 * @param string $accesskey
 		 * @return string|null
 		 */
-		static function UseAccessKey(?string $accesskey): string|null {
+		static function UseAccessKey(string $accesskey): string|null {
 			include $_SERVER['DOCUMENT_ROOT'].'/core/connection.php';
 			$stmt_checkkey = $con->prepare('SELECT `access_discorduid` FROM `accesskeys` WHERE `access_key` = ?;');
 			$stmt_checkkey->bind_param('s', $accesskey);
@@ -171,7 +171,7 @@
 		 * @param string $username
 		 * @return bool True if it's not being used
 		 */
-		static function IsUsernameAvailable(?string $username): bool {
+		static function IsUsernameAvailable(string $username): bool {
 			include $_SERVER['DOCUMENT_ROOT'].'/core/connection.php';
 			$stmt_checkusername = $con->prepare('SELECT `user_name` FROM `users` WHERE `user_name` LIKE ?;');
 			$stmt_checkusername->bind_param('s', $username);
@@ -199,7 +199,7 @@
 			return null;
 		}
 
-		static function SetCookies($security): void {
+		static function SetCookies(string $security): void {
 			setcookie(".ROBLOSECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
 			setcookie("IOTASECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
 		}

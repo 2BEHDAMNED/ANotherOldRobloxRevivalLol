@@ -329,7 +329,7 @@ ifSeleniumThenSetCookie("SeleniumTest1", "Started join script")
 pcall(function() settings().Diagnostics:LegacyScriptMode() end)
 local success, err = pcall(function()	
 
-	game:SetRemoteBuildMode(true)
+	game:SetRemoteBuildMode(false)
 	
 	setMessage("Connecting to Server")
 	client.ConnectionAccepted:connect(onConnectionAccepted)

@@ -19,7 +19,7 @@
 		 * @param int $id
 		 * @return User|null
 		 */
-		public static function FromID(?int $id) {
+		public static function FromID(int $id) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `users` WHERE `user_id` = ?");
 			$stmt_getuser->bind_param('i', $id);
@@ -39,7 +39,7 @@
 		 * @param int $security
 		 * @return User|null
 		 */
-		public static function FromSecurityKey(?string $security) {
+		public static function FromSecurityKey(string $security) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `users` WHERE `user_security` = ?");
 			$stmt_getuser->bind_param('s', $security);
@@ -58,7 +58,7 @@
 		 * @param int $id
 		 * @return bool
 	 	 */
-		public static function Exists(?int $id) {
+		public static function Exists(int $id) {
 			return self::FromID($id) != null;
 		}
 
@@ -71,7 +71,7 @@
 			$this->password = strval($rowdata['user_password']);
 			$this->security_key = strval($rowdata['user_security']);
 		}
-
+		
 		function GetFriends(): array {
 			return [];
 		}
@@ -84,23 +84,35 @@
 			return [];
 		}
 
-		function GetFriendsCount(): int { return count($this->GetFriends()); }
+		function GetFriendsCount(): int {
+			return count($this->GetFriends());
+		}
 		
-		function GetFollowersCount(): int { return count($this->GetFollowers()); }
+		function GetFollowersCount(): int {
+			return count($this->GetFollowers());
+		}
 
-		function GetFollowingCount(): int {	return count($this->GetFollowing()); }
+		function GetFollowingCount(): int {
+			return count($this->GetFollowing());
+		}
+
+		/**
+		 * Returns paged list of the user's created games
+		 * @return void
+		 */
+		function GetOwnedGames(): array {}
 
 		/**
 		 * Returns the system badges (Homestead and the alike)
 		 * @return void
 		 */
-		function GetProfileBadges() {}
+		function GetProfileBadges(): array {}
 
 		/**
 		 * Returns badges created by the users (from games)
 		 * @return void
 		 */
-		function GetUserBadges() {}
+		function GetUserBadges(): array {}
 
 		function GetLatestStatus(): Status|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
@@ -117,12 +129,6 @@
 		}
 
 		/**
-		 * Returns paged list of the user's created games
-		 * @return void
-		 */
-		function GetOwnedGames() {}
-
-		/**
 		 * Returns the ban details if the user has been suspended/terminated<br>
 		 * Null if no bans have been issued.
 		 * @return void
@@ -133,23 +139,23 @@
 		 * Checks if the user is admin (duh)
 		 * @return void
 		 */
-		function IsAdmin() {}
+		function IsAdmin(): bool {}
 
 		/**
 		 * Checks if user is banned via {@see GetBanDetails}
 		 * @return bool
 		 */
-		function IsBanned(): void {}
+		function IsBanned(): bool {}
 
 		/**
 		 * Gives user a suspension until notice.
 		 * @return void
 		 */
-		function Suspend() {}
+		function Suspend(): void {}
 		/**
 		 * Permanent version of Suspend()
 		 * @return void
 		 */
-		function Terminate() {}
+		function Terminate(): void {}
 	}
 ?>

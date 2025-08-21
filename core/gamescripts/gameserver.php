@@ -141,7 +141,7 @@ settings().Diagnostics.LuaRamLimit = 0
 --shared["__time"] = 0
 --game:GetService("RunService").Stepped:connect(function (time) shared["__time"] = time end)
 
-
+game:SetRemoteBuildMode(true)
 
 
 if placeId~=nil and killID~=nil and deathID~=nil and url~=nil then

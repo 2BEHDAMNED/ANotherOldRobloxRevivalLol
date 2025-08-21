@@ -8,21 +8,40 @@ pcall(function() game:GetService("SocialService"):SetGroupRankUrl("http://arl.la
 pcall(function() game:GetService("SocialService"):SetGroupRoleUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRole&playerid=%d&groupid=%d") end)
 pcall(function() game:GetService("GamePassService"):SetPlayerHasPassUrl("http://arl.lambda.cam/Game/GamePass/GamePassHandler.ashx?Action=HasPass&UserID=%d&PassID=%d") end)
 <?php
+
+
 	function get_signature($script) {
-        $signature = "";
-        openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
-        return base64_encode($signature);
-    }
+		$signature = "";
+		openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
+		return base64_encode($signature);
+	}
 
-    header("Content-Type: text/plain");
+	header("Content-Type: text/plain");
 
-    $script = "\r\n" . ob_get_clean();
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/asset.php';
 
+	if(isset($_GET['PlaceId'])) {
+		$place = Place::FromID(intval($_GET['PlaceId']));
 
-    //$_GET['PlaceId'] get place asset
+		if($place != null && $place instanceof Place) {
+			$script = "\r\n" . ob_get_clean();
+			$script = str_replace("{creator}", $place->creator->id, $script);
+			$signature = get_signature($script);
+	
+			echo "%". $signature . "%" . $script;
+		} else {
+			$script = "\r\nprint(\"Not a place hellooooo - Zlysie\")";
+			$signature = get_signature($script);
+	
+			echo "%". $signature . "%" . $script;
+		}
+	} else {
+		$script = "\r\nprint(\"What were you even trying to do?? - Zlysie\")";
+		$signature = get_signature($script);
 
-	$script = str_replace("{creator}", 1, $script);
-    $signature = get_signature($script);
+		echo "%". $signature . "%" . $script;
+	}
+	
 
-    echo "%". $signature . "%" . $script;
+	
 ?>
