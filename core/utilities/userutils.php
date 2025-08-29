@@ -201,12 +201,34 @@
 
 		static function SetCookies(string $security): void {
 			setcookie(".ROBLOSECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
-			setcookie("IOTASECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
+			setcookie("ANORRLSECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
 		}
 
 		public static function RemoveCookies(): void {
 			setcookie(".ROBLOSECURITY", "", -1, "/", $_SERVER['SERVER_NAME']);
 			setcookie("ANORRLSECURITY", "", -1, "/", $_SERVER['SERVER_NAME']);
+		}
+
+		public static function GetLatestUsers(int $count): array {
+			include $_SERVER['DOCUMENT_ROOT'].'/core/connection.php';
+			
+			$stmt = $con->prepare('SELECT * FROM `users` ORDER BY `user_joindate` DESC LIMIT ?');
+			$stmt->bind_param('i', $count);
+			$stmt->execute();
+
+			$result = $stmt->get_result();
+
+			if($result->num_rows != 0) {
+				$users =  [];
+
+				while(($row = $result->fetch_assoc()) != null) {
+					array_push($users, new User($row));
+				}
+
+				return $users;
+			}
+
+			return [];
 		}
 	}
 

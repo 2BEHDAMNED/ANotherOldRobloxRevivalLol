@@ -1,7 +1,6 @@
 <?php ob_start(); ?>
 local placeId, port, sleeptime, access, url, killID, deathID, timeout, autosaveInterval, locationID, groupBuild, machineAddress, gsmInterval, gsmUrl, maxPlayers, maxSlotsUpperLimit, maxSlotsLowerLimit, gsmAccess, injectScriptAssetID, servicesUrl, permissionsServiceUrl, apiKey, libraryRegistrationScriptAssetID = ...
 
-
 -- StartGame -- 
 pcall(function() game:GetService("ScriptContext"):AddStarterScript(injectScriptAssetID) end)
 game:GetService("RunService"):Run()
@@ -185,8 +184,8 @@ if placeId~=nil and url~=nil then
 	wait()
 	
 	-- load the game
-	game:Load("rbxasset://baseplate.rbxl");
-	--game:Load(url .. "/asset/?id=" .. placeId)
+	--game:Load("rbxasset://baseplate.rbxl");
+	game:Load(url .. "/asset/?id=" .. placeId)
 end
 
 -- Now start the connection
@@ -197,9 +196,9 @@ if timeout then
 end
 scriptContext.ScriptsDisabled = false
 
---delay(1, function()
---	loadfile(url .. "/analytics/GamePerfMonitor.ashx")(game.JobId, placeId)
---end)
+delay(1, function()
+	--loadfile(url .. "/analytics/GamePerfMonitor.ashx")(game.JobId, placeId)
+end)
 
 --[[
 if access then

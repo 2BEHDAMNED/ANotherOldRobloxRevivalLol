@@ -14,10 +14,11 @@
 body {
 	margin: 0;
 	padding: 0;
-	background: url(/images/bkg.jpg) top center repeat-x #000444;
+	background: url(/images/bkg.png) top center repeat-x #1A0031;
 	font-family: Arial,Helvetica,sans-serif;
 	color: black;
 	font-size: 12px;
+	background-size: 1920px;
 }
 
 a {
@@ -53,6 +54,7 @@ a:hover {
 }
 
 #Header #Logo img {
+	width: 207px;
 	height: 156px;
 	margin-bottom: -44px;
 	margin-top: -110px;
@@ -181,22 +183,26 @@ a:hover {
 }
 
 #Header #LogoutSign {
-	background: url('/images/header/signs/logout.png') round; /* Practically useless in ie (overwritten by filters) */
+	background: url('/images/sign_stop.png') round; /* Practically useless in ie (overwritten by filters) */
 	transform: rotate(3deg);
 	position: relative;
 	float: right;
 	z-index: 3;
 	
-	font:bold 18px/normal punk;
-	color: black;
+	font-size: 16px;
+	font-family: road;
+	color: white;
+	line-height: 90px;
+	text-align: center;
 	
-	width: 100px;
+	width: 90px;
+	height: 90px;
 	
-	margin-top: -10px;
+	margin-top: -66px;
+	margin-right: 41px;
 	margin-left: -150px;
 
 	padding: 10px;
-	padding-left: 18px;
 
 	/* IE bullshit */
 	margin-left: -129px\9;

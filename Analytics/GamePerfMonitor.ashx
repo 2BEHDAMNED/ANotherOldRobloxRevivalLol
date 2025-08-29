@@ -123,7 +123,7 @@ function postStats(t)
 		id = placeid
 	end
 	
-	local url = "https://www.roblox.com/Analytics/Measurement.ashx?Type=Game.Performance&IPFilter=primary&SecondaryFilterName=" .. idtype .. "&SecondaryFilterValue=" .. tostring(id);
+	local url = "https://arl.lambda.cam/Analytics/Measurement.ashx?Type=Game.Performance&IPFilter=primary&SecondaryFilterName=" .. idtype .. "&SecondaryFilterValue=" .. tostring(id);
 	--print(url)
 	--print(poststring)
 	game:HttpPost(url, poststring, false)

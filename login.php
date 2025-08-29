@@ -21,7 +21,7 @@
 			die(header("Location: /my/home"));
 		} else {
 			$_SESSION['login_errors'] = $result;
-			die(header("Location: /"));
+			die(header("Location: /login"));
 		}
 	}
 ?>
@@ -58,7 +58,9 @@
 								<span class="Validator" id="v_username">
 									<?php 
 										if(isset($_SESSION['login_errors'])) {
-											echo $_SESSION['login_errors']['username'];
+											if(isset($_SESSION['login_errors']['username'])) {
+												echo $_SESSION['login_errors']['username'];
+											}
 										}
 									?>
 								</span>
@@ -70,7 +72,9 @@
 								<span class="Validator" id="v_password">
 									<?php 
 										if(isset($_SESSION['login_errors'])) {
-											echo $_SESSION['login_errors']['password'];
+											if(isset($_SESSION['login_errors']['password'])) {
+												echo $_SESSION['login_errors']['password'];
+											}
 										}
 									?>
 								</span>

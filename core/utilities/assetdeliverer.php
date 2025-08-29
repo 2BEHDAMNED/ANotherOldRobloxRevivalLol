@@ -57,7 +57,7 @@
 		$handle = fopen($filename, "r"); 
 		$contents = fread($handle, filesize($filename)); 
 		fclose($handle);
-		header("Content-Type: ".checkMimeType($contents));
+		header("Content-Type: application/octet-stream");//.checkMimeType($contents));
 		$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
 		$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
 		if(in_array($id, $sign_ids)) {

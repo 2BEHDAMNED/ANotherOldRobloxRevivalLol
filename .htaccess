@@ -19,18 +19,19 @@
 	RewriteRule ^Game/PlaceSpecificScript.ashx$ /core/gamescripts/placespecificscript.php   [END]
 	RewriteRule ^Game/LoadPlaceInfo.ashx$ /core/gamescripts/loadplaceinfo.php   [END]
 	RewriteRule ^game/gameserver.ashx$ /core/gamescripts/gameserver.php	  [END]
+	RewriteRule ^game/host.ashx$ /core/gamescripts/host.php	  [END]
 	RewriteRule ^game/join.ashx$ /core/gamescripts/join.php				  [END]
 	RewriteRule ^game/studio.ashx$ /core/gamescripts/studio.php			  [END]
 	RewriteRule ^game/visit.ashx$ /core/gamescripts/visit.php 			  [END]
 
 	RewriteRule ^Game/gameserver.ashx$ /core/gamescripts/gameserver.php   [END] # Only exists bc of windows!
+	RewriteRule ^Game/host.ashx$ /core/gamescripts/host.php   [END] # Only exists bc of windows!
 	
 	RewriteRule ^Game/join.ashx$ /core/gamescripts/join.php				  [END] # Only exists bc of windows!
 	RewriteRule ^Game/studio.ashx$ /core/gamescripts/studio.php			  [END] # Only exists bc of windows!
 	RewriteRule ^Game/visit.ashx$ /core/gamescripts/visit.php			  [END] # Only exists bc of windows!
 	
 	RewriteRule ^login$ login.php										  [END]
-	RewriteRule ^login/$ login.php										  [END]
 	RewriteRule ^Login$ login.php										  [END]
 	RewriteRule ^register$ register.php									  [END]
 	RewriteRule ^people$ people.php										  [END]
@@ -40,6 +41,7 @@
 
 	RewriteRule ^api/feeds$ /api/feeds.php								  [END]
 	RewriteRule ^api/logout$ /api/logout.php							  [END]
+	RewriteRule ^api/user$ /api/user.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]

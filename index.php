@@ -1,3 +1,6 @@
+<?php
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -267,27 +270,36 @@
 						<h3>New Users!</h3>
 						<table id="NewUsersBox">
 							<tr>
-								<td>
-									<div class="User">
-										<a href="">
-											<img src="/images/avatar.png">
-											<span>WWWWWWWWWWWWWWWWWWWW</span>
-										</a>
-									</div>
-								</td>
-								<td>
-									<div class="User">
-										<a href="">
-											<img src="/images/avatar.png">
-											<span>Username</span>
-										</a>
-									</div>
-								</td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<?php  
+									$users = UserUtils::GetLatestUsers(7);
+									$users_count = count($users);
+
+									foreach($users as $user) {
+										if($user instanceof User) {
+											$user_id = $user->id;
+											$user_name = $user->name;
+											echo <<<EOT
+												<td>
+													<div class="User">
+														<a href="/users/$user_id/profile">
+															<img src="/images/avatar.png">
+															<span>$user_name</span>
+														</a>
+													</div>
+												</td>
+											EOT;
+										}
+									}
+
+									if($users_count < 7) {
+										$count = 7 - $users_count;
+										for($i = 0; $i < $count; $i++) {
+											echo <<<EOT
+												<td></td>
+											EOT;
+										}
+ 									}
+								?>
 							</tr>
 						</table>
 					</div>

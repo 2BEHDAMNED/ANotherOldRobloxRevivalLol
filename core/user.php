@@ -1,6 +1,7 @@
 <?php
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/status.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
 
 	/**
 	 * Data of the user.
@@ -100,19 +101,25 @@
 		 * Returns paged list of the user's created games
 		 * @return void
 		 */
-		function GetOwnedGames(): array {}
+		function GetOwnedGames(): array {
+			return [];
+		}
 
 		/**
 		 * Returns the system badges (Homestead and the alike)
 		 * @return void
 		 */
-		function GetProfileBadges(): array {}
+		function GetProfileBadges(): array {
+			return [];
+		}
 
 		/**
 		 * Returns badges created by the users (from games)
 		 * @return void
 		 */
-		function GetUserBadges(): array {}
+		function GetUserBadges(): array {
+			return [];
+		}
 
 		function GetLatestStatus(): Status|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
@@ -128,6 +135,69 @@
 			}
 		}
 
+		function GetAllOwnedAssetsOfTypePaged(AssetType $type, int $pagenum, int $count): array {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? LIMIT ?, ?");
+			$page = (($pagenum-1)*$count);
+			$ordinal = $type->ordinal();
+			$stmt_getuser->bind_param('iii', $ordinal, $page, $count);
+			$stmt_getuser->execute();
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					array_push($result_array, $row);
+				}
+				return $result_array;
+			}
+
+			return [];
+		}
+
+		function GetAllOwnedAssetsOfType(AssetType $type): array {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ?");
+			$ordinal = $type->ordinal();
+			$stmt_getuser->bind_param('i', $ordinal);
+			$stmt_getuser->execute();
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					array_push($result_array, $row);
+				}
+				return $result_array;
+			}
+
+			return [];
+		}
+
+		function GetAllOwnedAssets(): array {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` = ?");
+			$stmt_getuser->bind_param('i', $this->id);
+			$stmt_getuser->execute();
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					array_push($result_array, $row);
+				}
+				return $result_array;
+			}
+
+			return [];
+		}
+
 		/**
 		 * Returns the ban details if the user has been suspended/terminated<br>
 		 * Null if no bans have been issued.
@@ -139,13 +209,17 @@
 		 * Checks if the user is admin (duh)
 		 * @return void
 		 */
-		function IsAdmin(): bool {}
+		function IsAdmin(): bool {
+			return false;
+		}
 
 		/**
 		 * Checks if user is banned via {@see GetBanDetails}
 		 * @return bool
 		 */
-		function IsBanned(): bool {}
+		function IsBanned(): bool {
+			return false;
+		}
 
 		/**
 		 * Gives user a suspension until notice.
