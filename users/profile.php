@@ -209,6 +209,106 @@
 			.Badge[template] {
 				display: none;
 			}
+
+			#UserGamesContainer h3 {
+				margin-bottom: 0px;
+				margin-left: 15px;
+				width: 830px;
+			}
+
+			#UserGamesContainer	#PopularGamesBox {
+				border: 2px solid #090909;
+				margin: 0 auto;
+				background: #171717;
+				padding: 10px;
+				padding-left: 15px;
+				width: 870px;
+			}
+
+			.PopularGame img {
+				width: 300px;
+				height: 169px;
+				border: 2px solid #090909;
+			}
+
+			.PopularGame #Play {
+				width: 212px;
+				height: 54px;
+				background: url(/images/btn_play_54h.png);
+				display: inline-block;
+			}
+
+			.PopularGame #Play:hover {
+				background-position: 0 54px;
+			}
+
+			.PopularGame #ShowcaseBigImages {
+				display: table-cell;
+				vertical-align: top;
+				width:304px;
+				text-align:center;
+			}
+
+			.PopularGame #ShowcaseBigImages img {
+				background:	#282828
+			}
+
+			.PopularGame #ShowcaseDetails {
+				display: table-cell;
+				vertical-align: top;
+
+				width: 282px;
+				height: 225px;
+			}
+
+			.PopularGame #ShowcaseBigImages #NameAndCreator {
+				margin-left: 0px;
+				margin-top: 0px;
+				font-size:15px;
+				background: black;
+				font-family: punk;
+				font-weight: bold;
+				padding: 5px;
+				padding-left: 15px;
+				padding-top: 10px;
+			}
+
+			.PopularGame #ShowcaseBigImages #NameAndCreator a {
+				display: block;
+				color: white;
+			}
+
+			.PopularGame #ShowcaseBigImages #NameAndCreator #Creator {
+				font-size: 11px;
+			}
+
+			.PopularGame #ShowcaseDetails code {
+				border: 2px solid black;
+				padding: 10px;
+				background: #282828;
+				height: 182px;
+				display: block;
+				width: 249px;
+			}
+
+			.PopularGame #ShowcaseDetails #AllowedStuff {
+				border: 2px solid black;
+				padding: 10px;
+				background: #181818;
+				display: block;
+				width: 249px;
+				border-top: 0;
+			}
+
+			#PopularGames {
+				text-align: center;margin-left: 10px;height: 195px;overflow: hidden;
+				background: #0f0f0f;
+				
+			}
+
+			#PopularGames img {
+				width: 227px;height: 128px;
+			}
 		</style>
 	</head>
 	<body>
@@ -264,7 +364,39 @@
 							<br clear="all">
 						</div>
 					</div>
-					<hr style="margin: 5px 10px;color:black;border-color:black;">
+					<hr style="margin: 5px 10px;border-color:#b0b0b0;border-style: solid;">
+					<div id="UserGamesContainer">
+						<h3><?= $get_user->name ?>'s Games</h3>
+						<table id="PopularGamesBox">
+							<td class="PopularGame">
+								<table>
+									<td id="ShowcaseBigImages">
+										<div id="NameAndCreator"><a href="" id="Name">Game Name</a></div>
+										<img src="/images/avatar.png">
+										<a id="Play" href=""></a>
+									</td>
+									<td id="ShowcaseDetails">
+										
+										<code>
+											Description hi hihi
+										</code>
+										<div id="AllowedStuff"></div>
+									</td>
+								</table>
+								
+								
+							</td>
+							<td id="PopularGames">
+								<div style="height: 201px;overflow: auto;">
+									<img src="/images/avatar.png">
+									<img src="/images/avatar.png">
+									<img src="/images/avatar.png">
+								</div>
+								
+							</td>
+						</table>
+					</div>
+					<hr style="margin: 5px 10px;border-color:#b0b0b0;border-style: solid;">
 					<div id="UserStatsContainer">
 						<div id="LeftContainer">
 							<div id="ProfileBadgesContainer">

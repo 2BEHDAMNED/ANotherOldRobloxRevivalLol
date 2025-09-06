@@ -335,8 +335,9 @@
 								</div>
 								
 							</td>
-						</div>
-					</table>
+						</table>
+					</div>
+					
 					
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>

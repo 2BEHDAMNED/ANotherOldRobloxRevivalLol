@@ -50,6 +50,7 @@
 		53878047, // BackpackBuilder
 		53878057, // LoadoutScript
 		53878053, // BackpackResizer
+		97188756, // ChatScript
 	];
 
 	$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$id;

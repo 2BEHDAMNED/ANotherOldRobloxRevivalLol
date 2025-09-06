@@ -113,7 +113,7 @@ pcall(function() game:GetService("SocialService"):SetBestFriendUrl("http://arl.l
 pcall(function() game:GetService("SocialService"):SetGroupUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsInGroup&playerid=%d&groupid=%d") end)
 pcall(function() game:GetService("SocialService"):SetGroupRankUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRank&playerid=%d&groupid=%d") end)
 pcall(function() game:GetService("SocialService"):SetGroupRoleUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRole&playerid=%d&groupid=%d") end)
-pcall(function() game:SetCreatorID(0, Enum.CreatorType.User) end)
+pcall(function() game:SetCreatorID(1, Enum.CreatorType.User) end)
 
 -- Bubble chat.  This is all-encapsulated to allow us to turn it off with a config setting
 pcall(function() game:GetService("Players"):SetChatStyle(Enum.ChatStyle.ClassicAndBubble) end)
@@ -122,7 +122,7 @@ local waitingForCharacter = false
 local waitingForCharacterGuid = "0c4727e6-6f3f-4526-948f-efcca5ae1f51";
 pcall( function()
 	if settings().Network.MtuOverride == 0 then
-	  settings().Network.MtuOverride = 1400
+		settings().Network.MtuOverride = 1400
 	end
 end)
 
@@ -133,11 +133,6 @@ client = game:GetService("NetworkClient")
 visit = game:GetService("Visit")
 
 -- functions ---------------------------------------
-function ifSeleniumThenSetCookie(key, value)
-	if false then
-		game:GetService("CookiesService"):SetCookieValue(key, value)
-	end
-end
 
 function setMessage(message)
 	-- todo: animated "..."
@@ -247,7 +242,7 @@ function requestCharacter(replicator)
 
 	local success, err = pcall(function()	
 		replicator:RequestCharacter()
-		setMessage("Waiting for character")
+		setMessage("Waiting for character or something")
 		waitingForCharacter = true
 		analyticsGuid("Waiting for Character Begin",waitingForCharacterGuid);
 	end)
@@ -324,18 +319,15 @@ end
 
 analytics("Start Join Script")
 
-ifSeleniumThenSetCookie("SeleniumTest1", "Started join script")
-
 pcall(function() settings().Diagnostics:LegacyScriptMode() end)
 local success, err = pcall(function()	
 
 	game:SetRemoteBuildMode(false)
 	
-	setMessage("Connecting to Server")
+	setMessage("Connecting to teh game...")
 	client.ConnectionAccepted:connect(onConnectionAccepted)
 	client.ConnectionRejected:connect(onConnectionRejected)
 	connectionFailed = client.ConnectionFailed:connect(onConnectionFailed)
-	ifSeleniumThenSetCookie("SeleniumTest2", "Successfully connected to server")
 	
 	playerConnectSucces, player = pcall(function() return client:PlayerConnect(<?= rand() ?>, "arl.lambda.cam", 53640, 0, threadSleepTime) end)
 	if not playerConnectSucces then
@@ -377,37 +369,12 @@ if not success then
 	reportError(err,"CreatePlayer")
 end
 
-ifSeleniumThenSetCookie("SeleniumTest3", "Successfully created player")
-
-if not test then
-	-- TODO: Async get?
-	loadfile("")("", -1, 0)
-end
-
-if 0 then
- delay(60*5, function()
-	while true do
-		reportCdn(false)
-		wait(60*5)
-	end
- end)
- local cpTime = 30
- delay(cpTime, function()
-    while cpTime <= 480 do 
-	   reportContentProvider(cpTime, game:GetService("ContentProvider").RequestQueueSize, false)
-       wait(cpTime)
-       cpTime = cpTime * 2
-    end
- end) 
-end
-
 pcall(function() game:SetScreenshotInfo("") end)
 pcall(function() game:SetVideoInfo('<?xml version="1.0"?><entry xmlns="http://arl.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:yt="http://gdata.youtube.com/schemas/2007"><media:group><media:title type="plain"><![CDATA[ROBLOX Place]]></media:title><media:description type="plain"><![CDATA[ For more games visit http://arl.lambda.cam]]></media:description><media:category scheme="http://gdata.youtube.com/schemas/2007/categories.cat">Games</media:category><media:keywords>ROBLOX, video, free game, online virtual world</media:keywords></media:group></entry>') end)
 -- use single quotes here because the video info string may have unescaped double quotes
 
 analytics("Join Finished")
 
-ifSeleniumThenSetCookie("SeleniumTest4", "Finished join")
 <?php
 	function get_signature($script)
 	{
