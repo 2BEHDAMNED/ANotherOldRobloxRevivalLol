@@ -54,9 +54,6 @@
 				background: #222;
 				vertical-align: middle;
 
-				overflow:hidden;
-				overflow-x: scroll;
-				list-style: none;
 				white-space: nowrap;
 				border-top: 0;
 			}

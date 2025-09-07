@@ -12,7 +12,8 @@
 	RewriteRule ^asset/?$ /core/utilities/assetdeliverer.php			  [END]
 	RewriteRule ^Asset/?$ /core/utilities/assetdeliverer.php 			  [END]
 	
-	RewriteRule ^IDE/Landing.aspx$ /IDE/Landing.aspx.php				  [END]
+	RewriteRule ^IDE/Landing.aspx$ /core/ide/landing.php				  		  [END]
+	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
 
 	RewriteRule ^Login/Negotiate.ashx$ /core/authentication/negotiate.php [END]
 	
@@ -50,6 +51,8 @@
 	RewriteRule ^Game/Tools/InsertAsset.ashx$ /core/insertasset.php [END]
 
 	RewriteRule ^Friend/AreFriends$ /Friend/AreFriends.php [END]
+
+	RewriteRule ^core/error/404.php$ /core/error/404.php [END]
 
 	RewriteRule ^core(/.*)?$ /core/error/404.php [END]
 	RewriteRule ^api(/.*)?$ /core/error/404.php  [END]
