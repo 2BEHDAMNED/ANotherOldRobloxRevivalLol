@@ -37,6 +37,7 @@
 	RewriteRule ^people$ people.php										  [END]
 
 	RewriteRule ^my/home$ /my/home.php									  [END]
+	RewriteRule ^my/stuff$ /my/stuff.php									  [END]
 	RewriteRule ^my/profile$ /my/profile.php							  [END]
 
 	RewriteRule ^api/feeds$ /api/feeds.php								  [END]
