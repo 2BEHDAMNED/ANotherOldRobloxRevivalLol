@@ -172,10 +172,9 @@
 				while($row = $result->fetch_assoc()) {
 					array_push($result_array, $row);
 				}
-				return $result_array;
 			}
 
-			return [];
+			return $result_array;
 		}
 
 		function GetAllOwnedAssets(): array {

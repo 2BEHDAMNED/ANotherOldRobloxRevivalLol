@@ -47,6 +47,7 @@
 		case LEFTLEG;
 		case RIGHTLEG;
 		case PACKAGE;
+		case GAMEPASS;
 
 		public static function index(?int $ordinal): AssetType {
 			return match($ordinal) {
@@ -71,6 +72,8 @@
 				29 => AssetType::LEFTARM,
 				30 => AssetType::LEFTLEG,
 				31 => AssetType::RIGHTLEG,
+				32 => AssetType::PACKAGE,
+				34 => AssetType::GAMEPASS,
 			};
 		}
 
@@ -96,7 +99,9 @@
 				AssetType::RIGHTARM 	=> 28,
 				AssetType::LEFTARM 		=> 29,
 				AssetType::LEFTLEG 		=> 30,
-				AssetType::RIGHTLEG 	=> 31
+				AssetType::RIGHTLEG 	=> 31,
+				AssetType::PACKAGE      => 32,
+				AssetType::GAMEPASS     => 34,
 			};
 		}
 	}

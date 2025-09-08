@@ -52,6 +52,7 @@
 		<a href="/my/character" <?php if($_SERVER['SCRIPT_NAME'] == "/my/character.php"):?>selected<?php endif ?>>Character</a>
 		<a href="/my/friends"   <?php if($_SERVER['SCRIPT_NAME'] == "/my/friends.php"  ):?>selected<?php endif ?>>Friends</a>
 		<a href="/my/places"    <?php if($_SERVER['SCRIPT_NAME'] == "/my/places.php"   ):?>selected<?php endif ?>>Places</a>
+		<a href="/create/"      <?php if($_SERVER['SCRIPT_NAME'] == "/core/create.php" ):?>selected<?php endif ?>>Create</a>
 		<a href="/my/stuff"     <?php if($_SERVER['SCRIPT_NAME'] == "/my/stuff.php"    ):?>selected<?php endif ?>>Stuff</a>
 		<a href="/my/sets"      <?php if($_SERVER['SCRIPT_NAME'] == "/my/sets.php"     ):?>selected<?php endif ?>>Sets</a>
 	</div>

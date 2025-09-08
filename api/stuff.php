@@ -21,27 +21,30 @@
 			die(header("Location: /api/stuff?p=1"));
 		}
 
-		$statuses = Status::GetLatestFeedsPaged($page, 5);
+		$assets = $user->GetAllOwnedAssetsOfTypePaged(AssetType::index($type), $page, 12);
 
-		$statuses_raw = [];
+		$assets_raw = [];
 
-		if(count($statuses) != 0) {
-			foreach($statuses as $status) {
-				if($status instanceof Status) {
-					array_push($statuses_raw, [
-						"id" => $status->id,
-						"poster" => [
-							"id" => $status->poster->id,
-							"name" => $status->poster->name
+		if(count($assets) != 0) {
+			foreach($assets as $asset) {
+				if($asset instanceof Asset) {
+					array_push($assets_raw, [
+						"id" => $asset->id,
+						"name" => $asset->name,
+						"creator" => [
+							"id" => $asset->creator->id,
+							"name" => $asset->creator->name
 						],
-						"content" => $status->content,
-						"time_posted" => $status->time_posted->getTimestamp()+ $status->time_posted->getOffset() - 3600
+						"cost" => [
+							"cones" => 0,
+							"lights" => 0
+						]
 					]);
 				}
 			}
 		}
 
-		die(json_encode(["feed" => $statuses_raw, "page" => $page, "total_pages" => floor(Status::GetLatestFeedsCount()/5)+1]));
+		die(json_encode(["assets" => $assets_raw, "page" => $page, "total_pages" => floor(count($user->GetAllOwnedAssetsOfType(AssetType::index($type)))/12)+1]));
 	} else {
 		die(json_encode(["error" => true, "reason" => "User not logged in."]));
 	}

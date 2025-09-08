@@ -39,10 +39,12 @@
 	RewriteRule ^my/home$ /my/home.php									  [END]
 	RewriteRule ^my/stuff$ /my/stuff.php									  [END]
 	RewriteRule ^my/profile$ /my/profile.php							  [END]
+	RewriteRule ^my/places$ /my/places.php							  [END]
 
 	RewriteRule ^api/feeds$ /api/feeds.php								  [END]
 	RewriteRule ^api/logout$ /api/logout.php							  [END]
 	RewriteRule ^api/user$ /api/user.php							  [END]
+	RewriteRule ^api/stuff$ /api/stuff.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
@@ -50,6 +52,8 @@
 	RewriteRule ^Game/Tools/InsertAsset.ashx$ /core/insertasset.php [END]
 
 	RewriteRule ^Friend/AreFriends$ /Friend/AreFriends.php [END]
+
+	RewriteRule ^create/(.*?)$ /core/create.php?type=$1 [END]
 
 	RewriteRule ^core(/.*)?$ /core/error/404.php [END]
 	RewriteRule ^api(/.*)?$ /core/error/404.php  [END]
