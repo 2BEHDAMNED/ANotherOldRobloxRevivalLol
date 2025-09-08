@@ -54,6 +54,7 @@
 	];
 
 	$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$id;
+	// start using version system (MD5s and allat)
 	if(file_exists($filename)) {
 		$handle = fopen($filename, "r"); 
 		$contents = fread($handle, filesize($filename)); 
@@ -69,7 +70,29 @@
 		}
 		
 		echo $contents;
-	} else {
-		die(http_response_code(404));
-	}
+	} /*else {
+		error_reporting(0);
+		$url = 'https://assetdelivery.roblox.com/v1/asset/?id='.$id.'';
+		$ch = curl_init ($url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cookie: .ROBLOSECURITY="));
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		$output = curl_exec($ch);
+		curl_close($ch);
+
+		if(strlen(gzdecode($output)) != 0) {
+			$output = gzdecode($output);
+		}
+
+		header("Content-Type: ".checkMimeType($output));
+
+		$contents = str_replace("www.roblox.com", "arl.lambda.cam",$output);
+
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/".$id, $contents);
+		
+		echo $contents;	
+		//die(http_response_code(404));
+	}*/
 ?>

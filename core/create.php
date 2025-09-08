@@ -21,7 +21,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js"></script>
-		<script src="/js/stuff.js"></script>
+		<script src="/js/create.js"></script>
 		<style>
 			#StuffContainer {
 				width: 876px;
@@ -55,8 +55,10 @@
 				border: 0;
 			}
 
-			#StuffNavigation ul > li[selected] {
+			#StuffNavigation ul > li[selected] a {
 				font-weight: bold;
+				text-decoration: underline;
+				color: #ffc63f;
 			}
 
 			#AssetsContainer {
@@ -197,13 +199,74 @@
 				margin-bottom: 15px;
 			}
 
+
+			#UploadPanel form {
+				padding: 10px;
+			}
+
+			#UploadPanel td {
+				vertical-align: top;
+			}
+
+			#UploadPanel input[type=text],
+			#UploadPanel textarea {
+				border: 2px solid black;
+				background: #444;
+				padding: 2px 4px;
+				color: white;
+			}
+
+			#UploadPanel input[type=submit],
+			#UploadPanel label[for=files] {
+				border: 2px solid black;
+				background: black;
+				color: white;
+				padding: 4px 8px;
+				font-weight: bold;
+				font-family: punk;
+			}
+
+			#UploadPanel input[type=submit]:hover,
+			#UploadPanel label[for=files]:hover {
+				text-decoration: underline;
+				background: #161616;
+				cursor: pointer;
+			}
+
+
+			#UploadPanel input[type=text] {
+				width: 574px;
+			}
+
+			#UploadPanel textarea {
+				width: 574px;
+				height: 58px;
+				resize: vertical;
+			}
+
+			#UploadPanel label#filename {
+				margin-left: 5px;
+			}
+
+			#UploadPanel #ErrorTime,
+			#UploadPanel #InfoWarning {
+				padding: 5px 9px;
+				border-bottom: 2px solid black;
+				background: #9d0000;
+				font-weight: bold;
+			}
+
+			#UploadPanel #InfoWarning {
+				background: #b58b05;
+			}
+
 			#CreationPanel h3 {
 				margin: 0;
 				padding-right: 0px;
-				width: 658px;
+				width: 656px;
 				background: #151515;
 				border-bottom: 2px solid black;
-				
+				border-right: 2px solid black;
 			}
 		</style>
 	</head>
@@ -239,23 +302,25 @@
 						</div><div id="CreationPanel">
 							
 							<div id="UploadPanel">
-								<h3>Upload Item</h3>
-								<form>
+								<h3>Upload <span id="TypaLabel"></span></h3>
+								<div id="InfoWarning" style="display: none;">Must be in XML format NOT BINARY.</div>
+								<div id="ErrorTime" style="display: none;">Error: <span id="Message">you upload too much it makes me sad :(</span></div>
+								<form method="POST" enctype="multipart/form-data">
 									<table>
 										<tr>
 											<td>Name</td>
-											<td><input></td>
+											<td><input type="text" name="ANORRL$CreateAsset$Name" minlength="3" maxlength="100" required></td>
 										</tr>
 										<tr>
 											<td>Description</td>
-											<td><textarea></textarea></td>
+											<td><textarea name="ANORRL$CreateAsset$Description" maxlength="1000"></textarea></td>
 										</tr>
 										<tr>
 											<td>File</td>
-											<td><input type="file"></td>
+											<td><label for="files">Choose file</label><input id="files" style="display:none;" type="file" required><label id="filename">No file chosen</label></td>
 										</tr>
 										<tr>
-											<td><input type="submit" value="Upload"></td>
+											<td><input type="submit" value="Upload" style="margin-top:10px"></td>
 										</tr>
 									</table>
 								</form>
@@ -263,7 +328,7 @@
 							<div id="AssetsContainer">
 								<div id="StatusText">
 									<b id="Loading" style="display: none">Loading assets...</b>
-									<b id="NoAssets" style="display: none">You have no <span id="AssetType"></span>!</b>
+									<b id="NoAssets" style="display: none"><img src="/images/noassets.png" style="width: 110px;display: block;margin: 0 auto;margin-bottom: -92px;margin-top: 23px;">You have no <span id="AssetType"></span>!</b>
 								</div>
 							
 								<table hidden></table>

@@ -75,8 +75,7 @@ function UpdateRecentlyInsertedAsset(n) {
 }
 
 function makeAssetVoteable(n) {
-	var r = $("#span_setitem_" + n),
-		i, t;
+	var r = $("#span_setitem_" + n), i, t;
 	r.length > 0 && (i = $(r).children(".voting"), i.length > 0 && (t = "", t += '<div class="voting users-vote">', t += '  <div class="upvote tiny" onclick="handleVote(' + n + ', true)"></div>', t += '  <div class="downvote tiny" onclick="handleVote(' + n + ', false)"></div>', t += "</div>", $(i).empty(), $(i).html(t)))
 }
 ClientToolbox = {}, ClientToolbox.IsUserAuthenticated = !1, ClientToolbox.IsDecalCreationEnabled = !1, ClientToolbox.IsRecentlyInsertedAssetEnabled = !1, ClientToolbox.NumberOfItemsPerPage = 26, ClientToolbox.TotalNumberOfItemsInCurrentSet = 0, ClientToolbox.CurrentPage = 0, ClientToolbox.LastSearchedSetId, ClientToolbox.SearchString, ClientToolbox.MySetsHasData = !0, ClientToolbox.ResizeHelper, ClientToolbox.SearchTouch = !1, ClientToolbox.CurrentTab, ClientToolbox.OnPageLoad = function() {
@@ -277,7 +276,7 @@ ClientToolbox = {}, ClientToolbox.IsUserAuthenticated = !1, ClientToolbox.IsDeca
 		i = typeof n.VoteableAfterUse != "undefined" && n.VoteableAfterUse == !0,
 		s = n.IsVoteable || i ? "WithVoting" : "WithoutVoting",
 		r, u;
-	if (t += "<div class='ToolboxItem " + s + "' id='" + o + "'ondragstart='dragRBX(" + f + ", " + i + ")'>", t += "   <a href='javascript:insertContent(" + f + ")' class='itemLink' title='" + e + "'>", t += "       <img alt='" + e + "' id='img_" + o + "' src='/thumbs/unavailable.jpg' border='0px' style='height:62px;width:60px;' onerror='return Roblox.Controls.Image.OnError(this)'/>", n.IsEndorsed && (t += "<img class='endorsed-icon' src='" + ClientToolbox.Resources.endorsedIcon + "' title='" + ClientToolbox.Resources.endorsedAsset + "' />"), t += "   </a>", n.IsVoteable) {
+	if (t += "<div class='ToolboxItem " + s + "' id='" + o + "'ondragstart='dragRBX(" + f + ", " + i + ")'>", t += "   <a href='javascript:insertContent(" + f + ")' class='itemLink' title='" + e + "'>", t += "       <img alt='" + e + "' id='img_" + o + "' src='/images/unavailable.jpg' border='0px' style='height:62px;width:60px;' onerror='return Roblox.Controls.Image.OnError(this)'/>", n.IsEndorsed && (t += "<img class='endorsed-icon' src='" + ClientToolbox.Resources.endorsedIcon + "' title='" + ClientToolbox.Resources.endorsedAsset + "' />"), t += "   </a>", n.IsVoteable) {
 		var c = n.UserVotedUp || n.UserVotedDown ? "has-voted" : "",
 			h = n.UserVotedUp ? "selected" : "",
 			l = n.UserVotedDown ? "selected" : "";

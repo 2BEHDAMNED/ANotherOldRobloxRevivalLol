@@ -1,4 +1,9 @@
+<?php
+	session_start();
 
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
+	$user = UserUtils::RetrieveUser();
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,9 +21,9 @@
 	</head>
 	<body class="Page" style="margin: 0;">
         <input name="__RequestVerificationToken" type="hidden" value="6_eZHOjUPq8Jhw66Ug0so8DxlG33_rZY0TrLaXEc7aMbOKqRbphTsdZWYh_pBl5ud60toqWtjSAZmQHQU93ZLxukFYLaUIRjFnWCQD57CiwhlECKHNRU2ejI5FDEhDWcZ1Ru3g2" />
-        <div id="NewToolboxContainer" data-isuserauthenticated="false" 
+        <div id="NewToolboxContainer" data-isuserauthenticated="<?= $user == null ? "false" : "true" ?></div>" 
              data-isdecalcreationenabled = "true"
-             data-requesturl = "http://www.roblox.com/asset/"
+             data-requesturl = "http://arl.lambda.cam/asset/"
              data-isrecentlyinsertedassetenabled = "true" >
             <div id="ToolboxControls">
                 <div id="SetTabs">

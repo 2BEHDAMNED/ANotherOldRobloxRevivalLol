@@ -1,0 +1,180 @@
+if(typeof(ANORRL) == "undefined") {
+	ANORRL = {}
+}
+
+if (!Object.keys) {
+	Object.keys = function(obj) {
+		var keys = [];
+		for (var i in obj) {
+			if (obj.hasOwnProperty(i)) {
+				keys.push(i);
+			}
+		}
+		return keys;
+	};
+}
+
+var categoryFileTypes = {
+	11:"image/*",
+	2: "image/*",
+	12:"image/*",
+	3: ".mp3",
+	13:"image/*",
+	10:".rbxm",
+	9: ".rbxl",
+}
+
+
+ANORRL.Create  = {
+	CurrentPage: 1,
+	AdvanceFeed: function() {
+		this.GrabFeed(this.CurrentPage + 1);
+	},
+	DeadvanceFeed: function() {
+		this.GrabFeed(this.CurrentPage - 1);
+	},
+	GrabAssets: function(category, page) {
+
+		var loadingMessage = $("#AssetsContainer #StatusText #Loading");
+		var emptyMessage = $("#AssetsContainer #StatusText #NoAssets");
+
+		emptyMessage.css("display", "none");
+		loadingMessage.css("display", "block");
+
+		if(category === undefined) {
+			category = 11;
+		}
+		if(page === undefined) {
+			page = this.CurrentPage;
+		}
+
+		var feedscontainer = $("#AssetsContainer > table");
+
+		feedscontainer.children().each(function() {
+			$(this).remove();
+		});
+
+		var pagercontainer = $("#AssetsContainer #Paginator");
+		
+		var backPager = pagercontainer.find("#PrevPager");
+		var nextPager = pagercontainer.find("#NextPager");
+
+		$("li[data_category]").each(function() {
+			$(this).removeAttr("selected");
+		});
+
+		$("li[data_category="+category+"]").attr("selected", "");
+		ChangeUrl("", "/create/"+$("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", ""));
+
+		var categorylabel = $("li[data_category="+category+"]").find("a").html();
+		if(categorylabel.endsWith("s") && categorylabel != "Pants") {
+			categorylabel = categorylabel.substring(0, categorylabel.length-1);
+		}
+		$("#TypaLabel").html(categorylabel);
+		if(categorylabel == "Pants" || categorylabel == "Shirt") {
+			$("#TypaLabel").html(categorylabel + " (<a target='_blank' href='/images/"+categorylabel+"Template.png'>Template</a>)");
+		}
+		$("#files").attr("accept", categoryFileTypes[category]);
+
+		var warning = $("#InfoWarning");
+
+		if(category == 10 || category == 9) {
+			warning.css("display", "block");
+		} else {
+			warning.css("display", "none");
+		}
+
+		$.get("/api/stuff", {c: category, p : page}, function(data) {
+			
+			var assets = data['assets'];
+			ANORRL.Create.CurrentPage = data['page'];
+			var current_page = ANORRL.Create.CurrentPage;
+			var total_pages = data['total_pages'];
+
+			var index = 0;
+
+			if(assets.length == 0) {
+				if(pagercontainer.css("display") == "block") {
+					pagercontainer.css("display", "none");
+				}
+				loadingMessage.css("display", "none");
+				emptyMessage.css("display", "block");
+
+				emptyMessage.find("#AssetType").html($("li[data_category="+category+"]").find("a").html().toLowerCase());
+
+				
+			} else {
+				if(pagercontainer.css("display") == "none") {
+					pagercontainer.css("display", "block");
+				}
+				
+				for (var key in assets) {
+					var asset = assets[key];
+
+					var template = $($(".Asset[template]").clone().prop('outerHTML'));
+					template.removeAttr("template");
+					
+					// implement details
+
+					feedscontainer.append($(template));
+
+					index += 1;
+				}
+
+				if(current_page == 1) {
+					backPager.css("display", "none");
+				} else {
+					backPager.css("display", "inline");
+				}
+
+				if(current_page == total_pages) {
+					nextPager.css("display", "none");
+				} else {
+					nextPager.css("display", "inline");
+				}
+
+				pagercontainer.find("input").val(current_page);
+				pagercontainer.find("#Pages").html(total_pages);
+			}
+		});
+	}
+}
+
+function ChangeUrl(title, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Title: title, Url: url };
+        history.pushState(obj, obj.Title, obj.Url);
+    } else {
+        window.location.href = url;
+    }
+}
+
+$(function(){
+
+	$("li[data_category]").on("click",function() {
+		ANORRL.Create.GrabAssets($(this).attr("data_category"));
+	});
+
+	var url = window.location.pathname;
+	url = url.replaceAll("/create/", "").replaceAll("/","");
+
+	$("#files").change(function() {
+		filename = this.files[0].name;
+		$("#filename").html(filename);
+	});
+
+	// TODO: Move this out of here this is such a disaster waiting to come
+	var categories = {
+		"shirts": 11,
+		"tshirts": 2,
+		"pants": 12,
+		
+		"audio": 3,
+		"decals": 13,
+		"models": 10,
+		"places": 9,
+	}
+
+	ANORRL.Create.GrabAssets(categories[url]);
+});
+

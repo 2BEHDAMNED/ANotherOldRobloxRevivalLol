@@ -16,6 +16,10 @@
 	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
 
 	RewriteRule ^Login/Negotiate.ashx$ /core/authentication/negotiate.php [END]
+	RewriteRule ^Login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
+	RewriteRule ^login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
+	RewriteRule ^game/GetCurrentUser.ashx$ /core/authentication/getcurrentuser.php [END]
+	RewriteRule ^Game/GetCurrentUser.ashx$ /core/authentication/getcurrentuser.php [END]
 	
 	RewriteRule ^Game/PlaceSpecificScript.ashx$ /core/gamescripts/placespecificscript.php   [END]
 	RewriteRule ^Game/LoadPlaceInfo.ashx$ /core/gamescripts/loadplaceinfo.php   [END]
@@ -44,6 +48,8 @@
 
 	RewriteRule ^api/feeds$ /api/feeds.php								  [END]
 	RewriteRule ^api/logout$ /api/logout.php							  [END]
+	RewriteRule ^game/logout.aspx$ /api/logout.php							  [END]
+	RewriteRule ^Game/logout.aspx$ /api/logout.php							  [END]
 	RewriteRule ^api/user$ /api/user.php							  [END]
 	RewriteRule ^api/stuff$ /api/stuff.php							  [END]
 
@@ -55,6 +61,16 @@
 	RewriteRule ^Friend/AreFriends$ /Friend/AreFriends.php [END]
 
 	RewriteRule ^create/(.*?)$ /core/create.php?type=$1 [END]
+
+	RewriteRule ^UploadMedia/PostImage.aspx /core/uploadmedia/postimage.php [END]
+	RewriteRule ^UploadMedia/UploadVideo.aspx /core/uploadmedia/uploadvideo.php [END]
+
+	RewriteRule ^Sets/SetHandler.ashx /core/sets/setshandler.php [END]
+	RewriteRule ^sets/SetsHandler.ashx /core/sets/setshandler.php [END]
+	RewriteRule ^UploadMedia/UploadVideo.aspx /core/uploadmedia/uploadvideo.php [END]
+
+	RewriteRule ^Game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
+	RewriteRule ^game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 
 	RewriteRule ^core(/.*)?$ /core/error/404.php [END]
 	RewriteRule ^api(/.*)?$ /core/error/404.php  [END]

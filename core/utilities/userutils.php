@@ -192,20 +192,17 @@
 			if(isset($_COOKIE['ANORRLSECURITY'])) {
 				return User::FromSecurityKey(urldecode($_COOKIE['ANORRLSECURITY']));	
 			}
-			elseif(isset($_COOKIE['_ROBLOSECURITY'])) {
-				return User::FromSecurityKey(urldecode($_COOKIE['_ROBLOSECURITY']));
-			}
 
 			return null;
 		}
 
 		static function SetCookies(string $security): void {
-			setcookie(".ROBLOSECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
+			unset($_COOKIE['ANORRLSECURITY']);
 			setcookie("ANORRLSECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
 		}
 
 		public static function RemoveCookies(): void {
-			setcookie(".ROBLOSECURITY", "", -1, "/", $_SERVER['SERVER_NAME']);
+			unset($_COOKIE['ANORRLSECURITY']);
 			setcookie("ANORRLSECURITY", "", -1, "/", $_SERVER['SERVER_NAME']);
 		}
 
