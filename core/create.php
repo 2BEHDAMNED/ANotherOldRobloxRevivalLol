@@ -4,6 +4,11 @@
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
 	$user = UserUtils::RetrieveUser();
 
+	$type = "none";
+	if(isset($_GET['type'])) {
+		$type = $_GET['type'];
+	}
+
 	if($user == null) {
 		die(header("Location: /"));
 	}
@@ -11,7 +16,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Your Stuff - ANORRL</title>
+		<title>Create - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css">
 		<script src="/js/jquery.js"></script>
@@ -32,12 +37,12 @@
 
 			#StuffContainer #StuffNavigation {
 				border: 2px solid black;
+				border-right: none;
 				background: #222;
 				width:184px;
 				display: inline-block;
 				vertical-align: top;
-				border-top: 0;
-				
+				border-top: 0;	
 			}
 
 			#StuffNavigation ul {
@@ -57,15 +62,12 @@
 			#AssetsContainer {
 				display: inline-block;
 				border: 2px solid black;
-				border-left: none;
+				
 				min-height: 180px;
 				width: 676px;
 				background: #222;
 				vertical-align: middle;
-
 				white-space: nowrap;
-				border-top: 0;
-				position: relative;
 			}
 
 			#AssetsContainer table {
@@ -85,24 +87,6 @@
 				width: 30px;
 				height: 13px;
 				text-align: center;
-			}
-
-			#StuffNavigation #CreateArea {
-				display: block;
-				width: 100%;
-				padding: 5px 0px;
-				background: #111;
-				font-weight: bold;
-				text-align: center;
-			}
-			
-			#StuffNavigation #CreateArea a {
-				display: inline-block;
-				width: 45%;
-			}
-
-			#StuffNavigation #CreateArea a[disabled] {
-				color: gray;
 			}
 
 			.Asset {
@@ -193,6 +177,34 @@
 				text-align: center;
 				line-height: 180px;
 			}
+
+			#CreationPanel {
+				display:inline-block;
+				width: 688px;
+			}
+
+			#CreationPanel #UploadPanel {
+				display: inline-block;
+				border: 2px solid black;
+				min-height: 180px;
+				width: 676px;
+				background: #222;
+				vertical-align: middle;
+
+				white-space: nowrap;
+				border-top: 0;
+				position: relative;
+				margin-bottom: 15px;
+			}
+
+			#CreationPanel h3 {
+				margin: 0;
+				padding-right: 0px;
+				width: 658px;
+				background: #151515;
+				border-bottom: 2px solid black;
+				
+			}
 		</style>
 	</head>
 	<body>
@@ -212,16 +224,9 @@
 			<div id="Body">
 				<div id="BodyContainer">
 					<div id="StuffContainer">
-						<h1>Your Stuff</h1>
-						<div id="StuffNavigation">
-							<div id="CreateArea">
-								<a href="/create/">Create</a>
-								<a href="/catalog">Shop</a>
-							</div>
-							
+						<h1>Creation Panel</h1>
+						<div id="StuffNavigation">							
 							<ul>
-								<li data_category="8" ><a>Hats</a></li>
-								<li data_category="18"><a>Faces</a></li>
 								<li data_category="11"><a>Shirts</a></li>
 								<li data_category="2" ><a>T-Shirts</a></li>
 								<li data_category="12"><a>Pants</a></li>
@@ -230,24 +235,45 @@
 								<li data_category="13"><a>Decals</a></li>
 								<li data_category="10"><a>Models</a></li>
 								<li data_category="9" ><a>Places</a></li>
-								<hr>
-								<li data_category="19"><a>Gears</a></li>
-								<li data_category="21"><a>Badges</a></li>
-								<li data_category="34"><a>Gamepasses</a></li>
-								<li data_category="32"><a>Packages</a></li>
 							</ul>
-						</div><div id="AssetsContainer">
-							<div id="StatusText">
-								<b id="Loading" style="display: none">Loading assets...</b>
-								<b id="NoAssets" style="display: none">You have no <span id="AssetType"></span>!</b>
+						</div><div id="CreationPanel">
+							
+							<div id="UploadPanel">
+								<h3>Upload Item</h3>
+								<form>
+									<table>
+										<tr>
+											<td>Name</td>
+											<td><input></td>
+										</tr>
+										<tr>
+											<td>Description</td>
+											<td><textarea></textarea></td>
+										</tr>
+										<tr>
+											<td>File</td>
+											<td><input type="file"></td>
+										</tr>
+										<tr>
+											<td><input type="submit" value="Upload"></td>
+										</tr>
+									</table>
+								</form>
 							</div>
-						
-							<table hidden></table>
+							<div id="AssetsContainer">
+								<div id="StatusText">
+									<b id="Loading" style="display: none">Loading assets...</b>
+									<b id="NoAssets" style="display: none">You have no <span id="AssetType"></span>!</b>
+								</div>
+							
+								<table hidden></table>
 
-							<div id="Paginator" style="display: none">
-								<a href="" id="PrevPager">&lt;&lt;Previous</a> Page <input maxlength="4"> of <span id="Pages">1</span> <a href="" id="NextPager">Next&gt;&gt;</a>
+								<div id="Paginator" style="display: none">
+									<a href="" id="PrevPager">&lt;&lt;Previous</a> Page <input maxlength="4"> of <span id="Pages">1</span> <a href="" id="NextPager">Next&gt;&gt;</a>
+								</div>
 							</div>
 						</div>
+						
 					</div>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>

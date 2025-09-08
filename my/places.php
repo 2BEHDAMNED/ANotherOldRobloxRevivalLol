@@ -27,7 +27,7 @@
 			#StuffContainer h1 {
 				margin-bottom: 0px;
 				margin-top: 5px;
-				width:826px;
+				width:828px;
 			}
 
 			#StuffContainer #StuffNavigation {
@@ -59,9 +59,11 @@
 				border: 2px solid black;
 				border-left: none;
 				min-height: 180px;
-				width: 676px;
+				width:826px;
 				background: #222;
 				vertical-align: middle;
+
+				padding: 5px 20px;
 
 				white-space: nowrap;
 				border-top: 0;
@@ -104,83 +106,6 @@
 			#StuffNavigation #CreateArea a[disabled] {
 				color: gray;
 			}
-
-			.Asset {
-				border: 2px solid black;
-				width: 135px;
-				padding: 10px;
-				background: #1a1a1a;
-				font-size: 0px;
-			}
-
-			.Asset #NameAndThumbs {
-				display: block;
-			}
-
-			.Asset #NameAndThumbs > img {
-				border: 2px solid black;
-				display: block;
-				width: 130px;
-				height: 130px;
-				background: #222;
-			}
-
-			.Asset #NameAndThumbs > span {
-				display: block;
-				font-weight: bold;
-			}
-
-			.Asset > a > span {
-				margin: 6px 5px;
-				margin-bottom: 0px;
-				display:block;
-				font-size: 12px;
-			}
-
-			.Asset > a:hover {
-				text-decoration: none;
-			}
-			.Asset > a:hover > span {
-				text-decoration: underline;
-			}
-
-			.Asset #Creator,
-			.Asset #Creator span {
-				margin-top: 0px;
-			}
-
-			.Asset #Pricing {
-				background: #313131;
-				border: 2px solid black;
-				border-top: 0px;
-				padding: 5px;
-				width: 120px;
-				color: white;
-				text-decoration: none;
-				white-space: none;
-			}
-
-			.Asset #Pricing > span > img {
-				border: 0;
-				width: 16px;
-				height: 16px;
-				image-rendering: pixelated;
-				margin-bottom: -3px;
-				position: relative;
-				display: unset;
-			}
-
-			.Asset #Pricing > span {
-				display:inline-block;
-				width: 50%;
-				padding-left: 4px;
-				font-size: 12px;
-			}
-
-			.Asset[template] {
-				display: none;
-			}
-
 			#AssetsContainer table[hidden] {
 				display: none;
 			}
@@ -196,50 +121,16 @@
 		</style>
 	</head>
 	<body>
-		<div class="Asset" template>
-			<a id="NameAndThumbs">
-				<img src="/images/avatar.png">
-				<div id="Pricing">
-					<span id="Cones" ><img src="/images/icons/traffic_cone.png" > 100</span>
-					<span id="Lights"><img src="/images/icons/traffic_light.png"> 100</span>
-				</div>
-				<span>AssetName</span>
-			</a>
-			<a id="Creator"><span>AssetCreator</span></a>
-		</div>
 		<div id="Container">
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
 					<div id="StuffContainer">
-						<h1>Your Stuff</h1>
-						<div id="StuffNavigation">
-							<div id="CreateArea">
-								<a href="/create/">Create</a>
-								<a href="/catalog">Shop</a>
-							</div>
-							
-							<ul>
-								<li data_category="8" ><a>Hats</a></li>
-								<li data_category="18"><a>Faces</a></li>
-								<li data_category="11"><a>Shirts</a></li>
-								<li data_category="2" ><a>T-Shirts</a></li>
-								<li data_category="12"><a>Pants</a></li>
-								<hr>
-								<li data_category="3" ><a>Audio</a></li>
-								<li data_category="13"><a>Decals</a></li>
-								<li data_category="10"><a>Models</a></li>
-								<li data_category="9" ><a>Places</a></li>
-								<hr>
-								<li data_category="19"><a>Gears</a></li>
-								<li data_category="21"><a>Badges</a></li>
-								<li data_category="34"><a>Gamepasses</a></li>
-								<li data_category="32"><a>Packages</a></li>
-							</ul>
-						</div><div id="AssetsContainer">
+						<h1>Your Places</h1>
+						<div id="AssetsContainer">
 							<div id="StatusText">
-								<b id="Loading" style="display: none">Loading assets...</b>
-								<b id="NoAssets" style="display: none">You have no <span id="AssetType"></span>!</b>
+								<b id="Loading" style="display: none">Loading your places...</b>
+								<b id="NoAssets" style="display: none">You have no places!</b>
 							</div>
 						
 							<table hidden></table>
