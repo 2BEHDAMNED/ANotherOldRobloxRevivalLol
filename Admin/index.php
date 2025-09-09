@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
 		<title>ANORRL | Administration</title>
-		<link id="ctl00_Imports" rel="stylesheet" type="text/css" href="/CSS/AllCSS.css">
+		<link id="ctl00_Imports" rel="stylesheet" type="text/css" href="/css/AllCSS.css?t=<?= time() ?>">
 		<link id="ctl00_Favicon" rel="Shortcut Icon" type="image/ico" href="/favicon.ico">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<script src="/js/jquery.js" type="text/javascript"></script>

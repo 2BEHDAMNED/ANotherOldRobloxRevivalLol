@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>ANORRL</title>
-		<link rel="stylesheet" type="text/css" href="/css/AllCSS.css"></link>
+		<link rel="stylesheet" type="text/css" href="/css/AllCSS.css?t=<?= time() ?>"></link>
 		<style>
 			body {
 				color: white;

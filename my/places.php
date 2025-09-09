@@ -13,7 +13,7 @@
 	<head>
 		<title>Your Stuff - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css">
+		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js"></script>
 		<script src="/js/stuff.js"></script>
