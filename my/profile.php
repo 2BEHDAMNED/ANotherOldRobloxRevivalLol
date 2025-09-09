@@ -37,23 +37,11 @@
 		</style>
 	</head>
 	<body>
-		<table id="FeedItem" class="template">
-			<td class="User">
-				<a href="">
-					<img src="/images/avatar.png">
-					<div id="Name">Name here</div>
-				</a>
-			</td>
-			<td id="Content">
-				<code>Content content</code>
-				<div id="DatePosted">Posted <span id="Date">DD/MM/YYYY</span> ago</div>
-			</td>
-		</table>
 		<div id="Container">
-		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
+		    <?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-                    
+
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 			</div>
