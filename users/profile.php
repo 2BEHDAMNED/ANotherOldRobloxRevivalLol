@@ -111,6 +111,7 @@
 				padding: 10px;
 				margin-top: 5px;
 				height: 110px;
+				overflow: auto;
 			}
 
 			#UserInfoContainer #Stats div > a {
@@ -355,7 +356,7 @@
 											if(strlen($get_user->blurb) == 0) {
 												echo "<b>This user has no blurb!</b>";
 											} else {
-												echo $get_user->blurb;
+												echo str_replace(PHP_EOL, "<br>", $get_user->blurb);
 											}
 										?>
 									</div>

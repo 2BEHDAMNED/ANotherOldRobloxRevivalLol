@@ -331,10 +331,11 @@
 			if(!$this->IsBanned()) {
 				// check if user hasn't posted one in 30s
 
-				$offset = 3600; // windows blehh
-				//$offset = -3600; //prod
+				//$offset = 3600; // windows blehh
+				$offset = -3600; //prod
 
-				$difference = (time()-($this->last_update->getTimestamp()+$offset));
+
+				$difference = (time()-($this->last_update->getTimestamp()+$this->last_update->getOffset()+$offset));
 
 				//die(strval($difference));
 

@@ -45,8 +45,8 @@
 				if($latest_status != null) {
 					// check if user hasn't posted one in 30s
 
-					$offset = 3600; // windows blehh
-					//$offset = -3600; //prod
+					//$offset = 3600; // windows blehh
+					$offset = -3600; //prod
 
 					$difference = (time()-($latest_status->time_posted->getTimestamp()+$offset));
 
