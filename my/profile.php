@@ -9,19 +9,20 @@
 	}
 
 
-	if(isset($_POST['ANORRL$Home$Status$Text']) &&
-	   isset($_POST['ANORRL$Home$Status$Submit'])) {
-		$result = Status::Send($user->id, trim($_POST['ANORRL$Home$Status$Text']));
+	if(isset($_POST['ANORRL$Update$Profile$Bio']) &&
+	   isset($_POST['ANORRL$Update$Profile$Submit'])) {
+		
+		$result = $user->UpdateBio(trim($_POST['ANORRL$Update$Profile$Bio']));
 
 		if($result['error']) {
 			$_SESSION['ANORRL$Home$StatusError'] = true;
 			$_SESSION['ANORRL$Home$StatusResult'] = $result['reason'];
+			die(header("Location: /my/profile"));
 		} else {
-			$_SESSION['ANORRL$Home$StatusError'] = false;
-			$_SESSION['ANORRL$Home$StatusResult'] = "Success!";
+			die(header("Location: /users/".$user->id."/profile"));
 		}
 
-		die(header("Location: /my/home"));
+		
 	}
 ?>
 <!DOCTYPE html>
@@ -33,15 +34,26 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js"></script>
 		<style>
-
 		</style>
 	</head>
 	<body>
 		<div id="Container">
-		    <?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
+			<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-
+					<form method="POST" class="FormBox">
+						<div id="DetailsBox">
+							<h3>About yourself</h3>
+							<div id="FormStuff">
+								<?php if(isset($_SESSION['ANORRL$Home$StatusError']) && $_SESSION['ANORRL$Home$StatusError']): ?>
+								<div id="ErrorTime">Error: <?= $_SESSION['ANORRL$Home$StatusResult'] ?></div>
+								<?php endif ?>
+								<span>Who are you? What do you like etc etc</span>
+								<textarea name="ANORRL$Update$Profile$Bio"><?= $user->blurb ?></textarea>
+								<input type="submit" value="Update" name="ANORRL$Update$Profile$Submit">
+							</div>
+						</div>
+					</form>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 			</div>

@@ -12,6 +12,7 @@
 		public string $blurb;
 		public string $password;
 		public string $security_key;
+		public DateTime $last_update;
 		public DateTime $join_date;
 		
 		/**
@@ -67,6 +68,7 @@
 			$this->id = intval($rowdata['user_id']);
 			$this->name = strval($rowdata['user_name']);
 			$this->blurb = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['user_blurb']));
+			$this->last_update = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['user_lastprofileupdate']);
 			$this->join_date = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['user_joindate']);
 			
 			$this->password = strval($rowdata['user_password']);
@@ -323,6 +325,41 @@
 			$result = $stmt_getuser->get_result();
 
 			return $result->num_rows != 0;
+		}
+
+		function UpdateBio(string $bio): array {
+			if(!$this->IsBanned()) {
+				// check if user hasn't posted one in 30s
+
+				$offset = 3600; // windows blehh
+				//$offset = -3600; //prod
+
+				$difference = (time()-($this->last_update->getTimestamp()+$offset));
+
+				//die(strval($difference));
+
+				$calculated_time = 30 - $difference; 
+
+				if($difference < 30) {
+					return ["error"=> true, "reason" => "You need to wait $calculated_time seconds before updating again."];
+				}
+
+				$blockedchars = array('𒐫', '‮', '﷽', '𒈙', '⸻ ', '꧅');
+				$bio_content = str_replace($blockedchars, '', trim($bio));
+
+				if(strlen($bio_content) > 1000) {
+					return ["error"=> true, "reason" => "Status was too long! (1000 characters maximum)"];
+				}
+
+				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+				$stmt = $con->prepare('UPDATE `users` SET `user_blurb` = ?, `user_lastprofileupdate` = now() WHERE `user_id` = ?;');
+				$stmt -> bind_param('si',  $bio_content, $this->id);
+				$stmt -> execute();
+
+				return ["error" => false];
+			} else {
+				return ["error"=> true, "reason" => "Unauthorized."];
+			}
 		}
 
 		/**

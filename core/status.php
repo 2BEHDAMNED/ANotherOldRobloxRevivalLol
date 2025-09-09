@@ -67,7 +67,7 @@
 					return ["error"=> true, "reason" => "Status was too short! (4 characters minimum)"];
 				}
 				if(strlen($status_content) > 64) {
-					return ["error"=> true, "reason" => "Status was too long! (64 characters minimum)"];
+					return ["error"=> true, "reason" => "Status was too long! (64 characters maximum)"];
 				}
 
 				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";

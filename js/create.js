@@ -24,7 +24,6 @@ var categoryFileTypes = {
 	9: ".rbxl",
 }
 
-
 ANORRL.Create  = {
 	CurrentPage: 1,
 	AdvanceFeed: function() {
@@ -168,7 +167,6 @@ $(function(){
 		"shirts": 11,
 		"tshirts": 2,
 		"pants": 12,
-		
 		"audio": 3,
 		"decals": 13,
 		"models": 10,
