@@ -129,6 +129,8 @@
 		public int         $cost_cones;
 		public int         $sales_count;
 
+		public bool         $notcatalogueable;
+
 		public DateTime    $last_updatetime;
 		public DateTime    $created_at;
 
@@ -163,6 +165,8 @@
 				$this->cost_lights = intval($rowdata['asset_cost_lights']);
 				$this->cost_cones =  intval($rowdata['asset_cost_cones']);
 				$this->sales_count = intval($rowdata['asset_sales_count']);
+
+				$this->notcatalogueable = boolval($rowdata['asset_nevershow']);
 	
 				$this->last_updatetime = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['asset_lastedited']);
 				$this->created_at      = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['asset_created']);	
