@@ -2,12 +2,56 @@
 	session_start();
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/assetuploader.php';
 	$user = UserUtils::RetrieveUser();
 
 	$type = "none";
 	if(isset($_GET['type'])) {
-		$type = $_GET['type'];
+		$type = trim(strtolower($_GET['type']));
 	}
+
+	$validtypes = [
+		"shirts",
+		"tshirts",
+		"pants",
+
+		"audio",
+		"decals",
+		"models",
+		"places"
+	];
+
+	if(count($_POST) != 0) {
+		if(in_array($type, $validtypes)) {
+			if(isset($_POST['ANORRL$CreateAsset$Name']) &&
+				isset($_POST ['ANORRL$CreateAsset$Description']) &&
+				isset($_FILES['ANORRL$CreateAsset$File']) &&
+				isset($_POST ['ANORRL$CreateAsset$Submit'])) {
+
+				$name = trim($_POST['ANORRL$CreateAsset$Name']);
+				$description = trim($_POST['ANORRL$CreateAsset$Description']);
+				
+				if($type == "decals") {
+					$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+				} else {
+					die("type found but not handled...");
+				}
+
+				if(isset($result)) {
+					if($result['error']) {
+						$_SESSION['ANORRL$CreateAsset$Error'] = true;
+						$_SESSION['ANORRL$CreateAsset$Result'] = $result['reason'];
+					} else {
+						$_SESSION['ANORRL$CreateAsset$Error'] = false;
+						$_SESSION['ANORRL$CreateAsset$Result'] = $result['id'];
+					}
+					die(header("Location: /create/".$type));
+				}
+			}
+		}
+	}
+	
+	
 
 	if($user == null) {
 		die(header("Location: /"));
@@ -23,161 +67,11 @@
 		<script src="/js/main.js"></script>
 		<script src="/js/create.js"></script>
 		<style>
-			#StuffContainer {
-				width: 876px;
-				margin: 0 auto;
-				margin-bottom: 15px;
-			}
-
-			#StuffContainer h1 {
-				margin-bottom: 0px;
-				margin-top: 5px;
-				width:826px;
-			}
-
 			#StuffContainer #StuffNavigation {
-				border: 2px solid black;
 				border-right: none;
-				background: #222;
-				width:184px;
-				display: inline-block;
-				vertical-align: top;
-				border-top: 0;	
 			}
-
-			#StuffNavigation ul {
-				list-style: none;
-				padding: 15px;
-				margin: 0;
-			}
-
-			#StuffNavigation hr {
-				border: 0;
-			}
-
-			#StuffNavigation ul > li[selected] a {
-				font-weight: bold;
-				text-decoration: underline;
-				color: #ffc63f;
-			}
-
 			#AssetsContainer {
-				display: inline-block;
 				border: 2px solid black;
-				
-				min-height: 180px;
-				width: 676px;
-				background: #222;
-				vertical-align: middle;
-				white-space: nowrap;
-			}
-
-			#AssetsContainer table {
-				min-height: 180px;
-				padding: 5px;
-			}
-
-			#AssetsContainer #Paginator {
-				display: block;
-				background: #111111;
-				padding: 10px;
-				text-align: center;
-			}
-
-			#AssetsContainer #Paginator input {
-				font-size: 12px;
-				width: 30px;
-				height: 13px;
-				text-align: center;
-			}
-
-			.Asset {
-				border: 2px solid black;
-				width: 135px;
-				padding: 10px;
-				background: #1a1a1a;
-				font-size: 0px;
-			}
-
-			.Asset #NameAndThumbs {
-				display: block;
-			}
-
-			.Asset #NameAndThumbs > img {
-				border: 2px solid black;
-				display: block;
-				width: 130px;
-				height: 130px;
-				background: #222;
-			}
-
-			.Asset #NameAndThumbs > span {
-				display: block;
-				font-weight: bold;
-			}
-
-			.Asset > a > span {
-				margin: 6px 5px;
-				margin-bottom: 0px;
-				display:block;
-				font-size: 12px;
-			}
-
-			.Asset > a:hover {
-				text-decoration: none;
-			}
-			.Asset > a:hover > span {
-				text-decoration: underline;
-			}
-
-			.Asset #Creator,
-			.Asset #Creator span {
-				margin-top: 0px;
-			}
-
-			.Asset #Pricing {
-				background: #313131;
-				border: 2px solid black;
-				border-top: 0px;
-				padding: 5px;
-				width: 120px;
-				color: white;
-				text-decoration: none;
-				white-space: none;
-			}
-
-			.Asset #Pricing > span > img {
-				border: 0;
-				width: 16px;
-				height: 16px;
-				image-rendering: pixelated;
-				margin-bottom: -3px;
-				position: relative;
-				display: unset;
-			}
-
-			.Asset #Pricing > span {
-				display:inline-block;
-				width: 50%;
-				padding-left: 4px;
-				font-size: 12px;
-			}
-
-			.Asset[template] {
-				display: none;
-			}
-
-			#AssetsContainer table[hidden] {
-				display: none;
-			}
-
-			#AssetsContainer #Loading, 
-			#AssetsContainer #NoAssets {
-				font-size: 18px;
-				width: 100%;
-				display: block;
-				text-align: center;
-				line-height: 180px;
 			}
 
 			#CreationPanel {
@@ -256,8 +150,21 @@
 				font-weight: bold;
 			}
 
+			#UploadPanel #ErrorTime,
+			#UploadPanel #SuccessTime,
+			#UploadPanel #InfoWarning {
+				padding: 5px 9px;
+				border-bottom: 2px solid black;
+				background: #9d0000;
+				font-weight: bold;
+			}
+
 			#UploadPanel #InfoWarning {
 				background: #b58b05;
+			}
+
+			#UploadPanel #SuccessTime {
+				background: #080;
 			}
 
 			#CreationPanel h3 {
@@ -273,14 +180,13 @@
 	<body>
 		<div class="Asset" template>
 			<a id="NameAndThumbs">
-				<img src="/images/avatar.png">
+				<img src="">
 				<div id="Pricing">
 					<span id="Cones" ><img src="/images/icons/traffic_cone.png" > 100</span>
 					<span id="Lights"><img src="/images/icons/traffic_light.png"> 100</span>
 				</div>
 				<span>AssetName</span>
 			</a>
-			<a id="Creator"><span>AssetCreator</span></a>
 		</div>
 		<div id="Container">
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
@@ -304,7 +210,13 @@
 							<div id="UploadPanel">
 								<h3>Upload <span id="TypaLabel"></span></h3>
 								<div id="InfoWarning" style="display: none;">Must be in XML format NOT BINARY.</div>
-								<div id="ErrorTime" style="display: none;">Error: <span id="Message">you upload too much it makes me sad :(</span></div>
+								<?php if(isset($_SESSION['ANORRL$CreateAsset$Error']) && isset($_SESSION['ANORRL$CreateAsset$Result'])): ?>
+									<?php if($_SESSION['ANORRL$CreateAsset$Error']): ?>
+									<div id="ErrorTime">Error: <span id="Message"><?= $_SESSION['ANORRL$CreateAsset$Result'] ?></span></div>
+									<?php else: ?>
+									<div id="SuccessTime">Success! <span id="Message"><?= $_SESSION['ANORRL$CreateAsset$Result'] ?></span></div>
+									<?php endif ?>
+								<?php endif ?>
 								<form method="POST" enctype="multipart/form-data">
 									<table>
 										<tr>
@@ -317,10 +229,10 @@
 										</tr>
 										<tr>
 											<td>File</td>
-											<td><label for="files">Choose file</label><input id="files" style="display:none;" type="file" required><label id="filename">No file chosen</label></td>
+											<td><label for="files">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$CreateAsset$File" required><label id="filename">No file chosen</label></td>
 										</tr>
 										<tr>
-											<td><input type="submit" value="Upload" style="margin-top:10px"></td>
+											<td><input type="submit" value="Upload" style="margin-top:10px" name="ANORRL$CreateAsset$Submit"></td>
 										</tr>
 									</table>
 								</form>
@@ -346,3 +258,8 @@
 		</div>
 	</body>
 </html>
+
+<?php
+	unset($_SESSION['ANORRL$CreateAsset$Error']);
+	unset($_SESSION['ANORRL$CreateAsset$Result']);
+?>

@@ -90,7 +90,7 @@ ANORRL.Create  = {
 			var current_page = ANORRL.Create.CurrentPage;
 			var total_pages = data['total_pages'];
 
-			var index = 0;
+			
 
 			if(assets.length == 0) {
 				if(pagercontainer.css("display") == "block") {
@@ -103,21 +103,56 @@ ANORRL.Create  = {
 
 				
 			} else {
+				loadingMessage.css("display", "none");
 				if(pagercontainer.css("display") == "none") {
 					pagercontainer.css("display", "block");
 				}
+
+				var index = 0;
+				var rowIndex = 0;
 				
 				for (var key in assets) {
+					if(index % 4 == 0 || index == 0) {
+						feedscontainer.append($("<tr></tr>"));
+						if(index % 4 == 0  && index != 0) {
+							rowIndex++;
+						}
+					} 
+
 					var asset = assets[key];
 
+					var td = $("<td></td>");
 					var template = $($(".Asset[template]").clone().prop('outerHTML'));
+					td.append(template);
 					template.removeAttr("template");
-					
-					// implement details
 
-					feedscontainer.append($(template));
+					if(asset['cost']['cones'] + asset['cost']['lights'] == 0) {
+						template.find("#Pricing").children().each(function() {
+							$(this).remove();
+						});
+						template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"))
+					} else {
 
-					index += 1;
+						template.find("#Pricing").attr("oneprice", "true");
+
+						if(asset['cost']['cones'] == 0) {
+							template.find("#Pricing").find("#Cones").remove();
+						}
+
+						if(asset['cost']['lights'] == 0) {
+							template.find("#Pricing").find("#Lights").remove();
+						}
+					}
+
+					template.find("#NameAndThumbs > img").attr("src", "/thumbs/?id="+asset['id']+"&sxy=130");
+
+					template.find("#NameAndThumbs > span").html(asset['name']);
+					template.find("#NameAndThumbs").attr("href", "/"+asset['name'].replaceAll(" ", "-").toLowerCase()+"-item?id="+asset['id']);
+
+					feedscontainer.removeAttr("hidden");
+					$(feedscontainer.find("tr")[rowIndex]).append(td);
+
+					index++;
 				}
 
 				if(current_page == 1) {

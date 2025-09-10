@@ -14,6 +14,16 @@ if (!Object.keys) {
 	};
 }
 
+var allowedcategories = {
+	"shirts": 11,
+	"tshirts": 2,
+	"pants": 12,
+	"audio": 3,
+	"decals": 13,
+	"models": 10,
+	"places": 9,
+}
+
 ANORRL.Stuff  = {
 	CurrentPage: 1,
 	AdvanceFeed: function() {
@@ -53,6 +63,15 @@ ANORRL.Stuff  = {
 		});
 
 		$("li[data_category="+category+"]").attr("selected", "");
+		if(allowedcategories[$("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", "")] != undefined) {
+			$($("#CreateArea").find("a")[0]).removeAttr("disabled");
+			$($("#CreateArea").find("a")[0]).attr("href","/create/"+$("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", ""));
+		} else {
+			$($("#CreateArea").find("a")[0]).removeAttr("href");
+			$($("#CreateArea").find("a")[0]).attr("disabled", "true");
+		}
+		
+		ChangeUrl("", "/my/stuff#"+$("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", ""));
 
 		$.get("/api/stuff", {c: category, p : page}, function(data) {
 			
@@ -61,7 +80,7 @@ ANORRL.Stuff  = {
 			var current_page = ANORRL.Stuff.CurrentPage;
 			var total_pages = data['total_pages'];
 
-			var index = 0;
+			feedscontainer.attr("hidden", true);
 
 			if(assets.length == 0) {
 				if(pagercontainer.css("display") == "block") {
@@ -74,21 +93,58 @@ ANORRL.Stuff  = {
 
 				
 			} else {
+				loadingMessage.css("display", "none");
 				if(pagercontainer.css("display") == "none") {
 					pagercontainer.css("display", "block");
 				}
+
+				var index = 0;
+				var rowIndex = 0;
 				
 				for (var key in assets) {
+					if(index % 4 == 0 || index == 0) {
+						feedscontainer.append($("<tr></tr>"));
+						if(index % 4 == 0  && index != 0) {
+							rowIndex++;
+						}
+					} 
+
 					var asset = assets[key];
 
+					var td = $("<td></td>");
 					var template = $($(".Asset[template]").clone().prop('outerHTML'));
+					td.append(template);
 					template.removeAttr("template");
+
+					if(asset['cost']['cones'] + asset['cost']['lights'] == 0) {
+						template.find("#Pricing").children().each(function() {
+							$(this).remove();
+						});
+						template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"))
+					} else {
+
+						template.find("#Pricing").attr("oneprice", "true");
+
+						if(asset['cost']['cones'] == 0) {
+							template.find("#Pricing").find("#Cones").remove();
+						}
+
+						if(asset['cost']['lights'] == 0) {
+							template.find("#Pricing").find("#Lights").remove();
+						}
+					}
+
+					template.find("#NameAndThumbs > span").html(asset['name']);
+					template.find("#NameAndThumbs").attr("href", "/item?id="+asset['id']);
 					
+					template.find("#Creator > span").html(asset['creator']['name']);
+					template.find("#Creator").attr("href", "/users/"+asset['creator']['id']+"/profile");
+
 					// implement details
+					feedscontainer.removeAttr("hidden");
+					$(feedscontainer.find("tr")[rowIndex]).append(td);
 
-					feedscontainer.append($(template));
-
-					index += 1;
+					index++;
 				}
 
 				if(current_page == 1) {
@@ -110,10 +166,47 @@ ANORRL.Stuff  = {
 	}
 }
 
+function ChangeUrl(title, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Title: title, Url: url };
+        history.pushState(obj, obj.Title, obj.Url);
+    } else {
+        window.location.href = url;
+    }
+}
+
 $(function(){
+
+	
 
 	$("li[data_category]").on("click",function() {
 		ANORRL.Stuff.GrabAssets($(this).attr("data_category"), ANORRL.Stuff.CurrentPage);
 	});
-	ANORRL.Stuff.GrabAssets();
+
+	if(window.location.hash != "") {
+		var url = window.location.hash;
+		url = url.replaceAll("#", "").replaceAll("/","");
+		var categories = {
+			"hats": 8,
+			"faces": 18,
+			"shirts": 11,
+			"tshirts": 2,
+			"pants": 12,
+
+			"audio": 3,
+			"decals": 13,
+			"models": 10,
+			"places": 9,
+
+			"gears": 19,
+			"badges": 21,
+			"gamepasses": 34,
+			"packages": 32,
+		}
+
+		ANORRL.Stuff.GrabAssets(categories[url]);
+	} else {
+		ANORRL.Stuff.GrabAssets();
+	}
+	
 });

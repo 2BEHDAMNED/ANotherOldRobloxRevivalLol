@@ -151,7 +151,7 @@
 
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
-					array_push($result_array, $row);
+					array_push($result_array, Asset::FromID($row['ta_asset']));
 				}
 				return $result_array;
 			}

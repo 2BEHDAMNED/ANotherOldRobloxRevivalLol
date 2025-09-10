@@ -72,11 +72,15 @@
 	RewriteRule ^Game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 	RewriteRule ^game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 
+	RewriteCond %{QUERY_STRING} id=(.+)
+	RewriteRule ^(.*)-item$ item.php?name=$1&id=%1 [QSD,END]
+
+	RewriteRule ^item.php$ /core/error/404.php [END]
+	RewriteRule ^README.md$ /core/error/404.php [END]
+
 	RewriteRule ^core(/.*)?$ /core/error/404.php [END]
 	RewriteRule ^api(/.*)?$ /core/error/404.php  [END]
 </IfModule>
 
 DirectoryIndex index.php index.html Default.aspx Default.aspx.php
 ErrorDocument 404 /core/error/404.php
-
-AddType text/x-component .htc

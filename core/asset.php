@@ -136,7 +136,7 @@
 
 		public static function FromID(int $id): Asset|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `users` WHERE `user_id` = ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_id` = ?");
 			$stmt_getuser->bind_param('i', $id);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
@@ -156,7 +156,7 @@
 				$this->name = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['asset_name']));
 				$this->description = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['asset_description']));
 				$this->public = boolval($rowdata['asset_public']);
-				$this->status = AssetStatus::index(intval($rowdata['asset_type']));
+				$this->status = AssetStatus::index(intval($rowdata['asset_status']));
 	
 				$this->favourites_count = intval( $rowdata['asset_favourites_count']);
 				$this->comments_enabled = boolval($rowdata['asset_comments_enabled']);

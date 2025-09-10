@@ -36,8 +36,8 @@
 							"name" => $asset->creator->name
 						],
 						"cost" => [
-							"cones" => 0,
-							"lights" => 0
+							"cones" => $asset->cost_cones,
+							"lights" => $asset->cost_lights
 						]
 					]);
 				}

@@ -196,25 +196,5 @@
 			$result_array = [];
 			return $result->num_rows != 0;
 		}
-		
-		public static function GetAllOwnedAssetsFromUser(?int $user_id): array|null {
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` = ?");
-			$stmt_getuser->bind_param('i', $user_id);
-			$stmt_getuser->execute();
-
-			$result = $stmt_getuser->get_result();
-
-			$result_array = [];
-
-			if($result->num_rows != 0) {
-				while($row = $result->fetch_assoc()) {
-					array_push($result_array, $row);
-				}
-				return $result_array;
-			}
-
-			return null;
-		}
 	}
 ?>
