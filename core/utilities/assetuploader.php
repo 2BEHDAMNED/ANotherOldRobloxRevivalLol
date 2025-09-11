@@ -89,8 +89,6 @@
 		public static function UploadDecal(string $name, string $description, array $file) {
 			$user = UserUtils::RetrieveUser();
 
-			
-
 			if($file['error'] == 0) {
 				$original_image = imagecreatefromstring(file_get_contents($file['tmp_name']));
 				list($width, $height) = getimagesize($file['tmp_name']);
@@ -165,16 +163,82 @@
 					$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
 					imagepng($resultimage, $assetsdir);
 					
-					$stmt = $con->prepare("INSERT INTO `assetthumbs`(`thumbs_id`, `thumbs_md5`) VALUES (?, ?);");
-					$stmt->bind_param('is', $image_id, $md5hashfile);
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+					$stmt->bind_param('si', $md5hashfile, $image_id);
 					$stmt->execute();
 
-					$stmt = $con->prepare("INSERT INTO `assetthumbs`(`thumbs_id`, `thumbs_md5`) VALUES (?, ?);");
-					$stmt->bind_param('is', $decal_result['id'], $md5hashfile);
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+					$stmt->bind_param('si', $md5hashfile, $decal_result['id']);
 					$stmt->execute();
 
 					return ["error" => false, "id" => $decal_result['id']];
 				}
+			} else {
+				return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+			}
+		}
+
+		public static function UploadAudio(string $name, string $description, array $file) {
+			$user = UserUtils::RetrieveUser();
+
+			if($file['error'] == 0) {
+
+				$data = file_get_contents($file['tmp_name']);
+
+				if(self::CheckMimeType($data) != "audio/mpeg") {
+					return ["error" => true, "reason" => "Audio file was not mp3!"];
+				}
+
+				// process singular asset
+				$audio_result = self::UploadAsset($user, AssetType::AUDIO, $name, "", false, true, $data);
+				if($audio_result['error']) {
+					return $audio_result;
+				} else {
+					$audio_id = $audio_result['id'];
+					$audio_data = <<<EOT
+					<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://arl.lambda.cam/roblox.xsd" version="4">
+						<External>null</External>
+						<External>nil</External>
+						<Item class="Sound" referent="RBX0">
+							<Properties>
+								<bool name="Looped">false</bool>
+								<string name="Name">Sound</string>
+								<float name="Pitch">1</float>
+								<bool name="PlayOnRemove">false</bool>
+								<Content name="SoundId"><url>>http://arl.lambda.cam/asset/?id=$audio_id</url></Content>
+								<float name="Volume">0.5</float>
+							</Properties>
+						</Item>
+					</roblox>
+					EOT;
+					$decal_result = self::UploadAsset($user, AssetType::DECAL, $name, $description, false, false, $audio_data);
+					if($decal_result['error']) {
+						return $decal_result;
+					}
+
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
+					$ta_id = TransactionUtils::GenerateID();
+					$ta_assettype = AssetType::AUDIO->ordinal();
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
+					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $decal_result['id'], $ta_assettype, $user->id);
+					$stmt_processtransaction->execute();
+
+					$directory = $_SERVER['DOCUMENT_ROOT'];
+					$md5hashfile = "sound";
+					
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+					$stmt->bind_param('si', $md5hashfile, $image_id);
+					$stmt->execute();
+
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+					$stmt->bind_param('si', $md5hashfile, $decal_result['id']);
+					$stmt->execute();
+
+					return ["error" => false, "id" => $decal_result['id']];
+				}
+			} else {
+				return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
 			}
 		}
 

@@ -54,7 +54,7 @@
 				1 => AssetType::IMAGE,
 				2 => AssetType::TSHIRT,
 				3 => AssetType::AUDIO,
-				4 => AssetType::LUA,
+				4 => AssetType::MESH,
 				5 => AssetType::LUA,
 				8 => AssetType::HAT,
 				9 => AssetType::PLACE,
@@ -150,7 +150,7 @@
 
 		public static function GetAllUncheckedAssets(): array|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getallusers = $con->prepare("SELECT * FROM `assets` WHERE `asset_status` = 1");
+			$stmt_getallusers = $con->prepare("SELECT * FROM `assets` WHERE `asset_status` = 1 AND `asset_nevershow` = 0");
 			$stmt_getallusers->execute();
 			$result = $stmt_getallusers->get_result();
 			$result_array = array();
@@ -215,6 +215,32 @@
 				$this->last_updatetime = $asset_data->last_updatetime;
 				$this->created_at      = $asset_data->created_at;	
 			}
+		}
+
+		function GetVersionID(): int {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id`");
+			$stmt->bind_param("i", $this->id);
+			$stmt->execute();
+
+			$result = $stmt->get_result();
+			$row = $result->fetch_assoc();
+			return $row["version_id"];
+		}
+
+		function GetMD5HashCurrent(): string {
+			return $this->GetMD5Hash($this->GetVersionID());
+		}
+
+		function GetMD5Hash(int $version): string {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `assetversions` WHERE `version_id` = ?");
+			$stmt->bind_param("i", $version);
+			$stmt->execute();
+
+			$result = $stmt->get_result();
+			$row = $result->fetch_assoc();
+			return $row["version_md5sig"];
 		}
 
 		function Comment(User|int $user, string $content) {}

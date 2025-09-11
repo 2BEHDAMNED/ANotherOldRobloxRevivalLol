@@ -53,7 +53,14 @@
 		97188756, // ChatScript
 	];
 
-	$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$id;
+	
+
+	include $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
+
+	$asset = Asset::FromID($id);
+
+	$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset->GetMD5HashCurrent();
+
 	// start using version system (MD5s and allat)
 	if(file_exists($filename)) {
 		$handle = fopen($filename, "r"); 
@@ -70,7 +77,9 @@
 		}
 		
 		echo $contents;
-	} /*else {
+	} else {
+		echo "no file...?";	
+	}/*else {
 		error_reporting(0);
 		$url = 'https://assetdelivery.roblox.com/v1/asset/?id='.$id.'';
 		$ch = curl_init ($url);

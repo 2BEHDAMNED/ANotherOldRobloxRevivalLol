@@ -33,6 +33,8 @@
 				
 				if($type == "decals") {
 					$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+				} else if($type == "audio") {
+					$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 				} else {
 					die("type found but not handled...");
 				}

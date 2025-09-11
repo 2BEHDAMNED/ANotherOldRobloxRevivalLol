@@ -9,15 +9,19 @@
 		if($asset != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-			$stmt = $con->prepare('SELECT * FROM `assetthumbs` WHERE `thumbs_id` = ?');
+			$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
 			$stmt->bind_param('i', $id);
 			$stmt->execute();
 
 			$stmt_result = $stmt->get_result();
 
-			$md5hash = $stmt_result->fetch_assoc()['thumbs_md5'];
+			$md5hash = $stmt_result->fetch_assoc()['version_md5thumb'];
 
-			$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+			if($md5hash == "sound") {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
+			} else {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+			}
 
 			ob_clean();
 
@@ -29,6 +33,7 @@
 
 				$image = imagecreatefromstring($contents);
 				$image = imagescale($image, $size, $size);
+				imagesavealpha($image, true);
 				header("Content-Type: image/png");
 				imagepng($image);
 				
@@ -45,6 +50,7 @@
 
 				$image = imagecreatefromstring($contents);
 				$image = imagescale($image, $sizex, $sizey);
+				imagesavealpha($image, true);
 				
 				header("Content-Type: image/png");
 				imagepng($image);
