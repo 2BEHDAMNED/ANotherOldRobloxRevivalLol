@@ -5,11 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
 		<title>ANORRL | Administration</title>
-		<link id="ctl00_Imports" rel="stylesheet" type="text/css" href="/css/AllCSS.css?t=<?= time() ?>">
-		<link id="ctl00_Favicon" rel="Shortcut Icon" type="image/ico" href="/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="Shortcut Icon" type="image/ico" href="/favicon.ico">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<script src="/js/jquery.js" type="text/javascript"></script>
-		<script src="/js/WebResource.js" type="text/javascript"></script>
 		<style>
 			body {
 				height:100vh;
@@ -26,6 +25,14 @@
 				background:#eaeaea;
 				text-align: center;
 				padding:0px;
+			}
+
+			h4 {
+				background: none;
+				padding: 0px;
+				font-family: Verdana, Geneva, Tahoma, sans-serif;
+				font-weight: bold;
+				font-size: 12px;
 			}
 		</style>
 		<style>
@@ -70,7 +77,7 @@
 	</head>
 	<body>
 		<div id="AdminSidebar">
-			<img src="/images/menus/IOTA128x.png" width="140" style="margin-left:10px;">
+			<img src="/images/header/logo.png" width="140" style="margin-left:10px;">
 			<div style="text-align: left;padding:10px;">
 				<h4 style="margin: 0">You are: <?= "Admin" ?></h4><br>
 				<hr>
@@ -81,7 +88,7 @@
 				<ul id="myUL">
 					<li><span class="caret caret-down">Administration</span>
 						<ul class="nested active">
-							<li><a href="javascript:LoadFrame('approve')">Approve</a></li>
+							<li><a href="javascript:LoadFrame('assets')">Assets</a></li>
 							<li><a href="javascript:LoadFrame('user')">Users</a></li>
 						</ul>
 					</li>
@@ -94,6 +101,12 @@
 			var toggler = document.getElementsByClassName("caret");
 			var i;
 
+			$(function() {
+				$.get("components/getunverifiedassets", function( data ) {
+					$("#unverifiedlabel").html(data);
+				});
+			})
+
 			for (i = 0; i < toggler.length; i++) {
 				toggler[i].addEventListener("click", function() {
 					this.parentElement.querySelector(".nested").classList.toggle("active");
@@ -105,11 +118,11 @@
 				$("#panel").attr("src","/Admin/components/"+page)
 			}
 
-			/*window.setInterval(function() {
-				$.post( "postadmin", { type: "getunverified" }).done(function( data ) {
+			window.setInterval(function() {
+				$.get("components/getunverifiedassets", function( data ) {
 					$("#unverifiedlabel").html(data);
 				});
-			}, 2000);*/
+			}, 2000);
 		</script>
 	</body>
 </html>

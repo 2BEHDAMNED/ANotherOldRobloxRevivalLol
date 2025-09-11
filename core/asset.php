@@ -148,6 +148,28 @@
 			}
 		}
 
+		public static function GetAllUncheckedAssets(): array|null {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getallusers = $con->prepare("SELECT * FROM `assets` WHERE `asset_status` = 1");
+			$stmt_getallusers->execute();
+			$result = $stmt_getallusers->get_result();
+			$result_array = array();
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					if(User::FromID($row['asset_creator']) != null) {
+						if($row['asset_type'] == AssetType::PLACE->ordinal()) {
+							array_push($result_array, new Place($row));
+						} else {
+							array_push($result_array, new Asset($row));
+						}
+					}
+				}
+				return $result_array;
+			}
+			return [];
+		}
+
 		function __construct(array|int $rowdata) {
 			if(is_array($rowdata)) {
 				$this->id = intval($rowdata['asset_id']);

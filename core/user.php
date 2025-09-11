@@ -375,7 +375,7 @@
 		 * @return void
 		 */
 		function IsAdmin(): bool {
-			return false;
+			return true;
 		}
 
 		/**

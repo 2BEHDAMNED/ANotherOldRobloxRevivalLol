@@ -77,6 +77,8 @@
 
 	RewriteRule ^item.php$ /core/error/404.php [END]
 	RewriteRule ^README.md$ /core/error/404.php [END]
+	
+	RewriteRule ^Admin/components/(.*)$ Admin/components/$1.php [END]
 
 	RewriteRule ^core(/.*)?$ /core/error/404.php [END]
 	RewriteRule ^api(/.*)?$ /core/error/404.php  [END]
