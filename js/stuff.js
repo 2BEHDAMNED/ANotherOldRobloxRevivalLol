@@ -134,9 +134,11 @@ ANORRL.Stuff  = {
 						}
 					}
 
+					template.find("#NameAndThumbs > img").attr("src", "/thumbs/?id="+asset['id']+"&sxy=130");
+
 					template.find("#NameAndThumbs > span").html(asset['name']);
-					template.find("#NameAndThumbs").attr("href", "/item?id="+asset['id']);
-					
+					template.find("#NameAndThumbs").attr("href", "/"+asset['name'].replace(new RegExp("[^A-z0-9]"),"").trim().replaceAll(" ", "-").toLowerCase()+"-item?id="+asset['id']);
+
 					template.find("#Creator > span").html(asset['creator']['name']);
 					template.find("#Creator").attr("href", "/users/"+asset['creator']['id']+"/profile");
 

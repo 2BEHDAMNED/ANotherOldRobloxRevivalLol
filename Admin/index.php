@@ -1,5 +1,12 @@
-<?php
-	// reject user if not admin...
+<?php 
+	require_once $_SERVER["DOCUMENT_ROOT"]."/core/utilities/userutils.php";
+	
+	$user = UserUtils::RetrieveUser();
+
+	if(!$user->IsAdmin()) {
+		http_response_code(401);
+		die("Not authorised");
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -95,7 +102,7 @@
 				</ul>
 			</div>
 		</div>
-		<iframe id="panel" src="/Admin/components/user" style="position:fixed; width:89%; height: 100%; border: 0;"></iframe>
+		<iframe id="panel" src="/Admin/components/assets" style="position:fixed; width:89%; height: 100%; border: 0;"></iframe>
 
 		<script>
 			var toggler = document.getElementsByClassName("caret");

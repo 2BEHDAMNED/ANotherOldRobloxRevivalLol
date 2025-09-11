@@ -8,13 +8,9 @@ require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
 $asset = Asset::FromID($id);
 
 if($asset != null) {
-    $new_name = preg_replace('/[^A-Za-z0-9]/', "", $asset->name);
-    $new_name = strtolower($new_name);
-    $new_name = str_replace(" ", "-", $new_name);
-    
-    if($new_name != $name) {
-        die(header("Location: /$new_name-item?id=$id"));
-    }
+	if($asset->GetURLTitle() != $name) {
+		die(header("Location: /$new_name-item?id=$id"));
+	}
 }
 ?>
 <!DOCTYPE html>

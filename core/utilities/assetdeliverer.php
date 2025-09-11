@@ -58,10 +58,13 @@
 	include $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
 
 	$asset = Asset::FromID($id);
+	if($asset != null) {
+		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset->GetMD5HashCurrent();
+	} else {
+		// TESTING REASONS ONLY, DO NOT USE ON PROD AT ALL.
+		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/$id";
+	}
 
-	$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset->GetMD5HashCurrent();
-
-	// start using version system (MD5s and allat)
 	if(file_exists($filename)) {
 		$handle = fopen($filename, "r"); 
 		$contents = fread($handle, filesize($filename)); 
@@ -78,8 +81,8 @@
 		
 		echo $contents;
 	} else {
-		echo "no file...?";	
-	}/*else {
+		die(http_response_code(404));
+	}	/*else {
 		error_reporting(0);
 		$url = 'https://assetdelivery.roblox.com/v1/asset/?id='.$id.'';
 		$ch = curl_init ($url);

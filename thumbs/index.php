@@ -1,6 +1,9 @@
 <?php
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+
+	$user = UserUtils::RetrieveUser();
 
 	if(isset($_GET['id'])) {
 		$id = intval($_GET['id']);
@@ -8,20 +11,28 @@
 		$asset = Asset::FromID($id);
 		if($asset != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			
+			if($asset->status == AssetStatus::ACCEPTED || (($user != null && $user->IsAdmin()) && $asset->status != AssetStatus::REJECTED)) {
+				
+				$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
+				$stmt->bind_param('i', $id);
+				$stmt->execute();
 
-			$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
-			$stmt->bind_param('i', $id);
-			$stmt->execute();
+				$stmt_result = $stmt->get_result();
 
-			$stmt_result = $stmt->get_result();
+				$md5hash = $stmt_result->fetch_assoc()['version_md5thumb'];
 
-			$md5hash = $stmt_result->fetch_assoc()['version_md5thumb'];
-
-			if($md5hash == "sound") {
-				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
+				if($md5hash == "sound") {
+					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
+				} else {
+					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+				}
+			} else if($asset->status == AssetStatus::PENDING) {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/review-pending.png");
 			} else {
-				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/rejected.png");
 			}
+			
 
 			ob_clean();
 

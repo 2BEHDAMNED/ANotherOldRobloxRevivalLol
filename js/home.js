@@ -52,8 +52,8 @@ ANORRL.Home = {
 			for (var key in statuses) {
 				var status = statuses[key];
 
-				var template = $($("#FeedItem.template").clone().prop('outerHTML'));
-				template.removeClass("template");
+				var template = $($("#FeedItem[template]").clone().prop('outerHTML'));
+				template.removeAttr("template");
 				template.removeAttr("class");
 
 				if(index % 2 == 0) {

@@ -19,14 +19,12 @@
 			body {
 				background-color: lightgray;
 				margin:15px;
-				width:100%;
 			}
 			
 			#ModBox {
 				border:1px solid black;
 				background-color: rgb(230, 230, 230);
 				padding:15px;
-				width:100%;
 				float:left;
 			}
 
@@ -37,18 +35,11 @@
 			#ModBox h3 {
 				margin-top:0;
 			}
-			
-			@font-face {
-				font-family: 'Comic Sans MS Web';
-				src: url('/CSS/COMIC.ttf');
-			}
 
 			.Asset {
 				float:left;
 				width: 150px;
 				text-align: center;
-				
-				
 			}
 		</style>
 		<script src="/js/jquery.js" type="text/javascript"></script>
@@ -57,26 +48,26 @@
 				if($('.Asset').length == 0) {
 					$("#ModBox").append("<p id=\"noassetthang\">No assets for you buddy.</p>");
 				} else {
-					$("#noassetthang");
+					$("#noassetthang").remove();
 				}
 			}
 
 			function reject(pass_id) {
-				$.post( "/Admin/postadmin", { id: pass_id, type: "deny" }).done(function( data ) {
+				$.post( "/Admin/components/assetstuff", { id: pass_id, type: "deny" }).done(function( data ) {
 					$("#asset_"+pass_id).remove();
 					checkAndRemove();
 				});
 			}
 
 			function render(pass_id) {
-				$.post( "/Admin/postadmin", { id: pass_id, type: "render" }).done(function( data ) {
+				$.post( "/Admin/components/assetstuff", { id: pass_id, type: "render" }).done(function( data ) {
 					$("#asset_"+pass_id).find("#AssetThumbnailHyperLink").find("img").attr("src","/thumbs/?id="+pass_id+"&sxy=120&t="+Math.random());
 					checkAndRemove();
 				});
 			}
 			
 			function accept(pass_id) {
-				$.post( "/Admin/postadmin", { id: pass_id, type: "accept" }).done(function( data ) {
+				$.post( "/Admin/components/assetstuff", { id: pass_id, type: "accept" }).done(function( data ) {
 					$("#asset_"+pass_id).remove();
 					checkAndRemove();
 				});
@@ -130,7 +121,8 @@
 							$creator_id = $creator->id;
 							$creator_name = $creator->name;
 							$asset_thumburl = "/thumbs/?id=$asset_id&sxy=120";
-							$asset_desc = trim($asset->description);
+							$asset_desc = str_replace(PHP_EOL, "<br>", trim($asset->description));
+							$asset_urlname = $asset->GetURLTitle();
 
 							if($asset_desc == "") {
 								$asset_desc = "<b>No description provided</b>";
@@ -162,20 +154,20 @@
 							echo <<<EOT
 								<tr id="asset_$asset_id">
 									<td>
-										<div style="padding: 15px"><a href="/item?id=$asset_id"><img src="/thumbs/?id=$asset_id&sxy=100"></a></div>
+										<div style="padding: 15px"><a href="/$asset_urlname-item?id=$asset_id" target="_blank"><img src="/thumbs/?id=$asset_id&sxy=100"></a></div>
 									</td>
 									<td style="vertical-align: middle;text-align: center;">
-										<div><a href="/item?id=$asset_id">$asset_name</a></div>
+										<div><a href="/$asset_urlname-item?id=$asset_id" target="_blank">$asset_name</a></div>
 									</td>
 									<td style="text-align: center;">
-										<div><a href="/users/$creator_id/profile"><img src="/images/avatar.png" style="width:100px"><br>$creator_name</a></div>
+										<div><a href="/users/$creator_id/profile" target="_blank"><img src="/images/avatar.png" style="width:100px"><br>$creator_name</a></div>
 									</td>
 									<td>
 										<div>
 											$asset_desc
 										</div>
 									</td>
-									<td style="vertical-align: middle;">
+									<td style="vertical-align: middle;padding: 10px;">
 										<button id="submit" onclick="accept($asset_id); return false;">Approve</button>
 										<button id="submit" onclick="reject($asset_id); return false;">Reject</button>
 										$asset_renderline
@@ -186,12 +178,9 @@
 					}
 				?>
 			</table>
-			
+			<?php if(count($assets) == 0): ?>
+			<p id="noassetthang">No assets for you buddy.</p>
+			<?php endif ?>
 		</div>
-		<script>
-			$(function(){
-				checkAndRemove();
-			});
-		</script>
 	</body>
 </html>

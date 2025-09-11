@@ -150,7 +150,9 @@
 
 		public static function GetAllUncheckedAssets(): array|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getallusers = $con->prepare("SELECT * FROM `assets` WHERE `asset_status` = 1 AND `asset_nevershow` = 0");
+			$stmt_getallusers = $con->prepare("SELECT * FROM `assets` WHERE `asset_status` = ? AND `asset_nevershow` = 0");
+			$ordinal = AssetStatus::PENDING->ordinal();
+			$stmt_getallusers->bind_param("i", $ordinal);
 			$stmt_getallusers->execute();
 			$result = $stmt_getallusers->get_result();
 			$result_array = array();
@@ -215,6 +217,10 @@
 				$this->last_updatetime = $asset_data->last_updatetime;
 				$this->created_at      = $asset_data->created_at;	
 			}
+		}
+
+		function GetURLTitle() {
+			return str_replace(" ", "-", strtolower(trim(preg_replace('/[^A-Za-z0-9 ]/', "", $this->name))));
 		}
 
 		function GetVersionID(): int {

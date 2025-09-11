@@ -24,6 +24,8 @@ var categoryFileTypes = {
 	9: ".rbxl",
 }
 
+const regex = /[^A-Za-z0-9 ]/g;
+
 ANORRL.Create  = {
 	CurrentPage: 1,
 	AdvanceFeed: function() {
@@ -147,7 +149,7 @@ ANORRL.Create  = {
 					template.find("#NameAndThumbs > img").attr("src", "/thumbs/?id="+asset['id']+"&sxy=130");
 
 					template.find("#NameAndThumbs > span").html(asset['name']);
-					template.find("#NameAndThumbs").attr("href", "/"+asset['name'].replaceAll(" ", "-").toLowerCase()+"-item?id="+asset['id']);
+					template.find("#NameAndThumbs").attr("href", "/"+asset['name'].replaceAll(regex,"").trim().replaceAll(" ", "-").toLowerCase()+"-item?id="+asset['id']);
 
 					feedscontainer.removeAttr("hidden");
 					$(feedscontainer.find("tr")[rowIndex]).append(td);

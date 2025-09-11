@@ -61,9 +61,13 @@
 				$parsed_public = intval($public);
 				$parsed_hidden = intval($hidden_ahh);
 				
+				$status = AssetStatus::PENDING->ordinal();
+				if($user->IsAdmin()) {
+					$status = AssetStatus::ACCEPTED->ordinal();
+				}
 
-				$stmt = $con->prepare('INSERT INTO `assets`(`asset_creator`, `asset_type`, `asset_name`, `asset_description`, `asset_public`, `asset_nevershow`) VALUES (?, ?, ?, ?, ?, ?);');
-				$stmt->bind_param('iissii', $parsed_userid, $parsed_type, $name, $description, $parsed_public, $parsed_hidden);
+				$stmt = $con->prepare('INSERT INTO `assets`(`asset_creator`, `asset_type`, `asset_name`, `asset_description`, `asset_public`, `asset_nevershow`, `asset_status`) VALUES (?, ?, ?, ?, ?, ?, ?);');
+				$stmt->bind_param('iissiii', $parsed_userid, $parsed_type, $name, $description, $parsed_public, $parsed_hidden, $status);
 				$stmt->execute();
 
 				$id = $con->insert_id;
@@ -171,6 +175,10 @@
 					$stmt->bind_param('si', $md5hashfile, $decal_result['id']);
 					$stmt->execute();
 
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
+					$stmt->bind_param('ii', $decal_result['id'], $image_id);
+					$stmt->execute();
+
 					return ["error" => false, "id" => $decal_result['id']];
 				}
 			} else {
@@ -211,9 +219,9 @@
 						</Item>
 					</roblox>
 					EOT;
-					$decal_result = self::UploadAsset($user, AssetType::DECAL, $name, $description, false, false, $audio_data);
-					if($decal_result['error']) {
-						return $decal_result;
+					$audiomodel_result = self::UploadAsset($user, AssetType::AUDIO, $name, $description, false, false, $audio_data);
+					if($audiomodel_result['error']) {
+						return $audiomodel_result;
 					}
 
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
@@ -221,21 +229,25 @@
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::AUDIO->ordinal();
 					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
-					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $decal_result['id'], $ta_assettype, $user->id);
+					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $audiomodel_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
 					$directory = $_SERVER['DOCUMENT_ROOT'];
 					$md5hashfile = "sound";
 					
 					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
-					$stmt->bind_param('si', $md5hashfile, $image_id);
+					$stmt->bind_param('si', $md5hashfile, $audio_id);
 					$stmt->execute();
 
 					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
-					$stmt->bind_param('si', $md5hashfile, $decal_result['id']);
+					$stmt->bind_param('si', $md5hashfile, $audiomodel_result['id']);
 					$stmt->execute();
 
-					return ["error" => false, "id" => $decal_result['id']];
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
+					$stmt->bind_param('ii', $audiomodel_result['id'], $audio_id);
+					$stmt->execute();
+
+					return ["error" => false, "id" => $audiomodel_result['id']];
 				}
 			} else {
 				return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
