@@ -104,6 +104,34 @@
 				AssetType::GAMEPASS     => 34,
 			};
 		}
+
+		public function label(): string {
+			return match($this) {
+				AssetType::IMAGE 	=> "Image",
+				AssetType::TSHIRT 	=> "T-Shirt",
+				AssetType::AUDIO	=> "Audio",
+				AssetType::MESH 	=> "Mesh",
+				AssetType::LUA 		=> "Script",
+				AssetType::HAT 		=> "Hat",
+				AssetType::PLACE	=> "Place",
+				AssetType::MODEL 	=> "Model",
+				AssetType::SHIRT 	=> "Shirt",
+				AssetType::PANTS 	=> "Pants",
+				AssetType::DECAL 	=> "Decal",
+				AssetType::HEAD 	=> "Head",
+				AssetType::FACE 	=> "Face",
+				AssetType::GEAR 	=> "Gear",
+				AssetType::BADGE 	=> "Badge",
+				AssetType::ANIMATION 	=> "Animation",
+				AssetType::TORSO 		=> "Torso",
+				AssetType::RIGHTARM 	=> "Right Arm",
+				AssetType::LEFTARM 		=> "Left Arm",
+				AssetType::LEFTLEG 		=> "Left Leg",
+				AssetType::RIGHTLEG 	=> "Right Leg",
+				AssetType::PACKAGE      => "Package",
+				AssetType::GAMEPASS     => "Gamepass",
+			};
+		}
 	}
 
 	/**

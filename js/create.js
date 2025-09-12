@@ -50,6 +50,7 @@ ANORRL.Create  = {
 		}
 
 		var feedscontainer = $("#AssetsContainer > table");
+		feedscontainer.attr("hidden", "true");
 
 		feedscontainer.children().each(function() {
 			$(this).remove();

@@ -32,7 +32,7 @@
 	<?php endif ?>
 	<div id="Logo">
 		<a href="/">
-			<img src="/images/weird_al_ussy.jpg">
+			<img src="/images/header/logo.png">
 		</a>
 	</div>
 	
