@@ -40,5 +40,4 @@
 	} else {
 		die(json_encode(["error" => true, "reason" => "User not logged in."]));
 	}
-	
 ?>

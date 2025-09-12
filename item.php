@@ -33,7 +33,7 @@ if($asset != null) {
 	}
 
 	$is_creator = ($user != null && $user->id == $asset->creator->id);
-
+	$is_favourited = $user != null && $asset->HasUserFavourited($user);
 	$asset_creator_name = $asset->creator->name;
 
 	$asset_description = $asset->description;
@@ -58,6 +58,7 @@ if($asset != null) {
 
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js"></script>
+		<script src="/js/item.js"></script>
 		<style>
 			h1, h2, h3, h4 {
 				margin: 0;
@@ -195,6 +196,29 @@ if($asset != null) {
 				background: #222;
 				border: 2px solid black;
 			}
+
+			#ItemContainer .FavouriteButton {
+				width: 32px;
+				height: 32px;
+				margin-bottom: -7px;
+				margin-left: -16px;
+				margin-right: 10px;
+				background-image: url("/images/favourite_star.gif");
+				background-size: 32px;
+				display: inline-block;
+			}
+
+			#ItemContainer .FavouriteButton[favourited=true]{
+				background-image: url("/images/favourited_star.gif");
+			}
+
+			#ItemContainer .FavouriteButton[favourited=true]:hover {
+				background-image: url("/images/favourited_hover_star.gif");
+			}
+
+			#ItemContainer .FavouriteButton:hover {
+				background-image: url("/images/favourite_hover_star.gif");
+			}
 		</style>
 	</head>
 	<body>
@@ -204,7 +228,7 @@ if($asset != null) {
 				<div id="BodyContainer">
 					<div id="ItemContainer">
 						<h4>ANORRL <?= $asset->type->label(); ?></h4>
-						<h2><?= $asset->name ?></h2>
+						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?></h2>
 						<div id="ItemDetails">
 							<div id="Content">
 								<?php if($asset->type == AssetType::AUDIO): ?>

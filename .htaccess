@@ -51,6 +51,7 @@
 	RewriteRule ^game/logout.aspx$ /api/logout.php							  [END]
 	RewriteRule ^Game/logout.aspx$ /api/logout.php							  [END]
 	RewriteRule ^api/user$ /api/user.php							  [END]
+	RewriteRule ^api/favourite$ /api/favourite.php							  [END]
 	RewriteRule ^api/stuff$ /api/stuff.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]

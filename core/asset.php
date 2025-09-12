@@ -281,12 +281,49 @@
 		function GetAllComments() {}
 		function GetComments(int $page, int $rows) {}
 
-		function Favourite() {}
-		function Unfavourite() {}
+		function Favourite(User|int $user) {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		function Accept() {}
-		function Delete() {}
-		function Reject() {}
+			$userid = $user;
+			if($user instanceof User) {
+				$userid = $user->id;
+			}
+
+			if(!$this->HasUserFavourited($user)) {
+				$stmt = $con->prepare("INSERT INTO `favourites`(`fav_assetid`, `fav_userid`) VALUES (?, ?);");
+				$stmt->bind_param("ii", $this->id, $userid);
+				$stmt->execute();
+			}
+		}
+		function Unfavourite(User|int $user) {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+			$userid = $user;
+			if($user instanceof User) {
+				$userid = $user->id;
+			}
+
+			if($this->HasUserFavourited($user)) {
+				$stmt = $con->prepare("DELETE FROM `favourites` WHERE `fav_assetid` = ? AND `fav_userid` = ?;");
+				$stmt->bind_param("ii", $this->id, $userid);
+				$stmt->execute();
+			}
+		}
+
+		function HasUserFavourited(User|int $user) {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+			$userid = $user;
+			if($user instanceof User) {
+				$userid = $user->id;
+			}
+
+			$stmt = $con->prepare("SELECT * FROM `favourites` WHERE `fav_assetid` = ? AND `fav_userid` = ?;");
+			$stmt->bind_param("ii", $this->id, $userid);
+			$stmt->execute();
+
+			return $stmt->get_result()->num_rows != 0;
+		}
 	}
 
 	class Place extends Asset {
