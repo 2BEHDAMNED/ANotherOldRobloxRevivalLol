@@ -38,7 +38,7 @@ if($asset != null) {
 
 	$asset_description = $asset->description;
 	if(trim($asset_description) == "") {
-		$asset_description = "<b>Seems like $asset_creator_name hasn't put a anything here...</b>";
+		$asset_description = "<b>Seems like $asset_creator_name hasn't put anything here...</b>";
 	} else {
 		$asset_description = str_replace(PHP_EOL, "<br>", $asset_description);
 	}
@@ -49,9 +49,13 @@ if($asset != null) {
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Page - ANORRL</title>
+		<title><?= htmlspecialchars($asset->name, ENT_QUOTES) ?> - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+
+		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
+		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
+
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js"></script>
 		<style>
@@ -84,6 +88,11 @@ if($asset != null) {
 				padding: 5px;
 				border: 2px solid black;
 				background: #212121;
+				text-align: center;
+			}
+
+			#ItemDetails #Content audio {
+				width: 229px;border:2px solid black;
 			}
 
 			#ItemDetails #Information {
@@ -118,7 +127,7 @@ if($asset != null) {
 				padding: 10px;
 				margin-top: 10px;
 				margin-left: 10px;
-				height: 110px;
+				height: 96px;
 				overflow: auto;
 			}
 
@@ -129,6 +138,14 @@ if($asset != null) {
 				padding: 10px;
 				margin-left: 10px;
 				text-align: center;
+			}
+
+			#ItemDetails #Purchasing #NotOnSale {
+				border: 2px solid gray;
+				font-weight: bold;
+				font-style: italic;
+				color: lightgray;
+				padding: 15px 0px;
 			}
 
 			.PurchaseButton {
@@ -191,6 +208,7 @@ if($asset != null) {
 						<div id="ItemDetails">
 							<div id="Content">
 								<?php if($asset->type == AssetType::AUDIO): ?>
+								<img src="/thumbs/?id=<?= $asset->id ?>&sxy=190">
 								<audio src="/asset/?id=<?= $audio_asset_id ?>" controls>Your browser does not support HTML5 Audio</audio>
 								<?php else: ?>
 								<img src="/thumbs/?id=<?= $asset->id ?>&sxy=240">
@@ -212,8 +230,12 @@ if($asset != null) {
 							<div id="Purchasing">
 								<span>Sales: </span><b>9</b>
 								<hr>
+								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
 								<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span>1000</span></button>
 								<button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span>1000</span></button>
+								<?php else: ?>
+								<div id="NotOnSale">Item not on sale.</div>
+								<?php endif ?>
 								<hr>
 								<div id="ManageOptions">
 									<?php if($is_creator): ?>
