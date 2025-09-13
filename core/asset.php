@@ -134,6 +134,11 @@
 		}
 	}
 
+	enum Currency {
+		case CONES;
+		case LIGHTS;
+	}
+
 	/**
 	 * Abstract class for assets
 	*/
@@ -290,11 +295,28 @@
 			}
 
 			if(!$this->HasUserFavourited($user)) {
-				$stmt = $con->prepare("INSERT INTO `favourites`(`fav_assetid`, `fav_userid`) VALUES (?, ?);");
-				$stmt->bind_param("ii", $this->id, $userid);
+				$stmt = $con->prepare("INSERT INTO `favourites`(`fav_assetid`, `fav_userid`, `fav_assettype`) VALUES (?, ?, ?);");
+				$type = $this->type->ordinal();
+				$stmt->bind_param("iii", $this->id, $userid, $type);
 				$stmt->execute();
+
+				$this->UpdateFavouritesCount();
 			}
 		}
+
+		private function UpdateFavouritesCount() {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `favourites` WHERE `fav_assetid` = ?;");
+			$stmt->bind_param("i", $this->id);
+			$stmt->execute();
+
+			$favcount = $stmt->get_result()->num_rows;
+
+			$stmt = $con->prepare("UPDATE `assets` SET `asset_favourites_count` = ? WHERE `asset_id` = ?");
+			$stmt->bind_param("ii", $favcount, $this->id);
+			$stmt->execute();
+		}
+
 		function Unfavourite(User|int $user) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
@@ -307,6 +329,8 @@
 				$stmt = $con->prepare("DELETE FROM `favourites` WHERE `fav_assetid` = ? AND `fav_userid` = ?;");
 				$stmt->bind_param("ii", $this->id, $userid);
 				$stmt->execute();
+
+				$this->UpdateFavouritesCount();
 			}
 		}
 
@@ -323,6 +347,23 @@
 			$stmt->execute();
 
 			return $stmt->get_result()->num_rows != 0;
+		}
+
+		function Buy(User|int $user, Currency $mode) {
+
+		}
+
+		function UpdateSalesCount() {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` != `ta_assetcreator` AND `ta_asset` = ?;");
+			$stmt->bind_param("i", $this->id);
+			$stmt->execute();
+
+			$salescount = $stmt->get_result()->num_rows;
+
+			$stmt = $con->prepare("UPDATE `assets` SET `asset_sales_count` = ? WHERE `asset_id` = ?");
+			$stmt->bind_param("ii", $salescount, $this->id);
+			$stmt->execute();
 		}
 	}
 

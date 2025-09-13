@@ -73,9 +73,14 @@
 	RewriteRule ^Game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 	RewriteRule ^game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 
-	RewriteCond %{QUERY_STRING} id=(.+)
-	RewriteRule ^(.*)-item$ item.php?name=$1&id=%1 [QSD,END]
+	RewriteRule ^edit$ /edit.php [END]
 
+	RewriteCond %{QUERY_STRING} id=(.+)
+	RewriteRule ^(.*)-item$ /item.php?name=$1&id=%1 [QSD,END]
+	
+	
+
+	RewriteRule ^edit.php$ /core/error/404.php [END]
 	RewriteRule ^item.php$ /core/error/404.php [END]
 	RewriteRule ^README.md$ /core/error/404.php [END]
 	

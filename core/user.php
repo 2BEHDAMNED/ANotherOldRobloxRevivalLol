@@ -369,6 +369,15 @@
 			}
 		}
 
+		function Owns(Asset|int $asset): bool {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt = $con->prepare('SELECT * FROM `transactions` WHERE `ta_userid` = ? AND `ta_asset` = ?;');
+			$stmt -> bind_param('ii', $this->id, $asset->id);
+			$stmt -> execute();
+
+			return $stmt->get_result()->num_rows != 0;
+		}
+
 		/**
 		 * Returns the ban details if the user has been suspended/terminated<br>
 		 * Null if no bans have been issued.

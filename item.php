@@ -34,6 +34,13 @@ if($asset != null) {
 
 	$is_creator = ($user != null && $user->id == $asset->creator->id);
 	$is_favourited = $user != null && $asset->HasUserFavourited($user);
+
+	$user_bought = $user != null && $user->Owns($asset);
+
+	$favourites_count = $asset->favourites_count . " times";
+	if($asset->favourites_count == 1) {
+		$favourites_count = $asset->favourites_count . " time";
+	}
 	$asset_creator_name = $asset->creator->name;
 
 	$asset_description = $asset->description;
@@ -112,7 +119,7 @@ if($asset != null) {
 			#ItemDetails #Information #UserCard #AssetInfoStuff {
 				display: inline-block;
 				vertical-align: top;
-				margin-top: 23px;
+				margin-top: 15px;
 				
 			}
 
@@ -146,7 +153,7 @@ if($asset != null) {
 				font-weight: bold;
 				font-style: italic;
 				color: lightgray;
-				padding: 15px 0px;
+				padding: 15px;
 			}
 
 			.PurchaseButton {
@@ -245,6 +252,7 @@ if($asset != null) {
 										<span>Created by <a href="/users/<?= $asset->creator->id ?>/profile"><?= $asset_creator_name ?></a></span>
 										<span><b>Created on</b>: <?= $asset->created_at->format('d/m/Y H:i'); ?></span>
 										<span><b>Last updated</b>: <?= $asset->last_updatetime->format('d/m/Y H:i'); ?></span>
+										<span><b>Favourited</b>: <?= $favourites_count ?></span>
 									</div>
 								</div>
 								<div id="ItemDescription">
@@ -252,13 +260,17 @@ if($asset != null) {
 								</div>
 							</div>
 							<div id="Purchasing">
-								<span>Sales: </span><b>9</b>
+								<span>Sales: </span><b><?= $asset->sales_count ?></b><br>
 								<hr>
 								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
 								<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span>1000</span></button>
 								<button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span>1000</span></button>
 								<?php else: ?>
-								<div id="NotOnSale">Item not on sale.</div>
+									<?php if($user_bought): ?>
+									<div id="NotOnSale">Item not on sale and besides you own this.</div>
+									<?php else: ?>
+									<div id="NotOnSale">Item not on sale.</div>
+									<?php endif ?>
 								<?php endif ?>
 								<hr>
 								<div id="ManageOptions">
