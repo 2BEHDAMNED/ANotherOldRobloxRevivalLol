@@ -80,7 +80,7 @@
 				}
 
 				if($_POST['type'] == "accept") {
-					$stmt = $con->prepare('UPDATE `assets` SET `asset_status`= ?  WHERE `asset_id` = ?');
+					$stmt = $con->prepare('UPDATE `assets` SET `asset_status`= ?  WHERE `asset_id` = ? OR `asset_relatedid` = ?');
 					$status = AssetStatus::ACCEPTED->ordinal();
 					$stmt -> bind_param("ii",  $status, $id);
 					$stmt->execute();

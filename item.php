@@ -11,6 +11,13 @@ $user = UserUtils::RetrieveUser();
 $asset = Asset::FromID($id);
 
 if($asset != null) {
+
+	if($asset->notcatalogueable && $asset->type == AssetType::AUDIO) {
+		$urlname = $asset->relatedasset->GetURLTitle();
+		$id = $asset->relatedasset->id;
+		die(header("Location: /$urlname-item?id=$id"));
+	}	
+
 	$urlname = $asset->GetURLTitle();
 	if($asset->GetURLTitle() != $name) {
 		if($asset->type == AssetType::PLACE) {
@@ -226,6 +233,12 @@ if($asset != null) {
 			#ItemContainer .FavouriteButton:hover {
 				background-image: url("/images/favourite_hover_star.gif");
 			}
+
+			#CommentsContainer #CommentSection #CommentsDisabled {
+				text-align: center;
+				padding: 20px;
+				font-size: 14px;
+			}
 		</style>
 	</head>
 	<body>
@@ -263,8 +276,16 @@ if($asset != null) {
 								<span>Sales: </span><b><?= $asset->sales_count ?></b><br>
 								<hr>
 								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
-								<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span>1000</span></button>
-								<button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span>1000</span></button>
+								<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
+								<?php if($asset->cost_cones != 0): ?>
+								<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button>
+								<?php endif ?>
+								<?php if($asset->cost_lights != 0): ?>
+								<button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button>
+								<?php endif ?>
+								<?php else: ?>
+								<button class="PurchaseButton"><span>Free for grabs!</span></button>
+								<?php endif ?>
 								<?php else: ?>
 									<?php if($user_bought): ?>
 									<div id="NotOnSale">Item not on sale and besides you own this.</div>
@@ -288,7 +309,9 @@ if($asset != null) {
 						<div id="CommentsContainer">
 							<h3>Comments</h3>
 							<div id="CommentSection">
-
+								<?php if($asset->comments_enabled): ?>
+								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
+								<?php endif ?>
 							</div>
 						</div>
 					</div>

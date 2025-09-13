@@ -58,3 +58,10 @@
 	</div>
 	<?php endif ?>
 </div>
+<div class="DisplayMobileWarning" style="display: none">
+	<div id="MobileWarningText">
+		<h1>HEADS UP!</h1>
+		<p>This isn't optimised for mobile devices, best to use a pc (as this was designed for that)</p>
+		<button onclick="ANORRL.HideMobileWarning()">Continue anyways...</button>
+	</div>
+</div>

@@ -925,3 +925,22 @@ h1, h2, h3, h4 {
 	margin-bottom:2px;
 	margin-bottom:20px\9;
 }
+
+.DisplayMobileWarning {
+	position: absolute;
+	inset: 0;
+	background: darkred;
+	z-index: 999;
+	font-weight: bold;
+	color: white;
+}
+
+.DisplayMobileWarning #MobileWarningText {
+	width: 331px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.DisplayMobileWarning #MobileWarningText h1 {
+	margin: 10px auto;
+}

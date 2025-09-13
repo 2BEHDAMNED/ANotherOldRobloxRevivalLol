@@ -8,6 +8,8 @@
 	if(isset($_GET['id'])) {
 		$id = intval($_GET['id']);
 
+		$specialcase = false;
+
 		$asset = Asset::FromID($id);
 		if($asset != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
@@ -25,7 +27,13 @@
 				if($md5hash == "sound") {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
 				} else {
-					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+					if($asset->relatedasset != null) {
+						$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash");
+						$specialcase = true;
+					} else {
+						$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+					}
+					
 				}
 			} else if($asset->status == AssetStatus::PENDING) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/review-pending.png");

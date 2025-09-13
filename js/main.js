@@ -59,6 +59,10 @@ ANORRL = {
 			return Math.floor(interval) + " minutes";
 		}
 		return Math.floor(seconds) + " seconds";
+	},
+	HideMobileWarning: function() {
+		$(".DisplayMobileWarning").remove();
+		$.cookie("MobileKnowsThis", "true");
 	}
 };
 
@@ -78,3 +82,14 @@ if(ANORRL.GetInternetExplorerVersion() != -1) {
 		});
 	})
 }
+
+$(function() {
+	if('ontouchstart' in document.documentElement) {
+		if($.cookie("MobileKnowsThis") == undefined) {
+			$(".DisplayMobileWarning").css("display", "block");
+		}
+		
+	} else {
+		$(".DisplayMobileWarning").css("display", "none");
+	}
+})

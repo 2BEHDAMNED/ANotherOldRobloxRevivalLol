@@ -11,138 +11,197 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Your Stuff - ANORRL</title>
-		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
-		<script src="/js/jquery.js"></script>
-		<script src="/js/main.js"></script>
-		<script src="/js/stuff.js"></script>
-		<style>
-			#StuffContainer {
-				width: 876px;
-				margin: 0 auto;
-				margin-bottom: 15px;
+		<title>Welcome</title>
+		<link rel="stylesheet" href="/js/ide/welcome/FetchCSS.css">
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/json2.min.js"></script>
+		<script type="text/javascript" src="/js/ide/welcome/MicrosoftAjax.js"></script>
+		<script type="text/javascript" src="/js/ide/welcome/240ed1621e8429eeafce9b709e38ab5b.js"></script>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		
+		
+		<script type="text/javascript">
+			function editTemplateInStudio(play_placeId) {
+				window.external.StartGame("http://novarin.co/","http://novarin.co/","http://novarin.co/game/edit.ashx?placeId=" + play_placeId + "&oldformat" );
 			}
-
-			#StuffContainer h1 {
-				margin-bottom: 0px;
-				margin-top: 5px;
-				width:828px;
+			function editrecentfile(recentpath) {
+				window.external.StartGame("","", recentpath);	
 			}
-
-			#StuffContainer #StuffNavigation {
-				border: 2px solid black;
-				background: #222;
-				width:184px;
-				display: inline-block;
-				vertical-align: top;
-				border-top: 0;
-				
-			}
-
-			#StuffNavigation ul {
-				list-style: none;
-				padding: 15px;
-				margin: 0;
-			}
-
-			#StuffNavigation hr {
-				border: 0;
-			}
-
-			#StuffNavigation ul > li[selected] {
-				font-weight: bold;
-			}
-
-			#AssetsContainer {
-				display: inline-block;
-				border: 2px solid black;
-				border-left: none;
-				min-height: 180px;
-				width:826px;
-				background: #222;
-				vertical-align: middle;
-
-				padding: 5px 20px;
-
-				white-space: nowrap;
-				border-top: 0;
-				position: relative;
-			}
-
-			#AssetsContainer table {
-				min-height: 180px;
-				padding: 5px;
-			}
-
-			#AssetsContainer #Paginator {
-				display: block;
-				background: #111111;
-				padding: 10px;
-				text-align: center;
-			}
-
-			#AssetsContainer #Paginator input {
-				font-size: 12px;
-				width: 30px;
-				height: 13px;
-				text-align: center;
-			}
-
-			#StuffNavigation #CreateArea {
-				display: block;
-				width: 100%;
-				padding: 5px 0px;
-				background: #111;
-				font-weight: bold;
-				text-align: center;
-			}
-			
-			#StuffNavigation #CreateArea a {
-				display: inline-block;
-				width: 45%;
-			}
-
-			#StuffNavigation #CreateArea a[disabled] {
-				color: gray;
-			}
-			#AssetsContainer table[hidden] {
-				display: none;
-			}
-
-			#AssetsContainer #Loading, 
-			#AssetsContainer #NoAssets {
-				font-size: 18px;
-				width: 100%;
-				display: block;
-				text-align: center;
-				line-height: 180px;
-			}
-		</style>
+		</script>
 	</head>
-	<body>
-		<div id="Container">
-		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
-			<div id="Body">
-				<div id="BodyContainer">
-					<div id="StuffContainer">
-						<h1>Your Places</h1>
-						<div id="AssetsContainer">
-							<div id="StatusText">
-								<b id="Loading" style="display: none">Loading your places...</b>
-								<b id="NoAssets" style="display: none">You have no places!</b>
-							</div>
-						
-							<table hidden></table>
-
-							<div id="Paginator" style="display: none">
-								<a href="" id="PrevPager">&lt;&lt;Previous</a> Page <input maxlength="4"> of <span id="Pages">1</span> <a href="" id="NextPager">Next&gt;&gt;</a>
-							</div>
+	<body id="StudioWelcomeBody">
+		<div class="header">
+			<div id="header-login-wrapper" class="iframe-login-signup" data-display-opened="">
+				<p></p>
+			</div>
+			<!-- This is only after the login stuff because IE7 demands floated elements be before non-floated -->
+			<img src="/images/ide/studio_title.png" alt="Roblox Studio Title">
+			<!-- <p id="HomeLink">
+				<a class="text-link" href="https://web.archive.org/web/20130715023235/http://roblox.com/Build/Default.aspx">Switch to Classic View</a>
+			</p> -->
+		</div>
+		<div class="container">
+			<div class="navbar" style="height: 581px;">
+				<ul class="navlist" style="border-bottom: medium;">
+					<li id="NewProject" class="navselected">
+						<p>New Project</p>
+					</li>
+					<li id="MyProjects" class="lastnav">
+						<p>My Projects</p>
+					</li>
+					<!--li class="lastnav"><p>Recent News</p></li-->
+				</ul>
+			</div>
+			<div class="main">
+				<div id="TemplatesView" class="welcome-content-area" style="display: block; height: 535px;">
+					<h2 id="StudioGameTemplates">GAME TEMPLATES</h2>
+					<div class="templatetypes">
+						<ul class="templatetypes">
+							<li js-data-templatetype="Basic" class="selectedType">
+								<a href="#Basic">Basic</a>
+							</li>
+							<li js-data-templatetype="Strategy">
+								<a href="#Strategy">Strategy</a>
+							</li>
+							<li js-data-templatetype="Action">
+								<a href="#Action">Action</a>
+							</li>
+						</ul>
+						<!--div class="tool-tip"><img alt="Recommended for users new to ROBLOX studio" src="/images/IDE/img-tail-top.png" class="top" /><p>Recommended for users new to ROBLOX studio</p><a class="closeButton"></a></div -->
+					</div>
+					<div class="templates" js-data-templatetype="Basic" style="display: block;">
+						<div class="template" placeid="6017">
+							<a class="game-image">
+								<img class="" src="/js/ide/welcome/362ae9c43957047a0287f9cd2c98646c.jpg">
+							</a>
+							<p>Baseplate</p>
+						</div>
+						<div class="template" placeid="6302">
+							<a class="game-image">
+								<img class="" src="/js/ide/welcome/ab99a6e34406eb5e7aebd349c90ce35b.jpg">
+							</a>
+							<p>Flat Terrain</p>
+						</div>
+					</div>
+					<div class="templates" js-data-templatetype="Strategy">
+						<div class="template" placeid="92721754">
+							<a class="game-image">
+								<img class="" src="/js/ide/welcome/2db15742ba86f0dfe6cd2762a8debbde.jpg">
+							</a>
+							<p>Capture The Flag</p>
+						</div>
+						<div class="template" placeid="95269276">
+							<a class="game-image">
+								<img class="" src="/js/ide/welcome/426308e89cd36c0bb531b9dd8e990c10.jpg">
+							</a>
+							<p>Control Points</p>
+						</div>
+					</div>
+					<div class="templates" js-data-templatetype="Action">
+						<div class="template" placeid="92721884">
+							<a class="game-image">
+								<img class="" src="/js/ide/welcome/4ae1c9ec91cd33a9b38ad741ac1d0a4f.jpg">
+							</a>
+							<p>Free For All</p>
+						</div>
+						<div class="template" placeid="95205458">
+							<a class="game-image">
+								<img class="" src="/js/ide/welcome/f6e818f03afa39b999a4ed33b464c0cb.jpg">
+							</a>
+							<p>Team Deathmatch</p>
 						</div>
 					</div>
 				</div>
-				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
+				<div id="MyProjectsView" class="welcome-content-area" style="display: none;">
+					<h2>My Published Projects</h2>
+					<div class="templates" style="display: block;">
+						<div class="template" placeid="5187">
+							<a class="game-image">
+								<img width="197" src="/app/api/catalog/thumbnail?id=5187">
+							</a>
+							<p>Snowball Hangout</p>
+						</div>
+					</div>
+				</div>
+				<div id="ButtonRow" class="divider-top divider-left divider-bottom">
+					<a class="btn-medium btn-primary" id="EditButton">Edit <span class="btn-text">Edit</span>
+					</a>
+					<a class="btn-medium btn-primary" id="BuildButton">Build <span class="btn-text">Build</span>
+					</a>
+					<a class="btn-medium btn-negative" id="CollapseButton">Cancel <span class="btn-text">Cancel</span>
+					</a>
+				</div>
 			</div>
+		</div>
+		<div class="GenericModal modalPopup unifiedModal smallModal" style="display:none;">
+			<div class="Title"></div>
+			<div class="GenericModalBody">
+				<div>
+					<div class="ImageContainer">
+						<img class="GenericModalImage" alt="generic image">
+					</div>
+					<div class="Message"></div>
+				</div>
+				<div class="clear"></div>
+				<div id="GenericModalButtonContainer" class="GenericModalButtonContainer">
+					<a class="ImageButton btn-neutral btn-large roblox-ok">OK <span class="btn-text">OK</span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				Roblox.Client.Resources = {
+					here: "here",
+					youNeedTheLatest: "You need Our Plugin for this.  Get the latest version from Ohio",
+					plugInInstallationFailed: "Plugin installation failed!",
+					errorUpdating: "Error updating: "
+				};
+				if (typeof Roblox.IDEWelcome === "undefined") Roblox.IDEWelcome = {};
+				Roblox.IDEWelcome.Resources = {
+					openProject: "Open Project",
+					openProjectText: "To open your project, open to this page in ",
+					robloxStudio: "ANORRL Studio",
+					editPlace: "Edit Place",
+					toEdit: "To edit ",
+					openPage: ", open to this page in ",
+					buildPlace: "Build Place",
+					toBuild: "To build on ",
+					placeInactive: "Place Inactive",
+					activate: ", activate this place by going to File->My Published Projects.",
+					emailVerifiedTitle: "Verify Your Email",
+					emailVerifiedMessage: "You must verify your email before you can work on your place. You can verify your email on the  < a href = '/My/Account.aspx?confirmemail=1' > Account < /a> page.",
+					verify: "Verify",
+					cancel: "Cancel"
+				};
+			});
+		</script>
+		<div class="ConfirmationModal modalPopup unifiedModal smallModal" data-modal-handle="confirmation" style="display:none;">
+			<a class="genericmodal-close ImageButton closeBtnCircle_20h"></a>
+			<div class="Title"></div>
+			<div class="GenericModalBody">
+				<div class="TopBody">
+					<div class="ImageContainer roblox-item-image" data-image-size="small" data-no-overlays="" data-no-click="">
+						<img class="GenericModalImage" alt="generic image">
+					</div>
+					<div class="Message"></div>
+				</div>
+				<div class="ConfirmationModalButtonContainer">
+					<a href="" roblox-confirm-btn="">
+						<span></span>
+					</a>
+					<a href="" roblox-decline-btn="">
+						<span></span>
+					</a>
+				</div>
+				<div class="ConfirmationModalFooter"></div>
+			</div>
+			<script type="text/javascript">
+				Roblox.GenericConfirmation.Resources = {
+					yes: "Yes",
+					No: "No"
+				}
+			</script>
 		</div>
 	</body>
 </html>

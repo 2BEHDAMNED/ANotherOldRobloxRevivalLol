@@ -213,7 +213,7 @@
 								<string name="Name">Sound</string>
 								<float name="Pitch">1</float>
 								<bool name="PlayOnRemove">false</bool>
-								<Content name="SoundId"><url>>http://arl.lambda.cam/asset/?id=$audio_id</url></Content>
+								<Content name="SoundId"><url>http://arl.lambda.cam/asset/?id=$audio_id</url></Content>
 								<float name="Volume">0.5</float>
 							</Properties>
 						</Item>
@@ -309,6 +309,8 @@
 				// and paste the processed resizedimage on top of it
 				imagecopyresampled($tshirt, $resizedimage, 84, 84, 0, 0, 252, 252, 420, 420);
 				
+				imagesavealpha($resizedimage, true);
+
 				ob_start();
 				imagepng($resizedimage);
 				$image_data = ob_get_contents();
