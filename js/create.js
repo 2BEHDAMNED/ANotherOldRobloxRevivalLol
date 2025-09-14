@@ -16,6 +16,7 @@ if (!Object.keys) {
 
 var categoryFileTypes = {
 	11:"image/*",
+	18:"image/*",
 	2: "image/*",
 	12:"image/*",
 	3: ".mp3",
@@ -130,21 +131,32 @@ ANORRL.Create  = {
 					template.removeAttr("template");
 
 					if(asset['cost']['cones'] + asset['cost']['lights'] == 0) {
+						template.find("#Pricing").attr("oneprice", "true");
 						template.find("#Pricing").children().each(function() {
 							$(this).remove();
 						});
 						template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"))
 					} else {
 
-						template.find("#Pricing").attr("oneprice", "true");
-
 						if(asset['cost']['cones'] == 0) {
-							template.find("#Pricing").find("#Cones").remove();
+							template.find("#Pricing #Cones").remove();
+						} else {
+							template.find("#Pricing #Cones #Costing").html(asset['cost']['cones']);
 						}
 
 						if(asset['cost']['lights'] == 0) {
-							template.find("#Pricing").find("#Lights").remove();
+							template.find("#Pricing #Lights").remove();
+						} else {
+							template.find("#Pricing #Lights #Costing").html(asset['cost']['lights']);
 						}
+
+
+						if(asset['cost']['lights'] != 0 && asset['cost']['cones'] != 0) {
+							template.find("#Pricing").removeAttr("oneprice");
+						} else {
+							template.find("#Pricing").attr("oneprice", "true");
+						}
+
 					}
 
 					template.find("#NameAndThumbs > img").attr("src", "/thumbs/?id="+asset['id']+"&sxy=130");
@@ -202,13 +214,19 @@ $(function(){
 
 	// TODO: Move this out of here this is such a disaster waiting to come
 	var categories = {
+		"hats": 8,
+		"faces": 18,
 		"shirts": 11,
 		"tshirts": 2,
 		"pants": 12,
+
 		"audio": 3,
 		"decals": 13,
 		"models": 10,
 		"places": 9,
+
+		"gears": 19,
+		"packages": 32,
 	}
 
 	ANORRL.Create.GrabAssets(categories[url]);

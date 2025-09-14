@@ -11,6 +11,7 @@
 	}
 
 	$validtypes = [
+		"faces",
 		"shirts",
 		"tshirts",
 		"pants",
@@ -37,6 +38,8 @@
 					$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 				} else if($type == "tshirts") {
 					$result = AssetUploader::UploadTShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+				} else if($type == "faces") {
+					$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true);
 				} else {
 					die("type found but not handled...");
 				}
@@ -186,8 +189,8 @@
 			<a id="NameAndThumbs">
 				<img src="">
 				<div id="Pricing">
-					<span id="Cones" ><img src="/images/icons/traffic_cone.png" > 100</span>
-					<span id="Lights"><img src="/images/icons/traffic_light.png"> 100</span>
+					<span id="Cones" ><img src="/images/icons/traffic_cone.png" > <span id="Costing"></span></span>
+					<span id="Lights"><img src="/images/icons/traffic_light.png"> <span id="Costing"></span></span>
 				</div>
 				<span>AssetName</span>
 			</a>
@@ -200,6 +203,10 @@
 						<h1>Creation Panel</h1>
 						<div id="StuffNavigation">							
 							<ul>
+								<?php if($user->IsAdmin()): ?>
+								<li data_category="8" ><a>Hats</a></li>
+								<li data_category="18"><a>Faces</a></li>
+								<?php endif ?>
 								<li data_category="11"><a>Shirts</a></li>
 								<li data_category="2" ><a>T-Shirts</a></li>
 								<li data_category="12"><a>Pants</a></li>
@@ -208,6 +215,11 @@
 								<li data_category="13"><a>Decals</a></li>
 								<li data_category="10"><a>Models</a></li>
 								<li data_category="9" ><a>Places</a></li>
+								<?php if($user->IsAdmin()): ?>
+									<hr>
+								<li data_category="19"><a>Gears</a></li>
+								<li data_category="32"><a>Packages</a></li>
+								<?php endif ?>
 							</ul>
 						</div><div id="CreationPanel">
 							

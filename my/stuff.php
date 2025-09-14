@@ -23,8 +23,8 @@
 			<a id="NameAndThumbs">
 				<img src="/images/avatar.png">
 				<div id="Pricing">
-					<span id="Cones" ><img src="/images/icons/traffic_cone.png" > 100</span>
-					<span id="Lights"><img src="/images/icons/traffic_light.png"> 100</span>
+					<span id="Cones" ><img src="/images/icons/traffic_cone.png" > <span id="Costing"></span></span>
+					<span id="Lights"><img src="/images/icons/traffic_light.png"> <span id="Costing"></span></span>
 				</div>
 				<span>AssetName</span>
 			</a>

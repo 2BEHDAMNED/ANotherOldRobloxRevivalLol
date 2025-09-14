@@ -90,7 +90,7 @@
 
 		
 
-		public static function UploadDecal(string $name, string $description, array $file) {
+		public static function UploadDecal(string $name, string $description, array $file, bool $face = false) {
 			$user = UserUtils::RetrieveUser();
 
 			if($file['error'] == 0) {
@@ -103,7 +103,6 @@
 				imagecopy($image, $original_image, 0, 0, 0, 0, $width, $height);
 				imagesavealpha($image, true);
 
-
 				if($width > $height) {
 					$new_width = 420;
 					$new_height = -1;
@@ -111,10 +110,8 @@
 					$new_width = -1;
 					$new_height = 420;
 				} else {
-					if($width > 420 || $height > 420) {
-						$new_width = 420;
-						$new_height = 420;
-					}
+					$new_width = 420;
+					$new_height = 420;
 				}
 
 				$resultimage = imagescale($image, $new_width, $new_height);
@@ -149,15 +146,22 @@
 						</Item>
 					</roblox>
 					EOT;
-					$decal_result = self::UploadAsset($user, AssetType::DECAL, $name, $description, false, false, $decal_data);
+					$decal_result = self::UploadAsset($user, $face ? AssetType::FACE : AssetType::DECAL, $name, $description, false, false, $decal_data);
 					if($decal_result['error']) {
 						return $decal_result;
 					}
 
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
+
 					$ta_id = TransactionUtils::GenerateID();
-					$ta_assettype = AssetType::DECAL->ordinal();
+					$ta_assettype = AssetType::IMAGE->ordinal();
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_id, $ta_assettype, $user->id);
+					$stmt_processtransaction->execute();
+
+					$ta_id = TransactionUtils::GenerateID();
+					$ta_assettype = ($face ? AssetType::FACE : AssetType::DECAL)->ordinal();
 					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $decal_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
@@ -345,6 +349,12 @@
 
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
+					$ta_id = TransactionUtils::GenerateID();
+					$ta_assettype = AssetType::IMAGE->ordinal();
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_id, $ta_assettype, $user->id);
+					$stmt_processtransaction->execute();
+
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::TSHIRT->ordinal();
 					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");

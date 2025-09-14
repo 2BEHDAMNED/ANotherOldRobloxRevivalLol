@@ -4,6 +4,26 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
 
 	/**
+	 *  Core Profile Badges.
+	 */
+	enum ANORRLBadges {
+		case ADMINISTRATOR;
+
+		public function ordinal(): int {
+			return match($this) {
+				ANORRLBadges::ADMINISTRATOR => 1
+			};
+		}
+
+		public static function index(int $badge): ANORRLBadges {
+			return match($badge) {
+				1 =>ANORRLBadges::ADMINISTRATOR
+			};
+		}
+	}
+
+
+	/**
 	 * Data of the user.
 	 */
 	class User {
@@ -107,12 +127,35 @@
 			return [];
 		}
 
+		function HasProfileBadgeOf(ANORRLBadges $badge): bool {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `profilebadges` WHERE `badge_id` = ? AND `badge_userid` = ?");
+			$ordinal = $badge->ordinal();
+			$stmt->bind_param('ii', $ordinal, $this->id);
+			$stmt->execute();
+
+			return $stmt->get_result()->num_rows != 0;
+		}
+
 		/**
 		 * Returns the system badges (Homestead and the alike)
 		 * @return void
 		 */
 		function GetProfileBadges(): array {
-			return [];
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `profilebadges` WHERE `badge_userid` = ?");
+			$stmt->bind_param('i',$this->id);
+			$stmt->execute();
+
+			$result = $stmt->get_result();
+
+			$badges = [];
+
+			while($row = $result->fetch_assoc()) {
+				array_push($badges, ANORRLBadge::FromID($row['badge_id']));
+			}
+
+			return $badges;
 		}
 
 		/**
@@ -125,10 +168,10 @@
 
 		function GetLatestStatus(): Status|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `statuses` WHERE `status_poster` = ? ORDER BY `status_posted` DESC");
-			$stmt_getuser->bind_param('i', $this->id);
-			$stmt_getuser->execute();
-			$result = $stmt_getuser->get_result();
+			$stmt = $con->prepare("SELECT * FROM `statuses` WHERE `status_poster` = ? ORDER BY `status_posted` DESC");
+			$stmt->bind_param('i', $this->id);
+			$stmt->execute();
+			$result = $stmt->get_result();
 
 			if($result->num_rows == 0) {
 				return null;
@@ -379,19 +422,19 @@
 		}
 
 		/**
+		 * Checks if the user is admin (duh)
+		 * @return void
+		 */
+		function IsAdmin(): bool {
+			return $this->HasProfileBadgeOf(ANORRLBadges::ADMINISTRATOR);
+		}
+
+		/**
 		 * Returns the ban details if the user has been suspended/terminated<br>
 		 * Null if no bans have been issued.
 		 * @return void
 		 */
 		function GetBanDetails() {}
-		
-		/**
-		 * Checks if the user is admin (duh)
-		 * @return void
-		 */
-		function IsAdmin(): bool {
-			return true;
-		}
 
 		/**
 		 * Checks if user is banned via {@see GetBanDetails}
@@ -411,5 +454,31 @@
 		 * @return void
 		 */
 		function Terminate(): void {}
+	}
+
+	class ANORRLBadge {
+		public ANORRLBadges $id;
+		public string $name;
+		public string $description;
+
+		public static function FromID(int $id): ANORRLBadge|null {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `profilebadges_info` WHERE `pbadge_id` = ?");
+			$stmt_getuser->bind_param('i', $id);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			if($result->num_rows == 1) {
+				return new self($result->fetch_assoc());
+			} else {
+				return null;
+			}
+		}
+
+		function __construct($rowdata) {
+			$this->id = ANORRLBadges::index(intval($rowdata['pbadge_id']));
+			$this->name = strval($rowdata['pbadge_name']);
+			$this->description = strval($rowdata['pbadge_description']);
+		}
 	}
 ?>

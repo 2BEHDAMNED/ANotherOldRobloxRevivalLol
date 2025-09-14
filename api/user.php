@@ -5,6 +5,9 @@
 
 	if(isset($_GET['id']) && isset($_GET['request'])) {
 		$user = User::FromID(intval($_GET['id']));
+		if($user == null) {
+			$user = UserUtils::RetrieveUser();
+		}
 
 		if($user != null) {
 			if($_GET['request'] == "getuserbadges") {
@@ -33,6 +36,10 @@
 				}
 		
 				die(json_encode(["badges" => $badges_raw, "page" => $page, "total_pages" => floor(count($user->GetAllOwnedAssetsOfType(AssetType::BADGE))/12)+1]));
+			} else if($_GET['request'] == "isadmin") {
+				die(json_encode(['error' => false, 'isadmin' => $user->IsAdmin()]));
+			} else {
+				die(json_encode(["error" => true, "reason" => "Invalid request"]));
 			}
 			
 		} else {

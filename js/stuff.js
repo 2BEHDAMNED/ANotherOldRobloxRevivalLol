@@ -24,7 +24,15 @@ var allowedcategories = {
 	"places": 9,
 }
 
+var shouldnotbeallowedatallcategories = {
+	"badges": 21,
+	"gamepasses": 34,
+}
+
+
+
 ANORRL.Stuff  = {
+	IsAdmin: false,
 	CurrentPage: 1,
 	AdvanceFeed: function() {
 		this.GrabFeed(this.CurrentPage + 1);
@@ -62,16 +70,18 @@ ANORRL.Stuff  = {
 			$(this).removeAttr("selected");
 		});
 
+		var categorylabel = $("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", "");
+
 		$("li[data_category="+category+"]").attr("selected", "");
-		if(allowedcategories[$("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", "")] != undefined) {
+		if(shouldnotbeallowedatallcategories[categorylabel] == undefined && (allowedcategories[categorylabel] != undefined || this.IsAdmin)) {
 			$($("#CreateArea").find("a")[0]).removeAttr("disabled");
-			$($("#CreateArea").find("a")[0]).attr("href","/create/"+$("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", ""));
+			$($("#CreateArea").find("a")[0]).attr("href","/create/"+categorylabel);
 		} else {
 			$($("#CreateArea").find("a")[0]).removeAttr("href");
 			$($("#CreateArea").find("a")[0]).attr("disabled", "true");
 		}
 		
-		ChangeUrl("", "/my/stuff#"+$("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", ""));
+		ChangeUrl("", "/my/stuff#"+categorylabel);
 
 		$.get("/api/stuff", {c: category, p : page}, function(data) {
 			
@@ -116,22 +126,35 @@ ANORRL.Stuff  = {
 					td.append(template);
 					template.removeAttr("template");
 
+					
+
 					if(asset['cost']['cones'] + asset['cost']['lights'] == 0) {
+						template.find("#Pricing").attr("oneprice", "true");
 						template.find("#Pricing").children().each(function() {
 							$(this).remove();
 						});
 						template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"))
 					} else {
 
-						template.find("#Pricing").attr("oneprice", "true");
-
 						if(asset['cost']['cones'] == 0) {
-							template.find("#Pricing").find("#Cones").remove();
+							template.find("#Pricing #Cones").remove();
+						} else {
+							template.find("#Pricing #Cones #Costing").html(asset['cost']['cones']);
 						}
 
 						if(asset['cost']['lights'] == 0) {
-							template.find("#Pricing").find("#Lights").remove();
+							template.find("#Pricing #Lights").remove();
+						} else {
+							template.find("#Pricing #Lights #Costing").html(asset['cost']['lights']);
 						}
+
+
+						if(asset['cost']['lights'] != 0 && asset['cost']['cones'] != 0) {
+							template.find("#Pricing").removeAttr("oneprice");
+						} else {
+							template.find("#Pricing").attr("oneprice", "true");
+						}
+
 					}
 
 					template.find("#NameAndThumbs > img").attr("src", "/thumbs/?id="+asset['id']+"&sxy=130");
@@ -179,8 +202,6 @@ function ChangeUrl(title, url) {
 
 $(function(){
 
-	
-
 	$("li[data_category]").on("click",function() {
 		ANORRL.Stuff.GrabAssets($(this).attr("data_category"), ANORRL.Stuff.CurrentPage);
 	});
@@ -211,4 +232,8 @@ $(function(){
 		ANORRL.Stuff.GrabAssets();
 	}
 	
+
+	$.get("/api/user?id=0&request=isadmin", function(data) {
+		ANORRL.Stuff.IsAdmin = data['isadmin'];
+	});
 });

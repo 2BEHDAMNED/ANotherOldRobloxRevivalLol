@@ -23,6 +23,56 @@
 	} else {
 		die(header("Location: /my/stuff"));
 	}
+
+	function ReturnNotUnicodedString(string $contents) {
+		$blockedchars = array('𒐫', '‮', '﷽', '𒈙', '⸻ ', '꧅');
+		return str_replace($blockedchars, '', trim($contents));
+	}
+
+	if(isset($_POST['ANORRL$EditItem$Name']) &&
+	   isset($_POST['ANORRL$EditItem$Description']) &&
+	   isset($_POST['ANORRL$EditItem$Submit'])) {
+
+		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+		$name = ReturnNotUnicodedString($_POST['ANORRL$EditItem$Name']);
+		$description = ReturnNotUnicodedString($_POST['ANORRL$EditItem$Description']);
+		$public = isset($_POST['ANORRL$EditItem$PublicBox']) ? 1 : 0;
+		$comments_enabled = isset($_POST['ANORRL$EditItem$CommentsBox']) ? 1 : 0;
+
+		if(strlen($name) < 4) {
+			$_SESSION['ANORRL$EditItem$Error'] = "Name must not be shorter than 4 characters!";
+			$_SESSION['ANORRL$EditItem$Success'] = false;
+
+			die(header("Location: /edit?id=$id"));
+		} else {
+			if(isset($_POST['ANORRL$EditItem$OnSaleBox']) &&
+			isset($_POST['ANORRL$EditItem$Cost$Cones']) &&
+			isset($_POST['ANORRL$EditItem$Cost$Lights'])) {
+				$cost_cones = intval($_POST['ANORRL$EditItem$Cost$Cones']);
+				$cost_lights = intval($_POST['ANORRL$EditItem$Cost$Lights']);
+
+				if($cost_cones < 0) { $cost_cones = 0; }
+				if($cost_lights < 0) { $cost_lights = 0; }
+				
+				$stmt = $con->prepare('UPDATE `assets` SET `asset_name` = ?, `asset_description` = ?, `asset_public` = ?, `asset_comments_enabled` = ?, `asset_onsale` = 1, `asset_cost_cones` = ?,`asset_cost_lights` = ?,`asset_lastedited` = now() WHERE `asset_id` = ?;');
+				$stmt->bind_param('ssiiiii', $name, $description, $public, $comments_enabled, $cost_cones, $cost_lights, $id);
+				$stmt->execute();
+
+				$_SESSION['ANORRL$EditItem$Success'] = true;
+			} else {
+				$stmt = $con->prepare('UPDATE `assets` SET `asset_name` = ?, `asset_description` = ?, `asset_public` = ?, `asset_comments_enabled` = ?, `asset_onsale` = 0, `asset_lastedited` = now() WHERE `asset_id` = ?;');
+				$stmt->bind_param('ssiii', $name, $description, $public, $comments_enabled, $id);
+				$stmt->execute();
+
+				$_SESSION['ANORRL$EditItem$Success'] = true;
+			}
+
+			die(header("Location: /".$asset->GetURLTitle()."-item?id=$id"));
+		}
+
+		
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,8 +108,6 @@
 				
 			}
 
-			/* max-width: 330px; */
-
 			#ItemDetails input[type=text],
 			#ItemDetails input[type=number],
 			#ItemDetails textarea {
@@ -75,7 +123,8 @@
 				width: 320px;
 			}
 
-			#ItemDetails input[type=submit] {
+			#ItemDetails input[type=submit],
+			#ItemDetails a[type=submit] {
 				border: 2px solid black;
 				background: black;
 				color: white;
@@ -87,7 +136,8 @@
 				display: block;
 			}
 
-			#ItemDetails input[type=submit]:hover {
+			#ItemDetails input[type=submit]:hover,
+			#ItemDetails a[type=submit]:hover {
 				text-decoration: underline;
 				background: #161616;
 				cursor: pointer;
@@ -112,7 +162,7 @@
 				<div id="BodyContainer">
 					<div id="EditContainer">
 						<h2>Editing: <?= $asset->name ?></h2>
-						<form id="ItemDetails">
+						<form id="ItemDetails" method="POST">
 							<div id="DetailStack">
 								<h4>Information</h4>
 								<table>
@@ -138,15 +188,20 @@
 								<h4 style="margin-top: 10px">Money&nbsp;&nbsp;money&nbsp;&nbsp;money...</h4>
 								<table>
 									<tr>
-										<td><label for="OnSaleCheckbox">On Sale</label><input id="OnSaleCheckbox" type="checkbox" <?php if($asset->onsale): ?>checked<?php endif ?>></td>
+										<td><span style="font-size:11px; color:lightgray;font-weight: bold;">Set currency to 0 to make it not use that currency...</span></td>
+									</tr>
+									<tr>
+										<td><label for="OnSaleCheckbox">On Sale</label><input id="OnSaleCheckbox" name="ANORRL$EditItem$OnSaleBox" type="checkbox" <?php if($asset->onsale): ?>checked<?php endif ?>></td>
 
-										<td class="ThePricing" id="TrafficCones">Traffic Cones<input type="number" value="<?= $asset->cost_cones ?>"></td>
-										<td class="ThePricing" id="TrafficLights">Traffic Lights<input type="number" value="<?= $asset->cost_lights ?>"></td>
+										<td class="ThePricing" id="TrafficCones">Traffic Cones<input type="number" name="ANORRL$EditItem$Cost$Cones" value="<?= $asset->cost_cones ?>"></td>
+										<td class="ThePricing" id="TrafficLights">Traffic Lights<input type="number" name="ANORRL$EditItem$Cost$Lights" value="<?= $asset->cost_lights ?>"></td>
 									</tr>
 								</table>
 							</div>
 							
-							<input type="Submit" value="Update">
+							<input type="submit" value="Update" name="ANORRL$EditItem$Submit">
+							<a type="submit" href="/<?= $asset->GetURLTitle() ?>-item?id=<?= $id ?>" style="width:50px">Go Back</a>
+							
 						</form>
 					</div>
 				</div>

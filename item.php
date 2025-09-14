@@ -276,6 +276,7 @@ if($asset != null) {
 								<span>Sales: </span><b><?= $asset->sales_count ?></b><br>
 								<hr>
 								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
+								<?php if(!$user_bought): ?>
 								<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
 								<?php if($asset->cost_cones != 0): ?>
 								<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button>
@@ -285,6 +286,9 @@ if($asset != null) {
 								<?php endif ?>
 								<?php else: ?>
 								<button class="PurchaseButton"><span>Free for grabs!</span></button>
+								<?php endif ?>
+								<?php else: ?>
+								<div id="NotOnSale">Hey! You already own this item??</div>
 								<?php endif ?>
 								<?php else: ?>
 									<?php if($user_bought): ?>
@@ -309,7 +313,7 @@ if($asset != null) {
 						<div id="CommentsContainer">
 							<h3>Comments</h3>
 							<div id="CommentSection">
-								<?php if($asset->comments_enabled): ?>
+								<?php if(!$asset->comments_enabled): ?>
 								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
 								<?php endif ?>
 							</div>
