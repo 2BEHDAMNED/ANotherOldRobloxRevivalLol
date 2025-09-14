@@ -15,6 +15,9 @@
 	RewriteRule ^IDE/Landing.aspx$ /core/ide/landing.php				  		  [END]
 	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
 
+	RewriteRule ^IDE/Toolbox/GetTotalNumberOfResults /core/ide/toolbox/gettotalnumberofresults.php			  [END]
+	RewriteRule ^IDE/Toolbox/Searc /core/ide/toolbox/search.php			  [END]
+
 	RewriteRule ^Login/Negotiate.ashx$ /core/authentication/negotiate.php [END]
 	RewriteRule ^Login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
 	RewriteRule ^login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
@@ -72,6 +75,9 @@
 
 	RewriteRule ^Game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 	RewriteRule ^game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
+
+	RewriteRule ^Thumbs/RawAsset.ashx /thumbs/rawasset.php [END]
+	RewriteRule ^thumbs/RawAsset.ashx /thumbs/rawasset.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
 

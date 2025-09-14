@@ -266,10 +266,10 @@ ClientToolbox = {}, ClientToolbox.IsUserAuthenticated = !1, ClientToolbox.IsDeca
 	return ClientToolbox.GetThumbnail(n.AssetVersionID, t, 0, !0), i
 }, ClientToolbox.GenerateOtherSetItemHtml = function(n) {
 	var i = ClientToolbox.GenerateHtml(n),
-		t = "span_setitem_" + n.ID;
-	return ClientToolbox.GetThumbnail(n.ID, t, 0, !1), i
+		t = "span_setitem_" + n.AssetID;
+	return ClientToolbox.GetThumbnail(n.AssetID, t, 0, !1), i
 }, ClientToolbox.GenerateHtml = function(n) {
-	var f = n.AssetID || n.ID,
+	var f = n.AssetID,
 		t = "",
 		o = "span_setitem_" + f,
 		e = n.Name.escapeHTML(),
@@ -280,7 +280,7 @@ ClientToolbox = {}, ClientToolbox.IsUserAuthenticated = !1, ClientToolbox.IsDeca
 		var c = n.UserVotedUp || n.UserVotedDown ? "has-voted" : "",
 			h = n.UserVotedUp ? "selected" : "",
 			l = n.UserVotedDown ? "selected" : "";
-		t += '<div class="voting users-vote ' + c + '">', t += '  <div class="upvote tiny ' + h + '" onclick="handleVote(' + n.ID + ', true)"></div>', t += '  <div class="downvote tiny ' + l + '" onclick="handleVote(' + n.ID + ', false)"></div>', t += "</div>"
+		t += '<div class="voting users-vote ' + c + '">', t += '  <div class="upvote tiny ' + h + '" onclick="handleVote(' + n.AssetID + ', true)"></div>', t += '  <div class="downvote tiny ' + l + '" onclick="handleVote(' + n.ID + ', false)"></div>', t += "</div>"
 	} else i && (r = n.Upvotes + n.Downvotes, u = r > 0 ? Math.round(n.Upvotes * 100 / r) : null, t += '<div class="voting">', u !== null ? (t += '<div class="votes upvotes-percentage">' + u + '% <span class="upvote tiny unclickable-thumbs-up"></span></div>', t += '<div class="votes totalVotes">(' + n.TotalVotesAsString + ")</div>") : t += '<div class="votes noVotes">' + ClientToolbox.Resources.noVotesYet + "</div>", t += "</div>");
 	return t += "</div>"
 }, ClientToolbox.GetThumbnail = function(n, t, i, r) {

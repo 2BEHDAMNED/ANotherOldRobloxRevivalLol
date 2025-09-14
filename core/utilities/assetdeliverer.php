@@ -65,24 +65,30 @@
 		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/$id";
 	}
 
-	if(file_exists($filename)) {
-		$handle = fopen($filename, "r"); 
-		$contents = fread($handle, filesize($filename)); 
-		fclose($handle);
-		header("Content-Type: application/octet-stream");//.checkMimeType($contents));
-		$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
-		$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
-		if(in_array($id, $sign_ids)) {
-			$contents = "%$id%\r\n" . $contents;
-			openssl_sign($contents, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
-			$signature = base64_encode($signature);
-			echo "%$signature%";
-		}
-		
-		echo $contents;
+	if($asset != null && $asset->status == AssetStatus::REJECTED) {
+		die(http_response_code(403));
 	} else {
-		die(http_response_code(404));
-	}	/*else {
+		if(file_exists($filename)) {
+			$handle = fopen($filename, "r"); 
+			$contents = fread($handle, filesize($filename)); 
+			fclose($handle);
+			header("Content-Type: application/octet-stream");//.checkMimeType($contents));
+			$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
+			$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
+			if(in_array($id, $sign_ids)) {
+				$contents = "%$id%\r\n" . $contents;
+				openssl_sign($contents, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
+				$signature = base64_encode($signature);
+				echo "%$signature%";
+			}
+			
+			echo $contents;
+		} else {
+			die(http_response_code(404));
+		}
+	}
+
+		/*else {
 		error_reporting(0);
 		$url = 'https://assetdelivery.roblox.com/v1/asset/?id='.$id.'';
 		$ch = curl_init ($url);

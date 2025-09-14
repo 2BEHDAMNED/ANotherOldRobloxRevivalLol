@@ -207,6 +207,34 @@
 			return [];
 		}
 
+
+		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count) {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? LIMIT ?, ?");
+			
+			$page = (($pagenum-1)*$count);
+			$q = "%$query%";
+			$ordinal = $type->ordinal();
+			$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $count);
+			$stmt_getuser->execute();
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					$asset = new Asset($row);
+					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED) {
+						array_push($result_array, $asset);
+					}
+				}
+				return $result_array;
+			}
+
+			return [];
+		}
+
 		function __construct(array|int $rowdata) {
 			if(is_array($rowdata)) {
 				$this->id = intval($rowdata['asset_id']);

@@ -238,7 +238,7 @@
 				<div id="BodyContainer">
 					<div id="IntroductionBox">
 						<h2 style="width: -moz-available;">What is ANORRL?</h2>
-						<p><b>ANORRL</b> is a 2012 "Old Roblox Revival" which aims to bring a fresh new look at the past!</p>
+						<p><b>ANORRL</b> is a 2013 "Old Roblox Revival" which aims to bring a fresh new look at the past!</p>
 						<p><b>ANORRL</b> stands for <code>"<b>AN</b>other <b>O</b>ld <b>R</b>oblox <b>R</b>evival <b>L</b>ol"</code></p>
 						<div style="margin-left: 5px;">
 							<h3 style="width: -moz-available;">So what is a "Old Roblox Revival"</h3>

@@ -195,7 +195,7 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					if(!$asset->notcatalogueable) {
+					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED) {
 						array_push($result_array, $asset);
 					}
 				}
@@ -219,7 +219,7 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					if(!$asset->notcatalogueable) {
+					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED) {
 						array_push($result_array, $asset);
 					}
 				}

@@ -8,20 +8,13 @@
 <html>
 	<head>
 		<title>Toolbox</title>
-		
-<link rel='stylesheet' href='/css/Toolbox.css' />
-
-		 <script type='text/javascript' src='//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.1.min.js'></script>
-<script type='text/javascript'>window.jQuery || document.write("<script type='text/javascript' src='/js/jquery/jquery-1.11.1.js'><\/script>")</script>
-<script type='text/javascript' src='//ajax.aspnetcdn.com/ajax/jquery.migrate/jquery-migrate-1.2.1.min.js'></script>
-<script type='text/javascript'>window.jQuery || document.write("<script type='text/javascript' src='/js/jquery/jquery-migrate-1.2.1.js'><\/script>")</script>
-
-		 <script type='text/javascript' src='/js/toolbox.js'></script>
-
+        <link rel="stylesheet" href="/css/Toolbox.css" />
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/toolbox.js"></script>
 	</head>
 	<body class="Page" style="margin: 0;">
         <input name="__RequestVerificationToken" type="hidden" value="6_eZHOjUPq8Jhw66Ug0so8DxlG33_rZY0TrLaXEc7aMbOKqRbphTsdZWYh_pBl5ud60toqWtjSAZmQHQU93ZLxukFYLaUIRjFnWCQD57CiwhlECKHNRU2ejI5FDEhDWcZ1Ru3g2" />
-        <div id="NewToolboxContainer" data-isuserauthenticated="<?= $user == null ? "false" : "true" ?></div>" 
+        <div id="NewToolboxContainer" data-isuserauthenticated="<?= $user == null ? "false" : "true" ?>" 
              data-isdecalcreationenabled = "true"
              data-requesturl = "http://arl.lambda.cam/asset/"
              data-isrecentlyinsertedassetenabled = "true" >
@@ -88,7 +81,7 @@
                 decals: "Decals",
                 mySets: "My Sets",
                 mySubscribedSets: "My Subscribed Sets",
-                robloxSets: "ROBLOX Sets",
+                robloxSets: "ANORRL Sets",
                 noSets: "No sets are available",
                 setsError: "An error occured while retrieving sets",
                 results: "Results",

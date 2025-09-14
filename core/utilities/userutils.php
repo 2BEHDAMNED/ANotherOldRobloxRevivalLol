@@ -185,14 +185,15 @@
 				session_start();
 			}
 
-			if(isset($_SESSION['SESSION_TOKEN_YAA'])) {
-				return User::FromSecurityKey($_SESSION['SESSION_TOKEN_YAA']);	
-			}
-
 			if(isset($_COOKIE['ANORRLSECURITY'])) {
 				return User::FromSecurityKey(urldecode($_COOKIE['ANORRLSECURITY']));	
 			}
 
+			if(isset($_SESSION['SESSION_TOKEN_YAA'])) {
+				return User::FromSecurityKey($_SESSION['SESSION_TOKEN_YAA']);	
+			}
+
+			
 			return null;
 		}
 
