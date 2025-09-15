@@ -19,7 +19,11 @@
 		"audio",
 		"decals",
 		"models",
-		"places"
+		"places",
+
+		"meshes",
+		"images",
+		"lua"
 	];
 
 	if(count($_POST) != 0) {
@@ -32,7 +36,21 @@
 				$name = trim($_POST['ANORRL$CreateAsset$Name']);
 				$description = trim($_POST['ANORRL$CreateAsset$Description']);
 				
-				if($type == "decals") {
+				if($type == "images") {
+					if($user->IsAdmin()) {
+						$result = AssetUploader::UploadImage($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+					} else {
+						$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
+					}
+					
+				} else if($type == "lua") {
+					if($user->IsAdmin()) {
+						$result = AssetUploader::UploadLua($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+					} else {
+						$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
+					}
+					
+				} else if($type == "decals") {
 					$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 				} else if($type == "audio") {
 					$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File']);
@@ -40,6 +58,14 @@
 					$result = AssetUploader::UploadTShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 				} else if($type == "faces") {
 					$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true);
+				} else if($type == "shirts") {
+					$result = AssetUploader::UploadShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+				} else if($type == "pants") {
+					$result = AssetUploader::UploadPants($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+				} else if($type == "meshes") {
+					$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+				} else if($type == "places") {
+					$result = AssetUploader::UploadPlace($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 				} else {
 					die("type found but not handled...");
 				}
@@ -52,13 +78,12 @@
 						$_SESSION['ANORRL$CreateAsset$Error'] = false;
 						$_SESSION['ANORRL$CreateAsset$Result'] = $result['id'];
 					}
+					
 					die(header("Location: /create/".$type));
 				}
 			}
 		}
 	}
-	
-	
 
 	if($user == null) {
 		die(header("Location: /"));
@@ -215,10 +240,15 @@
 								<li data_category="13"><a>Decals</a></li>
 								<li data_category="10"><a>Models</a></li>
 								<li data_category="9" ><a>Places</a></li>
+								<li data_category="4"><a>Meshes</a></li>
 								<?php if($user->IsAdmin()): ?>
-									<hr>
+								<hr>
 								<li data_category="19"><a>Gears</a></li>
 								<li data_category="32"><a>Packages</a></li>
+								<hr>
+								<li data_category="1"><a>Images</a></li>
+								<li data_category="5"><a>Lua</a></li>
+								
 								<?php endif ?>
 							</ul>
 						</div><div id="CreationPanel">
@@ -230,7 +260,7 @@
 									<?php if($_SESSION['ANORRL$CreateAsset$Error']): ?>
 									<div id="ErrorTime">Error: <span id="Message"><?= $_SESSION['ANORRL$CreateAsset$Result'] ?></span></div>
 									<?php else: ?>
-									<div id="SuccessTime">Success! <span id="Message"><?= "Check it out <a href=\"".Asset::FromID($_SESSION['ANORRL$CreateAsset$Result'])->GetURLTitle()."-item?id=". $_SESSION['ANORRL$CreateAsset$Result']."\">here!</a>"?></span></div>
+									<div id="SuccessTime">Success! <span id="Message"><?= "Check it out <a href=\"/".Asset::FromID($_SESSION['ANORRL$CreateAsset$Result'])->GetURLTitle()."-item?id=". $_SESSION['ANORRL$CreateAsset$Result']."\">here!</a>"?></span></div>
 									<?php endif ?>
 								<?php endif ?>
 								<form method="POST" enctype="multipart/form-data">

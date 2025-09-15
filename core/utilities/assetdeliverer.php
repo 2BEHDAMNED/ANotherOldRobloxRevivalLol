@@ -53,6 +53,10 @@
 		97188756, // ChatScript
 	];
 
+	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+
+	$access = $settings['asset']['ACCESSKEY'];
+
 	
 
 	include $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
@@ -65,7 +69,7 @@
 		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/$id";
 	}
 
-	if($asset != null && $asset->status == AssetStatus::REJECTED) {
+	if($asset != null && $asset->status == AssetStatus::REJECTED && (!isset($_GET['access']) && $_GET['access'] == $access)) {
 		die(http_response_code(403));
 	} else {
 		if(file_exists($filename)) {

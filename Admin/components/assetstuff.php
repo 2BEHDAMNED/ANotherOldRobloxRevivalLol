@@ -62,7 +62,7 @@
 	if($user->IsAdmin()) {
 		if(isset($_POST['type'])) {
 			if(isset($_POST['id'])) {
-				$id = $_POST['id'];
+				$id = intval($_POST['id']);
 
 				if($_POST['type'] == "render") {
 					$asset = Asset::FromID($id);
@@ -82,7 +82,7 @@
 				if($_POST['type'] == "accept") {
 					$stmt = $con->prepare('UPDATE `assets` SET `asset_status`= ?  WHERE `asset_id` = ? OR `asset_relatedid` = ?');
 					$status = AssetStatus::ACCEPTED->ordinal();
-					$stmt -> bind_param("ii",  $status, $id);
+					$stmt -> bind_param("iii",  $status, $id, $id);
 					$stmt->execute();
 					$message = "Success!";
 				}  else if($_POST['type'] == "deny") {

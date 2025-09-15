@@ -164,6 +164,7 @@
 
 		public Asset|null $relatedasset;
 		public bool         $notcatalogueable;
+		public int $current_version;
 		
 
 		public DateTime    $last_updatetime;
@@ -255,6 +256,7 @@
 
 				$this->notcatalogueable = boolval($rowdata['asset_nevershow']);
 				$this->relatedasset = Asset::FromID(intval($rowdata['asset_relatedid']));
+				$this->current_version = intval($rowdata['asset_currentversion']);
 	
 				$this->last_updatetime = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['asset_lastedited']);
 				$this->created_at      = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['asset_created']);	
@@ -277,14 +279,46 @@
 				$this->cost_lights = $asset_data->cost_lights;
 				$this->cost_cones = $asset_data->cost_cones;
 				$this->sales_count = $asset_data->sales_count;
-	
+				
+				$this->notcatalogueable = $asset_data->notcatalogueable;
+				$this->relatedasset = $asset_data->relatedasset;
+				$this->current_version = $asset_data->current_version;
+
 				$this->last_updatetime = $asset_data->last_updatetime;
 				$this->created_at      = $asset_data->created_at;	
 			}
 		}
 
 		function GetURLTitle() {
-			return str_replace(" ", "-", strtolower(trim(preg_replace('/[^A-Za-z0-9 ]/', "", $this->name))));
+			$result = str_replace(" ", "-", strtolower(trim(preg_replace('/[^A-Za-z0-9 ]/', "", $this->name))));
+			if($result == "") {
+				$result = "unnamed";
+			}
+
+			return $result;
+		}
+
+		function GetAllVersions(): array {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC");
+			$stmt_getuser->bind_param('i', $this->id);
+			$stmt_getuser->execute();
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					array_push($result_array, new AssetVersion($row));
+				}
+			}
+
+			return $result_array;
+		}
+
+		function GetLatestVersionDetails() {
+			return null; // later
 		}
 
 		function GetVersionID(): int {
@@ -415,5 +449,26 @@
 
 		function Visit(User|int $user) {}
 		function GetBadges() {}
+	}
+	class AssetVersion {
+
+		public int $id;
+		public Asset $asset;
+		public string $md5sig;
+		public string $md5thumb;
+		public AssetType $asset_type;
+		public DateTime $publish_date;
+
+
+		function __construct($rowdata) {
+			$this->id = intval($rowdata['version_id']);
+			$this->asset = Asset::FromID(intval($rowdata['version_assetid']));
+			$this->type = AssetType::index(intval($rowdata['version_assettype']));
+			$this->md5sig = strval($rowdata['version_md5sig']);
+			$this->md5thumb = strval($rowdata['version_md5thumb']);
+
+			$this->publish_date      = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['version_publishdate']);	
+		}
+
 	}
 ?>

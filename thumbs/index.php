@@ -24,10 +24,12 @@
 
 				$md5hash = $stmt_result->fetch_assoc()['version_md5thumb'];
 
-				if($md5hash == "sound") {
+				if($md5hash == "sound" && $asset->type == AssetType::AUDIO) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
+				} else if($md5hash == "script" && $asset->type == AssetType::LUA) {
+					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
 				} else {
-					if($asset->relatedasset != null) {
+					if($asset->relatedasset != null || $asset->type == AssetType::IMAGE) {
 						$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash");
 						$specialcase = true;
 					} else {

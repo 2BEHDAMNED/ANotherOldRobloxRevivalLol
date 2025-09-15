@@ -16,7 +16,7 @@
 	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
 
 	RewriteRule ^IDE/Toolbox/GetTotalNumberOfResults /core/ide/toolbox/gettotalnumberofresults.php			  [END]
-	RewriteRule ^IDE/Toolbox/Searc /core/ide/toolbox/search.php			  [END]
+	RewriteRule ^IDE/Toolbox/Search /core/ide/toolbox/search.php			  [END]
 
 	RewriteRule ^Login/Negotiate.ashx$ /core/authentication/negotiate.php [END]
 	RewriteRule ^Login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
@@ -83,12 +83,30 @@
 
 	RewriteCond %{QUERY_STRING} id=(.+)
 	RewriteRule ^(.*)-item$ /item.php?name=$1&id=%1 [QSD,END]
+	RewriteCond %{QUERY_STRING} id=(.+)
+	RewriteRule ^(.*)-place$ /place.php?name=$1&id=%1 [QSD,END]
 	
-	
+	RewriteRule ^Asset/BodyColors.ashx$ /core/character/bodycolors.php 			  [END]
+	RewriteRule ^Asset/CharacterFetch.ashx$ /core/character/characterfetch.php 			  [END]
+	RewriteRule ^Asset/GetScriptState.ashx$ /core/gamescripts/getscriptstate.txt 			  [END]
+
+	# SHUT THE FUCK UPP!!!!!
+	RewriteRule ^Error/Dmp.ashx$ /core/nothing.txt [END]
+	RewriteRule ^v1.1/Counters/Increment/?$ /core/nothing.txt [END]
+	RewriteRule ^v1.1/counters/increment/?$ /core/nothing.txt [END]
+	RewriteRule ^game/report-stats?$ /core/nothing.txt [END]
+	RewriteRule ^Game/report-stats?$ /core/nothing.txt [END]
+
+	RewriteRule ^GetAllowedSecurityVersions/?$ /core/nothing.txt [END]
+	RewriteRule ^GetAllowedMD5Hashes/?$ /core/nothing.txt [END]
+
 
 	RewriteRule ^edit.php$ /core/error/404.php [END]
 	RewriteRule ^item.php$ /core/error/404.php [END]
+	RewriteRule ^place.php$ /core/error/404.php [END]
 	RewriteRule ^README.md$ /core/error/404.php [END]
+
+	RewriteRule ^core/error/404.php /core/error/404.php [END]
 	
 	RewriteRule ^Admin/components/(.*)$ Admin/components/$1.php [END]
 

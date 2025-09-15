@@ -15,6 +15,7 @@ if (!Object.keys) {
 }
 
 var categoryFileTypes = {
+	1:"image/*",
 	11:"image/*",
 	18:"image/*",
 	2: "image/*",
@@ -22,6 +23,8 @@ var categoryFileTypes = {
 	3: ".mp3",
 	13:"image/*",
 	10:".rbxm",
+	4:"*",
+	5:".txt,.lua",
 	9: ".rbxl",
 }
 
@@ -130,34 +133,39 @@ ANORRL.Create  = {
 					td.append(template);
 					template.removeAttr("template");
 
-					if(asset['cost']['cones'] + asset['cost']['lights'] == 0) {
-						template.find("#Pricing").attr("oneprice", "true");
-						template.find("#Pricing").children().each(function() {
-							$(this).remove();
-						});
-						template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"))
-					} else {
-
-						if(asset['cost']['cones'] == 0) {
-							template.find("#Pricing #Cones").remove();
-						} else {
-							template.find("#Pricing #Cones #Costing").html(asset['cost']['cones']);
-						}
-
-						if(asset['cost']['lights'] == 0) {
-							template.find("#Pricing #Lights").remove();
-						} else {
-							template.find("#Pricing #Lights #Costing").html(asset['cost']['lights']);
-						}
-
-
-						if(asset['cost']['lights'] != 0 && asset['cost']['cones'] != 0) {
-							template.find("#Pricing").removeAttr("oneprice");
-						} else {
+					if(category != 9) {
+						if(asset['cost']['cones'] + asset['cost']['lights'] == 0) {
 							template.find("#Pricing").attr("oneprice", "true");
-						}
+							template.find("#Pricing").children().each(function() {
+								$(this).remove();
+							});
+							template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"))
+						} else {
 
+							if(asset['cost']['cones'] == 0) {
+								template.find("#Pricing #Cones").remove();
+							} else {
+								template.find("#Pricing #Cones #Costing").html(asset['cost']['cones']);
+							}
+
+							if(asset['cost']['lights'] == 0) {
+								template.find("#Pricing #Lights").remove();
+							} else {
+								template.find("#Pricing #Lights #Costing").html(asset['cost']['lights']);
+							}
+
+
+							if(asset['cost']['lights'] != 0 && asset['cost']['cones'] != 0) {
+								template.find("#Pricing").removeAttr("oneprice");
+							} else {
+								template.find("#Pricing").attr("oneprice", "true");
+							}
+
+						}
+					} else {
+						template.find("#Pricing").remove();
 					}
+					
 
 					template.find("#NameAndThumbs > img").attr("src", "/thumbs/?id="+asset['id']+"&sxy=130");
 
@@ -226,7 +234,10 @@ $(function(){
 		"places": 9,
 
 		"gears": 19,
+		"images": 1,
 		"packages": 32,
+		"meshes": 4,
+		"lua": 5,
 	}
 
 	ANORRL.Create.GrabAssets(categories[url]);

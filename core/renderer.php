@@ -7,44 +7,118 @@
 	$scanned_directory = array_diff(scandir($directory), array('..', '.'));
 
 	foreach($scanned_directory as $file) {
+		if(str_contains($file, "wsdl")) {
+			continue;
+		}
 		require $directory.$file;
 	}
+
+	
+	
 
 	class TheFuckingRenderer {
 
 		public static int $port = 64989;
 		public static string $address = "localhost";
 
-		public static function RenderPlayer() {
+		public static string $domain = "arl.lambda.cam";
+
+		public static function RenderPlayer(int $id = 0) {
 			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
 			if ($rcc instanceof SoapFault) {
 				echo "yeah it went all wrong smh...";
 				die();
 			}
 
+			$domain = self::$domain;
+
 			$JobId = md5(rand());
 
 			$job = new Roblox\Grid\Rcc\Job($JobId);
 			$scriptText = <<<EOT
-			game:GetService("ContentProvider"):SetBaseUrl("http://localhost:81/")
+			game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
 			game:GetService("ScriptContext").ScriptsDisabled = true
 			game:GetService("Lighting").Outlines = false
 
 			local player = game.Players:CreateLocalPlayer(0)
 
-			player:LoadCharacter()
+			player.CharacterAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?assetId=$id"
+			player:LoadCharacter(false)
 
 			return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
 			EOT;
+
 			$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
 			$base64data = $rcc->OpenJob($job, $script);
-			$rcc->RenewLease($JobId, 5);
+			$rcc->RenewLease($JobId, 1);
+
+			return $base64data;
+		}
+
+		public static function RenderMesh(int $id = 0) {
+			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
+			if ($rcc instanceof SoapFault) {
+				echo "yeah it went all wrong smh...";
+				die();
+			}
+
+			$domain = self::$domain;
+
+			$JobId = md5(rand());
+
+			$job = new Roblox\Grid\Rcc\Job($JobId);
+			$scriptText = <<<EOT
+			game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
+			game:GetService("ScriptContext").ScriptsDisabled = true
+			game:GetService("Lighting").Outlines = false
+
+			local part = Instance.new("Part", workspace)
+			part.Size = Vector3.new(4,4,4)
+
+			Instance.new("SpecialMesh", part).MeshId = "http://arl.lambda.cam/asset/?id=$id"
 			
+			return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
+			EOT;
+
+			$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
+			$base64data = $rcc->OpenJob($job, $script);
+			$rcc->RenewLease($JobId, 1);
+
+			return $base64data;
+		}
+
+		public static function RenderPlace(int $id = 0) {
+			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
+			if ($rcc instanceof SoapFault) {
+				echo "yeah it went all wrong smh...";
+				die();
+			}
+
+			$domain = self::$domain;
+
+			$JobId = md5(rand());
+
+			$job = new Roblox\Grid\Rcc\Job($JobId);
+			$scriptText = <<<EOT
+			game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
+			game:GetService("ScriptContext").ScriptsDisabled = true
+			game:GetService("Lighting").Outlines = false
+
+			game:Load("http://arl.lambda.cam/asset/?id=$id")
+			
+			return (game:GetService("ThumbnailGenerator"):Click("PNG", 768, 432, false))
+			EOT;
+
+			$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
+			$base64data = $rcc->OpenJob($job, $script);
+			$rcc->RenewLease($JobId, 1);
+
 			return $base64data;
 		}
 
 	}
 
+	
 	/*$value = TheFuckingRenderer::RenderPlayer();
 	echo "<img src='data:image/png;base64,$value'>";*/
 ?>

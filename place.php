@@ -19,14 +19,15 @@ if($asset != null) {
 	}	
 
 	$urlname = $asset->GetURLTitle();
-	if($asset->GetURLTitle() != $name) {
-		if($asset->type == AssetType::PLACE) {
-			die(header("Location: /$urlname-place?id=$id"));
+	
+	if($urlname != $name) {
+		if($asset->type != AssetType::PLACE) {
+			die(header("Location: /$urlname-item?id=$id"));
 		}
-		die(header("Location: /$urlname-item?id=$id"));
+		die(header("Location: /$urlname-place?id=$id"));
 	} else {
-		if($asset->type == AssetType::PLACE) {
-			die(header("Location: /$urlname-place?id=$id"));
+		if($asset->type != AssetType::PLACE) {
+			die(header("Location: /$urlname-item?id=$id"));
 		}
 	}
 
@@ -251,12 +252,7 @@ if($asset != null) {
 						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?></h2>
 						<div id="ItemDetails">
 							<div id="Content">
-								<?php if($asset->type == AssetType::AUDIO): ?>
-								<img src="/thumbs/?id=<?= $asset->id ?>&sxy=190">
-								<audio src="/asset/?id=<?= $audio_asset_id ?>" controls>Your browser does not support HTML5 Audio</audio>
-								<?php else: ?>
-								<img src="/thumbs/?id=<?= $asset->id ?>&sxy=240">
-								<?php endif ?>
+								<img src="/thumbs/?id=<?= $asset->id ?>&sx=426&sy=240">
 							</div>
 							<div id="Information">
 								<div id="UserCard">
@@ -273,34 +269,14 @@ if($asset != null) {
 								</div>
 							</div>
 							<div id="Purchasing">
-								<span>Sales: </span><b><?= $asset->sales_count ?></b><br>
-								<hr>
-								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
-								<?php if(!$user_bought): ?>
-								<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
-								<?php if($asset->cost_cones != 0): ?>
-								<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button>
-								<?php endif ?>
-								<?php if($asset->cost_lights != 0): ?>
-								<button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button>
-								<?php endif ?>
-								<?php else: ?>
-								<button class="PurchaseButton"><span>Free for grabs!</span></button>
-								<?php endif ?>
-								<?php else: ?>
-								<div id="NotOnSale">Hey! You already own this item??</div>
-								<?php endif ?>
-								<?php else: ?>
-									<?php if($user_bought): ?>
-									<div id="NotOnSale">Item not on sale and besides you own this.</div>
-									<?php else: ?>
-									<div id="NotOnSale">Item not on sale.</div>
-									<?php endif ?>
-								<?php endif ?>
+								<div id="NotOnSale">Item not on sale and besides you own this.</div>
 								<hr>
 								<div id="ManageOptions">
 									<?php if($is_creator): ?>
 									<a href="/edit?id=<?= $asset->id ?>">Edit</a>
+										<?php if($asset->type == AssetType::PLACE): ?>
+										<a href="">Open in Studio</a>
+										<?php endif ?>
 									<?php endif ?>
 									<a href="">Report this item</a>
 								</div>
