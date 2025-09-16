@@ -22,8 +22,14 @@
 		public static string $address = "localhost";
 
 		public static string $domain = "arl.lambda.cam";
+		public static bool $cantuserenderer = true;
 
 		public static function RenderPlayer(int $id = 0) {
+
+			if(self::$cantuserenderer) {
+				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			}
+
 			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
 			if ($rcc instanceof SoapFault) {
 				echo "yeah it went all wrong smh...";
@@ -56,6 +62,10 @@
 		}
 
 		public static function RenderMesh(int $id = 0) {
+			if(self::$cantuserenderer) {
+				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			}
+
 			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
 			if ($rcc instanceof SoapFault) {
 				echo "yeah it went all wrong smh...";
@@ -88,6 +98,10 @@
 		}
 
 		public static function RenderPlace(int $id = 0) {
+			if(self::$cantuserenderer) {
+				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			}
+
 			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
 			if ($rcc instanceof SoapFault) {
 				echo "yeah it went all wrong smh...";

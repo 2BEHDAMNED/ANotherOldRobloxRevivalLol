@@ -121,7 +121,7 @@ if($asset != null) {
 				background: #222;
 				margin-left: 10px;
 				padding: 10px;
-				width: 309px;
+				width: 377px;
 			}
 
 			#ItemDetails #Information #UserCard #AssetInfoStuff {
@@ -156,7 +156,7 @@ if($asset != null) {
 				text-align: center;
 			}
 
-			#ItemDetails #Purchasing #NotOnSale {
+			#ItemDetails #UserCard #NotOnSale {
 				border: 2px solid gray;
 				font-weight: bold;
 				font-style: italic;
@@ -193,13 +193,13 @@ if($asset != null) {
 			}
 
 			#ManageOptions {
-
+				text-align: center;
 			}
 
 			#ManageOptions a {
 				display: block;
-				padding: 5px;
-				width: 210px;
+				padding: 5px 0px;
+				width: 100%;
 			}
 
 			#CommentsContainer {
@@ -252,7 +252,7 @@ if($asset != null) {
 						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?></h2>
 						<div id="ItemDetails">
 							<div id="Content">
-								<img src="/thumbs/?id=<?= $asset->id ?>&sx=426&sy=240">
+								<img src="/thumbs/?id=<?= $asset->id ?>&sx=456&sy=257">
 							</div>
 							<div id="Information">
 								<div id="UserCard">
@@ -263,22 +263,18 @@ if($asset != null) {
 										<span><b>Last updated</b>: <?= $asset->last_updatetime->format('d/m/Y H:i'); ?></span>
 										<span><b>Favourited</b>: <?= $favourites_count ?></span>
 									</div>
-								</div>
-								<div id="ItemDescription">
-									<?= $asset_description ?>
-								</div>
-							</div>
-							<div id="Purchasing">
-								<div id="NotOnSale">Item not on sale and besides you own this.</div>
-								<hr>
-								<div id="ManageOptions">
-									<?php if($is_creator): ?>
-									<a href="/edit?id=<?= $asset->id ?>">Edit</a>
-										<?php if($asset->type == AssetType::PLACE): ?>
-										<a href="">Open in Studio</a>
+
+									<div id="NotOnSale">Place is not open for you to join!</div>
+									<hr>
+									<div id="ManageOptions">
+										<?php if($is_creator): ?>
+										<a href="/edit?id=<?= $asset->id ?>">Edit</a>
+											<?php if($asset->type == AssetType::PLACE): ?>
+											<a href="">Open in Studio</a>
+											<?php endif ?>
 										<?php endif ?>
-									<?php endif ?>
-									<a href="">Report this item</a>
+										<a href="">Report this item</a>
+									</div>
 								</div>
 							</div>
 						</div>
