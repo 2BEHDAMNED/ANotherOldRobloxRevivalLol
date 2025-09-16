@@ -432,23 +432,173 @@
 		}
 	}
 
+
+	enum Genre {
+		/*
+			Town and City
+			Fantasy
+			Sci-Fi
+			Ninja
+			Scary
+			Pirate
+			Adventure
+			Sports
+			Funny
+			Wild West
+			War
+			Skate Park
+			Tutorial 
+		*/
+
+		case ALL;
+		case TOWNANDCITY;
+		case FANTASY;
+		case SCIFI;
+		case NINJA;
+		case SCARY;
+		case PIRATE;
+		case ADVENTURE;
+		case SPORTS;
+		case FUNNY;
+		case WILDWEST;
+		case WAR;
+		case SKATEPARK;
+		case TUTORIAL;
+
+		public static function index(?int $ordinal): Genre {
+			return match($ordinal) {
+				1 => Genre::ALL,
+				7 => Genre::TOWNANDCITY,
+				8 => Genre::FANTASY,
+				9 => Genre::SCIFI,
+				10 => Genre::NINJA,
+				11 => Genre::SCARY,
+				12 => Genre::PIRATE,
+				13 => Genre::ADVENTURE,
+				14 => Genre::SPORTS,
+				15 => Genre::FUNNY,
+				16 => Genre::WILDWEST,
+				17 => Genre::WAR,
+				18 => Genre::SKATEPARK,
+				19 => Genre::TUTORIAL,
+			};
+		}
+
+		public function ordinal(): int {
+			return match($this) {
+				Genre::ALL => 1,
+				Genre::TOWNANDCITY => 7,
+				Genre::FANTASY => 8,
+				Genre::SCIFI => 9,
+				Genre::NINJA => 10,
+				Genre::SCARY => 11,
+				Genre::PIRATE => 12,
+				Genre::ADVENTURE => 13,
+				Genre::SPORTS => 14,
+				Genre::FUNNY => 15,
+				Genre::WILDWEST => 16,
+				Genre::WAR => 17,
+				Genre::SKATEPARK => 18,
+				Genre::TUTORIAL => 19,
+			};
+		}
+
+		public function label(): string {
+			return match($this) {
+				Genre::ALL => "All",
+				Genre::TOWNANDCITY => "Town and City",
+				Genre::FANTASY => "Fantasy",
+				Genre::SCIFI => "Sci-Fi",
+				Genre::NINJA => "Ninja",
+				Genre::SCARY => "Scary",
+				Genre::PIRATE => "Pirate",
+				Genre::ADVENTURE => "Adventure",
+				Genre::SPORTS => "Sports",
+				Genre::FUNNY => "Funny",
+				Genre::WILDWEST => "Wild West",
+				Genre::WAR => "War",
+				Genre::SKATEPARK => "Skate Park",
+				Genre::TUTORIAL => "Tutorial",
+			};
+		}
+	}
+
+	enum ChatType {
+		/*
+			Classic Chat
+			Bubble Chat
+			Both
+		*/
+
+		case CLASSIC;
+		case BUBBLE;
+		case BOTH;
+
+		public static function index(?int $ordinal): ChatType {
+			return match($ordinal) {
+				1 => ChatType::CLASSIC,
+				2 => ChatType::BUBBLE,
+				0 => ChatType::BOTH,
+			};
+		}
+
+		public function ordinal(): int {
+			return match($this) {
+				ChatType::CLASSIC => 1,
+				ChatType::BUBBLE => 2,
+				ChatType::BOTH => 0,
+			};
+		}
+
+		public function label(): string {
+			return match($this) {
+				ChatType::CLASSIC => "Classic Chat",
+				ChatType::BUBBLE => "Bubble Chat",
+				ChatType::BOTH => "Both",
+			};
+		}
+	}
+
 	class Place extends Asset {
 		/** is the same as Asset::public */
 		public bool $friends_only;
 		public bool $copylocked;
-		public int  $genre;
+		public Genre  $genre;
+		public array|null $allowed_geartypes;
+		public ChatType $chattype;
 		public int  $visit_count;
 		public int  $current_playing_count;
+
+		public static function FromID(int $id): Asset|null {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `asset_places` WHERE `place_id` = ?");
+			$stmt_getuser->bind_param('i', $id);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			if($result->num_rows == 1) {
+				return new self($result->fetch_assoc());
+			} else {
+				return null;
+			}
+		}
+
 
 		function __construct($rowdata) {
 			parent::__construct(intval($rowdata['place_id']));
 
 			$this->friends_only = $this->public;
-			$this->copylocked = intval($rowdata['place_copylocked']);
+			$this->copylocked = boolval($rowdata['place_copylocked']);
+			$this->genre = Genre::index(intval($rowdata['place_genre']));
+			$this->allowed_geartypes = null;
+			$this->chattype = ChatType::index(intval($rowdata['place_chattype']));
+			$this->visit_count = intval($rowdata['place_visit_count']);
+			$this->current_playing_count = intval($rowdata['place_currently_playing']);
 		}
 
 		function Visit(User|int $user) {}
 		function GetBadges() {}
+		function GetGamepasses() {}
 	}
 	class AssetVersion {
 

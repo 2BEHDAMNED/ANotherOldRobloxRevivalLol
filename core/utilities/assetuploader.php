@@ -817,6 +817,10 @@
 					$stmt->bind_param('si', $md5hashfile, $place_id);
 					$stmt->execute();
 
+					$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`) VALUES (?)");
+					$stmt_addplace->bind_param('i', $place_id);
+					$stmt_addplace->execute();
+
 					if(!file_exists($assetsdir)) {
 						$render = TheFuckingRenderer::RenderPlace($place_id);
 						$data = "data:image/png;base64,$render";

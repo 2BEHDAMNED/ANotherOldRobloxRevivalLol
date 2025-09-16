@@ -14,6 +14,10 @@
 	}
 
 	if($asset != null) {
+
+		if($asset->type == AssetType::PLACE) {
+			$asset = Place::FromID($id);
+		}
 		$is_creator = $user->id == $asset->creator->id;
 
 		if(!$is_creator) {
