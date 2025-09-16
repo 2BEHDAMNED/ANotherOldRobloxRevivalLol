@@ -60,12 +60,12 @@
 				
 			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
 				$sizex = intval($_GET['sx']);
-				if($sizex < 16 || $sizex > 420) {
+				if($sizex < 16 || $sizex > 1080) {
 					$sizex = 420;
 				}
 
 				$sizey = intval($_GET['sy']);
-				if($sizey < 16 || $sizey > 420) {
+				if($sizey < 16 || $sizey > 1080) {
 					$sizey = 420;
 				}
 

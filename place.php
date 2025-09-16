@@ -87,57 +87,88 @@ if($asset != null) {
 				padding: 10px;
 			}
 
-			#ItemContainer #ItemDetails {
+			#ItemContainer .FavouriteButton {
+				width: 32px;
+				height: 32px;
+				margin-bottom: -7px;
+				margin-left: -16px;
+				margin-right: 10px;
+				background-image: url("/images/favourite_star.gif");
+				background-size: 32px;
+				display: inline-block;
+			}
+
+			#ItemContainer .FavouriteButton[favourited=true]{
+				background-image: url("/images/favourited_star.gif");
+			}
+
+			#ItemContainer .FavouriteButton[favourited=true]:hover {
+				background-image: url("/images/favourited_hover_star.gif");
+			}
+
+			#ItemContainer .FavouriteButton:hover {
+				background-image: url("/images/favourite_hover_star.gif");
+			}
+
+			#CommentsContainer #CommentSection #CommentsDisabled {
+				text-align: center;
+				padding: 20px;
+				font-size: 14px;
+			}
+
+			#ItemContainer #PlaceDetails {
 				background: #2c2c2c;
 				border: 2px solid black;
 				padding: 10px;
 				display: table;
+				width: 845px;
+				text-align: center;
 			}
 
-			#ItemDetails > div {
+			#PlaceDetails > div {
 				display: table-cell;
 				vertical-align: top;
 			}
 
 
-			#ItemDetails #Content {
+			#PlaceDetails #Content {
 				padding: 5px;
 				border: 2px solid black;
 				background: #212121;
-				text-align: center;
+				
 			}
 
-			#ItemDetails #Content audio {
-				width: 229px;border:2px solid black;
+			#PlaceDetails #Content audio {
+				width: 229px;
+				border:2px solid black;
 			}
 
-			#ItemDetails #Information {
+			#PlaceDetails #Information {
 				width: 338px;
 			}
 
-			#ItemDetails #Information #UserCard {
+			#PlaceDetails #Information #UserCard {
 				display: table;
 				border: 2px solid black;
 				background: #222;
 				margin-left: 10px;
 				padding: 10px;
-				width: 377px;
 			}
 
-			#ItemDetails #Information #UserCard #AssetInfoStuff {
+			#PlaceDetails #Information #UserCard #AssetInfoStuff {
 				display: inline-block;
 				vertical-align: top;
-				margin-top: 15px;
-				
+				margin-bottom: 15px;
+				width: 100%;
 			}
 
-			#ItemDetails #Information #UserCard span{
+			#PlaceDetails #Information #UserCard span{
 				display: block;
 				vertical-align: top;
 				
 			}
 
-			#ItemDetails #Information #ItemDescription {
+			#PlaceDetails #Information #ItemDescription {
 				border: 2px solid black;
 				background: #212121;
 				padding: 10px;
@@ -147,16 +178,7 @@ if($asset != null) {
 				overflow: auto;
 			}
 
-			#ItemDetails #Purchasing {
-				display: inline-block;
-				border: 2px solid black;
-				background: #212121;
-				padding: 10px;
-				margin-left: 10px;
-				text-align: center;
-			}
-
-			#ItemDetails #UserCard #NotOnSale {
+			#PlaceDetails #UserCard #NotOnSale {
 				border: 2px solid gray;
 				font-weight: bold;
 				font-style: italic;
@@ -192,14 +214,41 @@ if($asset != null) {
 				margin-bottom: -5px;
 			}
 
-			#ManageOptions {
-				text-align: center;
-			}
-
 			#ManageOptions a {
 				display: block;
 				padding: 5px 0px;
 				width: 100%;
+			}
+
+			#PlaceInfoArea {
+				margin-top: 10px;
+				background: #222;
+				border: 2px solid black;
+			}
+
+			#PlaceInfoArea #InfoHeaders {
+				background: #000;
+				font-size: 16px;
+				font-family: punk;
+				border-bottom: 2px solid black;
+			}
+
+			#PlaceInfoArea #InfoHeaders a {
+				color: white;
+				width: 193px;
+				display: inline-block;
+				text-align: center;
+				padding: 10px;
+			}
+
+			#PlaceInfoArea #InfoHeaders a:hover,
+			#PlaceInfoArea #InfoHeaders a[selected] {
+				background: #2b2b2b;
+				text-decoration: underline;
+			}
+
+			#PlaceInfoArea #InfoBox {
+				padding: 10px;
 			}
 
 			#CommentsContainer {
@@ -212,34 +261,7 @@ if($asset != null) {
 				border: 2px solid black;
 			}
 
-			#ItemContainer .FavouriteButton {
-				width: 32px;
-				height: 32px;
-				margin-bottom: -7px;
-				margin-left: -16px;
-				margin-right: 10px;
-				background-image: url("/images/favourite_star.gif");
-				background-size: 32px;
-				display: inline-block;
-			}
-
-			#ItemContainer .FavouriteButton[favourited=true]{
-				background-image: url("/images/favourited_star.gif");
-			}
-
-			#ItemContainer .FavouriteButton[favourited=true]:hover {
-				background-image: url("/images/favourited_hover_star.gif");
-			}
-
-			#ItemContainer .FavouriteButton:hover {
-				background-image: url("/images/favourite_hover_star.gif");
-			}
-
-			#CommentsContainer #CommentSection #CommentsDisabled {
-				text-align: center;
-				padding: 20px;
-				font-size: 14px;
-			}
+			
 		</style>
 	</head>
 	<body>
@@ -250,17 +272,16 @@ if($asset != null) {
 					<div id="ItemContainer">
 						<h4>ANORRL <?= $asset->type->label(); ?></h4>
 						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?></h2>
-						<div id="ItemDetails">
+						<div id="PlaceDetails">
 							<div id="Content">
-								<img src="/thumbs/?id=<?= $asset->id ?>&sx=456&sy=257">
+								<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
 							</div>
 							<div id="Information">
 								<div id="UserCard">
-									<a href="/users/<?= $asset->creator->id ?>/profile"><img src="/images/avatar.png" style="width: 100px;"></a>
+									<a href="/users/<?= $asset->creator->id ?>/profile"><img src="/images/avatar.png" style="width: 110px;display:block;margin:0 auto;"></a>
 									<div id="AssetInfoStuff">
 										<span>Created by <a href="/users/<?= $asset->creator->id ?>/profile"><?= $asset_creator_name ?></a></span>
-										<span><b>Created on</b>: <?= $asset->created_at->format('d/m/Y H:i'); ?></span>
-										<span><b>Last updated</b>: <?= $asset->last_updatetime->format('d/m/Y H:i'); ?></span>
+									
 										<span><b>Favourited</b>: <?= $favourites_count ?></span>
 									</div>
 
@@ -277,6 +298,28 @@ if($asset != null) {
 									</div>
 								</div>
 							</div>
+						</div>
+
+						<div id="PlaceInfoArea">
+							<div id="InfoHeaders">
+								<a href="">Info</a>
+								<a href="">Badges</a>
+								<a href="">Gamepasses</a>
+								<a href="">Servers</a>
+							</div>
+							<div id="InfoBox" content="Info" style="display:none">
+								Info content in here
+							</div>
+							<div id="InfoBox" content="Badges" style="display:none">
+								Badges content in here
+							</div>
+							<div id="InfoBox" content="Gamepasses" style="display:none">
+								Gamepasses content in here
+							</div>
+							<div id="InfoBox" content="Servers" style="display:none">
+								Servers content in here
+							</div>
+
 						</div>
 
 						<div id="CommentsContainer">
