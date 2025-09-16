@@ -84,6 +84,29 @@
 				$_SESSION['ANORRL$EditItem$Success'] = true;
 			}
 
+			if($asset->type == AssetType::PLACE &&
+			   isset($_POST['ANORRL$EditItem$Place$ServerSize']) && 
+			   isset($_POST['ANORRL$EditItem$Place$ChatType'])) {
+
+				//TODO: Add Genres
+				$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
+				$server_size = intval($_POST['ANORRL$EditItem$Place$ServerSize']);
+				$chattype = intval($_POST['ANORRL$EditItem$Place$ChatType']);
+
+				if($chattype < 0 || $chattype > 2) {
+					$chattype = $asset->chattype->ordinal();
+				}
+
+				if($server_size < 0) {
+					$server_size = $asset->server_size;
+				}
+
+
+				$stmt = $con->prepare('UPDATE `asset_places` SET `place_copylocked` = ?, `place_serversize` = ?, `place_chattype` = ? WHERE `place_id` = ?;');
+				$stmt->bind_param('iiii', $copylocked, $server_size, $chattype, $id);
+				$stmt->execute();
+			}
+
 			die(header("Location: /".$asset->GetURLTitle()."-item?id=$id"));
 		}
 
@@ -108,6 +131,8 @@
 			} else {
 				die(header("Location: /".$asset->GetURLTitle()."-item?id=$id"));
 			}
+		} else {
+			die("Yo, what are you doing??");
 		}
 
 	}
@@ -150,6 +175,7 @@
 
 			#ItemDetails input[type=text],
 			#ItemDetails input[type=number],
+			#ItemDetails select,
 			#ItemDetails textarea {
 				border: 2px solid black;
 				background: #444;
@@ -216,124 +242,149 @@
 					<div id="EditContainer">
 						<h2>Editing: <?= $asset->name ?></h2>
 						<div id="ItemDetails">
-						<form method="POST">
-							<div id="DetailStack">
-								<h4>Information</h4>
-								<table>
-									<tr>
-										<td>Name</td>
-										<td><input type="text" name="ANORRL$EditItem$Name" value="<?= $asset->name ?>" minlength="3" maxlength="128"></td>
-									</tr>
-									<tr>
-										<td>Description</td>
-										<td><textarea style="height: 50px;" name="ANORRL$EditItem$Description"><?= $asset->description ?></textarea></td>
-									</tr>
-									<tr>
-										<td>Public</td>
-										<td><input type="checkbox" name="ANORRL$EditItem$PublicBox" <?php if($asset->public): ?>checked<?php endif ?>></td>
-									</tr>
-									<tr>
-										<td>Enable Comments</td>
-										<td><input type="checkbox" name="ANORRL$EditItem$CommentsBox" <?php if($asset->comments_enabled): ?>checked<?php endif ?>></td>
-									</tr>
-								</table>
-							</div>
-							<?php if(!in_array($asset->type, $not_selling_types)): ?>
-							<div id="DetailStack">
-								<h4 style="margin-top: 10px">Money&nbsp;&nbsp;money&nbsp;&nbsp;money...</h4>
-								<table>
-									<tr>
-										<td><span style="font-size:11px; color:lightgray;font-weight: bold;">Set currency to 0 to make it not use that currency...</span></td>
-									</tr>
-									<tr>
-										<td><label for="OnSaleCheckbox">On Sale</label><input id="OnSaleCheckbox" name="ANORRL$EditItem$OnSaleBox" type="checkbox" <?php if($asset->onsale): ?>checked<?php endif ?>></td>
+							<form method="POST">
+								<div id="DetailStack">
+									<h4>Information</h4>
+									<table>
+										<tr>
+											<td>Name</td>
+											<td><input type="text" name="ANORRL$EditItem$Name" value="<?= $asset->name ?>" minlength="3" maxlength="128"></td>
+										</tr>
+										<tr>
+											<td>Description</td>
+											<td><textarea style="height: 50px;" name="ANORRL$EditItem$Description"><?= $asset->description ?></textarea></td>
+										</tr>
+										<tr>
+											<td>Public</td>
+											<td><input type="checkbox" name="ANORRL$EditItem$PublicBox" <?php if($asset->public): ?>checked<?php endif ?>></td>
+										</tr>
+										<tr>
+											<td>Enable Comments</td>
+											<td><input type="checkbox" name="ANORRL$EditItem$CommentsBox" <?php if($asset->comments_enabled): ?>checked<?php endif ?>></td>
+										</tr>
+									</table>
+								</div>
+								<?php if($asset->type == AssetType::PLACE): ?>
+								<div id="DetailStack">
+									<h4 style="margin-top: 10px">Place Settings</h4>
+									<table>
+										
+										<tr>
+											<td>Server Size</td>
+											<td><input type="number" name="ANORRL$EditItem$Place$ServerSize" value="<?= $asset->server_size ?>"></td>
+										</tr>
+										<tr>
+											<td>Chat Type</td>
+											<td>
+												<select name="ANORRL$EditItem$Place$ChatType" id="cars">
+													<option value="1">Classic</option>
+													<option value="2">Bubble</option>
+													<option value="0">Both</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>Copylocked</td>
+											<td><input type="checkbox" name="ANORRL$EditItem$Place$Copylocked" <?php if($asset->copylocked): ?>checked<?php endif ?>></td>
+										</tr>
+										
+									</table>
+								</div>
+								<?php endif ?>
+								<?php if(!in_array($asset->type, $not_selling_types)): ?>
+								<div id="DetailStack">
+									<h4 style="margin-top: 10px">Money&nbsp;&nbsp;money&nbsp;&nbsp;money...</h4>
+									<table>
+										<tr>
+											<td><span style="font-size:11px; color:lightgray;font-weight: bold;">Set currency to 0 to make it not use that currency...</span></td>
+										</tr>
+										<tr>
+											<td><label for="OnSaleCheckbox">On Sale</label><input id="OnSaleCheckbox" name="ANORRL$EditItem$OnSaleBox" type="checkbox" <?php if($asset->onsale): ?>checked<?php endif ?>></td>
 
-										<td class="ThePricing" id="TrafficCones">Traffic Cones<input type="number" name="ANORRL$EditItem$Cost$Cones" value="<?= $asset->cost_cones ?>"></td>
-										<td class="ThePricing" id="TrafficLights">Traffic Lights<input type="number" name="ANORRL$EditItem$Cost$Lights" value="<?= $asset->cost_lights ?>"></td>
+											<td class="ThePricing" id="TrafficCones">Traffic Cones<input type="number" name="ANORRL$EditItem$Cost$Cones" value="<?= $asset->cost_cones ?>"></td>
+											<td class="ThePricing" id="TrafficLights">Traffic Lights<input type="number" name="ANORRL$EditItem$Cost$Lights" value="<?= $asset->cost_lights ?>"></td>
+										</tr>
+									</table>
+								</div>
+								<?php endif ?>
+
+								<input type="submit" value="Update" onclick="document.forms[0].submit()" name="ANORRL$EditItem$Submit">
+								
+							</form>
+							<?php if(in_array($asset->type, $versioning_types)): ?>
+							<form method="POST" id="DetailStack" enctype="multipart/form-data">
+								<h4 style="margin-top: 10px">Publish Version</h4>
+								<table style="padding-bottom: 37px;">
+									<tr>
+										<td><span style="font-size:11px; color:lightgray;font-weight: bold;"></span></td>
 									</tr>
+									<tr>
+										<td>File</td>
+										<td><label for="files" style="width: 72px;margin: 0;display: inline;">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$PublishAsset$File" accept="" required><label id="filename" >No file chosen</label></td>
+									</tr>
+									
 								</table>
+								<input type="submit" value="Publish" style="margin-top:-33px" name="ANORRL$PublishAsset$Submit">
+							</form>
+							<div id="DetailStack">
+								<h4 style="margin-top: 10px">Version History</h4>
+								
+								<div class="PublicDomainRow">
+									<span style="font-size:11px; color:lightgray;font-weight: bold;display: block;margin-bottom: -25px;margin-top: 12px;margin-left: 10px;">Click one of the buttons below to revert to a previous version of this item.</span>
+									<table cellspacing="10" style="padding-top: 22px">
+										<tr>
+											<td>
+												&nbsp;
+											</td>
+											<td align="center">
+												<strong>Version</strong>
+											</td>
+											<td align="center">
+												<strong>Created</strong>
+											</td>
+										</tr>
+
+										<?php
+											$versions = $asset->GetAllVersions();
+											
+											$version_id = count($versions);
+											$current_version = $asset->current_version;
+
+											foreach($versions as $version) {
+												if($version instanceof AssetVersion) {
+													
+													$version_date = $version->publish_date->format('d/m/Y H:i:s A');
+													
+													
+													$versionpicker = <<<EOT
+													<td><a class="VersionPicker" href="">[ Make Current ]</a></td>
+													EOT; 
+
+													if($current_version == $version_id) {
+														$versionpicker = <<<EOT
+														<td><b>Current Version</b></td>
+														EOT; 
+													}
+
+													echo <<<EOT
+													<tr>
+														$versionpicker
+														<td align="center">$version_id</td>
+														<td align="center">$version_date</td>
+													</tr>
+													EOT;
+
+													$version_id--;
+												}
+											}
+										?>
+
+									</table>
+								</div>
 							</div>
 							<?php endif ?>
-						</form>
-						<?php if(in_array($asset->type, $versioning_types)): ?>
-						<form method="POST" id="DetailStack" enctype="multipart/form-data">
-							<h4 style="margin-top: 10px">Publish Version</h4>
-							<table style="padding-bottom: 37px;">
-								<tr>
-									<td><span style="font-size:11px; color:lightgray;font-weight: bold;"></span></td>
-								</tr>
-								<tr>
-									<td>File</td>
-									<td><label for="files" style="width: 72px;margin: 0;display: inline;">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$PublishAsset$File" accept="" required><label id="filename" >No file chosen</label></td>
-								</tr>
-								
-							</table>
-							<input type="submit" value="Publish" style="margin-top:-33px" name="ANORRL$PublishAsset$Submit">
-						</form>
-						<div id="DetailStack">
-							<h4 style="margin-top: 10px">Version History</h4>
-							
-							<div class="PublicDomainRow">
-								<span style="font-size:11px; color:lightgray;font-weight: bold;display: block;margin-bottom: -25px;margin-top: 12px;margin-left: 10px;">Click one of the buttons below to revert to a previous version of this item.</span>
-								<table cellspacing="10" style="padding-top: 22px">
-									<tr>
-										<td>
-											&nbsp;
-										</td>
-										<td align="center">
-											<strong>Version</strong>
-										</td>
-										<td align="center">
-											<strong>Created</strong>
-										</td>
-									</tr>
-
-									<?php
-										$versions = $asset->GetAllVersions();
-										
-										$version_id = count($versions);
-										$current_version = $asset->current_version;
-
-										foreach($versions as $version) {
-											if($version instanceof AssetVersion) {
-												
-												$version_date = $version->publish_date->format('d/m/Y H:i:s A');
-												
-												
-												$versionpicker = <<<EOT
-												<td><a class="VersionPicker" href="">[ Make Current ]</a></td>
-												EOT; 
-
-												if($current_version == $version_id) {
-													$versionpicker = <<<EOT
-													<td><b>Current Version</b></td>
-													EOT; 
-												}
-
-												echo <<<EOT
-												<tr>
-													$versionpicker
-													<td align="center">$version_id</td>
-													<td align="center">$version_date</td>
-												</tr>
-												EOT;
-
-												$version_id--;
-											}
-										}
-									?>
-								
-								</table>
-									
-								<!--<div>
-									<span id="ctl00_cphRoblox_AttireDataPager_Footer"><a disabled="disabled">First</a>&nbsp;<a disabled="disabled">Previous</a>&nbsp;<span>1</span>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$cphRoblox$AttireDataPager_Footer$ctl01$ctl01&#39;,&#39;&#39;)">2</a>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$cphRoblox$AttireDataPager_Footer$ctl02$ctl00&#39;,&#39;&#39;)">Next</a>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$cphRoblox$AttireDataPager_Footer$ctl02$ctl01&#39;,&#39;&#39;)">Last</a>&nbsp;</span>
-								</div>-->
-							</div>
-						</div>
-						<?php endif ?>
 						
-						<input type="submit" value="Update" onclick="document.forms[0].submit()" name="ANORRL$EditItem$Submit">
-						<a type="submit" href="/<?= $asset->GetURLTitle() ?>-item?id=<?= $id ?>" style="width:50px">Go Back</a>
+							<a type="submit" href="/<?= $asset->GetURLTitle() ?>-item?id=<?= $id ?>" style="width:50px">Go Back</a>
 						</div>
 						
 					</div>

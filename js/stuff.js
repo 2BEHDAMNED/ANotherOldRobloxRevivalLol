@@ -81,7 +81,7 @@ ANORRL.Stuff  = {
 			$($("#CreateArea").find("a")[0]).attr("disabled", "true");
 		}
 		
-		ChangeUrl("", "/my/stuff#"+categorylabel);
+		ANORRL.ChangeUrl("", "/my/stuff#"+categorylabel);
 
 		$.get("/api/stuff", {c: category, p : page}, function(data) {
 			
@@ -189,15 +189,6 @@ ANORRL.Stuff  = {
 			}
 		});
 	}
-}
-
-function ChangeUrl(title, url) {
-    if (typeof (history.pushState) != "undefined") {
-        var obj = { Title: title, Url: url };
-        history.pushState(obj, obj.Title, obj.Url);
-    } else {
-        window.location.href = url;
-    }
 }
 
 $(function(){

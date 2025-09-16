@@ -63,6 +63,14 @@ ANORRL = {
 	HideMobileWarning: function() {
 		$(".DisplayMobileWarning").remove();
 		$.cookie("MobileKnowsThis", "true");
+	},
+	ChangeUrl: function(title, url) {
+		if (typeof (history.pushState) != "undefined") {
+			var obj = { Title: title, Url: url };
+			history.pushState(obj, obj.Title, obj.Url);
+		} else {
+			window.location.href = url;
+		}
 	}
 };
 

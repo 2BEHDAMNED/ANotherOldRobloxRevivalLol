@@ -565,11 +565,12 @@
 		public bool $copylocked;
 		public Genre  $genre;
 		public array|null $allowed_geartypes;
+		public int $server_size;
 		public ChatType $chattype;
 		public int  $visit_count;
 		public int  $current_playing_count;
 
-		public static function FromID(int $id): Asset|null {
+		public static function FromID(int $id): Place|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `asset_places` WHERE `place_id` = ?");
 			$stmt_getuser->bind_param('i', $id);
@@ -591,6 +592,7 @@
 			$this->copylocked = boolval($rowdata['place_copylocked']);
 			$this->genre = Genre::index(intval($rowdata['place_genre']));
 			$this->allowed_geartypes = null;
+			$this->server_size = intval($rowdata['place_serversize']);
 			$this->chattype = ChatType::index(intval($rowdata['place_chattype']));
 			$this->visit_count = intval($rowdata['place_visit_count']);
 			$this->current_playing_count = intval($rowdata['place_currently_playing']);
@@ -613,7 +615,7 @@
 		function __construct($rowdata) {
 			$this->id = intval($rowdata['version_id']);
 			$this->asset = Asset::FromID(intval($rowdata['version_assetid']));
-			$this->type = AssetType::index(intval($rowdata['version_assettype']));
+			$this->asset_type = AssetType::index(intval($rowdata['version_assettype']));
 			$this->md5sig = strval($rowdata['version_md5sig']);
 			$this->md5thumb = strval($rowdata['version_md5thumb']);
 
