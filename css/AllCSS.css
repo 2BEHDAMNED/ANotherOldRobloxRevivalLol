@@ -555,6 +555,8 @@ h1, h2, h3, h4 {
 #AssetsContainer .Asset #NameAndThumbs > span {
 	display: block;
 	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #AssetsContainer .Asset > a > span {

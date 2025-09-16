@@ -209,15 +209,15 @@
 
 		function GetAllOwnedAssetsOfType(AssetType $type): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ?");
 			$ordinal = $type->ordinal();
-			$stmt_getuser->bind_param('i', $ordinal);
+			$stmt_getuser->bind_param('ii', $ordinal, $this->id);
 			$stmt_getuser->execute();
 
 			$result = $stmt_getuser->get_result();
 
 			$result_array = [];
-
+			
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);

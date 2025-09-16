@@ -31,11 +31,12 @@
 	}
 
 	$sign_ids = [
-		37801172, // StarterScript
+		1, // StarterScript
+		2, // Library Registration
+		3, // RbxGui
 		59002209, // Sections
-		60595695, // Library Registration
-		45284430, // RbxGui
-		45374389, // RbxGear
+		
+		4, // RbxGear
 		52177566, // RbxStatus
 		60595411, // RbxUtility
 		73157242, // RbxStamper

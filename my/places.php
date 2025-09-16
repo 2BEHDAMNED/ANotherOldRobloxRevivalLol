@@ -22,7 +22,7 @@
 		
 		<script type="text/javascript">
 			function editTemplateInStudio(play_placeId) {
-				window.external.StartGame("http://novarin.co/","http://novarin.co/","http://novarin.co/game/edit.ashx?placeId=" + play_placeId + "&oldformat" );
+				window.external.StartGame("http://arl.lambda.cam/","http://arl.lambda.cam/","http://arl.lambda.cam/game/edit.ashx?placeId=" + play_placeId);
 			}
 			function editrecentfile(recentpath) {
 				window.external.StartGame("","", recentpath);	
@@ -115,12 +115,25 @@
 				<div id="MyProjectsView" class="welcome-content-area" style="display: none;">
 					<h2>My Published Projects</h2>
 					<div class="templates" style="display: block;">
-						<div class="template" placeid="5187">
-							<a class="game-image">
-								<img width="197" src="/app/api/catalog/thumbnail?id=5187">
-							</a>
-							<p>Snowball Hangout</p>
-						</div>
+						<?php
+							$places = $user->GetAllOwnedAssetsOfType(AssetType::PLACE);
+							foreach($places as $place) {
+								if($place instanceof Asset) {
+									$place_id = $place->id;
+									$place_name = $place->name;
+									echo <<<EOT
+									<div class="template" placeid="$place_id">
+										<a class="game-image">
+											<img width="197" src="/thumbs/?id=$place_id&sx=197">
+										</a>
+										<p>$place_name</p>
+									</div>
+									EOT;
+								}
+							}
+
+						?>
+						
 					</div>
 				</div>
 				<div id="ButtonRow" class="divider-top divider-left divider-bottom">

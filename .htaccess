@@ -31,6 +31,7 @@
 	RewriteRule ^game/join.ashx$ /core/gamescripts/join.php				  [END]
 	RewriteRule ^game/studio.ashx$ /core/gamescripts/studio.php			  [END]
 	RewriteRule ^game/visit.ashx$ /core/gamescripts/visit.php 			  [END]
+	RewriteRule ^game/edit.ashx$ /core/gamescripts/edit.php			  [END]
 
 	RewriteRule ^Game/gameserver.ashx$ /core/gamescripts/gameserver.php   [END] # Only exists bc of windows!
 	RewriteRule ^Game/host.ashx$ /core/gamescripts/host.php   [END] # Only exists bc of windows!
@@ -38,6 +39,7 @@
 	RewriteRule ^Game/join.ashx$ /core/gamescripts/join.php				  [END] # Only exists bc of windows!
 	RewriteRule ^Game/studio.ashx$ /core/gamescripts/studio.php			  [END] # Only exists bc of windows!
 	RewriteRule ^Game/visit.ashx$ /core/gamescripts/visit.php			  [END] # Only exists bc of windows!
+	RewriteRule ^Game/edit.ashx$ /core/gamescripts/edit.php			  [END] # Only exists bc of windows!
 	
 	RewriteRule ^login$ login.php										  [END]
 	RewriteRule ^Login$ login.php										  [END]
