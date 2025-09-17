@@ -56,6 +56,7 @@
 				$image = imagescale($image, $size, $size);
 				imagesavealpha($image, true);
 				header("Content-Type: image/png");
+				ob_clean();
 				imagepng($image);
 				
 			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
@@ -74,12 +75,14 @@
 				imagesavealpha($image, true);
 				
 				header("Content-Type: image/png");
+				ob_clean();
 				imagepng($image);
 			} else {
 				$file_info = new finfo(FILEINFO_MIME_TYPE);
 				$mime = $file_info->buffer($contents);
 
 				header("Content-Type: $mime");
+				ob_clean();
 				echo $contents;
 			}
 

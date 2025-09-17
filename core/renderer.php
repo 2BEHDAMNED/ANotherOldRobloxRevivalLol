@@ -22,7 +22,7 @@
 		public static string $address = "localhost";
 
 		public static string $domain = "arl.lambda.cam";
-		public static bool $cantuserenderer = true;
+		public static bool $cantuserenderer = false;
 
 		public static function RenderPlayer(int $id = 0) {
 

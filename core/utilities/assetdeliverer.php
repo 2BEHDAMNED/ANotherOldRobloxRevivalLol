@@ -34,24 +34,25 @@
 		1, // StarterScript
 		2, // Library Registration
 		3, // RbxGui
-		59002209, // Sections
-		
 		4, // RbxGear
-		52177566, // RbxStatus
-		60595411, // RbxUtility
-		73157242, // RbxStamper
-		36868950, // Tooltip
-		46295863, // Settings
-		39250920, // DialogScript / MainBotChatScript
+		5, // RbxStatus
+		6, // RbxUtility
+		7, // RbxStamper
+		9, // Tooltip
+		10, // Settings
+		18, // DialogScript / MainBotChatScript
+		19, // PopupScript
+		21, // Friend NotificationScript
+		22, // ChatScript
+		26, // PurchasePromptScript
+		
 		48488235, // Playerlist
-		48488451, // PopupScript
-		48488398, // Friend NotificationScript
 		52177626, // RBXStatusBuffsGUIScript
 		52177590, // HealthScript v4.0
 		53878047, // BackpackBuilder
 		53878057, // LoadoutScript
 		53878053, // BackpackResizer
-		97188756, // ChatScript
+		
 	];
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);

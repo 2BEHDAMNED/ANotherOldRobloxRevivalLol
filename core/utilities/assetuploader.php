@@ -102,16 +102,8 @@
 			$user = UserUtils::RetrieveUser();
 			if($user->IsAdmin()) {
 				if($file['error'] == 0) {
-					$resultimage = imagecreatefromstring(file_get_contents($file['tmp_name']));
-					list($width, $height) = getimagesize($file['tmp_name']);
-
-					ob_start();
-					imagepng($resultimage);
-					$image_data = ob_get_contents();
-					ob_end_clean();
-
 					// process singular asset
-					$image_result = self::UploadAsset($user, AssetType::IMAGE, $name, "", false, true, $image_data);
+					$image_result = self::UploadAsset($user, AssetType::IMAGE, $name, "", false, true, file_get_contents($file['tmp_name']));
 					if($image_result['error']) {
 						return $image_result;
 					} else {
@@ -126,7 +118,7 @@
 						$stmt_processtransaction->execute();
 
 
-						$md5hashfile = md5($image_data);
+						$md5hashfile = md5(file_get_contents($file['tmp_name']));
 						$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
 						$stmt->bind_param('si', $md5hashfile, $image_result['id']);
 						$stmt->execute();
