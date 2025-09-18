@@ -70,11 +70,11 @@
 					$type = $asset->type;
 
 					if($type == AssetType::SHIRT || $type == AssetType::PANTS) {
-
-						$render = TheFuckingRenderer::RenderPlayer($id);
-						
+						$render = TheFuckingRenderer::RenderPlayer($id);	
 					} else if($type == AssetType::PLACE) {
-						//file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, TheFuckingRenderer::RenderMesh($id));
+						$render = TheFuckingRenderer::RenderPlace($id);
+					} else if($type == AssetType::MESH) {
+						$render = TheFuckingRenderer::RenderMesh($id);
 					}
 
 					$data = "data:image/png;base64,$render";
@@ -84,15 +84,6 @@
 
 					file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, $data);
 
-					/*if($type == Asset::PLACE) {
-						echo file_get_contents("http://localhost:64209/render?id=$id&type=place", false);
-					} else if($type == Asset::MODEL) {
-						echo file_get_contents("http://localhost:64209/render?id=$id&type=model", false);
-					} else if($type == Asset::SHIRT) {
-						echo file_get_contents("http://localhost:64209/render?id=$id&type=shirt", false);
-					} else if($type == Asset::PANTS) {
-						echo file_get_contents("http://localhost:64209/render?id=$id&type=pants", false);
-					}*/
 					$message = "Success!";
 				}
 
