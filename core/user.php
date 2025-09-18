@@ -182,7 +182,7 @@
 
 		function GetAllOwnedAssetsOfTypePaged(AssetType $type, int $pagenum, int $count): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? ORDER BY `ta_date` DESC");
 			$page = (($pagenum-1)*$count);
 			$ordinal = $type->ordinal();
 			
@@ -209,7 +209,7 @@
 
 		function GetAllOwnedAssetsOfType(AssetType $type): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? ORDER BY `ta_date` DESC");
 			$ordinal = $type->ordinal();
 			$stmt_getuser->bind_param('ii', $ordinal, $this->id);
 			$stmt_getuser->execute();
@@ -232,7 +232,7 @@
 
 		function GetAllOwnedAssets(): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` = ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` = ? ORDER BY `ta_date` DESC");
 			$stmt_getuser->bind_param('i', $this->id);
 			$stmt_getuser->execute();
 

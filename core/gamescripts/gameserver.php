@@ -40,6 +40,7 @@ scriptContext.ScriptsDisabled = false
     header("Content-Type: text/plain");
 
     $script = "\r\n" . ob_get_clean();
+    $script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
     $signature = get_signature($script);
 
     echo "%". $signature . "%" . $script;

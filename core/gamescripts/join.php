@@ -329,7 +329,7 @@ local success, err = pcall(function()
 	client.ConnectionRejected:connect(onConnectionRejected)
 	connectionFailed = client.ConnectionFailed:connect(onConnectionFailed)
 	
-	playerConnectSucces, player = pcall(function() return client:PlayerConnect(<?= rand() ?>, "arl.lambda.cam", 53640, 0, threadSleepTime) end)
+	playerConnectSucces, player = pcall(function() return client:PlayerConnect(0, "arl.lambda.cam", 52978, 0, threadSleepTime) end)
 	if not playerConnectSucces then
 		setMessage("Failed to create player")
 		return true, false
@@ -351,7 +351,7 @@ local success, err = pcall(function()
 	-- Overriden
 	onPlayerAdded(player)
 	
-	pcall(function() player.Name = [========[U<?= rand() ?>]========] end)
+	pcall(function() player.Name = [========[Player]========] end)
 	--player.CharacterAppearance = client.Ticket
 
 	player.CharacterAdded:connect(function(char)
@@ -385,6 +385,7 @@ analytics("Join Finished")
 	header("Content-Type: text/plain");
 
 	$script = "\r\n" . ob_get_clean();
+	$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 	$signature = get_signature($script);
 
 	echo "%". $signature . "%" . $script;
