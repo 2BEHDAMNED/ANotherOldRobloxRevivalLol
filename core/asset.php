@@ -611,6 +611,33 @@
 		public AssetType $asset_type;
 		public DateTime $publish_date;
 
+		public static function GetLatestVersionOf(Asset|int $asset) {
+			if($asset instanceof Asset) {
+				return self::GetVersionOf($asset, $asset->current_version);
+			} else {
+				$asset = Asset::FromID($asset);
+				return self::GetVersionOf($asset, $asset->current_version);
+			}
+		}
+
+		public static function GetVersionOf(Asset|int $asset, int $version) {
+			$id = $asset;
+			if($asset instanceof Asset) {
+				$id = $asset->id;
+			}
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `assetversions` WHERE `version_assetid` = ? AND `version_subid` = ?");
+			$stmt_getuser->bind_param('ii', $id);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			if($result->num_rows == 1) {
+				return new self($result->fetch_assoc());
+			} else {
+				return null;
+			}
+		}
+
 
 		function __construct($rowdata) {
 			$this->id = intval($rowdata['version_id']);

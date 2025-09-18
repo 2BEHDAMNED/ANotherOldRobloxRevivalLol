@@ -69,8 +69,10 @@
 					$asset = Asset::FromID($id);
 					$type = $asset->type;
 
-					if($type == AssetType::SHIRT) {
-						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".$asset->GetMD5HashCurrent(), TheFuckingRenderer::RenderPlayer($id));
+					if($type == AssetType::SHIRT || $type == AssetType::PANTS) {
+						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, TheFuckingRenderer::RenderPlayer($id));
+					} else if($type == AssetType::PLACE) {
+						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, TheFuckingRenderer::RenderMesh($id));
 					}
 
 					/*if($type == Asset::PLACE) {
