@@ -627,7 +627,7 @@
 			}
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `assetversions` WHERE `version_assetid` = ? AND `version_subid` = ?");
-			$stmt_getuser->bind_param('ii', $id);
+			$stmt_getuser->bind_param('ii', $id, $version);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
