@@ -32,13 +32,21 @@ const regex = /[^A-Za-z0-9 ]/g;
 
 ANORRL.Create  = {
 	CurrentPage: 1,
-	AdvanceFeed: function() {
-		this.GrabFeed(this.CurrentPage + 1);
+	CurrentCategory: 11,
+	CurrentlyLoadingCrapBruh: false,
+	AdvancePager: function() {
+		this.GrabAssets(this.CurrentCategory, this.CurrentPage + 1);
 	},
-	DeadvanceFeed: function() {
-		this.GrabFeed(this.CurrentPage - 1);
+	DeadvancePager: function() {
+		this.GrabAssets(this.CurrentCategory, this.CurrentPage - 1);
 	},
 	GrabAssets: function(category, page) {
+
+		if(this.CurrentlyLoadingCrapBruh) {
+			return;
+		} else {
+			this.CurrentlyLoadingCrapBruh = true;
+		}
 
 		var loadingMessage = $("#AssetsContainer #StatusText #Loading");
 		var emptyMessage = $("#AssetsContainer #StatusText #NoAssets");
@@ -47,7 +55,9 @@ ANORRL.Create  = {
 		loadingMessage.css("display", "block");
 
 		if(category === undefined) {
-			category = 11;
+			category = this.CurrentCategory;
+		} else {
+			this.CurrentCategory = category;
 		}
 		if(page === undefined) {
 			page = this.CurrentPage;
@@ -193,6 +203,8 @@ ANORRL.Create  = {
 				pagercontainer.find("input").val(current_page);
 				pagercontainer.find("#Pages").html(total_pages);
 			}
+
+			ANORRL.Create.CurrentlyLoadingCrapBruh = false;
 		});
 	}
 }

@@ -68,8 +68,8 @@
 							<table hidden></table>
 
 							<div id="Paginator" style="display: none">
-								<a href="" id="PrevPager">&lt;&lt;Previous</a> Page <input maxlength="4"> of <span id="Pages">1</span> <a href="" id="NextPager">Next&gt;&gt;</a>
-							</div>
+									<a href="javascript:ANORRL.Stuff.DeadvancePager()" id="PrevPager">&lt;&lt;Previous</a> Page <input maxlength="4"> of <span id="Pages">1</span> <a href="javascript:ANORRL.Stuff.DeadvancePager()" id="NextPager">Next&gt;&gt;</a>
+								</div>
 						</div>
 					</div>
 				</div>

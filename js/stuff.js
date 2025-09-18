@@ -34,13 +34,21 @@ var shouldnotbeallowedatallcategories = {
 ANORRL.Stuff  = {
 	IsAdmin: false,
 	CurrentPage: 1,
-	AdvanceFeed: function() {
-		this.GrabFeed(this.CurrentPage + 1);
+	CurrentCategory: 8,
+	CurrentlyLoadingCrapBruh: false,
+	AdvancePager: function() {
+		this.GrabAssets(this.CurrentCategory, this.CurrentPage + 1);
 	},
-	DeadvanceFeed: function() {
-		this.GrabFeed(this.CurrentPage - 1);
+	DeadvancePager: function() {
+		this.GrabAssets(this.CurrentCategory, this.CurrentPage - 1);
 	},
 	GrabAssets: function(category, page) {
+
+		if(this.CurrentlyLoadingCrapBruh) {
+			return;
+		} else {
+			this.CurrentlyLoadingCrapBruh = true;
+		}
 
 		var loadingMessage = $("#AssetsContainer #StatusText #Loading");
 		var emptyMessage = $("#AssetsContainer #StatusText #NoAssets");
@@ -49,7 +57,9 @@ ANORRL.Stuff  = {
 		loadingMessage.css("display", "block");
 
 		if(category === undefined) {
-			category = 8;
+			category = this.CurrentCategory;
+		} else {
+			this.CurrentCategory = category;
 		}
 		if(page === undefined) {
 			page = 1;
@@ -187,6 +197,8 @@ ANORRL.Stuff  = {
 				pagercontainer.find("input").val(current_page);
 				pagercontainer.find("#Pages").html(total_pages);
 			}
+
+			ANORRL.Stuff.CurrentlyLoadingCrapBruh = false;
 		});
 	}
 }

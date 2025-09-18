@@ -18,7 +18,7 @@
 		}
 
 		if($page < 1) {
-			die(header("Location: /api/stuff?p=1"));
+			die(header("Location: /api/stuff?c=$type&p=1"));
 		}
 
 		$assets = $user->GetAllOwnedAssetsOfTypePaged(AssetType::index($type), $page, 12);
