@@ -46,9 +46,9 @@
 		<script>
 			function checkAndRemove() {
 				if($('.Asset').length == 0) {
-					$("#ModBox").append("<p id=\"noassetthang\">No assets for you buddy.</p>");
+					$("#noassetthang").css("display", "block");
 				} else {
-					$("#noassetthang").remove();
+					$("#noassetthang").css("display", "none");
 				}
 			}
 
@@ -61,7 +61,7 @@
 
 			function render(pass_id) {
 				$.post( "/Admin/components/assetstuff", { id: pass_id, type: "render" }).done(function( data ) {
-					$("#asset_"+pass_id).find("#AssetThumbnailHyperLink").find("img").attr("src","/thumbs/?id="+pass_id+"&sxy=120&t="+Math.random());
+					$("#asset_"+pass_id).find("#AssetThumbnail").attr("src","/thumbs/?id="+pass_id+"&sxy=120&t="+Math.random());
 					checkAndRemove();
 				});
 			}
@@ -154,7 +154,7 @@
 							echo <<<EOT
 								<tr id="asset_$asset_id">
 									<td>
-										<div style="padding: 15px"><a href="/$asset_urlname-item?id=$asset_id" target="_blank"><img src="/thumbs/?id=$asset_id&sxy=100"></a></div>
+										<div style="padding: 15px"><a href="/$asset_urlname-item?id=$asset_id" target="_blank"><img src="/thumbs/?id=$asset_id&sxy=100" id="AssetThumbnail"></a></div>
 									</td>
 									<td style="vertical-align: middle;text-align: center;">
 										<div><a href="/$asset_urlname-item?id=$asset_id" target="_blank">$asset_name</a></div>

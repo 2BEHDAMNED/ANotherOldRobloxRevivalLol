@@ -1,6 +1,7 @@
 <?php
 	include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/core/asset.php";
+	require_once $_SERVER["DOCUMENT_ROOT"]."/core/renderer.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/core/utilities/userutils.php";
 	
 	$user = UserUtils::RetrieveUser();
@@ -67,6 +68,11 @@
 				if($_POST['type'] == "render") {
 					$asset = Asset::FromID($id);
 					$type = $asset->type;
+
+					if($type == AssetType::SHIRT) {
+						TheFuckingRenderer::RenderPlayer($id);
+					}
+
 					/*if($type == Asset::PLACE) {
 						echo file_get_contents("http://localhost:64209/render?id=$id&type=place", false);
 					} else if($type == Asset::MODEL) {
