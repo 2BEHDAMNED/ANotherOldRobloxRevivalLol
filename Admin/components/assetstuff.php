@@ -70,10 +70,19 @@
 					$type = $asset->type;
 
 					if($type == AssetType::SHIRT || $type == AssetType::PANTS) {
-						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, TheFuckingRenderer::RenderPlayer($id));
+
+						$render = TheFuckingRenderer::RenderPlayer($id);
+						
 					} else if($type == AssetType::PLACE) {
-						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, TheFuckingRenderer::RenderMesh($id));
+						//file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, TheFuckingRenderer::RenderMesh($id));
 					}
+
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
+
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, $data);
 
 					/*if($type == Asset::PLACE) {
 						echo file_get_contents("http://localhost:64209/render?id=$id&type=place", false);
