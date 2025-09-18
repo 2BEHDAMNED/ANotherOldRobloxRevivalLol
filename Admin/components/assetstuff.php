@@ -70,7 +70,7 @@
 					$type = $asset->type;
 
 					if($type == AssetType::SHIRT) {
-						TheFuckingRenderer::RenderPlayer($id);
+						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".$asset->GetMD5HashCurrent(), TheFuckingRenderer::RenderPlayer($id));
 					}
 
 					/*if($type == Asset::PLACE) {
