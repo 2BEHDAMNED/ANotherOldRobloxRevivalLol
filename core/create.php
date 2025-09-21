@@ -28,7 +28,7 @@
 
 	if(count($_POST) != 0) {
 		if(in_array($type, $validtypes)) {
-			$timer = 0;
+			$timer = 61;
 			if($user->GetLatestAssetUploaded() != null) {
 				$difference = (time()-($user->GetLatestAssetUploaded()->created_at->getTimestamp()-3600));
 
