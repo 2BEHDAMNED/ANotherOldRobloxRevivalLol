@@ -276,25 +276,25 @@ if($asset != null) {
 								<span>Sales: </span><b><?= $asset->sales_count ?></b><br>
 								<hr>
 								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
-								<?php if(!$user_bought): ?>
-								<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
-								<?php if($asset->cost_cones != 0): ?>
-								<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button>
-								<?php endif ?>
-								<?php if($asset->cost_lights != 0): ?>
-								<button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button>
-								<?php endif ?>
-								<?php else: ?>
-								<button class="PurchaseButton"><span>Free for grabs!</span></button>
-								<?php endif ?>
-								<?php else: ?>
-								<div id="NotOnSale">Hey! You already own this item??</div>
-								<?php endif ?>
+									<?php if(!$user_bought): ?>
+									<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
+									<?php if($asset->cost_cones != 0): ?>
+									<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button>
+									<?php endif ?>
+										<?php if($asset->cost_lights != 0): ?>
+										<button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button>
+										<?php endif ?>
+									<?php else: ?>
+										<button class="PurchaseButton"><span>Free for grabs!</span></button>
+									<?php endif ?>
+									<?php else: ?>
+										<div id="NotOnSale">Hey! You already own this item??</div>
+									<?php endif ?>
 								<?php else: ?>
 									<?php if($user_bought): ?>
-									<div id="NotOnSale">Item not on sale and besides you own this.</div>
+										<div id="NotOnSale">Item not on sale and besides you own this.</div>
 									<?php else: ?>
-									<div id="NotOnSale">Item not on sale.</div>
+										<div id="NotOnSale">Item not on sale.</div>
 									<?php endif ?>
 								<?php endif ?>
 								<hr>

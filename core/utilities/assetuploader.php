@@ -801,7 +801,7 @@
 					$stmt_processtransaction->execute();
 
 					$directory = $_SERVER['DOCUMENT_ROOT'];
-					$md5hashfile = md5($image_data);
+					$md5hashfile = md5($place_data);
 					$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
 					
 					
