@@ -39,7 +39,7 @@ if($asset != null) {
 		$audio_asset_id = $stmt->get_result()->fetch_assoc()['asset_id'];
 	}
 
-	$is_creator = ($user != null && $user->id == $asset->creator->id);
+	$is_creator = ($user != null && ($user->id == $asset->creator->id || $user->IsAdmin()));
 	$is_favourited = $user != null && $asset->HasUserFavourited($user);
 
 	$user_bought = $user != null && $user->Owns($asset);
@@ -277,16 +277,12 @@ if($asset != null) {
 								<hr>
 								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
 									<?php if(!$user_bought): ?>
-									<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
-									<?php if($asset->cost_cones != 0): ?>
-									<button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button>
-									<?php endif ?>
-										<?php if($asset->cost_lights != 0): ?>
-										<button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button>
+										<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
+											<?php if($asset->cost_cones != 0):  ?><button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button><?php endif ?>
+											<?php if($asset->cost_lights != 0): ?><button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button><?php endif ?>
+										<?php else: ?>
+											<button class="PurchaseButton"><span>Free for grabs!</span></button>
 										<?php endif ?>
-									<?php else: ?>
-										<button class="PurchaseButton"><span>Free for grabs!</span></button>
-									<?php endif ?>
 									<?php else: ?>
 										<div id="NotOnSale">Hey! You already own this item??</div>
 									<?php endif ?>
@@ -312,6 +308,8 @@ if($asset != null) {
 							<div id="CommentSection">
 								<?php if(!$asset->comments_enabled): ?>
 								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
+								<?php else: ?>
+								<div id="CommentsDisabled">Comments have not been implemented yet... (sorry :[)</div>
 								<?php endif ?>
 							</div>
 						</div>
