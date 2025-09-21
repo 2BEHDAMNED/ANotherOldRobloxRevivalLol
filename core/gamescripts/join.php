@@ -329,8 +329,8 @@ local success, err = pcall(function()
 	client.ConnectionRejected:connect(onConnectionRejected)
 	connectionFailed = client.ConnectionFailed:connect(onConnectionFailed)
 	
-	playerConnectSucces, player = pcall(function() return client:PlayerConnect(0, "arl.lambda.cam", 52978, 0, threadSleepTime) end)
-	if not playerConnectSucces then
+	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", 61426, 0, threadSleepTime) end)
+	if not playerConnectSuccess then
 		setMessage("Failed to create player")
 		return true, false
 	else

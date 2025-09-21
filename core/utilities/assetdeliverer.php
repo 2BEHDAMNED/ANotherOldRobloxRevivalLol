@@ -46,22 +46,16 @@
 		22, // ChatScript
 		26, // PurchasePromptScript
 		64, // Playerlist
-
-		52177626, // RBXStatusBuffsGUIScript
-		52177590, // HealthScript v4.0
-		53878047, // BackpackBuilder
-		53878057, // LoadoutScript
-		53878053, // BackpackResizer
+		95, // BackpackBuilder
+		107, //BackpackManager
+		110, // BackpackGear
+		111, // LoadoutScript
 		
 	];
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 
 	$access = $settings['asset']['ACCESSKEY'];
-
-	
-
-	
 
 	include $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
 
