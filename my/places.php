@@ -32,7 +32,7 @@
 	<body id="StudioWelcomeBody">
 		<div class="header">
 			<div id="header-login-wrapper" class="iframe-login-signup" data-display-opened="">
-				<p></p>
+				<p>So... you're <b><?= $user->name ?></b>?</p>
 			</div>
 			<!-- This is only after the login stuff because IE7 demands floated elements be before non-floated -->
 			<img src="/images/ide/studio_title.png" alt="Roblox Studio Title">
@@ -72,13 +72,13 @@
 					<div class="templates" js-data-templatetype="Basic" style="display: block;">
 						<div class="template" placeid="6017">
 							<a class="game-image">
-								<img class="" src="/js/ide/welcome/362ae9c43957047a0287f9cd2c98646c.jpg">
+								<img src="/images/ide/welcome/baseplate.jpg">
 							</a>
 							<p>Baseplate</p>
 						</div>
 						<div class="template" placeid="6302">
 							<a class="game-image">
-								<img class="" src="/js/ide/welcome/ab99a6e34406eb5e7aebd349c90ce35b.jpg">
+								<img src="/images/ide/welcome/flatterrain.jpg">
 							</a>
 							<p>Flat Terrain</p>
 						</div>
@@ -86,13 +86,13 @@
 					<div class="templates" js-data-templatetype="Strategy">
 						<div class="template" placeid="92721754">
 							<a class="game-image">
-								<img class="" src="/js/ide/welcome/2db15742ba86f0dfe6cd2762a8debbde.jpg">
+								<img src="/images/ide/welcome/capturetheflag.jpg">
 							</a>
 							<p>Capture The Flag</p>
 						</div>
 						<div class="template" placeid="95269276">
 							<a class="game-image">
-								<img class="" src="/js/ide/welcome/426308e89cd36c0bb531b9dd8e990c10.jpg">
+								<img src="/images/ide/welcome/controlpoints.jpg">
 							</a>
 							<p>Control Points</p>
 						</div>
@@ -100,13 +100,13 @@
 					<div class="templates" js-data-templatetype="Action">
 						<div class="template" placeid="92721884">
 							<a class="game-image">
-								<img class="" src="/js/ide/welcome/4ae1c9ec91cd33a9b38ad741ac1d0a4f.jpg">
+								<img src="/images/ide/welcome/freeforall.jpg">
 							</a>
 							<p>Free For All</p>
 						</div>
 						<div class="template" placeid="95205458">
 							<a class="game-image">
-								<img class="" src="/js/ide/welcome/f6e818f03afa39b999a4ed33b464c0cb.jpg">
+								<img src="/images/ide/welcome/teamdeathmatch.jpg">
 							</a>
 							<p>Team Deathmatch</p>
 						</div>
@@ -117,21 +117,24 @@
 					<div class="templates" style="display: block;">
 						<?php
 							$places = $user->GetAllOwnedAssetsOfType(AssetType::PLACE);
-							foreach($places as $place) {
-								if($place instanceof Asset) {
-									$place_id = $place->id;
-									$place_name = $place->name;
-									echo <<<EOT
-									<div class="template" placeid="$place_id">
-										<a class="game-image">
-											<img width="197" src="/thumbs/?id=$place_id&sx=197">
-										</a>
-										<p>$place_name</p>
-									</div>
-									EOT;
+							if(count($places) != 0) {
+								foreach($places as $place) {
+									if($place instanceof Asset) {
+										$place_id = $place->id;
+										$place_name = $place->name;
+										echo <<<EOT
+										<div class="template" placeid="$place_id">
+											<a class="game-image">
+												<img width="197" src="/thumbs/?id=$place_id&sx=197">
+											</a>
+											<p>$place_name</p>
+										</div>
+										EOT;
+									}
 								}
+							} else {
+								echo "<div><span>You have no published projects!</span></div>";
 							}
-
 						?>
 						
 					</div>
@@ -157,8 +160,7 @@
 				</div>
 				<div class="clear"></div>
 				<div id="GenericModalButtonContainer" class="GenericModalButtonContainer">
-					<a class="ImageButton btn-neutral btn-large roblox-ok">OK <span class="btn-text">OK</span>
-					</a>
+					<a class="ImageButton btn-neutral btn-large roblox-ok">OK <span class="btn-text">OK</span></a>
 				</div>
 			</div>
 		</div>

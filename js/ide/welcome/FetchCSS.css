@@ -17,30 +17,3 @@ body{background-color:#fff;margin:0;}body,.text,pre{font-family:Arial,Helvetica,
 /* ~/CSS/Pages/IDE/IDE.css */
 input,textarea,button,a{outline:0;}select{border:1px solid;border-color:#A7A7A7;}
 
-/*
-     FILE ARCHIVED ON 02:32:37 Jul 15, 2013 AND RETRIEVED FROM THE
-     INTERNET ARCHIVE ON 09:34:14 Mar 17, 2025.
-     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
-
-     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
-     SECTION 108(a)(3)).
-*/
-/*
-playback timings (ms):
-  captures_list: 0.658
-  exclusion.robots: 0.033
-  exclusion.robots.policy: 0.014
-  esindex: 0.01
-  cdx.remote: 15.706
-  LoadShardBlock: 233.142 (3)
-  PetaboxLoader3.datanode: 223.307 (4)
-  load_resource: 127.353
-  PetaboxLoader3.resolve: 104.075
-*/
-
-.btn-medium {
-  color: white;
-}
-.btn-large{
-  color: white;
-}

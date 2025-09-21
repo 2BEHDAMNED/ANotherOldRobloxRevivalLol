@@ -45,8 +45,8 @@
 		21, // Friend NotificationScript
 		22, // ChatScript
 		26, // PurchasePromptScript
-		
-		48488235, // Playerlist
+		64, // Playerlist
+
 		52177626, // RBXStatusBuffsGUIScript
 		52177590, // HealthScript v4.0
 		53878047, // BackpackBuilder
@@ -61,11 +61,26 @@
 
 	
 
+	
+
 	include $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
 
 	$asset = Asset::FromID($id);
 	if($asset != null) {
-		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset->GetMD5HashCurrent();
+		if(isset($_GET['version']) && intval($_GET['version']) != 0) {
+			$version = intval($_GET['version']);
+			$asset_version = AssetVersion::GetVersionOf($asset, $version);
+
+			if($asset_version != null) {
+				$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset_version->md5sig;
+			} else {
+				die(http_response_code(404));
+			}
+
+		} else {
+			$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset->GetLatestVersionDetails()->md5sig;
+		}
+		
 	} else {
 		// TESTING REASONS ONLY, DO NOT USE ON PROD AT ALL.
 		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/$id";

@@ -49,7 +49,7 @@
 			</td>
 			<td id="Content">
 				<code>Content content</code>
-				<div id="DatePosted">Posted <span id="Date">DD/MM/YYYY</span> ago <a href="/report?statusid=">Report abuse</a></div>
+				<div id="DatePosted">Posted <span id="Date">DD/MM/YYYY</span> ago <a href="">Report abuse</a></div>
 			</td>
 		</table>
 		<div id="Container">
