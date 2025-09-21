@@ -317,8 +317,8 @@
 			return $result_array;
 		}
 
-		function GetLatestVersionDetails() {
-			return null; // later
+		function GetLatestVersionDetails(): AssetVersion|null {
+			return AssetVersion::GetLatestVersionOf($this);
 		}
 
 		function GetVersionID(): int {

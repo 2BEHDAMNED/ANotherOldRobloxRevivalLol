@@ -864,6 +864,12 @@ h1, h2, h3, h4 {
 	margin-bottom: 5px;
 }
 
+#Feeds #FeedItem .User #Name {
+	width: 90px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 #Feeds #FeedItem #Content #DatePosted {
 	color: lightgray;
 	font-style: italic;
