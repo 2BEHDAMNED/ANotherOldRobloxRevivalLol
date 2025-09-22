@@ -44,7 +44,6 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
-		<script src="/js/jquery.imageloader.js"></script>
 		<script src="/js/main.js"></script>
 		<script src="/js/user.js"></script>
 		<script>
@@ -426,94 +425,52 @@
 							<div id="ProfileBadgesContainer">
 								<h3>ANORRL Badges</h3>
 								<table id="BadgesPane">
+									<?php 
+										$profilebadges = $get_user->GetProfileBadges();
+										$count = count($profilebadges);
+										$iteration_countfull = 0;
+										$iteration_count = 0;
+										
+										if($count != 0) {
+											foreach($profilebadges as $badge) {
+												if($iteration_count == 0) {
+													echo <<<EOT
+													<tr>
+													EOT;
+												}
+
+												$badgeid = $badge->id->ordinal();
+												$badgename = $badge->name;
+												$badgenamefile = str_replace(" ", "", $badge->name);
+												$badgedesc = $badge->description;
+
+												echo <<<EOT
+												<td>
+													<div class="Badge">
+														<a href="/badges#badge6">
+															<img src="/images/Badges/$badgenamefile.png" alt="$badgedesc">
+															<span>$badgename</span>
+														</a>
+													</div>
+												</td>
+												EOT;
+
+												$iteration_countfull++;
+												$iteration_count = $iteration_countfull % 4;
+
+												if($iteration_count == 4 || count($profilebadges) == $iteration_countfull) {
+													echo <<<EOT
+													</tr>
+													EOT;
+												}
+											}
+										}
+										
+									if($count == 0): ?>
 									<tr>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge6">
-													<img src="/images/Badges/Homestead-75x75.png" alt="The homestead badge is earned by having your personal place visited 100 times. Players who achieve this have demonstrated their ability to build cool things that other Robloxians were interested enough in to check out. Get a jump-start on earning this reward by inviting people to come visit your place.">
-													<span>Homestead</span>
-												</a>
-											</div>
-										</td>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge7">
-													<img src="/images/Badges/Bricksmith-75x75.png" alt="The Bricksmith badge is earned by having a popular personal place. Once your place has been visited 1000 times, you will receive this award. Robloxians with Bricksmith badges are accomplished builders who were able to create a place that people wanted to explore a thousand times. They no doubt know a thing or two about putting bricks together.">
-													<span>Bricksmith</span>
-												</a>
-											</div>
-										</td>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge3">
-													<img src="/images/Badges/CombatInitiation-75x75.png" alt="This badge is given to any player who has proven his or her combat abilities by accumulating 10 victories in battle. Players who have this badge are not complete newbies and probably know how to handle their weapons.">
-													<span style="margin-top: 5px;">Combat Initiation</span>
-												</a>
-											</div>
-										</td>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge12">
-													<img src="/images/Badges/Veteran-75x75.png" alt="This decoration is awarded to all citizens who have played ROBLOX for at least a year. It recognizes stalwart community members who have stuck with us over countless releases and have helped shape ROBLOX into the game that it is today. These medalists are the true steel, the core of the Robloxian history ... and its future.">
-													<span>Veteran</span>
-												</a>
-											</div>
-										</td>
+										<td class="Loading">Loading badges...</td>
 									</tr>
-									<tr>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge4">
-													<img src="/images/Badges/Warrior-75x75.png" alt="This badge is given to the warriors of Robloxia, who have time and time again overwhelmed their foes in battle. To earn this badge, you must rack up 100 knockouts. Anyone with this badge knows what to do in a fight!">
-													<span>Warrior</span>
-												</a>
-											</div>
-										</td>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge2">
-													<img src="/images/Badges/Friendship-75x75.png" alt="This badge is given to players who have embraced the Roblox community and have made at least 20 friends. People who have this badge are good people to know and can probably help you out if you are having trouble.">
-													<span>Friendship</span>
-												</a>
-											</div>
-										</td>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge5">
-													<img src="/images/Badges/Bloxxer-75x75.png" alt="Anyone who has earned this badge is a very dangerous player indeed. Those Robloxians who excel at combat can one day hope to achieve this honor, the Bloxxer Badge. It is given to the warrior who has bloxxed at least 250 enemies and who has tasted victory more times than he or she has suffered defeat. Salute!">
-													<span>Bloxxer</span>
-												</a>
-											</div>
-										</td>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge8">
-													<img src="/images/Badges/Inviter-75x75.png" alt="Robloxia is a vast uncharted realm, as large as the imagination. Individuals who invite others to join in the effort of mapping this mysterious region are honored in Robloxian society. Citizens who successfully recruit three or more fellow explorers via the Share Roblox with a Friend mechanism are awarded with this badge.">
-													<span>Inviter</span>
-												</a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge1">
-													<img src="/images/Badges/Administrator-75x75.png" alt="This badge identifies an account as belonging to a Roblox administrator. Only official Roblox administrators will possess this badge. If someone claims to be an admin, but does not have this badge, they are potentially trying to mislead you. If this happens, please report abuse and we will delete the imposter's account.">
-													<span>Administrator</span>
-												</a>
-											</div>
-										</td>
-										<td>
-											<div class="Badge">
-												<a href="Badges.aspx#Badge15">
-													<img src="/images/Badges/BuildersClub-75x75.png" alt="Members of the exclusive Turbo Builders Club are some of the most dedicated ROBLOXians. The Turbo Builders Club is a paid premium service. Members receive many of the benefits received in the regular Builders Club, in addition to a few more exclusive upgrades: they get twenty-five places on their account instead of ten from regular Builders Club, they earn a daily income of 35 ROBUX, they can sell their creations to others in the ROBLOX Catalog, they get the ability to browse the web site without external ads, they receive the exclusive Turbo Builders Club red site managers hat, and they receive an exclusive gear item.">
-													<span>Builders Club</span>
-												</a>
-											</div>
-										</td>
-										<td></td>
-										<td></td>
-									</tr>
+									<?php endif ?>
 								</table>
 							</div>
 						</div>

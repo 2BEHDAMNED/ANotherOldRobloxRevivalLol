@@ -59,6 +59,14 @@ if($asset != null) {
 } else {
 	die(header("Location: /my/stuff"));
 }
+
+$no_rendering_types = [
+	AssetType::AUDIO,
+	AssetType::BADGE,
+	AssetType::DECAL,
+	AssetType::TSHIRT,
+	AssetType::IMAGE,
+];
 ?>
 <!DOCTYPE html>
 <html>
@@ -307,7 +315,7 @@ if($asset != null) {
 									<?php if($is_creator): ?>
 									<a href="/edit?id=<?= $asset->id ?>">Edit</a>
 									<?php endif ?>
-									<?php if($user != null && $user->IsAdmin()): ?>
+									<?php if($user != null && $user->IsAdmin() && !in_array($asset->type, $no_rendering_types)): ?>
 									<a href="javascript:Render()">Render this asset</a>
 									<?php endif ?>
 									<a href="">Report this item</a>

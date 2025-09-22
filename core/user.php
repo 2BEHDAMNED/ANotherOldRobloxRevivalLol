@@ -143,7 +143,7 @@
 		 */
 		function GetProfileBadges(): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt = $con->prepare("SELECT * FROM `profilebadges` WHERE `badge_userid` = ?");
+			$stmt = $con->prepare("SELECT * FROM `profilebadges` WHERE `badge_userid` = ? ORDER BY `badge_recieved` DESC, `badge_admincorecore` DESC");
 			$stmt->bind_param('i',$this->id);
 			$stmt->execute();
 
