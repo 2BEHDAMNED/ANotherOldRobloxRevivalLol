@@ -329,7 +329,7 @@ local success, err = pcall(function()
 	client.ConnectionRejected:connect(onConnectionRejected)
 	connectionFailed = client.ConnectionFailed:connect(onConnectionFailed)
 	
-	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", 61426, 0, threadSleepTime) end)
+	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", 53640, 0, threadSleepTime) end)
 	if not playerConnectSuccess then
 		setMessage("Failed to create player")
 		return true, false

@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-local port, sleeptime = ...
+local sleeptime, port = ...
 
 game:GetService("RunService"):Run()
 
