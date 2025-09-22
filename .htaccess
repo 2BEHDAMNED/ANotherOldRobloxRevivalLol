@@ -13,6 +13,8 @@
 	RewriteRule ^Asset/?$ /core/utilities/assetdeliverer.php 			  [END]
 	
 	RewriteRule ^IDE/Landing.aspx$ /core/ide/landing.php				  		  [END]
+	RewriteRule ^ide/welcome$ /my/places.php				  		  [END]
+	RewriteRule ^IDE/welcome$ /my/places.php				  		  [END]
 	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
 
 	RewriteRule ^IDE/Toolbox/GetTotalNumberOfResults /core/ide/toolbox/gettotalnumberofresults.php			  [END]
