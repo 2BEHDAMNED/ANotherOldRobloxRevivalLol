@@ -233,6 +233,12 @@
 				})
 			})
 		</script>
+		<?php if(isset($_SESSION['ANORRL$EditItem$Success']) && !$_SESSION['ANORRL$EditItem$Success']): ?>
+		<script>
+			window.alert("<?= $_SESSION['ANORRL$EditItem$Error'] ?>");
+			window.location.reload();
+		</script>
+		<?php endif ?>
 	</head>
 	<body>
 		<div id="Container">
@@ -308,7 +314,7 @@
 								</div>
 								<?php endif ?>
 
-								<input type="submit" value="Update" onclick="document.forms[0].submit()" name="ANORRL$EditItem$Submit">
+								<input type="submit" value="Update" name="ANORRL$EditItem$Submit">
 								
 							</form>
 							<?php if(in_array($asset->type, $versioning_types)): ?>
@@ -394,3 +400,7 @@
 		</div>
 	</body>
 </html>
+<?php 
+	unset($_SESSION['ANORRL$EditItem$Success']);
+	unset($_SESSION['ANORRL$EditItem$Error']);
+?>

@@ -68,7 +68,7 @@
 			}
 
 			#UserInfoContainer #ProfileInfo {
-				width: 670px;
+				width: 660px;
 				
 			}
 
@@ -76,8 +76,21 @@
 				text-align: center;
 			}
 
-			#UserInfoContainer #ProfileImage img {
+			#UserInfoContainer #ProfileImage #ImageContainer > img {
 				display: block;
+				width: 200px;
+				height: 200px;
+				background: #222;
+				position:absolute;
+			}
+
+			#UserInfoContainer #ProfileImage #ImageContainer {
+				border: 2px solid black;
+				background: #222;
+				margin-right:5px;
+				position: relative;
+				width: 200px;
+				height: 200px;
 			}
 
 			#UserInfoContainer #ProfileImage button {
@@ -308,7 +321,8 @@
 			}
 
 			#PopularGames img {
-				width: 227px;height: 128px;
+				width: 227px;
+				height: 128px;
 			}
 		</style>
 	</head>
@@ -322,7 +336,11 @@
 						<div id="PaddingContainer">
 							<h2 style="margin: 5px 0px; width: 830px;"><?= $get_user->name ?>'s Profile</h2>
 							<div id="ProfileImage">
-								<img src="/images/avatar.png" width="200">
+								<div id="ImageContainer">
+									<a href="javascript:flipRenders()"><img src="/images/icons/switch.png"></a>
+									<img src="/images/avatar.png">
+								</div>
+								
 								<div id="Controls">
 									<?php if($user != null): ?>
 										<?php if($user->id != $get_user->id): ?>

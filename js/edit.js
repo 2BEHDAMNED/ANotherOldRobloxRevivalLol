@@ -17,6 +17,12 @@ ANORRL.EditItem = {
 $(function() {
 	$("#OnSaleCheckbox").on("change", function() {
 		ANORRL.EditItem.ShowPricingArea($(this).is(":checked"));
-	})
+	});
+
+	$("#files").change(function() {
+		filename = this.files[0].name;
+		$("#filename").html(filename);
+	});
+
 	ANORRL.EditItem.ShowPricingArea($("#OnSaleCheckbox").is(":checked"));
 })

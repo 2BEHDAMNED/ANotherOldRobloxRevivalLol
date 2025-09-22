@@ -58,6 +58,11 @@
 			if($user != null && !$user->IsBanned() && $asset != null && $asset->creator->id == $user->id) {
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 				$md5 = self::GetMD5OfData($file);
+
+				if($md5 == $asset->GetLatestVersionDetails()->md5sig) { 
+					return ["error" => true, "reason" => "I'm pretty sure you've already uploaded this?"];
+				}
+
 				$directory = $_SERVER['DOCUMENT_ROOT'];
 				$assetsdir = "$directory/../assets/";
 				$filepath = $assetsdir.$md5;
@@ -183,7 +188,6 @@
 					if($image_result['error']) {
 						return $image_result;
 					} else {
-
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
 
