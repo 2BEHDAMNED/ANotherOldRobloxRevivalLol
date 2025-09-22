@@ -468,7 +468,7 @@
 										
 									if($count == 0): ?>
 									<tr>
-										<td class="Loading"><?=-$get_user->name ?> has no badges!</td>
+										<td class="Loading"><?= $get_user->name ?> has no badges!</td>
 									</tr>
 									<?php endif ?>
 								</table>
