@@ -8,6 +8,10 @@ require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 $user = UserUtils::RetrieveUser();
 
+if($user == null) {
+	die(header("Location: /"));
+}
+
 $asset = Place::FromID($id);
 
 if($asset != null) {

@@ -348,7 +348,7 @@
 								<div id="Controls">
 									<?php if($user != null): ?>
 										<?php if($user->id != $get_user->id): ?>
-											<button style="width: 107px;">Add Friend</button> <button style="width: 70px;margin-left: 2px;">Follow</button><br>
+											<button style="margin-top: 4px;width: 107px;">Add Friend</button> <button style="margin-top: 4px;width: 70px;margin-left: 2px;">Follow</button><br>
 										<?php endif ?>
 										<button style="width: 74px;margin-top: 4px;">Message</button>
 									<?php endif ?>
@@ -411,9 +411,9 @@
 							</td>
 							<td id="PopularGames">
 								<div style="height: 201px;overflow: auto;">
-									<img src="/images/avatar.png">
-									<img src="/images/avatar.png">
-									<img src="/images/avatar.png">
+									<a href=""><img src="/images/avatar.png"></a>
+									<a href=""><img src="/images/avatar.png"></a>
+									<a href=""><img src="/images/avatar.png"></a>
 								</div>
 								
 							</td>
@@ -447,7 +447,7 @@
 												echo <<<EOT
 												<td>
 													<div class="Badge">
-														<a href="/badges#badge6">
+														<a href="/badges#badge$badgeid">
 															<img src="/images/Badges/$badgenamefile.png" alt="$badgedesc">
 															<span>$badgename</span>
 														</a>

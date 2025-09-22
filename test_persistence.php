@@ -149,9 +149,6 @@ string 5
 					}
 				}
 			}
-
-			
-			//echo $value;
 		}
 
 		$data_reconstructed[$current_index]['key'] = $part_key;
