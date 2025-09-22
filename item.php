@@ -240,6 +240,15 @@ if($asset != null) {
 				font-size: 14px;
 			}
 		</style>
+		<?php if($user != null && $user->IsAdmin()): ?>
+		<script>
+			function Render() {
+				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "render" }).done(function( data ) {
+					window.location.reload();
+				});
+			}
+		</script>
+		<?php endif ?>
 	</head>
 	<body>
 		<div id="Container">
@@ -297,6 +306,9 @@ if($asset != null) {
 								<div id="ManageOptions">
 									<?php if($is_creator): ?>
 									<a href="/edit?id=<?= $asset->id ?>">Edit</a>
+									<?php endif ?>
+									<?php if($user != null && $user->IsAdmin()): ?>
+									<a href="javascript:Render()">Render this asset</a>
 									<?php endif ?>
 									<a href="">Report this item</a>
 								</div>
