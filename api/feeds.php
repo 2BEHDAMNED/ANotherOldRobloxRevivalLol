@@ -4,7 +4,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 	$user = UserUtils::RetrieveUser();
-
+	error_reporting(E_ALL ^ E_DEPRECATED);
 	function time_elapsed_string($datetime, $full = false) {
 		$now = new DateTime;
 		$ago = new DateTime($datetime);

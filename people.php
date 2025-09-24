@@ -96,7 +96,7 @@
 									echo <<<EOT
 									<tr>
 										<td style="text-align: center"><a href="/users/$userid/profile" title="$username"><img src="/images/avatar.png" width="64"></a></td>
-										<td style="text-align: center"><img src="/images/OnlineStatusIndicator_IsOffline.gif"> <a href="/users/$userid/profile">$username</a></td>
+										<td style="text-align: center"><img src="/images/OnlineStatusIndicator_IsOffline.png"> <a href="/users/$userid/profile">$username</a></td>
 										<td style="word-break: break-all;">$userbio</td>
 										<td style="text-align: center">Online</td>
 									</tr>
