@@ -228,6 +228,48 @@
 
 			return [];
 		}
+
+		public static function GetAllUsersPaged(int $pagenum, int $count, string $query = ""): array|null {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$queryfiltered = "%$query%";
+			if($queryfiltered == "%%") {
+				$queryfiltered = "%";
+			}
+
+			$stmt_getallusers = $con->prepare("SELECT * FROM `users` WHERE `user_name` LIKE ? ORDER BY `user_joindate` DESC LIMIT ?, ?");
+			$page = (($pagenum-1)*$count);
+			
+			$stmt_getallusers->bind_param('sii', $queryfiltered, $page, $count);
+			$stmt_getallusers->execute();
+			$result = $stmt_getallusers->get_result();
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					array_push($result_array, new User($row));
+				}
+				
+			}
+			return $result_array;
+		}
+
+		public static function GetAllUsers(string $query = ""): array|null {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$queryfiltered = "%$query%";
+			$stmt_getallusers = $con->prepare("SELECT * FROM `users` WHERE `user_name` LIKE ?");
+			$stmt_getallusers->bind_param('s', $queryfiltered);
+			$stmt_getallusers->execute();
+			$result = $stmt_getallusers->get_result();
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					array_push($result_array, new User($row));
+				}
+				
+			}
+			return $result_array;
+		}
 	}
 
 ?>

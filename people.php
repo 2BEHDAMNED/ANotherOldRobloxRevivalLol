@@ -15,6 +15,7 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/jquery.imageloader.js"></script>
 		<script src="/js/main.js"></script>
+		<script src="/js/people.js"></script>
 		<style>
 
 			#Users #SearchBox {
@@ -34,12 +35,16 @@
 			#Users table {
 				border: 2px solid black;
 				background: #222;
-				padding: 5px;
+				*padding: 5px;
 				border-collapse: separate;
 			}
 
 			#Users tr {
 				border-bottom: 1px solid black;
+			}
+
+			#Users th {
+				background: #111;
 			}
 
 			h2 {
@@ -61,7 +66,7 @@
 			}
 
 			#FormPanel {
-				display: none;
+				*display: none;
 			}
 		</style>
 	</head>
@@ -72,41 +77,22 @@
 				<div id="BodyContainer">
 					<h2>People</h2>
 					<div id="Users">
-						<form method="GET" id="FormPanel">
+						<div method="GET" id="FormPanel">
 							<input id="SearchBox" name="query" type="text" placeholder="Look for users lol">
-							<input id="Submit" type="submit" value="Search">
-						</form>
-						<table>
+							<input id="Submit" type="submit" value="Search" onclick="ANORRL.People.Submit(); return false;">
+						</div>
+						<table id="UsersDataTable">
 							<tr>
 								<th width="80" style="border:0">Avatar</th>
 								<th width="200" style="border:0">Name</th>
 								<th style="border:0; width: 600px; max-width: 600px;">Blurb</th>
 								<th width="150" style="border:0">Active</th>
 							</tr>
-							<?php 
-								$users = UserUtils::GetLatestUsers(50);
 
-								foreach($users as $user) {
-									$userid = $user->id;
-									$username = $user->name;
-									$userbio = $user->blurb;
-									if(trim($userbio) == "")  {
-										$userbio = "<b>No blurb set</b>";
-									}
-									echo <<<EOT
-									<tr>
-										<td style="text-align: center"><a href="/users/$userid/profile" title="$username"><img src="/images/avatar.png" width="64"></a></td>
-										<td style="text-align: center"><img src="/images/OnlineStatusIndicator_IsOffline.png"> <a href="/users/$userid/profile">$username</a></td>
-										<td style="word-break: break-all;">$userbio</td>
-										<td style="text-align: center">Online</td>
-									</tr>
-									EOT;
-								}
-							?>
 							
 						</table>
 						<div id="UsersNavLinks">
-							<a id="Back" href="">&lt;&lt; Back</a> <input type="number"> of 1 <a id="Next" href="">Next &gt;&gt;</a>
+							<a id="BackPager" href="javascript:ANORRL.People.DeadvanceFeed()">&lt;&lt; Back</a> <input type="number" id="NumberPutter"> of <span id="Counter"></span> <a id="NextPager" href="javascript:ANORRL.People.AdvanceFeed()">Next &gt;&gt;</a>
 						</div>
 					</div>
 				</div>
