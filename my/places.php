@@ -70,13 +70,13 @@
 						<!--div class="tool-tip"><img alt="Recommended for users new to ROBLOX studio" src="/images/IDE/img-tail-top.png" class="top" /><p>Recommended for users new to ROBLOX studio</p><a class="closeButton"></a></div -->
 					</div>
 					<div class="templates" js-data-templatetype="Basic" style="display: block;">
-						<div class="template" placeid="6017">
+						<div class="template" placeid="123">
 							<a class="game-image">
 								<img src="/images/ide/welcome/baseplate.png">
 							</a>
 							<p>Baseplate</p>
 						</div>
-						<div class="template" placeid="6302">
+						<div class="template" placeid="124">
 							<a class="game-image">
 								<img src="/images/ide/welcome/flatterrain.png">
 							</a>
