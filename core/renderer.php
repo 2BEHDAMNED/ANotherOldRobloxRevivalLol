@@ -17,10 +17,10 @@
 
 	class TheFuckingRenderer {
 
-		public static int $port = 64989;
-		public static string $address = "192.168.0.220";
+		public static int $port = 0;
+		public static string $address = "";
 
-		public static string $domain = "arl.lambda.cam";
+		public static string $domain = "";
 		public static bool $cantuserenderer = false;
 
 		private static function UpdateAndSetConfig(array $renderer_settings) {
@@ -45,6 +45,7 @@
 			self::UpdateAndSetConfig(parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true)['renderer']);
 
 			if(self::$cantuserenderer) {
+				echo "renderer was disabled?";
 				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
 			}
 			
@@ -73,6 +74,7 @@
 				$base64data = $rcc->OpenJob($job, $script);
 				$rcc->RenewLease($JobId, 1);
 			} catch(SoapFault $e) {
+				echo "some fault happened ig";
 				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
 			}
 
@@ -125,6 +127,7 @@
 			self::UpdateAndSetConfig($settings['renderer']);
 
 			if(self::$cantuserenderer) {
+				echo "renderer is disabled?";
 				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
 			}
 
@@ -153,6 +156,8 @@
 				$base64data = $rcc->OpenJob($job, $script);
 				$rcc->RenewLease($JobId, 1);
 			} catch(SoapFault $e) {
+				echo "some fault happened ig";
+				echo "\n".self::$address. " " . self::$port;
 				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
 			}
 
