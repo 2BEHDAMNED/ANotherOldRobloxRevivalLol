@@ -83,7 +83,7 @@ game:GetService("ChangeHistoryService"):SetEnabled(true)
 			$place = Place::FromID(intval($_GET['placeId']));
 
 			if($place != null) {
-				if($place->creator->id == $user->id) {	
+				if($place->creator->id == $user->id || $user->IsAdmin()) {	
 					$script = "\r\n" . ob_get_clean();
 					$script = str_replace("{placeid}", "".intval($_GET['placeId']), $script);
 					$script = str_replace("{creatorid}", "".$place->creator->id, $script);
