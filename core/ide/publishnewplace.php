@@ -232,7 +232,6 @@
 	<body bgcolor="buttonface" scroll="no">
 		<form name="PublishContent" method="post" action="Upload.aspx" id="PublishContent">
 			<input id="DialogResult" type="hidden" />
-			<p>'http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&chattype=<?= $chattype ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>'</p>	    
 			<div id="Uploading" style="DISPLAY: block; FONT-WEIGHT: bold; COLOR: royalblue">Uploading. Please wait...</div>
 			<div id="Confirmation" style="display: none;">
 				<table height="100%" width="100%">
