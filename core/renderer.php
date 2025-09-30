@@ -21,7 +21,7 @@
 		public static int $port = 64989;
 		public static string $address = "localhost";
 
-		public static string $domain = "arl.lambda.cam";
+		public static string $domain = "localhost";
 		public static bool $cantuserenderer = false;
 
 		public static function RenderPlayer(int $id = 0) {
@@ -112,13 +112,17 @@
 
 			$JobId = md5(rand());
 
+			$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+
+			$access = $settings['asset']['ACCESSKEY'];
+
 			$job = new Roblox\Grid\Rcc\Job($JobId);
 			$scriptText = <<<EOT
 			game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
 			game:GetService("ScriptContext").ScriptsDisabled = true
 			game:GetService("Lighting").Outlines = false
 
-			game:Load("http://arl.lambda.cam/asset/?id=$id")
+			game:Load("http://$domain/asset/?id=$id&access=$access")
 			
 			return (game:GetService("ThumbnailGenerator"):Click("PNG", 768, 432, false))
 			EOT;

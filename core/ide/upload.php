@@ -10,6 +10,27 @@
 		return $value == "True";
 	}
 
+	/* thank you weeg <3 */
+	function ValidateRoblox_XML(string $XML_Data): bool {
+		//FIND BETTER WAY TO DO THIS
+		$xml = new DOMDocument();
+		$xml->loadXML($XML_Data);
+
+		if(!@$xml->schemaValidate($_SERVER['DOCUMENT_ROOT']."/roblox.xsd")){
+			//throw new Exception("Invalid LEGACY ROBLOX XML Format file");
+			return false;
+		}else{
+			//echo "Valid XML File<br>";
+			return true;
+		}
+	}
+
+	if($user == null) {
+		if(isset($_GET['security'])) {
+			$user = User::FromSecurityKey(urldecode($_GET['security']));
+		}
+	}
+
 	if($user != null) {
 		if(isset($_GET['assetid'])) {
 			$assetid = intval($_GET['assetid']);
@@ -24,7 +45,7 @@
 				}
 
 				if($timer < 30) {
-					http_response_code(500);
+					http_response_code(501);
 					die("You are uploading too many assets! Wait a bit!");
 				}
 
@@ -44,12 +65,40 @@
 					isset($_GET['name']) &&
 					isset($_GET['description']) &&
 					isset($_GET['ispublic']) &&
-					isset($_GET['commentsenabled']) &&
-					isset($_GET['serversize']) &&
-					isset($_GET['chattype']) &&
-					isset($_GET['iscopylocked'])
+					isset($_GET['commentsenabled'])
 				) {
+					$type = $_GET['type'];
+					$name = urldecode($_GET['name']);
+					$description = urldecode($_GET['description']);
+					$public = FunnyStrToBool($_GET['ispublic']);
+					$comments_enabled = FunnyStrToBool($_GET['commentsenabled']);
+
+					$recieveddata = file_get_contents("php://input");
+					//echo "parsed:".$recieveddata;
+					if(strlen(gzdecode($recieveddata)) != 0) {
+						$recieveddata = gzdecode($recieveddata);
+						echo "decoding using gz\n";
+					}					
+
+					if(strtolower($type) == "place")  {
+						if(isset($_GET['serversize']) &&
+							isset($_GET['chattype']) &&
+							isset($_GET['iscopylocked'])
+						) {
+							$server_size = intval($_GET['serversize']);
+							$chattype = ChatType::index(intval($_GET['chattype']));
+							$copylocked = FunnyStrToBool($_GET['iscopylocked']);
+
+							AssetUploader::UploadPlace($name, $description, $recieveddata, $public, $copylocked, $comments_enabled, $chattype, $server_size, $user);
+							
+							http_response_code(200);
+							die("Uploaded successfully!");
+						}
+					}
+
 					
+				} else {
+					die(http_response_code(502));
 				}
 
 			} else {
@@ -60,6 +109,9 @@
 				}
 			}
 		}
+	} else {
+		http_response_code(503);
+		die("Action failed.");
 	}
 
 	http_response_code(500);

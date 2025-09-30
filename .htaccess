@@ -20,6 +20,8 @@
 	RewriteRule ^IDE/PublishNewPlace.aspx$ /core/ide/publishnewplace.php				  		  [END]
 	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
 
+	RewriteRule ^Data/Upload.ashx	/core/ide/upload.php			  [END]
+
 	RewriteRule ^IDE/Toolbox/GetTotalNumberOfResults /core/ide/toolbox/gettotalnumberofresults.php			  [END]
 	RewriteRule ^IDE/Toolbox/Search /core/ide/toolbox/search.php			  [END]
 

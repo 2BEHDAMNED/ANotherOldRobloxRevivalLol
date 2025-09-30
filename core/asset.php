@@ -539,6 +539,7 @@
 				1 => ChatType::CLASSIC,
 				2 => ChatType::BUBBLE,
 				0 => ChatType::BOTH,
+				default => ChatType::BOTH
 			};
 		}
 
