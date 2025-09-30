@@ -11,7 +11,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>Upload</title>
-		<link href="/CSS/RobloxOld.css" rel="stylesheet" type="text/css" />
+		<link href="/css/RobloxOld.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body scroll="no">
 		<form name="Form1" method="post" action="Upload.aspx" id="Form1">

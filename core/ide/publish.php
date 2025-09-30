@@ -173,7 +173,7 @@
 				</div>
 			</div>
 		</div>
-		<link href="/CSS/RobloxOld.css" rel="stylesheet" type="text/css" />
+		<link href="/css/RobloxOld.css" rel="stylesheet" type="text/css" />
 		<form style="display:none;padding:15px;" scroll="no" name="PublishContent" id="PublishContent">
 			<input id="DialogResult" type="hidden" />
 			<div id="Uploading" style="DISPLAY: block; FONT-WEIGHT: bold; COLOR: royalblue">Uploading. Please wait...</div>
