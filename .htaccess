@@ -17,6 +17,7 @@
 	RewriteRule ^IDE/welcome$ /my/places.php				  		  [END]
 
 	RewriteRule ^IDE/Upload.aspx$ /core/ide/publish.php				  		  [END]
+	RewriteRule ^IDE/PublishNewPlace.aspx$ /core/ide/publishnewplace.php				  		  [END]
 	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
 
 	RewriteRule ^IDE/Toolbox/GetTotalNumberOfResults /core/ide/toolbox/gettotalnumberofresults.php			  [END]
