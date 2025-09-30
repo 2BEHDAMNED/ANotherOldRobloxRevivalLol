@@ -303,6 +303,50 @@
 			}
 		}
 
+		public static function UpdatePlace(int $id, array|string $file) {
+			$user = UserUtils::RetrieveUser();
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+
+			// process singular asset
+			$place_result = self::UpdateAsset($id, $user, $file);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+				$directory = $_SERVER['DOCUMENT_ROOT'];
+				$md5hashfile = md5($place_data);
+				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+
+				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
+				$stmt->bind_param('si', $md5hashfile, $place_result['versionid']);
+				$stmt->execute();
+
+				if(!file_exists($assetsdir)) {
+					$render = TheFuckingRenderer::RenderPlace($id);
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
+
+					$render_image = imagecreatefromstring($data);
+					imagesavealpha($render_image, true);
+					imagepng($render_image, $assetsdir);
+				}
+
+				return ["error" => false, "vid" => $place_result['versionid']];
+			}
+		}
+
 		public static function UploadDecal(string $name, string $description, array $file, bool $face = false) {
 			$user = UserUtils::RetrieveUser();
 
@@ -838,7 +882,7 @@
 				$stmt_addplace->bind_param('iiii', $place_id, $place_copylocked, $place_chattype, $server_size);
 				$stmt_addplace->execute();
 
-				if(!file_exists($assetsdir)) {
+				if(!file_exists($assetsdir) && $user->IsAdmin()) {
 					$render = TheFuckingRenderer::RenderPlace($place_id);
 					$data = "data:image/png;base64,$render";
 					list($type, $data) = explode(';', $data);
@@ -850,7 +894,7 @@
 					imagepng($render_image, $assetsdir);
 				}
 
-				return ["error" => false, "id" => $pants_result['id']];
+				return ["error" => false, "id" => $place_result['id']];
 			}
 		}
 

@@ -72,13 +72,13 @@
 					<div class="templates" js-data-templatetype="Basic" style="display: block;">
 						<div class="template" placeid="6017">
 							<a class="game-image">
-								<img src="/images/ide/welcome/baseplate.jpg">
+								<img src="/images/ide/welcome/baseplate.png">
 							</a>
 							<p>Baseplate</p>
 						</div>
 						<div class="template" placeid="6302">
 							<a class="game-image">
-								<img src="/images/ide/welcome/flatterrain.jpg">
+								<img src="/images/ide/welcome/flatterrain.png">
 							</a>
 							<p>Flat Terrain</p>
 						</div>
@@ -125,7 +125,7 @@
 										echo <<<EOT
 										<div class="template" placeid="$place_id">
 											<a class="game-image">
-												<img width="197" src="/thumbs/?id=$place_id&sx=197">
+												<img width="197" src="/thumbs/?id=$place_id&sx=197&sy=111">
 											</a>
 											<p>$place_name</p>
 										</div>

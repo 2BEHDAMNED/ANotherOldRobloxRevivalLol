@@ -1,7 +1,6 @@
 <?php 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetuploader.php";
 
 	$user = UserUtils::RetrieveUser();
 
@@ -117,6 +116,8 @@
 			#PublishPlaces .Place img {
 				border: 2px solid black;
 				background: #111;
+				width:257px;
+				height:145px;
 			}
 
 			#PublishPlaces .Place span {
@@ -149,6 +150,22 @@
 										<img src="/images/ide/createnewplace.png">
 										<span>Create a New Place</span>
 									</div>
+									<?php 
+										$places = $user->GetAllOwnedAssetsOfType(AssetType::PLACE);
+										
+										if(count($places) != 0) {
+											foreach($places as $place) {
+												$place_id = $place->id;
+												$place_name = $place->name;
+												echo <<<EOT
+												<div class="Place" data-placeid="$place_id">
+													<img src="/thumbs/?id=$place_id&sx=261&sy=149">
+													<span>$place_name</span>
+												</div>
+												EOT;
+											}
+										}
+									?>
 								</div>
 							</form>
 						</div>
@@ -156,5 +173,29 @@
 				</div>
 			</div>
 		</div>
+		<link href="/CSS/RobloxOld.css" rel="stylesheet" type="text/css" />
+		<form style="display:none;padding:15px;" scroll="no" name="PublishContent" id="PublishContent">
+			<input id="DialogResult" type="hidden" />
+			<div id="Uploading" style="DISPLAY: block; FONT-WEIGHT: bold; COLOR: royalblue">Uploading. Please wait...</div>
+			<div id="Confirmation" style="display: none;">
+				<table height="100%" width="100%">
+					<tr valign="top" height="100%">
+						<td>The upload has completed!</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<table cellspacing="5" cellpadding="0" border="0">
+								<tr>
+									<td><input class="OKCancelButton" onclick="window.close(); return false" type="button" value="Close" /></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="Failure" style="display: none;">
+				<p>The upload has failed.</p>
+			</div>
+		</form>
 	</body>
 </html>

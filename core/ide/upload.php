@@ -104,8 +104,19 @@
 			} else {
 				$asset = Asset::FromID($assetid);
 
+				$recieveddata = file_get_contents("php://input");
+				//echo "parsed:".$recieveddata;
+				if(strlen(gzdecode($recieveddata)) != 0) {
+					$recieveddata = gzdecode($recieveddata);
+					echo "decoding using gz\n";
+				}
+
 				if($asset != null && $asset->creator->id == $user->id) {
 					// If the user owns this asset, then allow publishing.
+					
+					print_r(AssetUploader::UpdatePlace($assetid, $recieveddata));
+					http_response_code(200);
+					die("Uploaded successfully!");
 				}
 			}
 		}

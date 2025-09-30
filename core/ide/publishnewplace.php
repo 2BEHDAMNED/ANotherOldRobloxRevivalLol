@@ -27,7 +27,7 @@
 	) {
 
 		$name = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Name']);
-		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Name']);
+		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Description']);
 
 		$server_size = intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']) <= 0 ? 12 : intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 
@@ -192,7 +192,7 @@
 												<select name="ANORRL$IDE$Publish$Place$ChatType" id="cars">
 													<option value="1">Classic</option>
 													<option value="2">Bubble</option>
-													<option value="0">Both</option>
+													<option value="0" selected>Both</option>
 												</select>
 											</td>
 										</tr>
@@ -220,7 +220,7 @@
 	// Prevent user from uploading the same place again by refreshing.
 	if(isset($_SESSION['HasUploaded']) && $_SESSION['HasUploaded']) {
 		$_SESSION['HasUploaded'] = false;
-		//die("<script>window.close()</script>");
+		die("<script>window.close()</script>");
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
@@ -258,7 +258,7 @@
 				{
 					try
 					{
-						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&chattype=<?= $chattype ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&security=<?= urlencode($user->security_key) ?>');
+						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&chattype=<?= $chattype ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>');
 						document.getElementById("Uploading").style.display='none';
 						document.getElementById("Confirmation").style.display='block';
 					}

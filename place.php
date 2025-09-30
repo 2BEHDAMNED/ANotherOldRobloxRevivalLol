@@ -328,7 +328,7 @@ if($asset != null) {
 									<div id="NotOnSale">Place is not open for you to join!</div>
 									<hr>
 									<div id="ManageOptions">
-										<?php if($is_creator): ?>
+										<?php if($is_creator || !$asset->copylocked): ?>
 										<a href="/edit?id=<?= $asset->id ?>">Edit</a>
 										<a href="">Open in Studio</a>
 										<?php endif ?>

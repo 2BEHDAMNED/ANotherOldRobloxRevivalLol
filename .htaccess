@@ -25,6 +25,8 @@
 	RewriteRule ^IDE/Toolbox/GetTotalNumberOfResults /core/ide/toolbox/gettotalnumberofresults.php			  [END]
 	RewriteRule ^IDE/Toolbox/Search /core/ide/toolbox/search.php			  [END]
 
+	RewriteRule ^Game/Upload.aspx /core/ide/goingupload.php			  [END]
+
 	RewriteRule ^Login/Negotiate.ashx$ /core/authentication/negotiate.php [END]
 	RewriteRule ^Login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
 	RewriteRule ^login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
