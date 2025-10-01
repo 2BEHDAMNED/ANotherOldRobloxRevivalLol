@@ -102,7 +102,7 @@
 									<div id="RecentlyPlayed">
 										<h3>Recently Played</h3>
 										<div id="Games">
-											<div class="Game">
+											<!--<div class="Game">
 												<a href="/game/1000" title="Whats up guys im gonna rob a store">
 													<img src="/images/review-pending.png">
 													<span id="Name">aaaaaaaaaaaaaaaaaaaaa...</span>
@@ -111,40 +111,15 @@
 													<div id="OnlinePlayers">Couple ppl online</div>
 													<div id="Created">Creator: <a href="/profile/1">Creator</a></div>
 												</div>
-											</div>
-											<div class="Game">
-												<a href="/game/1000" title="Whats up guys im gonna rob a store">
-													<img src="/images/review-pending.png">
-													<span id="Name">aaaaaaaaaaaaaaaaaaaaa...</span>
-												</a>
-												<div id="Stats">
-													<div id="OnlinePlayers">Couple ppl online</div>
-													<div id="Created">Creator: <a href="/profile/1">Creator</a></div>
-												</div>
-											</div>
+											</div>-->
+
+											<span id="NoTagline">No recently played games yet!</span>
 										</div>
 									</div>
 									<div id="Favourites">
 										<h3>Favourites</h3>
 										<div id="Games">
-											<div class="Game">
-												<a href="/game/1000" title="Whats up guys im gonna rob a store">
-													<img src="/images/review-pending.png">
-													<span id="Name">aaaaaaaaaaaaaaaaaaaaa...</span>
-												</a>
-												<div id="Stats">
-													<div id="Created">Creator: <a href="/profile/1">Creator</a></div>
-												</div>
-											</div>
-											<div class="Game">
-												<a href="/game/1000" title="Whats up guys im gonna rob a store">
-													<img src="/images/review-pending.png">
-													<span id="Name">aaaaaaaaaaaaaaaaaaaaa...</span>
-												</a>
-												<div id="Stats">
-													<div id="Created">Creator: <a href="/profile/1">Creator</a></div>
-												</div>
-											</div>
+											<span id="NoTagline">No favourites yet!</span>
 										</div>
 									</div>
 									
