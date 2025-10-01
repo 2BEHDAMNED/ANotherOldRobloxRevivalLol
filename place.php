@@ -297,6 +297,15 @@ if($asset != null) {
 				});
 			})
 		</script>
+		<?php if($user != null && $user->IsAdmin()): ?>
+		<script>
+			function Render() {
+				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "render" }).done(function( data ) {
+					window.location.reload();
+				});
+			}
+		</script>
+		<?php endif ?>
 	</head>
 	<body>
 		<div id="Container">
