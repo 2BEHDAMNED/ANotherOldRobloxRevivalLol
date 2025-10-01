@@ -332,6 +332,9 @@ if($asset != null) {
 										<a href="/edit?id=<?= $asset->id ?>">Edit</a>
 										<a href="">Open in Studio</a>
 										<?php endif ?>
+										<?php if($user != null && $user->IsAdmin()): ?>
+										<a href="javascript:Render()">Render this asset</a>
+										<?php endif ?>
 										<a href="">Report this item</a>
 									</div>
 								</div>
