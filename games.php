@@ -86,10 +86,11 @@
 			}
 
 			#NumberPutter {
-				width: 55px;
+				width: 40px;
 				border: 2px solid black;
-				background: #1a1a1a;
+				background: #111;
 				color: white;
+				text-align: center;
 			}
 
 			#GamesContainer #Games #Navigation {
