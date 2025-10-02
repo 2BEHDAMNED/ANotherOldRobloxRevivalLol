@@ -180,21 +180,87 @@
 			return $result_checkusername->num_rows == 0;
 		}
 
-		public static function RetrieveUser(): User|null {
+		private static function StringContainsFromArray(array $array, string $string) {
+			foreach($array as $item) {
+				if(str_contains($string, $item)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static function RetrieveUser($data = null): User|null {
 			if(session_status() != PHP_SESSION_ACTIVE) {
 				session_start();
 			}
 
+			$user = null;
+
 			if(isset($_COOKIE['ANORRLSECURITY'])) {
-				return User::FromSecurityKey(urldecode($_COOKIE['ANORRLSECURITY']));	
+				$user = User::FromSecurityKey(urldecode($_COOKIE['ANORRLSECURITY']));	
+			} else if(isset($_SESSION['SESSION_TOKEN_YAA'])) {
+				$user = User::FromSecurityKey($_SESSION['SESSION_TOKEN_YAA']);	
 			}
 
-			if(isset($_SESSION['SESSION_TOKEN_YAA'])) {
-				return User::FromSecurityKey($_SESSION['SESSION_TOKEN_YAA']);	
-			}
+			$pages = [
+				"Home"                            => "/my/home.php",
+				"Looking at {username}'s profile" => "/users/profile.php",
+				"Stuff"                           => "/my/stuff.php",
+				"Create Panel"                    => "/core/create.php",
+				"Changing their profile info"     => "/my/profile.php",
+				"People"                          => "/people.php",
+			];
 
+			$dont_catalog_ever = [
+				"/api/",
+				"/Admin/"
+			];
+
+			if($user != null) {
+				if(!in_array($_SERVER['SCRIPT_NAME'], $pages) && !self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
+					die($_SERVER['SCRIPT_NAME']);
+				} else {
+					if(!self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
+						$page = array_search($_SERVER['SCRIPT_NAME'], $pages);
+						if($_SERVER['SCRIPT_NAME'] == "/users/profile.php" && $data instanceof User) {
+							$page = str_replace("{username}", $data->name, $page);
+						}
+					}
+					
+				}
+				
+			}
 			
-			return null;
+			return $user;
+		}
+
+		/**
+		 * Track user activity (aka set current time when they entered new page)
+		 * @param mixed $action What action took place?
+		 * @return void
+		 */
+		public static function RegisterAction(User $reg_user, string $action = "Website"): void {
+			if($reg_user != null) {
+				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+				// Check if row exists
+				$stmt_check_row = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ?');
+				$stmt_check_row->bind_param('i', $reg_user->id);
+				$stmt_check_row->execute();
+				$stmt_check_row->store_result();
+
+				// If it doesn't then create one
+				if($stmt_check_row->num_rows == 0) {
+					$stmt_insert_row = $con->prepare('INSERT INTO `activity`(`userid`, `action`, `action_time`) VALUES (?, ?, now())');
+					$stmt_insert_row->bind_param('is', $reg_user->id, $action);
+					$stmt_insert_row->execute();
+				} else {
+					// Else, Update row
+					$stmt_update_row = $con->prepare('UPDATE `activity` SET `action` = ?,`action_time` = now() WHERE `userid` = ?');
+					$stmt_update_row->bind_param('si', $action, $reg_user->id);
+					$stmt_update_row->execute();
+				}
+			}
 		}
 
 		static function SetCookies(string $security): void {

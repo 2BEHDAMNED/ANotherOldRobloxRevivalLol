@@ -1,4 +1,5 @@
 <?php
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
 
 	function IsRewrite() {
 		if(!empty($_SERVER['IIS_WasUrlRewritten']))
@@ -11,15 +12,10 @@
 			return false;
 	}
 
+
+
 	if(!IsRewrite()) {
 		die(header("Location: /my/home"));
-	}
-
-	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
-	$user = UserUtils::RetrieveUser();
-
-	if($user == null) {
-		die(header("Location: /"));
 	}
 
 	// No id parameter? GET OUT!
@@ -36,6 +32,15 @@
 	if(isset($_GET['redirect']) && $_GET['redirect'] == "true") {
 		die(header("Location: /users/".$get_user->id."/profile"));
 	}
+
+	
+	$user = UserUtils::RetrieveUser($get_user);
+
+	if($user == null) {
+		die(header("Location: /"));
+	}
+
+	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
