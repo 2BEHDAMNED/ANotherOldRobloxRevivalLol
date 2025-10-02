@@ -284,7 +284,7 @@ ClientToolbox = {}, ClientToolbox.IsUserAuthenticated = !1, ClientToolbox.IsDeca
 	} else i && (r = n.Upvotes + n.Downvotes, u = r > 0 ? Math.round(n.Upvotes * 100 / r) : null, t += '<div class="voting">', u !== null ? (t += '<div class="votes upvotes-percentage">' + u + '% <span class="upvote tiny unclickable-thumbs-up"></span></div>', t += '<div class="votes totalVotes">(' + n.TotalVotesAsString + ")</div>") : t += '<div class="votes noVotes">' + ClientToolbox.Resources.noVotesYet + "</div>", t += "</div>");
 	return t += "</div>"
 }, ClientToolbox.GetThumbnail = function(n, t, i, r) {
-	url = "/Thumbs/RawAsset.ashx?Width=60&Height=62&ImageFormat=png", url += r ? "&AssetVersionID=" : "&AssetID=", url += n, $.get(url, function(u) {
+	url = "/Thumbs/RawAsset.ashx?Width=60&Height=62", url += r ? "&AssetVersionID=" : "&AssetID=", url += n, $.get(url, function(u) {
 		if (u !== null) {
 			if (u == "PENDING") {
 				i < 4 && window.setTimeout(function() {

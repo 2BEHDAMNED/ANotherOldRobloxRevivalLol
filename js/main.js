@@ -20,7 +20,6 @@ ANORRL = {
 		return rv;
 	},
 	GetDateFormatFromTimestamp: function(timestamp) {
-		var offset = (new Date().getTimezoneOffset())*(60);
 		var time = timestamp;
 		var d = new Date(time * 1000);
 		return ("0" + d.getDate()).slice(-2) + "/" + ("0"+(d.getMonth()+1)).slice(-2) + "/" + d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);

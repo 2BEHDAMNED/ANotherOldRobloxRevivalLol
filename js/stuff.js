@@ -29,7 +29,7 @@ var shouldnotbeallowedatallcategories = {
 	"gamepasses": 34,
 }
 
-
+const regex = /[^A-Za-z0-9 ]/g;
 
 ANORRL.Stuff  = {
 	IsAdmin: false,
@@ -167,10 +167,16 @@ ANORRL.Stuff  = {
 
 					}
 
+					
+					var urlname = asset['name'].replaceAll(regex, "").trim().toLowerCase().replaceAll(" ", "-");
+					if(urlname == "") {
+						urlname = "unnamed";
+					}
+
 					template.find("#NameAndThumbs > img").attr("src", "/thumbs/?id="+asset['id']+"&sxy=130");
 
 					template.find("#NameAndThumbs > span").html(asset['name']);
-					template.find("#NameAndThumbs").attr("href", "/"+asset['name'].replace(new RegExp("[^A-z0-9]"),"").trim().replaceAll(" ", "-").toLowerCase()+"-item?id="+asset['id']);
+					template.find("#NameAndThumbs").attr("href", "/"+urlname+"-item?id="+asset['id']);
 
 					template.find("#Creator > span").html(asset['creator']['name']);
 					template.find("#Creator").attr("href", "/users/"+asset['creator']['id']+"/profile");

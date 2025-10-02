@@ -21,7 +21,7 @@ if($asset != null) {
 		die(header("Location: /$urlname-place?id=$id"));
 	}
 
-	$is_creator = ($user != null && $user->id == $asset->creator->id);
+	$is_creator = ($user != null && $user->id == $asset->creator->id) || ($user != null && $user->IsAdmin());
 	$is_favourited = $user != null && $asset->HasUserFavourited($user);
 
 	$user_bought = $user != null && $user->Owns($asset);
@@ -299,7 +299,14 @@ if($asset != null) {
 		</script>
 		<?php if($user != null && $user->IsAdmin()): ?>
 		<script>
+			var rendering = false;
 			function Render() {
+				if(rendering) {
+					return;
+				}
+
+				rendering = true;
+				$("#RenderButton").html("Rendering...");
 				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "render" }).done(function( data ) {
 					window.location.reload();
 				});
@@ -342,7 +349,7 @@ if($asset != null) {
 										<a href="">Open in Studio</a>
 										<?php endif ?>
 										<?php if($user != null && $user->IsAdmin()): ?>
-										<a href="javascript:Render()">Render this asset</a>
+										<a href="javascript:Render()" id="RenderButton">Render this asset</a>
 										<?php endif ?>
 										<a href="">Report this item</a>
 									</div>
@@ -392,12 +399,15 @@ if($asset != null) {
 								</div>
 							</div>
 							<div id="InfoBox" content="Badges" style="display:none">
+								<b>Badges</b><br>
 								Badges content in here
 							</div>
 							<div id="InfoBox" content="Gamepasses" style="display:none">
+								<b>Gamepasses</b><br>
 								Gamepasses content in here
 							</div>
 							<div id="InfoBox" content="Servers" style="display:none">
+								<b>Servers</b><br>
 								Servers content in here
 							</div>
 

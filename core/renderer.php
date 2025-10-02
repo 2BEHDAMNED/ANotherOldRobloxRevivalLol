@@ -1,6 +1,6 @@
 <?php 
 
-	ini_set("default_socket_timeout", 1);
+	ini_set("default_socket_timeout", 15);
 
 	$directory = $_SERVER['DOCUMENT_ROOT']."/Assemblies/Roblox/Grid/Rcc/";
 	$scanned_directory = array_diff(scandir($directory), array('..', '.'));
@@ -140,12 +140,14 @@
 
 				$access = $settings['asset']['ACCESSKEY'];
 
+				$time = time();
+
 				$job = new Roblox\Grid\Rcc\Job($JobId);
 				$scriptText = <<<EOT
 				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
 				game:GetService("ScriptContext").ScriptsDisabled = true
 
-				game:Load("http://$domain/asset/?id=$id&access=$access")
+				game:Load("http://$domain/asset/?id=$id&access=$access&time=$time")
 
 				game:GetService("Lighting").Outlines = false
 				

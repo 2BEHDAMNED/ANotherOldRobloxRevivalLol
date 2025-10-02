@@ -1,14 +1,6 @@
 <?php ob_start(); ?>
 -- Prepended to Edit.lua and Visit.lua and Studio.lua--
 
-function ifSeleniumThenSetCookie(key, value)
-	if false then
-		game:GetService("CookiesService"):SetCookieValue(key, value)
-	end
-end
-
-ifSeleniumThenSetCookie("SeleniumTest1", "Inside the visit lua script")
-
 pcall(function() game:SetPlaceID({placeid}) end)
 
 visit = game:GetService("Visit")
@@ -21,8 +13,6 @@ game:GetService("ScriptInformationProvider"):SetAssetUrl("http://arl.lambda.cam/
 game:GetService("ContentProvider"):SetThreadPool(16)
 pcall(function() game:GetService("InsertService"):SetFreeModelUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fm&q=%s&pg=%d&rs=%d") end) -- Used for free model search (insert tool)
 pcall(function() game:GetService("InsertService"):SetFreeDecalUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fd&q=%s&pg=%d&rs=%d") end) -- Used for free decal search (insert tool)
-
-ifSeleniumThenSetCookie("SeleniumTest2", "Set URL service")
 
 settings().Diagnostics:LegacyScriptMode()
 
@@ -44,13 +34,8 @@ pcall(function() game:GetService("MarketplaceService"):SetDevProductInfoUrl("htt
 pcall(function() game:GetService("MarketplaceService"):SetPlayerOwnsAssetUrl("https://arl.lambda.cam/ownership/hasasset?userId=%d&assetId=%d") end)
 pcall(function() game:SetCreatorID({creatorid}, Enum.CreatorType.User) end)
 
-ifSeleniumThenSetCookie("SeleniumTest3", "Set creator ID")
-
 pcall(function() game:SetScreenshotInfo("") end)
 pcall(function() game:SetVideoInfo("") end)
-
-
-ifSeleniumThenSetCookie("SeleniumTest4", "Exiting SingleplayerSharedScript")-- SingleplayerSharedScript.lua inserted here --
 
 message.Text = "Loading Place. Please wait..." 
 coroutine.yield() 
@@ -60,11 +45,12 @@ visit:SetUploadUrl("http://arl.lambda.cam/Data/Upload.ashx?assetid={placeid}")
 message.Parent = nil
 
 game:GetService("ChangeHistoryService"):SetEnabled(true)
-
---visit:SetPing("http://arl.lambda.cam/Game/ClientPresence.ashx?version=old&PlaceID=1818&LocationType=Studio", 120)
---game:HttpGet("http://arl.lambda.cam/Game/Statistics.ashx?UserID=0&AssociatedCreatorID=0&AssociatedCreatorType=User&AssociatedPlaceID=1818")
 <?php
-	 function get_signature($script)
+	/*
+	--visit:SetPing("http://arl.lambda.cam/Game/ClientPresence.ashx?version=old&PlaceID=1818&LocationType=Studio", 120)
+	--game:HttpGet("http://arl.lambda.cam/Game/Statistics.ashx?UserID=0&AssociatedCreatorID=0&AssociatedCreatorType=User&AssociatedPlaceID=1818")
+	*/
+	function get_signature($script)
 	{
 		$signature = "";
 		openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
@@ -89,7 +75,7 @@ game:GetService("ChangeHistoryService"):SetEnabled(true)
 					$script = str_replace("{creatorid}", "".$place->creator->id, $script);
 					$signature = get_signature($script);
 
-					echo "%". $signature . "%" . $script;
+					die("%". $signature . "%" . $script);
 				}
 			}
 			
@@ -97,5 +83,6 @@ game:GetService("ChangeHistoryService"):SetEnabled(true)
 		
 	}
 
-	
+	// if like nothing then just not output anything duh.
+	ob_clean(); die();
 ?>
