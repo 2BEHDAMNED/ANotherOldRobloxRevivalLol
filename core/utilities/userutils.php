@@ -210,10 +210,15 @@
 				"Create Panel"                    => "/core/create.php",
 				"Changing their profile info"     => "/my/profile.php",
 				"People"                          => "/people.php",
+				"Browsing games"                  => "/games.php",
+				"Frontpage"                  	  => "/index.php",
+				"Looking at {item}"           	  => "/item.php",
+				"Looking at {place}"			  => "/place.php",
 			];
 
 			$dont_catalog_ever = [
 				"/api/",
+				"/core/",
 				"/Admin/"
 			];
 

@@ -226,6 +226,39 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = new Asset($row);
+					if($row['asset_type'] == AssetType::PLACE->ordinal()) {
+						$asset = Place::FromID($row['asset_id']);
+					} else {
+						$asset = new Asset($row);
+					}
+
+					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED) {
+						array_push($result_array, $asset);
+					}
+					
+				}
+				return $result_array;
+			}
+
+			return [];
+		}
+
+		public static function GetAssetsOfType(string $query, AssetType $type) {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ?");
+			
+			$q = "%$query%";
+			$ordinal = $type->ordinal();
+			$stmt_getuser->bind_param('si', $q, $ordinal);
+			$stmt_getuser->execute();
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					$asset = new Asset($row);
 					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED) {
 						array_push($result_array, $asset);
 					}

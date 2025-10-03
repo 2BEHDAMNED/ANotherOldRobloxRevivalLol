@@ -68,6 +68,7 @@
 	RewriteRule ^api/favourite$ /api/favourite.php							  [END]
 	RewriteRule ^api/stuff$ /api/stuff.php							  [END]
 	RewriteRule ^api/people$ /api/people.php							  [END]
+	RewriteRule ^api/games$ /api/games.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
@@ -109,9 +110,13 @@
 	RewriteRule ^v1.1/counters/increment/?$ /core/nothing.txt [END]
 	RewriteRule ^game/report-stats?$ /core/nothing.txt [END]
 	RewriteRule ^Game/report-stats?$ /core/nothing.txt [END]
-
 	RewriteRule ^GetAllowedSecurityVersions/?$ /core/nothing.txt [END]
+	RewriteRule ^GetAllowedSecurityVersions$ /core/nothing.txt [END]
 	RewriteRule ^GetAllowedMD5Hashes/?$ /core/nothing.txt [END]
+	RewriteRule ^GetAllowedMD5Hashes$ /core/nothing.txt [END]
+
+	RewriteRule ^game/([0-9]+)$ /place.php?name=a&id=$1 [END]
+	RewriteRule ^Game/([0-9]+)$ /place.php?name=a&id=$1 [END]
 
 	RewriteRule ^games$ /games.php [END]
 

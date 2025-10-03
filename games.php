@@ -88,18 +88,32 @@
 			#NumberPutter {
 				width: 40px;
 				border: 2px solid black;
-				background: #111;
+				background: #242424;
 				color: white;
 				text-align: center;
 			}
 
-			#GamesContainer #Games #Navigation {
+			#GamesContainer #Games #Paginator {
 				margin: 4px auto;
 				text-align: center;
+			}
+
+			.Game[template] {
+				display:none;
 			}
 		</style>
 	</head>
 	<body>
+		<div class="Game" template>
+			<img src="">
+			<div id="Info">
+				<a href="" id="GameName">Game Name</a>
+				<hr style="border: none; margin: 2px">
+				
+				<span>By <a href="" id="GameCreator">creator</a></span>
+				<span>Cool stats I think</span>
+			</div>
+		</div>
 		<div id="Container">
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
@@ -121,20 +135,16 @@
 								<input id="SearchBox" name="query" type="text" placeholder="Look for awesome games!!!" style="width: 460px;">
 								<input id="Submit" type="submit" value="Search" onclick="ANORRL.Games.Submit(); return false;">
 							</div>
+							<div id="StatusText">
+								<b id="Loading" style="display: none">Loading assets...</b>
+								<b id="NoAssets" style="display: none"><img src="/images/noassets.png" style="width: 110px;display: block;margin: 0 auto;margin-bottom: -92px;margin-top: 23px;">No games like that here!</b>
+							</div>
+						
 							<div id="ContainerThingy">
-								<div class="Game">
-									<img src="/thumbs/?id=123" style="height:106px;width:189px">
-									<div id="Info">
-										<a href="">Game Name</a>
-										<hr style="border: none; margin: 2px">
-										
-										<span>By <a href="">creator</a></span>
-										<span>Cool stats I think</span>
-									</div>
-								</div>
+								
 							</div>
 							
-							<div id="Navigation" style="display: block;">
+							<div id="Paginator" style="display: block;">
 								<a id="BackPager" href="javascript:ANORRL.Games.PrevPage()" style="display: none;">&lt;&lt; Back</a> <input type="text" id="NumberPutter" maxlength="3"> of <span id="Counter">1</span> <a id="NextPager" href="javascript:ANORRL.Games.NextPage()" style="display: none;">Next &gt;&gt;</a>
 							</div>
 							

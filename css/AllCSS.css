@@ -630,7 +630,9 @@ h1, h2, h3, h4 {
 }
 
 #AssetsContainer #Loading, 
-#AssetsContainer #NoAssets {
+#AssetsContainer #NoAssets,
+#Games #Loading, 
+#Games #NoAssets {
 	font-size: 18px;
 	width: 100%;
 	display: block;
