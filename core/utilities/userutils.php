@@ -230,7 +230,7 @@
 					if(!self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
 						$page = array_search($_SERVER['SCRIPT_NAME'], $pages);
 						if($_SERVER['SCRIPT_NAME'] == "/users/profile.php" && $data instanceof User) {
-							if($data->id == $user->id) {
+							if($data->id != $user->id) {
 								$user_id = $data->id;
 								$user_name = $data->name;
 								$page = str_replace("{username}", "<a href='/users/$user_id/profile'>$user_name</a>", $page);
