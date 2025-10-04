@@ -33,8 +33,8 @@
 						"id" => $user->id,
 						"name" => $user->name,
 						"blurb" => htmlspecialchars($user->blurb, ENT_QUOTES),
-						"online" => false,
-						"status" => ""
+						"online" => $user->IsOnline(),
+						"status" => $user->GetOnlineActivity()
 					]);
 				}
 			}

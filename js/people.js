@@ -42,6 +42,7 @@ ANORRL.People = {
 
 
 		var statusLabel = data['online'] ? "Online" : "Offline";
+		
 
 		var $username = $("<td></td>");
 		$username.css("text-align", "center");
@@ -57,7 +58,7 @@ ANORRL.People = {
 		
 		var $userstatus = $("<td></td>");
 		$userstatus.css("text-align", "center");
-		$userstatus.html(statusLabel);
+		$userstatus.html(data['online'] ? data['status'] : "Offline");
 
 		$template.append($userprofile);
 		$template.append($username);

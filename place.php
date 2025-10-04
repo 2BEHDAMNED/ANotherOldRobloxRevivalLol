@@ -48,6 +48,7 @@ if($asset != null) {
 	}
 	
 }
+$header_data = $asset;
 ?>
 <!DOCTYPE html>
 <html>

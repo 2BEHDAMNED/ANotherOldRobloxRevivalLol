@@ -474,6 +474,32 @@
 		 * @return void
 		 */
 		function Terminate(): void {}
+
+		function IsOnline(): bool {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			
+			$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ? AND `action_time` > DATE_SUB(NOW(),INTERVAL 15 MINUTE)');
+			$stmt_user_status_check->bind_param('i', $this->id);
+			$stmt_user_status_check->execute();
+			$activity_result = $stmt_user_status_check->get_result();
+			
+			return $activity_result->num_rows != 0;
+		}
+
+		function GetOnlineActivity(): string {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			
+			$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ? AND `action_time` > DATE_SUB(NOW(),INTERVAL 15 MINUTE)');
+			$stmt_user_status_check->bind_param('i', $this->id);
+			$stmt_user_status_check->execute();
+			$activity_result = $stmt_user_status_check->get_result();
+			
+			if($activity_result->num_rows != 0) {
+				return $activity_result->fetch_assoc()['action'];
+			}
+
+			return "Offline";
+		}
 	}
 
 	class ANORRLBadge {

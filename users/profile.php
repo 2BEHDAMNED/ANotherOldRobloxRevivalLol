@@ -36,6 +36,8 @@
 	
 	$user = UserUtils::RetrieveUser($get_user);
 
+	$header_data = $get_user;
+
 	if($user == null) {
 		die(header("Location: /"));
 	}
@@ -164,6 +166,8 @@
 
 			#UserInfoContainer #Stats #OnlineStatusArea .Online a {
 				color: #73e71e;
+				font-weight: bold;
+				*text-decoration: underline;
 			}
 
 			#UserInfoContainer #Stats div > a:hover span {
@@ -373,7 +377,14 @@
 										</a>
 									</div>
 									<div id="OnlineStatusArea">
-										<span class="Online"><b>Online</b> <a href="">[In Game: Game]</a></span>
+										<?php 
+											//<a href="">[In Game: Game]</a>
+										if($get_user->IsOnline()): ?>
+										
+										<span class="Online"><b>Online</b> - <?= $get_user->GetOnlineActivity() ?></span>
+										<?php else: ?>
+										<span class="Offline"><b>Offline</b></span>
+										<?php endif ?>
 									</div>
 									<div id="OnlineStatusArea" style="padding-top:0px; margin-top:-5px;">
 										<span><b>Joined</b>: <?= $get_user->join_date->format('F dS, Y') ?></span>

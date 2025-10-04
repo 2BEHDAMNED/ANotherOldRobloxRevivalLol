@@ -1,6 +1,9 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
-	$header_check_user = UserUtils::RetrieveUser();
+	if(!isset($header_data)) {
+		$header_data = null;
+	}
+	$header_check_user = UserUtils::RetrieveUser($header_data);
 ?>
 <div id="Header">
 	<?php if($header_check_user != null): ?>

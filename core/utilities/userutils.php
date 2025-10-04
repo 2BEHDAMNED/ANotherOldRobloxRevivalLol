@@ -214,6 +214,7 @@
 				"Frontpage"                  	  => "/index.php",
 				"Looking at {item}"           	  => "/item.php",
 				"Looking at {place}"			  => "/place.php",
+				"Editing an item"				  => "/edit.php",
 			];
 
 			$dont_catalog_ever = [
@@ -229,8 +230,36 @@
 					if(!self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
 						$page = array_search($_SERVER['SCRIPT_NAME'], $pages);
 						if($_SERVER['SCRIPT_NAME'] == "/users/profile.php" && $data instanceof User) {
-							$page = str_replace("{username}", $data->name, $page);
+							if($data->id == $user->id) {
+								$user_id = $data->id;
+								$user_name = $data->name;
+								$page = str_replace("{username}", "<a href='/users/$user_id/profile'>$user_name</a>", $page);
+							} else {
+								$page = "Looking at their own profile";
+							}
 						}
+
+						if($_SERVER['SCRIPT_NAME'] == "/item.php" && $data instanceof Asset) {
+							$asset_id = $data->id;
+							$asset_name = $data->name;
+							$asset_urlname = $data->GetURLTitle();
+							$asset_link = "<a href='/$asset_urlname-item?id=$asset_id'>$asset_name</a>";
+
+							$page = str_replace("{item}", $asset_link, $page);
+							
+						}
+
+						if($_SERVER['SCRIPT_NAME'] == "/place.php" && $data instanceof Place) {
+							$asset_id = $data->id;
+							$asset_name = $data->name;
+							$asset_urlname = $data->GetURLTitle();
+							$asset_link = "<a href='/$asset_urlname-place?id=$asset_id'>$asset_name</a>";
+
+							$page = str_replace("{place}", $asset_link, $page);
+							
+						}
+
+						self::RegisterAction($user, $page);
 					}
 					
 				}

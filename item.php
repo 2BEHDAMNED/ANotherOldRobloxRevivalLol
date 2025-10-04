@@ -6,13 +6,12 @@ $id = intval($_GET['id']);
 require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
 require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
+$asset = Asset::FromID($id);
 $user = UserUtils::RetrieveUser();
 
 if($user == null) {
 	die(header("Location: /"));
 }
-
-$asset = Asset::FromID($id);
 
 if($asset != null) {
 
@@ -20,7 +19,7 @@ if($asset != null) {
 		$urlname = $asset->relatedasset->GetURLTitle();
 		$id = $asset->relatedasset->id;
 		die(header("Location: /$urlname-item?id=$id"));
-	}	
+	}
 
 	$urlname = $asset->GetURLTitle();
 	if($asset->GetURLTitle() != $name) {
@@ -71,6 +70,8 @@ $no_rendering_types = [
 	AssetType::TSHIRT,
 	AssetType::IMAGE,
 ];
+
+$header_data = $asset;
 ?>
 <!DOCTYPE html>
 <html>

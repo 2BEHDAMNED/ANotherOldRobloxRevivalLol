@@ -197,9 +197,13 @@
 				while($row = $result->fetch_assoc()) {
 					if(User::FromID($row['asset_creator']) != null) {
 						if($row['asset_type'] == AssetType::PLACE->ordinal()) {
-							array_push($result_array, Place::FromID($row['asset_id']));
+							$asset = Place::FromID($row['asset_id']);
 						} else {
-							array_push($result_array, new Asset($row));
+							$asset = new Asset($row);
+						}
+
+						if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
+							array_push($result_array, $asset);
 						}
 					}
 				}
@@ -232,7 +236,7 @@
 						$asset = new Asset($row);
 					}
 
-					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED) {
+					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
 						array_push($result_array, $asset);
 					}
 					
