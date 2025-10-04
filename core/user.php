@@ -478,7 +478,7 @@
 		function IsOnline(): bool {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			
-			$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ? AND `action_time` > DATE_SUB(NOW(),INTERVAL 15 MINUTE)');
+			$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ? AND `action_time` > DATE_SUB(NOW(),INTERVAL 5 MINUTE)');
 			$stmt_user_status_check->bind_param('i', $this->id);
 			$stmt_user_status_check->execute();
 			$activity_result = $stmt_user_status_check->get_result();
@@ -489,7 +489,7 @@
 		function GetOnlineActivity(): string {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			
-			$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ? AND `action_time` > DATE_SUB(NOW(),INTERVAL 15 MINUTE)');
+			$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ? AND `action_time` > DATE_SUB(NOW(),INTERVAL 5 MINUTE)');
 			$stmt_user_status_check->bind_param('i', $this->id);
 			$stmt_user_status_check->execute();
 			$activity_result = $stmt_user_status_check->get_result();
