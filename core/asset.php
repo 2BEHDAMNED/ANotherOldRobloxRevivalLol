@@ -202,8 +202,10 @@
 							$asset = new Asset($row);
 						}
 
+						array_push($result_array, $asset);
+
 						if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
-							array_push($result_array, $asset);
+							
 						}
 					}
 				}
@@ -215,7 +217,7 @@
 
 		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? LIMIT ?, ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? ORDER BY `asset_lastedited` LIMIT ?, ?");
 			
 			$page = (($pagenum-1)*$count);
 			$q = "%$query%";
@@ -262,8 +264,13 @@
 
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
-					$asset = new Asset($row);
-					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED) {
+					if($row['asset_type'] == AssetType::PLACE->ordinal()) {
+						$asset = Place::FromID($row['asset_id']);
+					} else {
+						$asset = new Asset($row);
+					}
+
+					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
 						array_push($result_array, $asset);
 					}
 				}
