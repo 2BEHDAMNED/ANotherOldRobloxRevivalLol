@@ -211,6 +211,7 @@
 				"Changing their profile info"     => "/my/profile.php",
 				"People"                          => "/people.php",
 				"Browsing games"                  => "/games.php",
+				"Catalog"						  => "/catalog.php",
 				"Frontpage"                  	  => "/index.php",
 				"Looking at {item}"           	  => "/item.php",
 				"Looking at {place}"			  => "/place.php",

@@ -119,8 +119,10 @@
 	RewriteRule ^Game/([0-9]+)$ /place.php?name=a&id=$1 [END]
 
 	RewriteRule ^games$ /games.php [END]
+	RewriteRule ^catalog$ /catalog.php [END]
 
 	RewriteRule ^games.php$ /core/error/404.php [END]
+	RewriteRule ^catalog.php$ /core/error/404.php [END]
 	RewriteRule ^edit.php$ /core/error/404.php [END]
 	RewriteRule ^item.php$ /core/error/404.php [END]
 	RewriteRule ^place.php$ /core/error/404.php [END]
