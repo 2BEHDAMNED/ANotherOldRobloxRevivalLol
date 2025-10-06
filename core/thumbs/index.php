@@ -45,7 +45,7 @@
 		if($asset != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			
-			if($asset->status == AssetStatus::ACCEPTED || (($user != null && $user->IsAdmin()) && $asset->status != AssetStatus::REJECTED)) {
+			if($asset->status == AssetStatus::ACCEPTED || $user != null && $user->IsAdmin()) {
 				
 				$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
 				$stmt->bind_param('i', $id);
@@ -61,10 +61,18 @@
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
 				} else {
 					if($asset->relatedasset != null || $asset->type == AssetType::IMAGE) {
-						$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash");
-						$specialcase = true;
+						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash")) {
+							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash");
+							$specialcase = true;
+						} else {
+							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
+						}
 					} else {
-						$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash")) {
+							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+						} else {
+							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
+						}
 					}
 					
 				}

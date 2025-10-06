@@ -35,6 +35,15 @@ ANORRL = {
 		} else {
 			window.location.href = url;
 		}
+	},
+	CollectStipend: function() {
+		$("a[href='javascript:ANORRL.CollectStipend()']").attr("href", "");
+		$.post( "/api/stipend", { imsohungry: "very"}, function(data) {
+			if(data['error']) {
+				alert(data['reason']);
+			}
+			window.location.reload();
+		});
 	}
 };
 

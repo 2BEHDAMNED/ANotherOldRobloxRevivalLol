@@ -4,6 +4,8 @@
 		$header_data = null;
 	}
 	$header_check_user = UserUtils::RetrieveUser($header_data);
+	$friends_count = $header_check_user->GetFriendsCount();
+	// 99999999 max
 ?>
 <div id="Header">
 	<?php if($header_check_user != null): ?>
@@ -15,13 +17,13 @@
 		</div>
 		<hr>
 		<div id="CreditsRow">
-			<span title="Traffic Cones (ROBUX)"><img src="/images/icons/traffic_cone.png"> 1</span> <span class="Separator">|</span>
-			<span title="Traffic Lights (TIX)"><img src="/images/icons/traffic_light.png"> 1</span>
+			<span title="Traffic Cones (ROBUX)"><img src="/images/icons/traffic_cone.png"> <?= $header_check_user->GetNetCones() ?></span> <span class="Separator">|</span>
+			<span title="Traffic Lights (TIX)"><img src="/images/icons/traffic_light.png"> <?= $header_check_user->GetNetLights() ?></span>
 
 			<hr>
 			
-			<span title="Your messages"><a href="/my/messages"><img src="/images/icons/messages.png"> 1</a></span> <span class="Separator">|</span>
-			<span title="Your friends"><a href="/my/friends"><img src="/images/icons/friends.png"> 1</a></span>
+			<span title="Your messages"><a href="/my/messages"><img src="/images/icons/messages.png"> 0</a></span> <span class="Separator">|</span>
+			<span title="Your friends"><a href="/my/friends"><img src="/images/icons/friends.png"> <?= $friends_count ?></a></span>
 		</div>
 	</div>
 	<a id="LogoutSign" href="javascript:ANORRL.Logout()">LOGOUT</a>
@@ -61,7 +63,14 @@
 		<a href="/my/stuff"     <?php if($_SERVER['SCRIPT_NAME'] == "/my/stuff.php"    ):?>selected<?php endif ?>>Stuff</a>
 		<a href="/my/sets"      <?php if($_SERVER['SCRIPT_NAME'] == "/my/sets.php"     ):?>selected<?php endif ?>>Sets</a>
 	</div>
+	<?php if($header_check_user->PendingStipend()): ?>
+	<div id="StipendThingy">
+		<span style="font-size: 13px">Yoo bitch you got a paycheck incoming!!!</span>
+		<a href="javascript:ANORRL.CollectStipend()" style=>Collect</a>
+	</div>
 	<?php endif ?>
+	<?php endif ?>
+	
 </div>
 <div class="DisplayMobileWarning" style="display: none">
 	<div id="MobileWarningText">

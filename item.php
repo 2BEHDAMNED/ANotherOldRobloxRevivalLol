@@ -84,7 +84,7 @@ $header_data = $asset;
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
 
 		<script src="/js/jquery.js"></script>
-		<script src="/js/main.js"></script>
+		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js"></script>
 		<style>
 			h1, h2, h3, h4 {

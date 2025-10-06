@@ -215,7 +215,7 @@
 		}
 
 
-		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count) {
+		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count, bool $allowunchecked = true) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? ORDER BY `asset_lastedited` LIMIT ?, ?");
 			
@@ -239,7 +239,14 @@
 					}
 
 					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
-						array_push($result_array, $asset);
+						if(!$allowunchecked && $asset->status == AssetStatus::ACCEPTED) {
+							array_push($result_array, $asset);
+						} else {
+							if(!$allowunchecked && $asset->status == AssetStatus::PENDING) {} 
+							else {
+								array_push($result_array, $asset);
+							}
+						}
 					}
 					
 				}
@@ -249,7 +256,7 @@
 			return [];
 		}
 
-		public static function GetAssetsOfType(string $query, AssetType $type) {
+		public static function GetAssetsOfType(string $query, AssetType $type, bool $allowunchecked = true) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ?");
 			
@@ -271,7 +278,15 @@
 					}
 
 					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
-						array_push($result_array, $asset);
+						if(!$allowunchecked && $asset->status == AssetStatus::ACCEPTED) {
+							array_push($result_array, $asset);
+						} else {
+							if(!$allowunchecked && $asset->status == AssetStatus::PENDING) {} 
+							else {
+								array_push($result_array, $asset);
+							}
+						}
+						
 					}
 				}
 				return $result_array;
