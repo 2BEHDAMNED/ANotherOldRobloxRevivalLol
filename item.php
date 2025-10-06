@@ -92,7 +92,7 @@ $header_data = $asset;
 
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/item.js"></script>
+		<script src="/js/item.js?t=<?= time() ?>"></script>
 		<style>
 			h1, h2, h3, h4 {
 				margin: 0;
@@ -203,6 +203,7 @@ $header_data = $asset;
 
 			.PurchaseButton:hover {
 				background: #e4b139ff;
+				cursor: pointer;
 			}
 
 			.PurchaseButton img {
@@ -259,6 +260,49 @@ $header_data = $asset;
 				padding: 20px;
 				font-size: 14px;
 			}
+
+			#PurchasePanel {
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+				background: #000a;
+				z-index: 999;
+				margin-top: -55px;
+			}
+
+			#PurchasePanel #ModalPopup {
+				width: 360px;
+				height: fit-content;
+				border: 3px gray solid;
+				background: #333;
+				inset: 0;
+				position: absolute;
+				margin: auto;
+				padding: 10px;
+				color: white;
+			}
+
+			#PurchasePanel #ModalPopup h3 {
+				font-family:Arial, Helvetica, sans-serif;
+				background: none;
+				padding: 0;
+				margin: 10px 0px;
+				margin-top: 2px;
+				font-weight: bold;
+			}
+
+			#PurchasePanel #ModalPopup .MediumButton {
+				background: #777;
+				border: 2px solid black;
+				padding: 5px 0px;
+				color: white;
+			}
+
+			#PurchasePanel #ModalPopup .MediumButton:hover {
+				background: #999;
+				border-color: white;
+				cursor: pointer;
+			}
 		</style>
 		<?php if($user != null && $user->IsAdmin()): ?>
 		<script>
@@ -271,6 +315,67 @@ $header_data = $asset;
 		<?php endif ?>
 	</head>
 	<body>
+		<?php if($asset->onsale): ?>
+		<div id="PurchasePanel" style="display: none">
+			<div id="ModalPopup">
+				<h3>Purchase this <?= strtolower($asset->type->label()) ?>??</h3>
+				<?php if($asset->cost_lights == 0 && $asset->cost_cones == 0): ?>
+				<div id="PurchaseFreeItem">
+					<p>
+						The item "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a> is available in the <b><i>Public Domain</i></b>. 
+					</p>
+					<p>
+						Would you like to add it to your inventory for <b><i>free</i></b>?
+					</p>
+					<p>
+						<input type="submit" value="Add it now!" onclick="ANORRL.Item.Purchasing.PurchaseItem(); return false;" class="MediumButton" style="width:100%;" />
+					</p>
+					<p>
+						<input type="submit" value="Cancel" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
+					</p>
+				</div>
+				<?php else: ?>
+				<?php if($asset->cost_cones != 0): ?>
+				<div id="PurchaseCones" style="display: none;">
+					<p>
+						Would you like to purchase "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a> for <b><?= $asset->cost_cones ?></b> traffic cones? 
+					</p>
+					<p>
+						Your balance after this transaction will be Traffic Cones: <?= $user->GetNetCones() - $asset->cost_cones ?>.
+					</p>
+					<p>
+						<input type="submit" value="Buy now!" onclick="ANORRL.Item.Purchasing.PurchaseItem(); return false;" class="MediumButton" style="width:100%;" />
+					</p>
+					<p>
+						<input type="submit" value="Cancel" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
+					</p>
+				</div>
+				<?php endif ?>
+				<?php if($asset->cost_lights != 0): ?>
+				<div id="PurchaseLights" style="display: none;">
+					<p>
+						Would you like to purchase "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a> for <b><?= $asset->cost_lights ?></b> traffic lights? 
+					</p>
+					<p>
+						Your balance after this transaction will be Traffic Lights: <?= $user->GetNetLights() - $asset->cost_lights ?>.
+					</p>
+					<p>
+						<input type="submit" value="Buy now!" onclick="ANORRL.Item.Purchasing.PurchaseItem(); return false;" class="MediumButton" style="width:100%;" />
+					</p>
+					<p>
+						<input type="submit" value="Cancel" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
+					</p>
+				</div>
+				<?php endif ?>
+				<?php endif ?>
+				<div id="PurchaseProcessing" style="display: none;">
+					<p style="text-align: center;margin: 25px;">
+						<img src="/images/ProgressIndicator4White.gif" style="margin-bottom: -20px;margin-left: -25px;"> <span style="font-size: 15px;padding-left: 15px;">Processing...</span>
+					</p>
+				</div>
+			</div>
+		</div>
+		<?php endif ?>
 		<div id="Container">
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
@@ -307,10 +412,10 @@ $header_data = $asset;
 								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
 									<?php if(!$user_bought): ?>
 										<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
-											<?php if($asset->cost_cones != 0):  ?><button class="PurchaseButton"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button><?php endif ?>
-											<?php if($asset->cost_lights != 0): ?><button class="PurchaseButton"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button><?php endif ?>
+											<?php if($asset->cost_cones != 0):  ?><button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel('cones')"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button><?php endif ?>
+											<?php if($asset->cost_lights != 0): ?><button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel('lights')"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button><?php endif ?>
 										<?php else: ?>
-											<button class="PurchaseButton"><span>Free for grabs!</span></button>
+											<button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel()"><span>Free for grabs!</span></button>
 										<?php endif ?>
 									<?php else: ?>
 										<div id="NotOnSale">Hey! You already own this item??</div>
