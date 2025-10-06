@@ -19,7 +19,17 @@
 		}
 
 		if($page < 1) {
-			die(header("Location: /api/people?p=1"));
+			die(header("Location: /api/people?q=$query&p=1"));
+		}
+
+		$total_pages = floor((count(UserUtils::GetAllUsers($query))/6) + 0.5)+1;
+
+		if(count(UserUtils::GetAllUsersPaged($total_pages, 6, $query)) == 0) {
+			$total_pages--;
+		}
+
+		if($total_pages < $page) {
+			die(header("Location: /api/people?q=$query&p=1"));
 		}
 
 		$users = UserUtils::GetAllUsersPaged($page, 6, $query);
@@ -38,12 +48,6 @@
 					]);
 				}
 			}
-		}
-
-		$total_pages = floor((count(UserUtils::GetAllUsers($query))/6) + 0.5)+1;
-
-		if(count(UserUtils::GetAllUsersPaged($total_pages, 6, $query)) == 0) {
-			$total_pages--;
 		}
 
 		die(json_encode(["users" => $users_raw, "page" => $page, "total_pages" => $total_pages]));

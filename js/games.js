@@ -97,7 +97,7 @@ ANORRL.Games = {
 						window.location.href = "/game/"+$(this).attr("data-placeid"); 
 					});
 
-					template.find("img").attr("src", "/thumbs/?id="+asset['id']+"&sx=189&sy=106");
+					template.find("#ImageContainer > img").attr("src", "/thumbs/?id="+asset['id']+"&sx=189&sy=106");
 					template.find("#GameName").attr("href", urlname+"-place?id="+asset['id']);
 					template.find("#GameName").html(asset['name']);
 

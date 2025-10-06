@@ -7,105 +7,13 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js"></script>
 		<script src="/js/games.js"></script>
-		<style>
-			#GamesContainer {
-				background: #222;
-				padding: 10px;
-				border: 2px solid black;
-			}
-
-			#GamesContainer #GamesFilterPanel {
-				float: left;
-				border: 2px solid black;
-				background: #1a1a1a;
-				width: 175px;
-			}
-
-			#GamesContainer #GamesFilterPanel h4 {
-				margin: 0;
-				width: 100%;
-				padding: 10px 0px;
-				text-align: center;
-			}
-
-			#GamesContainer #GamesFilterPanel ul {
-				list-style: none;
-				text-align: center;
-				padding: 0;
-			}
-
-			#GamesContainer #GamesFilterPanel li > a{
-				padding: 8px 6px;
-				display: block;
-				border: 2px solid black;
-				margin: 5px;
-				background: #111;
-			}
-
-			#GamesContainer #Games {
-				float: left;
-				border: 2px solid black;
-				padding: 5px;
-				background: #1a1a1a;
-
-				width: 666px;
-				margin-left: 7px;
-			}
-
-			#GamesContainer #Games .Game {
-				display: inline-block;
-				padding: 10px;
-				border: 2px solid black;
-				width: 194px;
-				background: #111;
-				margin: 2px;
-			}
-
-			#GamesContainer #Games .Game:hover {
-				cursor: pointer;
-			}
-
-			#GamesContainer #Games .Game:hover #Info > a {
-				cursor: pointer;
-				text-decoration: underline;
-				color: #ffc63f;
-			}
-
-
-			#GamesContainer #Games .Game img {
-				border: 2px solid black;
-			}
-
-			#GamesContainer #Games .Game #Info > span,
-			#GamesContainer #Games .Game #Info > a {
-				display:block;
-			}
-
-			#GamesContainer #Games .Game #Info > span {
-				color: lightgray;
-			}
-
-			#NumberPutter {
-				width: 40px;
-				border: 2px solid black;
-				background: #242424;
-				color: white;
-				text-align: center;
-			}
-
-			#GamesContainer #Games #Paginator {
-				margin: 4px auto;
-				text-align: center;
-			}
-
-			.Game[template] {
-				display:none;
-			}
-		</style>
 	</head>
 	<body>
 		<div class="Game" template>
-			<img src="">
+			<div id="ImageContainer">
+				<div id="FavouritesArea"><img src="/images/favourite_star.gif" style="width:16px; margin-bottom: -2px;"> <span>0</span></div>
+				<img src="">
+			</div>
 			<div id="Info">
 				<a href="" id="GameName">Game Name</a>
 				<hr style="border: none; margin: 2px">

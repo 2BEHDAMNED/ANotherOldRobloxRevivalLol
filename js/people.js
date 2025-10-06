@@ -135,4 +135,8 @@ ANORRL.People = {
 
 $(function(){
 	ANORRL.People.GrabFeed();
+
+	$("#UsersNavLinks").find("input").on("change", function() {
+		ANORRL.People.GrabFeed(ANORRL.People.CurrentStatusQuery, Number($(this).val()));
+	});
 });

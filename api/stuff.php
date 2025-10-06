@@ -21,6 +21,12 @@
 			die(header("Location: /api/stuff?c=$type&p=1"));
 		}
 
+		$total_pages = floor(count($user->GetAllOwnedAssetsOfType(AssetType::index($type)))/12)+1;
+
+		if($total_pages < $page) {
+			die(header("Location: /api/stuff?c=$type&p=1"));
+		}
+
 		$assets = $user->GetAllOwnedAssetsOfTypePaged(AssetType::index($type), $page, 12);
 
 		$assets_raw = [];
@@ -43,8 +49,8 @@
 				}
 			}
 		}
-
-		die(json_encode(["assets" => $assets_raw, "page" => $page, "total_pages" => floor(count($user->GetAllOwnedAssetsOfType(AssetType::index($type)))/12)+1]));
+		
+		die(json_encode(["assets" => $assets_raw, "page" => $page, "total_pages" => $total_pages]));
 	} else {
 		die(json_encode(["error" => true, "reason" => "User not logged in."]));
 	}

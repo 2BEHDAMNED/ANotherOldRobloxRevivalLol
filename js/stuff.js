@@ -240,6 +240,10 @@ $(function(){
 	} else {
 		ANORRL.Stuff.GrabAssets();
 	}
+
+	$("#Paginator").find("input").on("change", function() {
+		ANORRL.Stuff.GrabAssets(ANORRL.Stuff.CurrentCategory, Number($(this).val()));
+	});
 	
 
 	$.get("/api/user?id=0&request=isadmin", function(data) {

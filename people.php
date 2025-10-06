@@ -13,7 +13,6 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
-		<script src="/js/jquery.imageloader.js"></script>
 		<script src="/js/main.js"></script>
 		<script src="/js/people.js"></script>
 		<style>
@@ -92,7 +91,7 @@
 							
 						</table>
 						<div id="UsersNavLinks">
-							<a id="BackPager" href="javascript:ANORRL.People.DeadvanceFeed()">&lt;&lt; Back</a> <input type="number" id="NumberPutter"> of <span id="Counter"></span> <a id="NextPager" href="javascript:ANORRL.People.AdvanceFeed()">Next &gt;&gt;</a>
+							<a id="BackPager" href="javascript:ANORRL.People.DeadvanceFeed()">&lt;&lt; Back</a> <input maxlength="4" id="NumberPutter"> of <span id="Counter"></span> <a id="NextPager" href="javascript:ANORRL.People.AdvanceFeed()">Next &gt;&gt;</a>
 						</div>
 					</div>
 				</div>
