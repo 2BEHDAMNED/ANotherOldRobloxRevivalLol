@@ -27,6 +27,8 @@ ANORRL.User = {
 
 				if(place['description'].trim() == "") {
 					$("#ShowcaseDetails > code").html("<b>No description provided...</b>");
+				} else {
+					$("#ShowcaseDetails > code").html(place['description'].replaceAll("\r\n", "<br>"));
 				}
 			} else {
 				alert("Something went wrong, please try again!")
