@@ -63,12 +63,19 @@ if($asset != null) {
 	die(header("Location: /my/stuff"));
 }
 
-$no_rendering_types = [
-	AssetType::AUDIO,
-	AssetType::BADGE,
-	AssetType::DECAL,
-	AssetType::TSHIRT,
-	AssetType::IMAGE,
+$rendering_types = [
+	AssetType::PLACE,
+	AssetType::SHIRT,
+	AssetType::PANTS,
+	AssetType::MODEL,
+	AssetType::HAT,
+	AssetType::MESH,
+	AssetType::HEAD,
+	AssetType::PACKAGE,
+	AssetType::LEFTARM,
+	AssetType::RIGHTARM,
+	AssetType::LEFTLEG,
+	AssetType::RIGHTLEG,
 ];
 
 $header_data = $asset;
@@ -320,7 +327,7 @@ $header_data = $asset;
 									<?php if($is_creator): ?>
 									<a href="/edit?id=<?= $asset->id ?>">Edit</a>
 									<?php endif ?>
-									<?php if($user != null && $user->IsAdmin() && !in_array($asset->type, $no_rendering_types)): ?>
+									<?php if($user != null && $user->IsAdmin() && in_array($asset->type, $rendering_types)): ?>
 									<a href="javascript:Render()">Render this asset</a>
 									<?php endif ?>
 									<a href="">Report this item</a>
