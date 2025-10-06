@@ -69,6 +69,7 @@
 	RewriteRule ^api/stuff$ /api/stuff.php							  [END]
 	RewriteRule ^api/people$ /api/people.php							  [END]
 	RewriteRule ^api/games$ /api/games.php							  [END]
+	RewriteRule ^api/catalog$ /api/catalog.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]

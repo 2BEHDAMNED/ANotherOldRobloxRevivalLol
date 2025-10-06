@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js"></script>
+		<script src="/js/catalog.js"></script>
 		<style>
 			#CatalogContainer {
 				background: #222;
@@ -53,6 +54,7 @@
 			#CatalogContainer #FiltersChooser li[selected] > a {
 				font-weight: bold;
 				text-decoration: underline;
+				background: #1a1a1a;
 			}
 
 			#CatalogContainer #AssetsContainer {
@@ -67,9 +69,28 @@
 				margin-bottom: 0px;
 			}
 
+			#CatalogContainer #AssetsContainer .Asset {
+				*background: #2d2d2d;
+			}
+
+			#CatalogContainer #AssetsContainer .Asset #Pricing {
+				*background: #262626;
+			}
+
 		</style>
 	</head>
 	<body>
+		<div class="Asset" template>
+			<a id="NameAndThumbs">
+				<img src="/images/avatar.png">
+				<div id="Pricing">
+					<span id="Cones" ><img src="/images/icons/traffic_cone.png" > <span id="Costing"></span></span>
+					<span id="Lights"><img src="/images/icons/traffic_light.png"> <span id="Costing"></span></span>
+				</div>
+				<span>AssetName</span>
+			</a>
+			<a id="Creator"><span>AssetCreator</span></a>
+		</div>
 		<div id="Container">
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
@@ -113,7 +134,7 @@
 							</div>
 							<div id="StatusText">
 								<b id="Loading" style="display: none">Loading assets...</b>
-								<b id="NoAssets" style="display: none"><img src="/images/noassets.png" style="width: 110px;display: block;margin: 0 auto;margin-bottom: -92px;margin-top: 23px;">No games like that here!</b>
+								<b id="NoAssets" style="display: none"><img src="/images/noassets.png" style="width: 110px;display: block;margin: 0 auto;margin-bottom: -92px;margin-top: 23px;">No <span id="AssetType"></span> like that here!</b>
 							</div>
 						
 							<table id="Assets">

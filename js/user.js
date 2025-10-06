@@ -15,5 +15,32 @@ if (!Object.keys) {
 }
 
 ANORRL.User = {
-	/* Add badges pane */
+	GrabPlaceInfo: function(id) {
+		
+		$.get("/api/games", { placeid: id }, function(data) {
+			if(!data['error']) {
+				var place = data['place'];
+
+				$("#NameAndCreator > a").html(place['name']);
+				$("#NameAndCreator > a").attr("href","/game/"+place['id']);
+				$("#ShowcaseBigImages > img").attr("src", "/thumbs/?id="+place['id']+"&sx=300&sy=169");
+
+				if(place['description'].trim() == "") {
+					$("#ShowcaseDetails > code").html("<b>No description provided...</b>");
+				}
+			} else {
+				alert("Something went wrong, please try again!")
+			}
+		})
+		//
+	}
 }
+
+$(() => {
+	$("a[data-placeid]").on("click", function() {
+		ANORRL.User.GrabPlaceInfo($(this).attr("data-placeid"));
+	});
+
+	var place = $("a[data-placeid]").first();
+	ANORRL.User.GrabPlaceInfo(place.attr("data-placeid"));
+});

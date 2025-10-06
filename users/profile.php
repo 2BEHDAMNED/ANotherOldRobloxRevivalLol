@@ -42,7 +42,8 @@
 		die(header("Location: /"));
 	}
 
-	
+	$games = $get_user->GetAllOwnedAssetsOfType(AssetType::PLACE);
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -323,14 +324,31 @@
 			}
 
 			#PopularGames {
-				text-align: center;margin-left: 10px;height: 195px;overflow: hidden;
+				text-align: center;
+				margin-left: 10px;
+				height: 195px;
+				overflow: hidden;
 				background: #0f0f0f;
-				
+				overflow-y: scroll;
 			}
 
 			#PopularGames img {
 				width: 227px;
 				height: 128px;
+			}
+
+			#PopularGames img:hover {
+				cursor: pointer;
+			}
+
+			#PopularGames #Filler {
+				display: block;
+				width: 240px;
+				height: 128px;
+			}
+
+			#PopularGames > div > a:hover > img {
+				background: #333;
 			}
 		</style>
 		<script>
@@ -403,6 +421,7 @@
 							<br clear="all">
 						</div>
 					</div>
+					<?php if(count($games) != 0): ?>
 					<hr style="margin: 5px 10px;border-color:#b0b0b0;border-style: solid;">
 					<div id="UserGamesContainer">
 						<h3><?= $get_user->name ?>'s Games</h3>
@@ -415,26 +434,29 @@
 										<a id="Play" href=""></a>
 									</td>
 									<td id="ShowcaseDetails">
-										
 										<code>
 											Description hi hihi
 										</code>
 										<div id="AllowedStuff"></div>
 									</td>
 								</table>
-								
-								
 							</td>
 							<td id="PopularGames">
-								<div style="height: 201px;overflow: auto;">
-									<a href=""><img src="/images/avatar.png"></a>
-									<a href=""><img src="/images/avatar.png"></a>
-									<a href=""><img src="/images/avatar.png"></a>
+								<div style="height: 201px;overflow: scroll;width:244px">
+									<?php
+										foreach($games as $game) {
+											$game_id = $game->id;
+
+											echo <<<EOT
+											<a data-placeid="$game_id"><img src="/thumbs/?id=$game_id&sx=227&sy=128"></a>
+											EOT;
+										}
+									?>
 								</div>
-								
 							</td>
 						</table>
 					</div>
+					<?php endif ?>
 					<hr style="margin: 5px 10px;border-color:#b0b0b0;border-style: solid;">
 					<div id="UserStatsContainer">
 						<div id="LeftContainer">

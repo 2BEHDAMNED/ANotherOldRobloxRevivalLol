@@ -35,50 +35,68 @@
 	}
 
 	if($user != null) {
+		if(!isset($_GET['placeid'])) {
+			$page = 1;
+			if(isset($_GET['p'])) {
+				$page = intval($_GET['p']);
+			}
 
-		$page = 1;
-		if(isset($_GET['p'])) {
-			$page = intval($_GET['p']);
-		}
+			$query = "";
 
-		$query = "";
+			if(isset($_GET['q'])) {
+				$query = $_GET['q'];
+			}
 
-		if(isset($_GET['q'])) {
-			$query = $_GET['q'];
-		}
+			if($page < 1) {
+				die(header("Location: /api/games?q=$query&p=1"));
+			}
 
-		if($page < 1) {
-			die(header("Location: /api/games?q=$query&p=1"));
-		}
+			
 
-		
+			$retrievedassets = Asset::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9);
 
-		$retrievedassets = Asset::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9);
+			$assets = [];
 
-		$assets = [];
-
-		if(count($retrievedassets) != 0) {
-			foreach($retrievedassets as $asset) {
-				if($asset instanceof Place) {
-					array_push($assets, [
-						"id" => $asset->id,
-						"creator" => [
-							"id" => $asset->creator->id,
-							"name" => $asset->creator->name
-						],
-						"name" => $asset->name
-					]);
+			if(count($retrievedassets) != 0) {
+				foreach($retrievedassets as $asset) {
+					if($asset instanceof Place) {
+						array_push($assets, [
+							"id" => $asset->id,
+							"creator" => [
+								"id" => $asset->creator->id,
+								"name" => $asset->creator->name
+							],
+							"name" => $asset->name,
+							"favourites" => $asset->favourites_count
+						]);
+					}
 				}
 			}
+
+			$total_pages = floor(count(Asset::GetAssetsOfType($query, AssetType::PLACE))/9)+1;
+
+			if($total_pages < $page) {
+				die(header("Location: /api/games?q=$query&p=1"));
+			}
+
+			die(json_encode(["games" => $assets, "page" => $page, "total_pages" => $total_pages]));
+		} else {
+			$placeid = intval($_GET['placeid']);
+
+			$place = Place::FromID($placeid);
+
+			die(json_encode(
+				[
+					"error" => false,
+					"place" => [
+						"id" => $place->id,
+						"name" => $place->name,
+						"description" => $place->description
+					]
+				]
+			));
 		}
 
-		$total_pages = floor(count(Asset::GetAssetsOfType($query, AssetType::PLACE))/9)+1;
-
-		if($total_pages < $page) {
-			die(header("Location: /api/games?q=$query&p=1"));
-		}
-
-		die(json_encode(["games" => $assets, "page" => $page, "total_pages" => $total_pages]));
 	} else {
 		die(json_encode(["error" => true, "reason" => "User not logged in."]));
 	}
