@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/catalog.js"></script>
+		<script src="/js/catalog.js?t=1759774261"></script>
 		<style>
 			#CatalogContainer {
 				background: #222;
