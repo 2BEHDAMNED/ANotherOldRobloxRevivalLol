@@ -51,8 +51,6 @@
 				die(header("Location: /api/games?q=$query&p=1"));
 			}
 
-			
-
 			$retrievedassets = Asset::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9, false);
 
 			$assets = [];

@@ -53,7 +53,8 @@
 						"cost" => [
 							"cones" => $asset->cost_cones,
 							"lights" => $asset->cost_lights
-						]
+						],
+						"onsale" => $asset->onsale
 					]);
 				}
 			}

@@ -647,6 +647,15 @@ h1, h2, h3, h4 {
 	padding-left: 0px;
 }
 
+#AssetsContainer .Asset #Pricing > span#NotOnSaleTag {
+	text-align: center;
+	color: #bbb;
+	font-weight: bold;
+	width: 100%;
+	padding-left: 0px;
+	font-style: italic;
+}
+
 
 .Asset[template] {
 	display: none;
