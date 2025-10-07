@@ -395,7 +395,7 @@ $header_data = $asset;
 						<input type="submit" value="Continue Shopping" onclick="window.location.href='/catalog'; return false;" class="MediumButton" style="width:100%;" />
 					</p>
 					<p>
-						<input type="submit" value="Close" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
+						<input type="submit" value="Close" onclick="window.location.reload(); return false;" class="MediumButton" style="width:100%;" />
 					</p>
 				</div>
 			</div>

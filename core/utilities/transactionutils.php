@@ -97,86 +97,21 @@
 			if($get_user != null && !$get_user->IsBanned()) {
 				if($asset != null) {
 					if(!$get_user->Owns($asset) && $asset->onsale) {
-
-						if($type == TransactionType::CONES && $asset->cost_lights == 0 && $asset->cost_cones != 0) {
-							$user_amount = $get_user->GetNetCones();
-							$asset_amount = $asset->cost_cones;
-
-							$result = $user_amount-$asset_amount;
-
-							if($result >= 0) {
-								$ta_id = self::GenerateID();
-								$ta_userid = $get_user->id;
-								$ta_cost = $asset_amount;
-								$ta_asset = $asset->id;
-								$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'cones', ?, ?, ?, ?)");
-								$stmt_processtransaction->bind_param('siiiii', $ta_id, $ta_userid, $ta_cost, $ta_asset, $asset->type, $asset->creator->id);
-								if($stmt_processtransaction->execute()) {
-									$stmt_get_sale_count = $con->prepare("SELECT * FROM `transactions` WHERE `ta_asset` = ? AND `ta_userid`!= ?");
-									$stmt_get_sale_count->bind_param('ii', $asset_id, $asset->creator->id);
-									$stmt_get_sale_count->execute();
-									$sale_count = $stmt_get_sale_count->get_result()->num_rows;
-				
-									$stmt_update_sale_stat = $con->prepare("UPDATE `assets` SET `asset_salecount` = ? WHERE `asset_id` = ?");
-									$stmt_update_sale_stat->bind_param('ii', $sale_count, $asset_id);
-									$stmt_update_sale_stat->execute();
-									return "yay";
-								} else {
-									return "Something went wrong at our end!";
-								}
-							} else {
-								return "User did not have sufficient funds to perform this action!";
-							}
-						} else {
-							return "Invalid purchase method.";
-						}
-						
-						if($type == TransactionType::LIGHTS && $asset->cost_lights != 0 && $asset->cost_cones == 0) {
-							$user_amount = $get_user->GetNetLights();
-							$asset_amount = $asset->cost_lights;
-
-							$result = $user_amount-$asset_amount;
-
-							if($result >= 0) {
-								$ta_id = self::GenerateID();
-								$ta_userid = $get_user->id;
-								$ta_cost = $asset_amount;
-								$ta_asset = $asset->id;
-								$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'lights', ?, ?, ?, ?)");
-								$stmt_processtransaction->bind_param('siiiii', $ta_id, $ta_userid, $ta_cost, $ta_asset, $asset->type, $asset->creator->id);
-								if($stmt_processtransaction->execute()) {
-									$stmt_get_sale_count = $con->prepare("SELECT * FROM `transactions` WHERE `ta_asset` = ? AND `ta_userid`!= ?");
-									$stmt_get_sale_count->bind_param('ii', $asset_id, $asset->creator->id);
-									$stmt_get_sale_count->execute();
-									$sale_count = $stmt_get_sale_count->get_result()->num_rows;
-				
-									$stmt_update_sale_stat = $con->prepare("UPDATE `assets` SET `asset_salecount` = ? WHERE `asset_id` = ?");
-									$stmt_update_sale_stat->bind_param('ii', $sale_count, $asset_id);
-									$stmt_update_sale_stat->execute();
-									return "yay";
-								} else {
-									return "Something went wrong at our end!";
-								}
-							} else {
-								return "User did not have sufficient funds to perform this action!";
-							}
-						} else {
-							return "Invalid purchase method.";
-						}
-
-						if($type == TransactionType::FREE && $asset->cost_lights == 0 && $asset->cost_cones == 0) {
+						if($asset->cost_cones == 0 && $asset->cost_lights == 0) {
+							
 							$ta_id = self::GenerateID();
 							$ta_userid = $get_user->id;
 							$ta_asset = $asset->id;
-							$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'lights', ?, ?, ?, ?)");
-							$stmt_processtransaction->bind_param('siiiii', $ta_id, $ta_userid, $ta_cost, $ta_asset, $asset->type, $asset->creator->id);
+							$ordinal = $asset->type->ordinal();
+							$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'lights', 0, ?, ?, ?)");
+							$stmt_processtransaction->bind_param('siiii', $ta_id, $ta_userid, $ta_asset, $ordinal, $asset->creator->id);
 							if($stmt_processtransaction->execute()) {
 								$stmt_get_sale_count = $con->prepare("SELECT * FROM `transactions` WHERE `ta_asset` = ? AND `ta_userid`!= ?");
 								$stmt_get_sale_count->bind_param('ii', $asset_id, $asset->creator->id);
 								$stmt_get_sale_count->execute();
 								$sale_count = $stmt_get_sale_count->get_result()->num_rows;
 			
-								$stmt_update_sale_stat = $con->prepare("UPDATE `assets` SET `asset_salecount` = ? WHERE `asset_id` = ?");
+								$stmt_update_sale_stat = $con->prepare("UPDATE `assets` SET `asset_sales_count` = ? WHERE `asset_id` = ?");
 								$stmt_update_sale_stat->bind_param('ii', $sale_count, $asset_id);
 								$stmt_update_sale_stat->execute();
 								return "yay";
@@ -184,7 +119,73 @@
 								return "Something went wrong at our end!";
 							}
 						} else {
-							return "Invalid purchase method.";
+							if($type == TransactionType::CONES && (($asset->cost_lights == 0 && $asset->cost_cones != 0) || ($asset->cost_lights != 0 && $asset->cost_cones != 0))) {
+								$user_amount = $get_user->GetNetCones();
+								$asset_amount = $asset->cost_cones;
+
+								$result = $user_amount-$asset_amount;
+
+								if($result >= 0) {
+									$ta_id = self::GenerateID();
+									$ta_userid = $get_user->id;
+									$ta_cost = $asset_amount;
+									$ta_asset = $asset->id;
+									$ordinal = $asset->type->ordinal();
+									$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'cones', ?, ?, ?, ?)");
+									$stmt_processtransaction->bind_param('siiiii', $ta_id, $ta_userid, $ta_cost, $ta_asset, $ordinal, $asset->creator->id);
+									if($stmt_processtransaction->execute()) {
+										$stmt_get_sale_count = $con->prepare("SELECT * FROM `transactions` WHERE `ta_asset` = ? AND `ta_userid`!= ?");
+										$stmt_get_sale_count->bind_param('ii', $asset_id, $asset->creator->id);
+										$stmt_get_sale_count->execute();
+										$sale_count = $stmt_get_sale_count->get_result()->num_rows;
+					
+										$stmt_update_sale_stat = $con->prepare("UPDATE `assets` SET `asset_sales_count` = ? WHERE `asset_id` = ?");
+										$stmt_update_sale_stat->bind_param('ii', $sale_count, $asset_id);
+										$stmt_update_sale_stat->execute();
+										return "yay";
+									} else {
+										return "Something went wrong at our end!";
+									}
+								} else {
+									return "User did not have sufficient funds to perform this action!";
+								}
+							} else {
+								return "Invalid purchase method. cones";
+							}
+							
+							if($type == TransactionType::LIGHTS && $asset->cost_lights != 0 && $asset->cost_cones == 0) {
+								$user_amount = $get_user->GetNetLights();
+								$asset_amount = $asset->cost_lights;
+
+								$result = $user_amount-$asset_amount;
+
+								if($result >= 0) {
+									$ta_id = self::GenerateID();
+									$ta_userid = $get_user->id;
+									$ta_cost = $asset_amount;
+									$ta_asset = $asset->id;
+									$ordinal = $asset->type->ordinal();
+									$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'lights', ?, ?, ?, ?)");
+									$stmt_processtransaction->bind_param('siiiii', $ta_id, $ta_userid, $ta_cost, $ta_asset, $ordinal, $asset->creator->id);
+									if($stmt_processtransaction->execute()) {
+										$stmt_get_sale_count = $con->prepare("SELECT * FROM `transactions` WHERE `ta_asset` = ? AND `ta_userid`!= ?");
+										$stmt_get_sale_count->bind_param('ii', $asset_id, $asset->creator->id);
+										$stmt_get_sale_count->execute();
+										$sale_count = $stmt_get_sale_count->get_result()->num_rows;
+					
+										$stmt_update_sale_stat = $con->prepare("UPDATE `assets` SET `asset_sales_count` = ? WHERE `asset_id` = ?");
+										$stmt_update_sale_stat->bind_param('ii', $sale_count, $asset_id);
+										$stmt_update_sale_stat->execute();
+										return "yay";
+									} else {
+										return "Something went wrong at our end!";
+									}
+								} else {
+									return "User did not have sufficient funds to perform this action!";
+								}
+							} else {
+								return "Invalid purchase method. lights";
+							}
 						}
 					} else {
 						if($get_user->Owns($asset)) {

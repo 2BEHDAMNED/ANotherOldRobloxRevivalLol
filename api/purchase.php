@@ -22,6 +22,11 @@
 		if(in_array(trim(strtolower($_POST['typatransaction'])), $allowed_types)) {
 			//echo "user is logged in and recieved post";
 			$type = $allowed_types_conv[strtolower(trim($_POST['typatransaction']))];
+			
+			if(strtolower(trim($_POST['typatransaction'])) == "freeitem") {
+				$type = TransactionType::FREE;
+			}
+			
 			$asset_id = intval($_POST['asset_id']);
 			$item = Asset::FromID($asset_id);
 			if($item != null) {

@@ -42,13 +42,14 @@
 		}
 
 		public static function RenderPlayer(int $id = 0) {
-			self::UpdateAndSetConfig(parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true)['renderer']);
+			$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+			self::UpdateAndSetConfig($settings['renderer']);
 
 			if(self::$cantuserenderer) {
 				echo "renderer was disabled?";
 				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
 			}
-			
+			$access = $settings['asset']['ACCESSKEY'];
 			try {
 				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
 
@@ -64,7 +65,7 @@
 
 				local player = game.Players:CreateLocalPlayer(0)
 
-				player.CharacterAppearance = "http://$domain/Asset/CharacterFetch.ashx?assetId=$id"
+				player.CharacterAppearance = "http://$domain/Asset/CharacterFetch.ashx?assetId=$id&access=$access"
 				player:LoadCharacter(false)
 
 				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
