@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-loadfile('http://arl.lambda.cam/game/maingameserver.ashx')(41, 53640, 0, '8169b38d-abbc-480f-8971-14d8fd560aad', 'http://arl.lambda.cam', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 'http://arl.lambda.cam')
+loadfile('http://arl.lambda.cam/game/maingameserver.ashx')(132, 53640, 0, '8169b38d-abbc-480f-8971-14d8fd560aad', 'http://arl.lambda.cam', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 'http://arl.lambda.cam')
 <?php
 	 function get_signature($script)
     {

@@ -95,7 +95,11 @@
 
 	RewriteRule ^Thumbs/RawAsset.ashx /core/thumbs/rawasset.php [END]
 	RewriteRule ^thumbs/RawAsset.ashx /core/thumbs/rawasset.php [END]
+	RewriteRule ^Thumbs/Asset.ashx /core/thumbs/rawasset.php [END]
+	RewriteRule ^thumbs/Asset.ashx /core/thumbs/rawasset.php [END]
 	RewriteRule ^thumbs/?$ /core/thumbs/index.php [END]
+
+	RewriteRule ^marketplace/productinfo$ /core/marketplace/productinfo.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
 

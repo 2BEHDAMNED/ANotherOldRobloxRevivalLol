@@ -50,7 +50,7 @@
 		107, //BackpackManager
 		110, // BackpackGear
 		111, // LoadoutScript
-		
+		140, // LoadingScript
 	];
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);

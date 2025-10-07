@@ -20,6 +20,10 @@ pcall(function() game:GetService("SocialService"):SetGroupRankUrl("http://arl.la
 pcall(function() game:GetService("SocialService"):SetGroupRoleUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRole&playerid=%d&groupid=%d") end)
 pcall(function() game:GetService("GamePassService"):SetPlayerHasPassUrl("http://arl.lambda.cam/Game/GamePass/GamePassHandler.ashx?Action=HasPass&UserID=%d&PassID=%d") end)
 
+pcall(function() game:GetService("MarketplaceService"):SetProductInfoUrl("http://arl.lambda.cam/marketplace/productinfo?assetId=%d") end)
+pcall(function() game:GetService("MarketplaceService"):SetDevProductInfoUrl("http://arl.lambda.cam/marketplace/productDetails?productId=%d") end)
+pcall(function() game:GetService("MarketplaceService"):SetPlayerOwnsAssetUrl("http://arl.lambda.cam/ownership/hasasset?userId=%d&assetId=%d") end)
+
 local result = pcall(function() game:GetService("ScriptContext"):AddStarterScript(1) end)
 if not result then
   pcall(function() game:GetService("ScriptContext"):AddCoreScript(37801172,game:GetService("ScriptContext"),"1") end)
