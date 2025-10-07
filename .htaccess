@@ -71,6 +71,7 @@
 	RewriteRule ^api/games$ /api/games.php							  [END]
 	RewriteRule ^api/catalog$ /api/catalog.php							  [END]
 	RewriteRule ^api/stipend$ /api/stipend.php							  [END]
+	RewriteRule ^api/purchase$ /api/purchase.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]

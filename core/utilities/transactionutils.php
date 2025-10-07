@@ -94,9 +94,9 @@
 			
 			$get_user = UserUtils::RetrieveUser();
 			$asset = Asset::FromID($asset_id);
-			if($get_user != null) {
+			if($get_user != null && !$get_user->IsBanned()) {
 				if($asset != null) {
-
+					return "yay";
 				} else {
 					return "That asset doesn't exist!";
 				}

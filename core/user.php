@@ -433,9 +433,13 @@
 		}
 
 		function Owns(Asset|int $asset): bool {
+			$assetid = $asset;
+			if($asset instanceof Asset) {
+				$assetid = $asset->id;
+			}
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt = $con->prepare('SELECT * FROM `transactions` WHERE `ta_userid` = ? AND `ta_asset` = ?;');
-			$stmt -> bind_param('ii', $this->id, $asset->id);
+			$stmt -> bind_param('ii', $this->id, $assetid);
 			$stmt -> execute();
 
 			return $stmt->get_result()->num_rows != 0;

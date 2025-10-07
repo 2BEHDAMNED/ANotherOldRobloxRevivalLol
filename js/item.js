@@ -13,6 +13,11 @@ ANORRL.Item = {
 		});
 	},
 	Purchasing: {
+		AllowedShittyIDs: [
+			"Lights",
+			"Cones",
+			"FreeItem"
+		],
 		OpenPurchasePanel: function(panel) {
 			$("#PurchasePanel").css("display", "block");
 			if(panel == "cones") {
@@ -22,20 +27,48 @@ ANORRL.Item = {
 			}
 		},
 		PurchaseItem: function() {
-			if($("#ModalPopup > div:visible").size() != 0) {
-				$("#ModalPopup > div:visible").each(function() {
-					$(this).css("display", "none");
-				});
+			if($("#ModalPopup > div:visible").size() == 1) {
+				var prompt = $("#ModalPopup > div:visible");
+
+				prompt.css("display","none");
+				
+				var id = prompt.attr("id").replaceAll("Purchase", "");
+
+				if(this.AllowedShittyIDs.includes(id)) {
+
+					$("#ModalPopup #PurchaseProcessing").css("display", "block");
+					window.setTimeout(function() {
+						$.post("/api/purchase", { asset_id: Number($("#ModalPopup").attr("data-assetid")), typatransaction: id }, function(data) {
+							if(data['error']) {
+								this.PresentError(data['message']);
+							} else {
+
+							}
+						})
+					}, 2000);
+				} else {
+					this.PresentError("Something went wrong during the transaction... Sorry...")
+				}
+			} else {
+				this.PresentError("Something went wrong during the transaction... Sorry...");
 			}
-			
-			$("#ModalPopup #PurchaseProcessing").css("display", "block");
+		},
+		PresentError: function(error) {
+			$("#ModalPopup > div:visible").each(function() {
+				$(this).css("display", "none");
+			});
+
+			var errorpanel = $("#PurchaseError");
+			errorpanel.find("#Error").html(error);
+			errorpanel.css("display", "block");
 		},
 		ClosePurchasePanel: function() {
 			if($("div#PurchaseProcessing:visible").size() == 0) {
-				$("#PurchasePanel").css("display", "none");
+				$("#ModalPopup > div:visible").each(function() {
+					$(this).css("display", "none");
+				});
 
-				$("#PurchaseLights").css("display", "none");
-				$("#PurchaseCones").css("display", "none");
+				$("#PurchasePanel").css("display", "none");
 			}
 
 		}

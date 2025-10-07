@@ -317,7 +317,7 @@ $header_data = $asset;
 	<body>
 		<?php if($asset->onsale): ?>
 		<div id="PurchasePanel" style="display: none">
-			<div id="ModalPopup">
+			<div id="ModalPopup" data-assetid="<?= $asset->id ?>">
 				<h3>Purchase this <?= strtolower($asset->type->label()) ?>??</h3>
 				<?php if($asset->cost_lights == 0 && $asset->cost_cones == 0): ?>
 				<div id="PurchaseFreeItem">
@@ -371,6 +371,17 @@ $header_data = $asset;
 				<div id="PurchaseProcessing" style="display: none;">
 					<p style="text-align: center;margin: 25px;">
 						<img src="/images/ProgressIndicator4White.gif" style="margin-bottom: -20px;margin-left: -25px;"> <span style="font-size: 15px;padding-left: 15px;">Processing...</span>
+					</p>
+				</div>
+				<div id="PurchaseError" style="display: none">
+					<p>
+						Ok wait... There's been an issue... an error...
+					</p>
+					<p style="font-weight: bold; color: red" id="Error">
+						
+					</p>
+					<p>
+						<input type="submit" value="Cancel" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
 					</p>
 				</div>
 			</div>
