@@ -4,7 +4,6 @@
 		$header_data = null;
 	}
 	$header_check_user = UserUtils::RetrieveUser($header_data);
-	$friends_count = $header_check_user->GetFriendsCount();
 	// 99999999 max
 ?>
 <div id="Header">
@@ -23,7 +22,7 @@
 			<hr>
 			
 			<span title="Your messages"><a href="/my/messages"><img src="/images/icons/messages.png"> 0</a></span> <span class="Separator">|</span>
-			<span title="Your friends"><a href="/my/friends"><img src="/images/icons/friends.png"> <?= $friends_count ?></a></span>
+			<span title="Your friends"><a href="/my/friends"><img src="/images/icons/friends.png"> <?= $header_check_user->GetFriendsCount() ?></a></span>
 		</div>
 	</div>
 	<a id="LogoutSign" href="javascript:ANORRL.Logout()">LOGOUT</a>
