@@ -150,7 +150,7 @@
 								} else {
 									return "User did not have sufficient funds to perform this action!";
 								}
-							} else if($type == "lights" && (($asset->cost_lights == 0 && $asset->cost_cones != 0) || ($asset->cost_lights != 0 && $asset->cost_cones != 0))) {
+							} else if($type == "lights" && (($asset->cost_lights != 0 && $asset->cost_cones == 0) || ($asset->cost_lights != 0 && $asset->cost_cones != 0))) {
 								$user_amount = $get_user->GetNetLights();
 								$asset_amount = $asset->cost_lights;
 
