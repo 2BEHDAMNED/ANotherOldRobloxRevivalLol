@@ -216,6 +216,7 @@
 				"Looking at {item}"           	  => "/item.php",
 				"Looking at {place}"			  => "/place.php",
 				"Editing an item"				  => "/edit.php",
+				"Editing their character"		  => "/my/character.php"
 			];
 
 			$dont_catalog_ever = [

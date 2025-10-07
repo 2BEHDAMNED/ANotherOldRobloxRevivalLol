@@ -1310,6 +1310,7 @@ h1, h2, h3, h4 {
 
 #Paginator {
 	margin: 4px auto;
+	margin-bottom: 0px;
 	text-align: center;
 }
 

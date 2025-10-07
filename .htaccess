@@ -59,6 +59,7 @@
 	RewriteRule ^my/stuff$ /my/stuff.php									  [END]
 	RewriteRule ^my/profile$ /my/profile.php							  [END]
 	RewriteRule ^my/places$ /my/places.php							  [END]
+	RewriteRule ^my/character$ /my/character.php							  [END]
 
 	RewriteRule ^api/feeds$ /api/feeds.php								  [END]
 	RewriteRule ^api/logout$ /api/logout.php							  [END]

@@ -389,7 +389,7 @@ $header_data = $asset;
 						Awesome sauce! You just bought "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a>!
 					</p>
 					<p>
-						<input type="submit" value="Check it out in your inventory!" onclick="window.location.href='/my/stuff'; return false;" class="MediumButton" style="width:100%;" />
+						<input type="submit" value="Check it out in your inventory!" onclick="window.location.href='/my/stuff#<?= strtolower($asset->type->label()) ?>'; return false;" class="MediumButton" style="width:100%;" />
 					</p>
 					<p>
 						<input type="submit" value="Continue Shopping" onclick="window.location.href='/catalog'; return false;" class="MediumButton" style="width:100%;" />
