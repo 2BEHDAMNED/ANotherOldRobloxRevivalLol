@@ -181,7 +181,7 @@
 									return "User did not have sufficient funds to perform this action!";
 								}
 							} else {
-								return "Invalid purchase method. lights";
+								return "Invalid purchase method.";
 							}
 						}
 					} else {
