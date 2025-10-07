@@ -14,20 +14,12 @@
 		];
 
 		if(in_array(trim(strtolower($_POST['typatransaction'])), $allowed_types)) {
-			//echo "user is logged in and recieved post";
 			$type = strtolower(trim($_POST['typatransaction']));
-			
-			$asset_id = intval($_POST['asset_id']);
-			$item = Asset::FromID($asset_id);
-			if($item != null) {
-				$result = TransactionUtils::BuyItem($type, $asset_id);
-				if($result != "yay") {
-					echo "{ \"error\" : true, \"message\":\"$result\"}";
-				} else {
-					echo "{ \"error\" : false, \"message\":\"Success!\"}";
-				}
+			$result = TransactionUtils::BuyItem($type, intval($_POST['asset_id']));
+			if($result != "yay") {
+				echo "{ \"error\" : true, \"message\":\"$result\"}";
 			} else {
-				echo "{ \"error\" : true, \"message\":\"Asset does not exist!\"}";
+				echo "{ \"error\" : false, \"message\":\"Success!\"}";
 			}
 		} else {
 			echo "{ \"error\" : true, \"message\":\"Invalid purchase.\"}";

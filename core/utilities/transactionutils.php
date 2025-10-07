@@ -119,6 +119,7 @@
 								return "Something went wrong at our end!";
 							}
 						} else {
+							//die(($type == "cones" ? "that is surely cones!" : "that's literally something else")." $type");
 							if($type == "cones" && (($asset->cost_lights == 0 && $asset->cost_cones != 0) || ($asset->cost_lights != 0 && $asset->cost_cones != 0))) {
 								$user_amount = $get_user->GetNetCones();
 								$asset_amount = $asset->cost_cones;
@@ -149,11 +150,7 @@
 								} else {
 									return "User did not have sufficient funds to perform this action!";
 								}
-							} else {
-								return "Invalid purchase method. cones";
-							}
-							
-							if($type == "lights" && $asset->cost_lights != 0 && $asset->cost_cones == 0) {
+							} else if($type == "lights" && (($asset->cost_lights == 0 && $asset->cost_cones != 0) || ($asset->cost_lights != 0 && $asset->cost_cones != 0))) {
 								$user_amount = $get_user->GetNetLights();
 								$asset_amount = $asset->cost_lights;
 
