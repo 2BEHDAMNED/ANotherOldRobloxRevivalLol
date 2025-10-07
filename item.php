@@ -384,6 +384,20 @@ $header_data = $asset;
 						<input type="submit" value="Cancel" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
 					</p>
 				</div>
+				<div id="PurchaseSuccess" style="display: none">
+					<p>
+						Awesome sauce! You just bought "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a>!
+					</p>
+					<p>
+						<input type="submit" value="Check it out in your inventory!" onclick="window.location.href='/my/stuff'; return false;" class="MediumButton" style="width:100%;" />
+					</p>
+					<p>
+						<input type="submit" value="Continue Shopping" onclick="window.location.href='/catalog'; return false;" class="MediumButton" style="width:100%;" />
+					</p>
+					<p>
+						<input type="submit" value="Close" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
+					</p>
+				</div>
 			</div>
 		</div>
 		<?php endif ?>

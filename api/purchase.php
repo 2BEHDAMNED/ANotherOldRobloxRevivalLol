@@ -25,20 +25,11 @@
 			$asset_id = intval($_POST['asset_id']);
 			$item = Asset::FromID($asset_id);
 			if($item != null) {
-				if($item instanceof Asset) {
-					if(!$user->Owns($asset_id) && $item->onsale) {
-						$result = TransactionUtils::BuyItem($type, $asset_id);
-						if($result != "yay") {
-							echo "{ \"error\" : true, \"message\":\"$result\"}";
-						} else {
-							echo "{ \"error\" : false, \"message\":\"Success!\"}";
-						}
-						
-					} else {
-						echo "{ \"error\" : true, \"message\":\"User has already purchased this item!\"}";
-					}
+				$result = TransactionUtils::BuyItem($type, $asset_id);
+				if($result != "yay") {
+					echo "{ \"error\" : true, \"message\":\"$result\"}";
 				} else {
-					echo "{ \"error\" : true, \"message\":\"Asset does not exist!\"}";
+					echo "{ \"error\" : false, \"message\":\"Success!\"}";
 				}
 			} else {
 				echo "{ \"error\" : true, \"message\":\"Asset does not exist!\"}";

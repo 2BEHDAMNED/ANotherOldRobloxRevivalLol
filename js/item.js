@@ -40,17 +40,20 @@ ANORRL.Item = {
 					window.setTimeout(function() {
 						$.post("/api/purchase", { asset_id: Number($("#ModalPopup").attr("data-assetid")), typatransaction: id }, function(data) {
 							if(data['error']) {
-								this.PresentError(data['message']);
+								ANORRL.Item.Purchasing.PresentError(data['message']);
 							} else {
-
+								$("#ModalPopup > div:visible").each(function() {
+									$(this).css("display", "none");
+								});
+								$("#PurchaseSuccess").css("display", "block");
 							}
 						})
 					}, 2000);
 				} else {
-					this.PresentError("Something went wrong during the transaction... Sorry...")
+					ANORRL.Item.Purchasing.PresentError("Something went wrong during the transaction... Sorry...")
 				}
 			} else {
-				this.PresentError("Something went wrong during the transaction... Sorry...");
+				ANORRL.Item.Purchasing.PresentError("Something went wrong during the transaction... Sorry...");
 			}
 		},
 		PresentError: function(error) {
