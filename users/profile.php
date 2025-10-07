@@ -430,7 +430,7 @@
 								<table>
 									<td id="ShowcaseBigImages">
 										<div id="NameAndCreator"><a href="" id="Name">Game Name</a></div>
-										<img src="/images/avatar.png">
+										<img src="">
 										<a id="Play" href=""></a>
 									</td>
 									<td id="ShowcaseDetails">
