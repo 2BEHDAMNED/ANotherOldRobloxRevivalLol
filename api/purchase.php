@@ -7,12 +7,6 @@
 	header("Content-Type: application/json");
 	if($user != null && !$user->IsBanned() && isset($_POST['asset_id']) && isset($_POST['typatransaction'])) {
 
-		$allowed_types_conv = [
-			"cones" => TransactionType::CONES,
-			"lights" => TransactionType::LIGHTS,
-			"freeitem" => TransactionType::FREE
-		];
-
 		$allowed_types = [
 			"cones",
 			"lights",
@@ -21,11 +15,7 @@
 
 		if(in_array(trim(strtolower($_POST['typatransaction'])), $allowed_types)) {
 			//echo "user is logged in and recieved post";
-			$type = $allowed_types_conv[strtolower(trim($_POST['typatransaction']))];
-			
-			if(strtolower(trim($_POST['typatransaction'])) == "freeitem") {
-				$type = TransactionType::FREE;
-			}
+			$type = strtolower(trim($_POST['typatransaction']));
 			
 			$asset_id = intval($_POST['asset_id']);
 			$item = Asset::FromID($asset_id);

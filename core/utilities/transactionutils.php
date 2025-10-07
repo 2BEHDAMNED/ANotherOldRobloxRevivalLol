@@ -89,7 +89,7 @@
 			}
 		}
 
-		public static function BuyItem(TransactionType $type, int $asset_id): string {
+		public static function BuyItem(string $type, int $asset_id): string {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			
 			$get_user = UserUtils::RetrieveUser();
@@ -119,7 +119,7 @@
 								return "Something went wrong at our end!";
 							}
 						} else {
-							if($type == TransactionType::CONES && (($asset->cost_lights == 0 && $asset->cost_cones != 0) || ($asset->cost_lights != 0 && $asset->cost_cones != 0))) {
+							if($type == "cones" && (($asset->cost_lights == 0 && $asset->cost_cones != 0) || ($asset->cost_lights != 0 && $asset->cost_cones != 0))) {
 								$user_amount = $get_user->GetNetCones();
 								$asset_amount = $asset->cost_cones;
 
@@ -153,7 +153,7 @@
 								return "Invalid purchase method. cones";
 							}
 							
-							if($type == TransactionType::LIGHTS && $asset->cost_lights != 0 && $asset->cost_cones == 0) {
+							if($type == "lights" && $asset->cost_lights != 0 && $asset->cost_cones == 0) {
 								$user_amount = $get_user->GetNetLights();
 								$asset_amount = $asset->cost_lights;
 
