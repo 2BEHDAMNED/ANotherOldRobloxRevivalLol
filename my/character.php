@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Page - ANORRL</title>
+		<title>Your Character - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
@@ -22,6 +22,7 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
+					<h2>Your Character</h2>
 					
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
