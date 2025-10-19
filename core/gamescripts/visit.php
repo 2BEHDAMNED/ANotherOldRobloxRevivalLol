@@ -94,7 +94,7 @@ function doVisit()
 	else
 		player = game:GetService("Players"):CreateLocalPlayer(0)
 	end
-	player.CharacterAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=1&placeId=0"
+	player.CharacterAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId={userid}&placeId=0"
 	local propExists, canAutoLoadChar = false
 	propExists = pcall(function()  canAutoLoadChar = game.Players.CharacterAutoLoads end)
 
@@ -153,7 +153,16 @@ end
 	}    
 	header("Content-Type: text/plain");
 
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+
+	$user = UserUtils::RetrieveUser();
+	$userid = 1;
+	if($user != null) {
+		$userid = $user->id;
+	}
+
 	$script = "\r\n" . ob_get_clean();
+	$script = str_replace("{userid}", strval($userid), $script);
 	$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 	$signature = get_signature($script);
 

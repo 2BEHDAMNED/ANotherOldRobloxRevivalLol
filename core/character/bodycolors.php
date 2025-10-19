@@ -1,4 +1,6 @@
-<?php if(isset($_GET['clothing'])): ?>
+<?php 
+header("Content-Type: text/plain"); 
+if(isset($_GET['clothing'])): ?>
 <roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.novarin.co/roblox.xsd" version="4">
 	<External>null</External>
 	<External>nil</External>
@@ -15,12 +17,11 @@
 	</Item>
 </roblox>
 <?php else:
-	
+	header("Content-Type: text/plain"); 
 	// grab body colours of character
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	if(isset($_GET['userId'])) {
 		$user = User::FromID(intval($_GET['userId']));
-
 		if($user != null) {
 			$colours = $user->GetBodyColours();
 		} else {

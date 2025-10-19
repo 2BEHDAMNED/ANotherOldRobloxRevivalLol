@@ -53,7 +53,7 @@
 			}
 		}
 
-		private static function UpdateAsset(int $id, User $user, mixed $file): array {
+		private static function UpdateAsset(int $id, User|null $user, mixed $file): array {
 			$asset = Asset::FromID($id);
 			if($user != null && !$user->IsBanned() && $asset != null && $asset->creator->id == $user->id) {
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
@@ -316,7 +316,7 @@
 			}
 
 			// process singular asset
-			$place_result = self::UpdateAsset($id, $user, $file);
+			$place_result = self::UpdateAsset($id, $user, $place_data);
 			if($place_result['error']) {
 				return $place_result;
 			} else {
