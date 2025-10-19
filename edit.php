@@ -119,7 +119,9 @@
 				$result = AssetUploader::UpdateLua($asset->id, $_FILES['ANORRL$PublishAsset$File']);
 			} else if($asset->type == AssetType::MESH) {
 				$result = AssetUploader::UpdateMesh($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			} else {
+			} else if($asset->type == AssetType::PLACE) {
+				$result = AssetUploader::UpdatePlace($asset->id, $_FILES['ANORRL$PublishAsset$File']);
+			}  else {
 				die("Type was recognised but not implemented...");
 			}
 			

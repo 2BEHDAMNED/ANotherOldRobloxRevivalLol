@@ -2,6 +2,8 @@
 
 	ini_set("default_socket_timeout", 15);
 
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+
 	$directory = $_SERVER['DOCUMENT_ROOT']."/Assemblies/Roblox/Grid/Rcc/";
 	$scanned_directory = array_diff(scandir($directory), array('..', '.'));
 
@@ -74,6 +76,51 @@
 				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
 				$base64data = $rcc->OpenJob($job, $script);
 				$rcc->RenewLease($JobId, 1);
+			} catch(SoapFault $e) {
+				echo "some fault happened ig";
+				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			}
+
+			return $base64data;
+		}
+
+		public static function RenderUser(int $id = 0) {
+			$user = User::FromID($id);
+
+			if($user == null) {
+				return null;
+			}
+
+			self::UpdateAndSetConfig(parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true)['renderer']);
+
+			if(self::$cantuserenderer) {
+				echo "renderer was disabled?";
+				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			}
+			try {
+				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
+
+				$domain = self::$domain;
+
+				$JobId = md5(rand());
+
+				$job = new Roblox\Grid\Rcc\Job($JobId);
+				$scriptText = <<<EOT
+				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
+				game:GetService("ScriptContext").ScriptsDisabled = true
+				game:GetService("Lighting").Outlines = false
+
+				local player = game.Players:CreateLocalPlayer(0)
+
+				player.CharacterAppearance = "http://$domain/Asset/CharacterFetch.ashx?userId=$id"
+				player:LoadCharacter(false)
+
+				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
+				EOT;
+
+				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
+				$base64data = $rcc->OpenJob($job, $script);
+				//$rcc->RenewLease($JobId, 1);
 			} catch(SoapFault $e) {
 				echo "some fault happened ig";
 				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));

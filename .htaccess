@@ -73,7 +73,7 @@
 	RewriteRule ^api/catalog$ /api/catalog.php							  [END]
 	RewriteRule ^api/stipend$ /api/stipend.php							  [END]
 	RewriteRule ^api/purchase$ /api/purchase.php							  [END]
-	RewriteRule ^api/wardrobe$ /api/wardrobe.php							  [END]
+	RewriteRule ^api/character$ /api/character.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
@@ -130,6 +130,9 @@
 	RewriteRule ^games$ /games.php [END]
 	RewriteRule ^catalog$ /catalog.php [END]
 
+	RewriteRule ^test$ /test.php [END]
+
+	RewriteRule ^games.php$ /core/error/404.php [END]
 	RewriteRule ^games.php$ /core/error/404.php [END]
 	RewriteRule ^catalog.php$ /core/error/404.php [END]
 	RewriteRule ^edit.php$ /core/error/404.php [END]

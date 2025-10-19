@@ -84,7 +84,6 @@ ANORRL.People = {
 		var feedscontainer = $("#UsersDataTable");
 
 		feedscontainer.find("tbody").children().each(function() {
-			console.log($(this).html());
 			if(!$(this).html().includes("</th>"))
 				$(this).remove();
 		});
@@ -107,8 +106,6 @@ ANORRL.People = {
 			
 			for (var key in users) {
 				var user = users[key];
-
-				console.log(user);
 
 				feedscontainer.append(ANORRL.People.CreatePlayerRow(user));
 

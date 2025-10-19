@@ -214,8 +214,8 @@
 			if($file['error'] == 0) {
 				$mesh_data = file_get_contents($file['tmp_name']);
 
-				if(!str_starts_with(trim($mesh_data), "version 1.0")) {
-					return ['error' => true, 'reason' => 'Version 1.0x meshes only!'];
+				if(!(str_starts_with(trim($mesh_data), "version 1.0") || str_starts_with(trim($mesh_data), "version 2.0"))) {
+					return ['error' => true, 'reason' => 'Version 1.0x and 2.0x meshes only!'];
 				}
 
 				// process singular asset
@@ -391,7 +391,7 @@
 						<External>nil</External>
 						<Item class="Decal" referent="RBX0">
 							<Properties>
-								<token name="Face">0</token>
+								<token name="Face">5</token>
 								<string name="Name">Decal</string>
 								<float name="Shiny">20</float>
 								<float name="Specular">0</float>

@@ -122,9 +122,80 @@
 				width: 113px;
 				height: 113px;
 			}
+
+			#CharacterContainer #BodyColours #BodyColoursContainer {
+				border: 2px solid black;
+				background: #222;
+				text-align: center;
+				padding: 15px;
+			}
+
+			#CharacterContainer #BodyColours #BodyColoursContainer button[data_bodytype] {
+				border: 2px solid black;
+				width: 38px;
+				height: 76px;
+			}
+
+			#CharacterContainer #BodyColours #BodyColoursContainer button[data_bodytype]:hover {
+				cursor: pointer;
+			}
+
+			#CharacterContainer #BodyColours #BodyColoursContainer button[data_bodytype="1"] {
+				width: 76px;
+			}
+
+			#CharacterContainer #BodyColours #BodyColoursContainer button[data_bodytype="0"] {
+				width: 44px;
+				height: 44px;
+			}
+
+			#CharacterContainer #BodyColours #BodyColoursContainer #BodyPartInfo {
+				margin: 0 auto;
+				margin-top: 15px;
+				background: black;
+				padding: 10px 5px;
+				font-family: punk;
+				font-size: 16px;
+			}
+			#ColourPickerChooser {
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+				background: #0006;
+				z-index: 999;
+				margin-top: -55px;
+			}
+
+			#ColourPickerChooser #Colours {
+				position: absolute;
+				inset: 0;
+				margin: auto;
+				border: 2px solid black;
+				background: #333;
+				width: 580px;
+				height: 327px;
+				padding: 10px;
+			}
+
+			#ColourPickerChooser #Colours button {
+				border: 2px solid black;
+				width: 32px;
+				height: 32px;
+				margin: 2px;
+			}
+
+			#ColourPickerChooser #Colours button:hover {
+				cursor: pointer;
+				border-color: white;
+			}
 		</style>
 	</head>
 	<body>
+		<div id="ColourPickerChooser" style="display: none">
+			<div id="Colours">
+
+			</div>
+		</div>
 		<div class="Asset" template>
 			<div id="WearButton">[ wear ]</div>
 			<a id="NameAndThumbs">
@@ -179,8 +250,11 @@
 							<div id="CurrentlyWearing">
 								<h4>Currently Wearing</h4>
 								<div id="AssetsContainer">
-									<table id="Assets">
-
+									<div id="StatusText">
+										<b id="Loading" style="">Loading assets...</b>
+										<b id="NoAssets" style="display: none"><img src="/images/noassets.png" style="width: 110px;display: block;margin: 0 auto;margin-bottom: -92px;margin-top: 23px;">Seems barren, try buying some stuff!</b>
+									</div>
+									<table id="Assets" hidden>										
 									</table>
 								</div>
 							</div>
@@ -198,6 +272,18 @@
 							</div>
 							<div id="BodyColours">
 								<h4>Body Colours</h4>
+								<div id="BodyColoursContainer">
+									<div id="HeadRow">
+										<button data_bodytype="0"></button>
+									</div>
+									<div id="TorsoRow">
+										<button data_bodytype="2"></button><button data_bodytype="1"></button><button data_bodytype="3"></button>
+									</div>
+									<div id="LegsRow">
+										<button data_bodytype="4"></button><button data_bodytype="5"></button>
+									</div>
+									<div id="BodyPartInfo">&nbsp;</div>
+								</div>
 							</div>
 						</div>
 					</div>

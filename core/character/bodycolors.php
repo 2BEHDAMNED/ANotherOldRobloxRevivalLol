@@ -17,19 +17,32 @@
 <?php else:
 	
 	// grab body colours of character
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	if(isset($_GET['userId'])) {
+		$user = User::FromID(intval($_GET['userId']));
+
+		if($user != null) {
+			$colours = $user->GetBodyColours();
+		} else {
+			die();
+		}
+	} else {
+		die();
+	}
+	
 ?>
 <roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://rbx.lambda.cam/roblox.xsd" version="4">
 	<External>null</External>
 	<External>nil</External>
 	<Item class="BodyColors" referent="RBXCCC36C132C584B37B29DB69EAE48292A">
 		<Properties>
-			<int name="HeadColor">24</int>
-			<int name="LeftArmColor">24</int>
-			<int name="LeftLegColor">119</int>
+			<int name="HeadColor"><?= $colours['head'] ?></int>
+			<int name="LeftArmColor"><?= $colours['rightarm'] ?></int>
+			<int name="LeftLegColor"><?= $colours['leftleg'] ?></int>
 			<string name="Name">Body Colors</string>
-			<int name="RightArmColor">24</int>
-			<int name="RightLegColor">119</int>
-			<int name="TorsoColor">23</int>
+			<int name="RightArmColor"><?= $colours['leftarm'] ?></int>
+			<int name="RightLegColor"><?= $colours['rightleg'] ?></int>
+			<int name="TorsoColor"><?= $colours['torso'] ?></int>
 		</Properties>
 	</Item>
 </roblox>

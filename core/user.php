@@ -339,6 +339,194 @@
 				return null;
 			}
 		}
+
+		function IsWearing(Asset|int $asset): bool {
+			$assetid = $asset;
+			if($asset instanceof Asset) {
+				$assetid = $asset->id;
+			}
+			
+			if(!$this->Owns($asset) || Asset::FromID($assetid) == null) {
+				return false;
+			}
+			
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ? AND `inv_assetid` = ?;");
+			$stmt_checkinventory->bind_param('ii', $this->id, $assetid);
+			$stmt_checkinventory->execute();
+
+			$numberrows = $stmt_checkinventory->get_result()->num_rows;
+			if($numberrows > 1) {
+				$stmt_deleteitem = $con->prepare("DELETE FROM `inventory` WHERE `inv_userid` = ? AND `inv_assetid` = ?;");
+				$stmt_deleteitem->bind_param('ii', $this->id, $assetid);
+				$stmt_deleteitem->execute();
+
+				$stmt_additem = $con->prepare("INSERT INTO `inventory`(`inv_userid`, `inv_assetid`, `inv_assettype`) VALUES (?, ?, ?)");
+				$assettype = 0;
+
+				if($asset instanceof Asset) {
+					$assettype = $asset->type->ordinal();
+				} else {
+					$assettype = Asset::FromID($assetid)->type->ordinal();
+				}
+
+				$stmt_additem->bind_param('iii', $this->id, $assetid, $assettype);
+				$stmt_additem->execute();
+			}
+
+			return $numberrows != 0;
+		}
+
+		function Wear(Asset|int $asset): array {
+
+			$theabsolutelimit = 3;
+
+			$assetid = $asset;
+			if($asset instanceof Asset) {
+				$assetid = $asset->id;
+			}
+			
+			if(!$this->Owns($asset) || Asset::FromID($assetid) == null) {
+				return ["error"=>true, "reason"=>"Invalid item"];
+			}
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+
+			if($this->IsWearing($asset)) {
+				return ["error" => false];
+			} else {
+				$item = Asset::FromID($assetid);
+				$assettype = $item->type->ordinal();
+				
+				if($item->type->wearable()) {
+					if($item->type->wearone()) {
+						$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ? AND `inv_assettype` = ?;");
+						$stmt_checkinventory->bind_param('ii', $this->id, $assettype);
+						$stmt_checkinventory->execute();
+
+						if($stmt_checkinventory->get_result()->num_rows == 0) {
+							$stmt_additem = $con->prepare("INSERT INTO `inventory`(`inv_userid`, `inv_assetid`, `inv_assettype`) VALUES (?, ?, ?)");
+							$assettype = $item->type->ordinal();
+							$stmt_additem->bind_param('iii', $this->id, $assetid, $assettype);
+							$stmt_additem->execute();
+						} else {
+							$stmt_replaceitem = $con->prepare("UPDATE `inventory` SET `inv_assetid` = ? WHERE `inv_userid` = ? AND `inv_assettype` = ?");
+							$stmt_replaceitem->bind_param('iii', $assetid, $this->id, $assettype);
+							$stmt_replaceitem->execute();
+						}
+					} else {
+						$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ? AND `inv_assettype` = ?;");
+						$stmt_checkinventory->bind_param('ii', $this->id, $assettype);
+						$stmt_checkinventory->execute();
+
+						if($stmt_checkinventory->get_result()->num_rows < $theabsolutelimit) {
+							$stmt_additem = $con->prepare("INSERT INTO `inventory`(`inv_userid`, `inv_assetid`, `inv_assettype`) VALUES (?, ?, ?)");
+							$assettype = $item->type->ordinal();
+							$stmt_additem->bind_param('iii', $this->id, $assetid, $assettype);
+							$stmt_additem->execute();
+						} else {
+							return ["error" => true, "reason" => "Too many fucking ".strtolower($item->type->label())."s on"];
+						}
+					}
+				} else {
+					return ["error" => true, "reason" => "Invalid item"];
+				}
+
+			}
+
+			return ["error" => false];
+		}
+
+		function Unwear(Asset|int $asset): array {
+			$assetid = $asset;
+			if($asset instanceof Asset) {
+				$assetid = $asset->id;
+			}
+			
+			if(!$this->Owns($asset) || Asset::FromID($assetid) == null) {
+				return ["error"=>true, "reason"=>"Invalid item"];
+			}
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+
+			if(!$this->IsWearing($asset)) {
+				return ["error" => false];
+			} else {
+				$item = Asset::FromID($assetid);
+				$assettype = $item->type->ordinal();
+
+				if($item->type->wearable()) {
+					if($item->type->wearone()) {
+						$stmt_deleteitem = $con->prepare("DELETE FROM `inventory` WHERE `inv_userid` = ? AND `inv_assettype` = ?;");
+						$stmt_deleteitem->bind_param('ii', $this->id, $assettype);
+						$stmt_deleteitem->execute();
+					} else {
+						$stmt_deleteitem = $con->prepare("DELETE FROM `inventory` WHERE `inv_userid` = ? AND `inv_assetid` = ?;");
+						$stmt_deleteitem->bind_param('ii', $this->id, $assetid);
+						$stmt_deleteitem->execute();
+					}
+				} else {
+					return ["error" => true, "reason" => "Invalid item"];
+				}
+			}
+
+			return ["error" => false];
+		}
+
+		function GetWearingArray() {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+
+			$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ?;");
+			$stmt_checkinventory->bind_param('i', $this->id);
+			$stmt_checkinventory->execute();
+			$checkinventory_result = $stmt_checkinventory->get_result();
+			$ids = [];
+		
+			if($checkinventory_result->num_rows != 0) {
+				while($row = $checkinventory_result->fetch_assoc()) {
+					array_push($ids, $row['inv_assetid']);
+				}
+			}	
+
+			return $ids;
+		}
+
+		function GetBodyColours() {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+
+			$stmt_grabcolours = $con->prepare("SELECT * FROM `bodycolours` WHERE `colours_userid` = ?;");
+			$stmt_grabcolours->bind_param('i', $this->id);
+			$stmt_grabcolours->execute();
+			$grabcolours_result = $stmt_grabcolours->get_result();
+
+			if($grabcolours_result->num_rows == 0) {
+				$stmt_createcolours = $con->prepare("INSERT INTO `bodycolours`(`colours_userid`) VALUES (?);");
+				$stmt_createcolours->bind_param('i', $this->id);
+				$stmt_createcolours->execute();
+
+				return $this->GetBodyColours();
+			}
+			$colours = $grabcolours_result->fetch_assoc();
+
+			return [
+				"head" => $colours['colours_head'],
+				"torso" => $colours['colours_torso'],
+				"leftarm" => $colours['colours_leftarm'],
+				"rightarm" => $colours['colours_rightarm'],
+				"leftleg" => $colours['colours_leftleg'],
+				"rightleg" => $colours['colours_rightleg'],
+			];
+		}
+
+		function SetBodyColours(int $head, int $torso, int $leftarm, int $rightarm, int $leftleg, int $rightleg) {
+			$this->GetBodyColours(); // populate if doesn't exist
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+
+			$stmt_createcolours = $con->prepare("UPDATE `bodycolours` SET `colours_head` = ?, `colours_torso` = ?, `colours_leftarm` = ?, `colours_rightarm` = ?, `colours_leftleg` = ?,`colours_rightleg` = ? WHERE `colours_userid` = ?;");
+			$stmt_createcolours->bind_param('iiiiiii', $head, $torso, $leftarm, $rightarm, $leftleg, $rightleg, $this->id);
+			$stmt_createcolours->execute();
+		}
 		
 		function Follow(User|string $user) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";

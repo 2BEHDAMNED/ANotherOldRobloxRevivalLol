@@ -105,6 +105,40 @@
 			};
 		}
 
+		public function wearable(): bool {
+			return match($this) {
+				AssetType::TSHIRT 	=> true,
+				AssetType::HAT 		=> true,
+				AssetType::SHIRT 	=> true,
+				AssetType::PANTS 	=> true,
+				AssetType::HEAD 	=> true,
+				AssetType::FACE 	=> true,
+				AssetType::GEAR 	=> true,
+				AssetType::TORSO 		=> true,
+				AssetType::RIGHTARM 	=> true,
+				AssetType::LEFTARM 		=> true,
+				AssetType::LEFTLEG 		=> true,
+				AssetType::RIGHTLEG 	=> true,
+				default => false
+			};
+		}
+
+		public function wearone(): bool {
+			return match($this) {
+				AssetType::TSHIRT 	=> true,
+				AssetType::SHIRT 	=> true,
+				AssetType::PANTS 	=> true,
+				AssetType::HEAD 	=> true,
+				AssetType::FACE 	=> true,
+				AssetType::TORSO 		=> true,
+				AssetType::RIGHTARM 	=> true,
+				AssetType::LEFTARM 		=> true,
+				AssetType::LEFTLEG 		=> true,
+				AssetType::RIGHTLEG 	=> true,
+				default => false
+			};
+		}
+
 		public function label(): string {
 			return match($this) {
 				AssetType::IMAGE 	=> "Image",

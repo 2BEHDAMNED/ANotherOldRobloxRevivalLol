@@ -48,7 +48,7 @@ ANORRL.Item = {
 								$("#PurchaseSuccess").css("display", "block");
 							}
 						})
-					}, 2000);
+					}, 1500);
 				} else {
 					ANORRL.Item.Purchasing.PresentError("Something went wrong during the transaction... Sorry...")
 				}
