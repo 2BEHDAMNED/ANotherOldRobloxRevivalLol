@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
+		<script src="/js/character.js"></script>
 		<style>
 			h2, h4 {
 				margin: 0;
@@ -81,9 +82,57 @@
 				cursor: pointer;
 				font-weight: bold;
 			}
+
+			#CharacterContainer a[data_category][selected] {
+				font-weight: bold;
+				text-decoration: underline;
+			}
+
+			#CharacterContainer a[data_category]:hover {
+				cursor: pointer;
+			}
+
+			#CharacterContainer .Asset {
+				position: relative;
+			}
+
+			#CharacterContainer #WearButton {
+				font-size: 12px;
+				position: absolute;
+				right: 5px;
+				top: 5px;
+				background: gray;
+				padding: 1px 3px;
+				border: 2px solid #575757;
+				color: #ffa634;
+			}
+
+			#CharacterContainer #WearButton:hover { 
+				text-decoration: underline;
+				color: #ffc63f;
+				font-weight: bold;
+				cursor: pointer;
+			}
+
+			#CharacterContainer .Asset {
+				width: 117px;
+			}
+
+			#CharacterContainer .Asset #NameAndThumbs > img {
+				width: 113px;
+				height: 113px;
+			}
 		</style>
 	</head>
 	<body>
+		<div class="Asset" template>
+			<div id="WearButton">[ wear ]</div>
+			<a id="NameAndThumbs">
+				<img src="">
+				<span>AssetName</span>
+			</a>
+			<a id="Creator"><span>AssetCreator</span></a>
+		</div>
 		<div id="Container">
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
@@ -95,31 +144,34 @@
 								<h4>Wardrobe</h4>
 								<div id="WardrobeHeader">
 									<div>
-										<a>Hats</a>
-										<a>Faces</a>
-										<a>T-Shirts</a>
-										<a>Shirts</a>
-										<a>Pants</a>
-										<a>Gears</a>
-										<a>Outfits</a>
+										<a data_category="8">Hats</a>
+										<a data_category="18">Faces</a>
+										<a data_category="2">T-Shirts</a>
+										<a data_category="11">Shirts</a>
+										<a data_category="12">Pants</a>
+										<a data_category="19">Gears</a>
+										<a data_category="outfits">Outfits</a>
 									</div>
 									<hr>
 									<div>
-										<a>Packages</a>
-										<a>Heads</a>
-										<a>Torsos</a>
-										<a>Left Arms</a>
-										<a>Right Arms</a>
-										<a>Left Legs</a>
-										<a>Right Legs</a>
+										<a data_category="32">Packages</a>
+										<a data_category="17">Heads</a>
+										<a data_category="27">Torsos</a>
+										<a data_category="29">Left Arms</a>
+										<a data_category="28">Right Arms</a>
+										<a data_category="30">Left Legs</a>
+										<a data_category="31">Right Legs</a>
 									</div>
 								</div>
 								<div id="AssetsContainer">
-									<table id="Assets">
-
+									<div id="StatusText">
+										<b id="Loading" style="">Loading assets...</b>
+										<b id="NoAssets" style="display: none"><img src="/images/noassets.png" style="width: 110px;display: block;margin: 0 auto;margin-bottom: -92px;margin-top: 23px;">Seems barren, try buying some stuff!</b>
+									</div>
+									<table id="Assets" hidden>										
 									</table>
-									<div id="Paginator">
-
+									<div id="Paginator" style="display: block;">
+										<a id="BackPager" href="javascript:ANORRL.Character.PrevPage()" style="display: none;">&lt;&lt; Back</a> <input type="text" id="NumberPutter" maxlength="3"> of <span id="Counter">1</span> <a id="NextPager" href="javascript:ANORRL.Character.NextPage()" style="display: none;">Next &gt;&gt;</a>
 									</div>
 								</div>
 
@@ -130,9 +182,6 @@
 									<table id="Assets">
 
 									</table>
-									<div id="Paginator">
-
-									</div>
 								</div>
 							</div>
 						</div>

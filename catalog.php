@@ -121,8 +121,8 @@
 									<li data_category="13"><a>Decals</a></li>
 									<li data_category="10"><a>Models</a></li>
 
-									<li data_category="17"><a>Gears</a></li>
-									<li data_category="19"><a>Heads</a></li>
+									<li data_category="19"><a>Gears</a></li>
+									<li data_category="17"><a>Heads</a></li>
 									<li data_category="32"><a>Packages</a></li>
 								</ul>
 							</div>

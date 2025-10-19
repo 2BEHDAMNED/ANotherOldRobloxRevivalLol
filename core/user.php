@@ -180,6 +180,78 @@
 			}
 		}
 
+		function GetAllOwnedAssetsOfTypePagedExcluding(AssetType $type, array $excludedids = [], int $pagenum, int $count): array {
+			if(count($excludedids) == 0) {
+				return $this->GetAllOwnedAssetsOfType($type);
+			}
+
+			$processedids = "AND `ta_asset` NOT IN (";
+			foreach($excludedids as $id) {
+				$processedids .= $id.",";
+			}
+			$processedids = substr($processedids, 0, strlen($processedids)-1);
+			$processedids .= ")";
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? $processedids ORDER BY `ta_date` DESC LIMIT ?, ?");
+			$page = (($pagenum-1)*$count);
+			$ordinal = $type->ordinal();
+			
+			$stmt_getuser->bind_param('iiii', $ordinal, $this->id, $page, $count);
+			$stmt_getuser->execute();
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					$asset = Asset::FromID($row['ta_asset']);
+					if($asset->status != AssetStatus::REJECTED && $asset->type == $type) {
+						array_push($result_array, $asset);
+					}
+				}
+				return $result_array;
+			}
+
+			return $result_array;
+		}
+
+		function GetAllOwnedAssetsOfTypeExcluding(AssetType $type, array $excludedids = []): array {
+			if(count($excludedids) == 0) {
+				return $this->GetAllOwnedAssetsOfType($type);
+			}
+
+			$processedids = "AND `ta_asset` NOT IN (";
+			foreach($excludedids as $id) {
+				$processedids .= $id.",";
+			}
+			$processedids = substr($processedids, 0, strlen($processedids)-1);
+			$processedids .= ")";
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? $processedids ORDER BY `ta_date` DESC");
+			$ordinal = $type->ordinal();
+			$stmt_getuser->bind_param('ii', $ordinal, $this->id);
+			$stmt_getuser->execute();
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+			
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					$asset = Asset::FromID($row['ta_asset']);
+					if($asset->status != AssetStatus::REJECTED) {
+						array_push($result_array, $asset);
+					}
+				}
+			}
+
+			return $result_array;
+		}
+
 		function GetAllOwnedAssetsOfTypePaged(AssetType $type, int $pagenum, int $count): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? ORDER BY `ta_date` DESC LIMIT ?, ?");
