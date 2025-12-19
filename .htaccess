@@ -118,7 +118,7 @@
 	RewriteRule ^thumbs/?$ /core/thumbs/index.php [END]
 
 	RewriteRule ^marketplace/productinfo$ /core/marketplace/productinfo.php [END]
-	RewriteRule ^marketplace/productDetails$ /core/marketplace/productdetails.php [END]
+	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
 

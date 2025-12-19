@@ -2,33 +2,39 @@
 header('Content-type: application/json');
 $assetid = $_GET['assetId'];
 ?>
+<?php
+header('Content-type: application/json');
+$assetid = (int)$_GET['productId'];
+if(!$assetid){
+	die();
+}
+?>
 {
-	"TargetId": <?= $assetid ?>,
+	"TargetId": <?php echo($assetid); ?>,
 	"ProductType": "User Product",
-	"AssetId": <?= $assetid ?>,
-	"ProductId": <?= $assetid ?>,
-	"Name": "Test",
-	"Description": "HEEELP",
-	"AssetTypeId": 9,
+	"AssetId": <?php echo($assetid); ?>,
+	"ProductId": <?php echo($assetid); ?>,
+	"Name":"test",
+	"Description":"testing product",
+	"AssetTypeId":9,
 	"Creator": {
 		"Id": 1,
-		"Name": "Name",
+		"Name": "Roblox",
 		"CreatorType": "User",
-		"CreatorTargetId": 1,
-		"HasVerifiedBadge": true
+		"CreatorTargetId": 1
 	},
-	"IconImageAssetId": 1818,
-	"Created": "2015-06-25T20:07:49.147Z",
-	"Updated": "2015-07-11T20:07:51.863Z",
-	"PriceInRobux": 1,
-	"PriceInTickets": 1,
-	"Sales": 0,
-	"IsNew": true,
-	"IsForSale": false,
+	"IconImageAssetId": 0,
+	"Created": "2007-05-30T07:05:24.057Z",
+	"Updated": "2013-08-06T17:49:26.167Z",
+	"PriceInRobux": 25,
+	"PremiumPriceInRobux": 20,
+	"PriceInTickets": null,
+	"IsNew": false,
+	"IsForSale": true,
 	"IsPublicDomain": true,
 	"IsLimited": false,
 	"IsLimitedUnique": false,
 	"Remaining": null,
-	"MinimumMembershipLevel": 0,
-	"ContentRatingTypeId": 0
+	"Sales": null,
+	"MinimumMembershipLevel": 0
 }
