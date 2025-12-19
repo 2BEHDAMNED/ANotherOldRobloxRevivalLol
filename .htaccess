@@ -10,6 +10,7 @@
 	RewriteRule ^users/([0-9]+)/$ /users/profile.php?id=$1&redirect=true  [END]
 	
 	RewriteRule ^users/([0-9]+)/friends$ /users/friends.php?userId=$1  [END]
+	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)/$ /users/canmanage.php?userId=$1&placeId=$2  [END]
 	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)$ /users/canmanage.php?userId=$1&placeId=$2  [END]
 	
 	RewriteRule ^game/players/([0-9]+)$ /users/players.php?userId=$1  [END]
