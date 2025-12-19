@@ -31,14 +31,9 @@
 				$parsed_type   = $type->ordinal();
 				$parsed_public = intval($public);
 				$parsed_hidden = intval($hidden_ahh);
-				
-				$status = AssetStatus::PENDING->ordinal();
-				if($user->IsAdmin()) {
-					$status = AssetStatus::ACCEPTED->ordinal();
-				}
 
-				$stmt = $con->prepare('INSERT INTO `assets`(`asset_creator`, `asset_type`, `asset_name`, `asset_description`, `asset_public`, `asset_nevershow`, `asset_status`) VALUES (?, ?, ?, ?, ?, ?, ?);');
-				$stmt->bind_param('iissiii', $parsed_userid, $parsed_type, $name, $description, $parsed_public, $parsed_hidden, $status);
+				$stmt = $con->prepare('INSERT INTO `assets`(`asset_creator`, `asset_type`, `asset_name`, `asset_description`, `asset_public`, `asset_nevershow`) VALUES (?, ?, ?, ?, ?, ?);');
+				$stmt->bind_param('iissii', $parsed_userid, $parsed_type, $name, $description, $parsed_public, $parsed_hidden);
 				$stmt->execute();
 
 				$id = $con->insert_id;
@@ -72,11 +67,6 @@
 
 				$parsed_userid = $user->id;
 				$parsed_type = $asset->type->ordinal();
-				
-				$status = AssetStatus::PENDING->ordinal();
-				if($user->IsAdmin()) {
-					$status = AssetStatus::ACCEPTED->ordinal();
-				}
 
 				$new_versionid = count($asset->GetAllVersions())+1;
 
@@ -118,7 +108,7 @@
 
 						$ta_id = TransactionUtils::GenerateID();
 						$ta_assettype = AssetType::IMAGE->ordinal();
-						$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+						$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, ?, ?, ?, 0)");
 						$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_result['id'], $ta_assettype, $user->id);
 						$stmt_processtransaction->execute();
 
@@ -156,7 +146,7 @@
 
 						$ta_id = TransactionUtils::GenerateID();
 						$ta_assettype = AssetType::LUA->ordinal();
-						$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+						$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, ?, ?, ?, 0)");
 						$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_result['id'], $ta_assettype, $user->id);
 						$stmt_processtransaction->execute();
 
@@ -229,7 +219,7 @@
 
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::MESH->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, ?, ?, ?, 0)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
@@ -413,13 +403,13 @@
 
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::IMAGE->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, ?, ?, ?, 0)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_id, $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = ($face ? AssetType::FACE : AssetType::DECAL)->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $decal_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
@@ -489,7 +479,7 @@
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::AUDIO->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $audiomodel_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
@@ -608,13 +598,13 @@
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::IMAGE->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_id, $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::TSHIRT->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $decal_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
@@ -688,13 +678,13 @@
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::IMAGE->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, ?, ?, ?, 0)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_id, $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::SHIRT->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $shirt_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
@@ -780,13 +770,13 @@
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::IMAGE->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, ?, ?, ?, 0)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_id, $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::PANTS->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $pants_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
@@ -832,7 +822,7 @@
 			bool $comments_enabled = true,
 			ChatType $chattype = ChatType::BOTH,
 			int $server_size = 12,
-			User $user = null
+			User|null $user = null
 		) {
 			if($user == null) {
 				$user = UserUtils::RetrieveUser();
@@ -862,7 +852,7 @@
 
 				$ta_id = TransactionUtils::GenerateID();
 				$ta_assettype = AssetType::PLACE->ordinal();
-				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_currency`, `ta_cost`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
+				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
 				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
 				$stmt_processtransaction->execute();
 
@@ -881,6 +871,60 @@
 				
 				$stmt_addplace->bind_param('iiii', $place_id, $place_copylocked, $place_chattype, $server_size);
 				$stmt_addplace->execute();
+
+				if(!file_exists($assetsdir) && $user->IsAdmin()) {
+					$render = TheFuckingRenderer::RenderPlace($place_id);
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
+
+					$render_image = imagecreatefromstring($data);
+					imagesavealpha($render_image, true);
+					imagepng($render_image, $assetsdir);
+				}
+
+				return ["error" => false, "id" => $place_result['id']];
+			}
+		}
+
+		public static function UploadModel(string $name, string $description, array|string $file,
+		) {
+			$user = UserUtils::RetrieveUser();
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+			
+
+			// process singular asset
+			$place_result = self::UploadAsset($user, AssetType::MODEL, $name, $description, false, false, $place_data);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				$place_id = $place_result['id'];
+
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
+
+				$ta_id = TransactionUtils::GenerateID();
+				$ta_assettype = AssetType::MODEL->ordinal();
+				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
+				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
+				$stmt_processtransaction->execute();
+
+				$directory = $_SERVER['DOCUMENT_ROOT'];
+				$md5hashfile = md5($place_data);
+				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+				
+				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+				$stmt->bind_param('si', $md5hashfile, $place_id);
+				$stmt->execute();
 
 				if(!file_exists($assetsdir) && $user->IsAdmin()) {
 					$render = TheFuckingRenderer::RenderPlace($place_id);

@@ -45,7 +45,7 @@
 		if($asset != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			
-			if($asset->status == AssetStatus::ACCEPTED || $user != null && $user->IsAdmin()) {
+			if($user != null && $user->IsAdmin()) {
 				
 				$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
 				$stmt->bind_param('i', $id);
@@ -76,10 +76,6 @@
 					}
 					
 				}
-			} else if($asset->status == AssetStatus::PENDING) {
-				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/review-pending.png");
-			} else {
-				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/rejected.png");
 			}
 			
 

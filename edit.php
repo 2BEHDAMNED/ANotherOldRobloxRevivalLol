@@ -55,34 +55,19 @@
 		$description = ReturnNotUnicodedString($_POST['ANORRL$EditItem$Description']);
 		$public = isset($_POST['ANORRL$EditItem$PublicBox']) ? 1 : 0;
 		$comments_enabled = isset($_POST['ANORRL$EditItem$CommentsBox']) ? 1 : 0;
+		$on_sale = isset($_POST['ANORRL$EditItem$OnSaleBox']) ? 1 : 0;
 
-		if(strlen($name) < 4) {
-			$_SESSION['ANORRL$EditItem$Error'] = "Name must not be shorter than 4 characters!";
+		if(strlen($name) <= 0) {
+			$_SESSION['ANORRL$EditItem$Error'] = "Name must not be empty!";
 			$_SESSION['ANORRL$EditItem$Success'] = false;
 
 			die(header("Location: /edit?id=$id"));
 		} else {
-			if(isset($_POST['ANORRL$EditItem$OnSaleBox']) &&
-			isset($_POST['ANORRL$EditItem$Cost$Cones']) &&
-			isset($_POST['ANORRL$EditItem$Cost$Lights']) && !in_array($asset->type, $not_selling_types)) {
-				$cost_cones = intval($_POST['ANORRL$EditItem$Cost$Cones']);
-				$cost_lights = intval($_POST['ANORRL$EditItem$Cost$Lights']);
+			$stmt = $con->prepare('UPDATE `assets` SET `asset_name` = ?, `asset_description` = ?, `asset_public` = ?, `asset_comments_enabled` = ?, `asset_onsale` = ?,`asset_lastedited` = now() WHERE `asset_id` = ?;');
+			$stmt->bind_param('ssiiii', $name, $description, $public, $comments_enabled, $on_sale, $id);
+			$stmt->execute();
 
-				if($cost_cones < 0) { $cost_cones = 0; }
-				if($cost_lights < 0) { $cost_lights = 0; }
-				
-				$stmt = $con->prepare('UPDATE `assets` SET `asset_name` = ?, `asset_description` = ?, `asset_public` = ?, `asset_comments_enabled` = ?, `asset_onsale` = 1, `asset_cost_cones` = ?,`asset_cost_lights` = ?,`asset_lastedited` = now() WHERE `asset_id` = ?;');
-				$stmt->bind_param('ssiiiii', $name, $description, $public, $comments_enabled, $cost_cones, $cost_lights, $id);
-				$stmt->execute();
-
-				$_SESSION['ANORRL$EditItem$Success'] = true;
-			} else {
-				$stmt = $con->prepare('UPDATE `assets` SET `asset_name` = ?, `asset_description` = ?, `asset_public` = ?, `asset_comments_enabled` = ?, `asset_onsale` = 0, `asset_lastedited` = now() WHERE `asset_id` = ?;');
-				$stmt->bind_param('ssiii', $name, $description, $public, $comments_enabled, $id);
-				$stmt->execute();
-
-				$_SESSION['ANORRL$EditItem$Success'] = true;
-			}
+			$_SESSION['ANORRL$EditItem$Success'] = true;
 
 			if($asset->type == AssetType::PLACE &&
 			   isset($_POST['ANORRL$EditItem$Place$ServerSize']) && 
@@ -308,9 +293,6 @@
 										</tr>
 										<tr>
 											<td><label for="OnSaleCheckbox">On Sale</label><input id="OnSaleCheckbox" name="ANORRL$EditItem$OnSaleBox" type="checkbox" <?php if($asset->onsale): ?>checked<?php endif ?>></td>
-
-											<td class="ThePricing" id="TrafficCones">Traffic Cones<input type="number" name="ANORRL$EditItem$Cost$Cones" value="<?= $asset->cost_cones ?>"></td>
-											<td class="ThePricing" id="TrafficLights">Traffic Lights<input type="number" name="ANORRL$EditItem$Cost$Lights" value="<?= $asset->cost_lights ?>"></td>
 										</tr>
 									</table>
 								</div>

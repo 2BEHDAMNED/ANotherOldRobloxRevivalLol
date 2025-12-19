@@ -8,6 +8,9 @@
 
 	RewriteRule ^users/([0-9]+)$  /users/profile.php?id=$1&redirect=true  [END]
 	RewriteRule ^users/([0-9]+)/$ /users/profile.php?id=$1&redirect=true  [END]
+	
+	RewriteRule ^users/([0-9]+)/friends$ /users/friends.php?userId=$1  [END]
+	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)$ /users/canmanage.php?userId=$1&placeId=$2  [END]
 
 	RewriteRule ^asset/?$ /core/utilities/assetdeliverer.php			  [END]
 	RewriteRule ^Asset/?$ /core/utilities/assetdeliverer.php 			  [END]
@@ -60,6 +63,13 @@
 	RewriteRule ^my/profile$ /my/profile.php							  [END]
 	RewriteRule ^my/places$ /my/places.php							  [END]
 	RewriteRule ^my/character$ /my/character.php							  [END]
+	RewriteRule ^my/settings/json /core/authentication/settings.php [END]
+
+	RewriteRule ^universes/get-universe-containing-place /core/universes/get-universe-containing-place.php [END]
+	RewriteRule ^universes/([0-9]+)/cloudeditenabled /core/universes/cloudeditenabled.php [END]
+	RewriteRule ^places/([0-9]+)/settings /core/places/settings.php?placeId=$1 [END]
+	RewriteRule ^universes/get-info$ /core/universes/get-info.php [END]
+	RewriteRule ^universes/validate-place-join$ /core/universes/validate-place-join.php [END]
 
 	RewriteRule ^api/feeds$ /api/feeds.php								  [END]
 	RewriteRule ^api/logout$ /api/logout.php							  [END]
@@ -71,7 +81,6 @@
 	RewriteRule ^api/people$ /api/people.php							  [END]
 	RewriteRule ^api/games$ /api/games.php							  [END]
 	RewriteRule ^api/catalog$ /api/catalog.php							  [END]
-	RewriteRule ^api/stipend$ /api/stipend.php							  [END]
 	RewriteRule ^api/purchase$ /api/purchase.php							  [END]
 	RewriteRule ^api/character$ /api/character.php							  [END]
 
@@ -119,10 +128,8 @@
 	RewriteRule ^v1.1/counters/increment/?$ /core/nothing.txt [END]
 	RewriteRule ^game/report-stats?$ /core/nothing.txt [END]
 	RewriteRule ^Game/report-stats?$ /core/nothing.txt [END]
-	RewriteRule ^GetAllowedSecurityVersions/?$ /core/nothing.txt [END]
-	RewriteRule ^GetAllowedSecurityVersions$ /core/nothing.txt [END]
-	RewriteRule ^GetAllowedMD5Hashes/?$ /core/nothing.txt [END]
-	RewriteRule ^GetAllowedMD5Hashes$ /core/nothing.txt [END]
+	RewriteRule ^game/validate-machine?$ /core/success.txt [END]
+	RewriteRule ^Game/validate-machine?$ /core/success.txt [END]
 
 	RewriteRule ^game/([0-9]+)$ /place.php?name=a&id=$1 [END]
 	RewriteRule ^Game/([0-9]+)$ /place.php?name=a&id=$1 [END]
@@ -139,6 +146,10 @@
 	RewriteRule ^item.php$ /core/error/404.php [END]
 	RewriteRule ^place.php$ /core/error/404.php [END]
 	RewriteRule ^README.md$ /core/error/404.php [END]
+
+	RewriteRule ^GetAllowedMD5Hashes/$ /core/authentication/getallowedmd5hashes.php [END]
+	RewriteRule ^GetAllowedSecurityKeys/$ /core/authentication/getallowedsecuritykeys.php [END]
+	RewriteRule ^GetAllowedSecurityVersions/$ /core/authentication/getallowedsecurityversions.php [END]
 
 	RewriteRule ^core/error/404.php /core/error/404.php [END]
 	

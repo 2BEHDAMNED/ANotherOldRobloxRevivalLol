@@ -50,10 +50,6 @@
 							"id" => $asset->creator->id,
 							"name" => $asset->creator->name
 						],
-						"cost" => [
-							"cones" => $asset->cost_cones,
-							"lights" => $asset->cost_lights
-						],
 						"onsale" => $asset->onsale
 					]);
 				}

@@ -9,7 +9,6 @@ local message = Instance.new("Message")
 message.Parent = workspace
 message.archivable = false
 
-game:GetService("ScriptInformationProvider"):SetAssetUrl("http://arl.lambda.cam/Asset/")
 game:GetService("ContentProvider"):SetThreadPool(16)
 pcall(function() game:GetService("InsertService"):SetFreeModelUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fm&q=%s&pg=%d&rs=%d") end) -- Used for free model search (insert tool)
 pcall(function() game:GetService("InsertService"):SetFreeDecalUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fd&q=%s&pg=%d&rs=%d") end) -- Used for free decal search (insert tool)
@@ -75,7 +74,7 @@ game:GetService("ChangeHistoryService"):SetEnabled(true)
 					$script = str_replace("{creatorid}", "".$place->creator->id, $script);
 					$signature = get_signature($script);
 
-					die("%". $signature . "%" . $script);
+					die("--rbxsig%". $signature . "%" . $script);
 				}
 			}
 			

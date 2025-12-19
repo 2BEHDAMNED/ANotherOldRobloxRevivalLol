@@ -8,8 +8,6 @@
 	if($user != null && !$user->IsBanned() && isset($_POST['asset_id']) && isset($_POST['typatransaction'])) {
 
 		$allowed_types = [
-			"cones",
-			"lights",
 			"freeitem"
 		];
 

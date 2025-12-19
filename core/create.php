@@ -75,6 +75,8 @@
 						$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 					} else if($type == "places") {
 						$result = AssetUploader::UploadPlace($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+					} else if($type == "models") {
+						$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 					} else {
 						die("type found but not handled...");
 					}

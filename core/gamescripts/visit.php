@@ -166,5 +166,5 @@ end
 	$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 	$signature = get_signature($script);
 
-	echo "%". $signature . "%" . $script;
+	echo "--rbxsig%". $signature . "%" . $script;
 ?>

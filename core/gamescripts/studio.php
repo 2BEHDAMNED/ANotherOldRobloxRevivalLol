@@ -41,5 +41,5 @@ end
     $script = "\r\n" . ob_get_clean();
     $signature = get_signature($script);
 
-    echo "%". $signature . "%" . $script;
+    echo "--rbxsig%". $signature . "%" . $script;
 ?>

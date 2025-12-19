@@ -31,26 +31,6 @@
 	}
 
 	$sign_ids = [
-		1, // StarterScript
-		2, // Library Registration
-		3, // RbxGui
-		4, // RbxGear
-		5, // RbxStatus
-		6, // RbxUtility
-		7, // RbxStamper
-		9, // Tooltip
-		10, // Settings
-		18, // DialogScript / MainBotChatScript
-		19, // PopupScript
-		21, // Friend NotificationScript
-		22, // ChatScript
-		26, // PurchasePromptScript
-		64, // Playerlist
-		95, // BackpackBuilder
-		107, //BackpackManager
-		110, // BackpackGear
-		111, // LoadoutScript
-		140, // LoadingScript
 	];
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
@@ -80,7 +60,7 @@
 		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/$id";
 	}
 
-	if($asset != null && $asset->status == AssetStatus::REJECTED && (!isset($_GET['access']) && $_GET['access'] == $access)) {
+	if(false) { // $asset == null
 		die(http_response_code(403));
 	} else {
 		if(file_exists($filename)) {

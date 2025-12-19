@@ -1,6 +1,6 @@
 <?php
 header('Content-type: application/json');
-$assetid = $_GET['assetId'];
+$assetid = $_GET['universeId'];
 ?>
 {
 	"TargetId": <?= $assetid ?>,
@@ -10,13 +10,8 @@ $assetid = $_GET['assetId'];
 	"Name": "Test",
 	"Description": "HEEELP",
 	"AssetTypeId": 9,
-	"Creator": {
-		"Id": 1,
-		"Name": "Name",
-		"CreatorType": "User",
-		"CreatorTargetId": 1,
-		"HasVerifiedBadge": true
-	},
+	"CreatorId": 1,
+	"CreatorName": "GRACE",
 	"IconImageAssetId": 1818,
 	"Created": "2015-06-25T20:07:49.147Z",
 	"Updated": "2015-07-11T20:07:51.863Z",
@@ -24,7 +19,7 @@ $assetid = $_GET['assetId'];
 	"PriceInTickets": 1,
 	"Sales": 0,
 	"IsNew": true,
-	"IsForSale": false,
+	"IsForSale": true,
 	"IsPublicDomain": true,
 	"IsLimited": false,
 	"IsLimitedUnique": false,
