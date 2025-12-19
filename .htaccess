@@ -110,6 +110,7 @@
 
 	RewriteRule ^Game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 	RewriteRule ^game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
+	RewriteRule ^Thumbs/Avatar.ashx /images/unavailable-75.png [END]
 
 	RewriteRule ^Thumbs/RawAsset.ashx /core/thumbs/rawasset.php [END]
 	RewriteRule ^thumbs/RawAsset.ashx /core/thumbs/rawasset.php [END]
