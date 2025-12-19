@@ -1,1 +1,1 @@
-{"ChatFilter":"whitelist"}
+{"ChatFilter":"Unfiltered"}
