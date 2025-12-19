@@ -37,6 +37,9 @@
 	RewriteRule ^Game/GetCurrentUser.ashx$ /core/authentication/getcurrentuser.php [END]
 	
 	RewriteRule ^Game/PlaceSpecificScript.ashx$ /core/gamescripts/placespecificscript.php   [END]
+
+	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx$ /Game/LuaWebService/HandleSocialRequest.ashx.php   [END]
+	
 	RewriteRule ^Game/LoadPlaceInfo.ashx$ /core/gamescripts/loadplaceinfo.php   [END]
 	RewriteRule ^game/gameserver.ashx$ /core/gamescripts/gameserver.php	  [END]
 	RewriteRule ^game/host.ashx$ /core/gamescripts/host.php	  [END]
