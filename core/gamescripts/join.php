@@ -11,7 +11,7 @@
 	"SeleniumTestMode": false,
 	"UserId": <?= rand(1, 512) ?>,
 	"SuperSafeChat": false,
-	"CharacterAppearance": "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=1&placeId=0",
+	"CharacterAppearance": "http://arl.lambda.cam/v1.1/avatar-fetch/?placeId=0&userId=1"
 	"ClientTicket": "t",
 	"GameId": "2",
 	"PlaceId": 2,
