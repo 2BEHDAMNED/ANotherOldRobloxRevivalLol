@@ -55,7 +55,7 @@ if ($numbers[6] == 1) {
 
 ?>
 {
-  "resolvedAvatarType": "R15",
+  "resolvedAvatarType": "R6",
   "accessoryVersionIds": [],
   "equippedGearVersionIds": [],
   "backpackGearVersionIds": [],
