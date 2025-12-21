@@ -61,6 +61,8 @@
 	RewriteRule ^Game/studio.ashx$ /core/gamescripts/studio.php			  [END] # Only exists bc of windows!
 	RewriteRule ^Game/visit.ashx$ /core/gamescripts/visit.php			  [END] # Only exists bc of windows!
 	RewriteRule ^Game/edit.ashx$ /core/gamescripts/edit.php			  [END] # Only exists bc of windows!
+
+	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx /core/social/socialrequests.php [END]
 	
 	RewriteRule ^login$ login.php										  [END]
 	RewriteRule ^Login$ login.php										  [END]

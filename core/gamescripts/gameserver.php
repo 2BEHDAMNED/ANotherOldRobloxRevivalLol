@@ -94,7 +94,7 @@ if url~=nil then
 			end)
 end
 
-pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(true) end)
+pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(false) end)
 settings().Diagnostics.LuaRamLimit = 0
 
 game:GetService("Players").PlayerAdded:connect(function(player)
