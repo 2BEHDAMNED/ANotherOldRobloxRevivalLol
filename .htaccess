@@ -52,6 +52,7 @@
 	RewriteRule ^game/studio.ashx$ /core/gamescripts/studio.php			  [END]
 	RewriteRule ^game/visit.ashx$ /core/gamescripts/visit.php 			  [END]
 	RewriteRule ^game/edit.ashx$ /core/gamescripts/edit.php			  [END]
+	RewriteRule ^game/load-place-info$ /core/places/load-place-info.php			  [END]
 
 	RewriteRule ^Game/gameserver.ashx$ /core/gamescripts/gameserver.php   [END] # Only exists bc of windows!
 	RewriteRule ^Game/host.ashx$ /core/gamescripts/host.php   [END] # Only exists bc of windows!
