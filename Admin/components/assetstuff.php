@@ -72,9 +72,11 @@
 					if($type == AssetType::SHIRT || $type == AssetType::PANTS) {
 						$render = TheFuckingRenderer::RenderPlayer($id);	
 					} else if($type == AssetType::PLACE) {
-						$render = TheFuckingRenderer::RenderPlace($id);
+						$render = TheFuckingRenderer::RenderPlace($id, $asset->year == AssetYear::Y2008);
 					} else if($type == AssetType::MESH) {
-						$render = TheFuckingRenderer::RenderMesh($id);
+						$render = TheFuckingRenderer::RenderMesh($id, );
+					} else if($type == AssetType::MODEL) {
+						$render = TheFuckingRenderer::RenderModel($id, $asset->year == AssetYear::Y2008);
 					}
 
 					$data = base64_decode($render);
@@ -84,13 +86,7 @@
 					$message = "Success!";
 				}
 
-				if($_POST['type'] == "accept") {
-					$stmt = $con->prepare('UPDATE `assets` SET `asset_status`= ?  WHERE `asset_id` = ? OR `asset_relatedid` = ?');
-					$status = AssetStatus::ACCEPTED->ordinal();
-					$stmt -> bind_param("iii",  $status, $id, $id);
-					$stmt->execute();
-					$message = "Success!";
-				}  else if($_POST['type'] == "deny") {
+				if($_POST['type'] == "delete") {
 					$stmt = $con->prepare('UPDATE `assets` SET `asset_status`= -1  WHERE `asset_id` = ?');
 					$stmt -> bind_param("i", $id);
 					$stmt->execute();
@@ -98,26 +94,8 @@
 					$stmt = $con->prepare('UPDATE `assets` SET `asset_name`= "[ Content Deleted ]", `asset_description`= "[ Content Deleted ]" WHERE `asset_id` = ?');
 					$stmt -> bind_param("i", $id);
 					$stmt->execute();
-
+					
 					CheckAndDeleteAsset($id);
-					
-					// delete
-
-					$message = "Success!";
-				} else if($_POST['type'] == "delete") {
-					$stmt = $con->prepare('UPDATE `assets` SET `asset_status`= -1  WHERE `asset_id` = ?');
-					$stmt -> bind_param("i", $id);
-					$stmt->execute();
-
-					$stmt = $con->prepare('UPDATE `assets` SET `asset_name`= "[ Content Deleted ]", `asset_description`= "[ Content Deleted ]" WHERE `asset_id` = ?');
-					$stmt -> bind_param("i", $id);
-					$stmt->execute();
-
-					
-					
-					// delete
-					CheckAndDeleteAsset($id);
-
 					$message = "Success!";
 				}
 			}

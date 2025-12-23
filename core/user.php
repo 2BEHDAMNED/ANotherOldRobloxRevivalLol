@@ -208,7 +208,7 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					if($asset->status != AssetStatus::REJECTED && $asset->type == $type) {
+					if($asset->type == $type) {
 						array_push($result_array, $asset);
 					}
 				}
@@ -243,9 +243,7 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					if($asset->status != AssetStatus::REJECTED) {
-						array_push($result_array, $asset);
-					}
+					array_push($result_array, $asset);
 				}
 			}
 
@@ -269,7 +267,7 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					if($asset->status != AssetStatus::REJECTED && $asset->type == $type) {
+					if($asset->type == $type) {
 						array_push($result_array, $asset);
 					}
 				}
@@ -293,9 +291,12 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					if($asset->status != AssetStatus::REJECTED) {
+					if($asset->type == AssetType::PLACE) {
+						array_push($result_array, Place::FromID($row['ta_asset']));
+					} else {
 						array_push($result_array, $asset);
 					}
+					
 				}
 			}
 
@@ -763,52 +764,6 @@
 			}
 
 			return "Offline";
-		}
-
-		function GetNetLights(): int {
-			return $this->GetNetAmount("lights");
-		}
-
-		function GetNetCones(): int {
-			return $this->GetNetAmount("cones");
-		}
-
-		function GetNetAmount(?string $currency): int {
-			$userid = $this->id;
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE (`ta_userid` = ? OR `ta_assetcreator` = ?) AND `ta_currency` LIKE ?");
-			$stmt_getuser->bind_param('iis', $userid, $userid, $currency);
-			$stmt_getuser->execute();
-
-			$result = $stmt_getuser->get_result();
-			$result_sum = 0;
-			
-			if($result->num_rows != 0) {
-				while($row = $result->fetch_assoc()) {
-					if(!$row['ta_asset']) {
-						$result_sum += $row['ta_cost'];
-					} else {
-						if($row['ta_userid'] == $userid) {
-							$result_sum -= $row['ta_cost'];
-						} else {
-							$result_sum += $row['ta_cost'];
-						}
-					}
-					
-				}
-			}
-
-			return $result_sum;
-		}
-
-		function PendingStipend() {
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			
-			$stmt_user_status_check = $con->prepare('SELECT * FROM `subscriptions` WHERE `userid` = ? AND `lastpaytime` > DATE_SUB(NOW(),INTERVAL 1 DAY)');
-			$stmt_user_status_check->bind_param('i', $this->id);
-			$stmt_user_status_check->execute();
-			$activity_result = $stmt_user_status_check->get_result();
-			return $activity_result->num_rows == 0;
 		}
 	}
 

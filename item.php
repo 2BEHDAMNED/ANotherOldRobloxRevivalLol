@@ -319,7 +319,6 @@ $header_data = $asset;
 		<div id="PurchasePanel" style="display: none">
 			<div id="ModalPopup" data-assetid="<?= $asset->id ?>">
 				<h3>Purchase this <?= strtolower($asset->type->label()) ?>??</h3>
-				<?php if($asset->cost_lights == 0 && $asset->cost_cones == 0): ?>
 				<div id="PurchaseFreeItem">
 					<p>
 						The item "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a> is available in the <b><i>Public Domain</i></b>. 
@@ -334,40 +333,6 @@ $header_data = $asset;
 						<input type="submit" value="Cancel" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
 					</p>
 				</div>
-				<?php else: ?>
-				<?php if($asset->cost_cones != 0): ?>
-				<div id="PurchaseCones" style="display: none;">
-					<p>
-						Would you like to purchase "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a> for <b><?= $asset->cost_cones ?></b> traffic cones? 
-					</p>
-					<p>
-						Your balance after this transaction will be Traffic Cones: <?= $user->GetNetCones() - $asset->cost_cones ?>.
-					</p>
-					<p>
-						<input type="submit" value="Buy now!" onclick="ANORRL.Item.Purchasing.PurchaseItem(); return false;" class="MediumButton" style="width:100%;" />
-					</p>
-					<p>
-						<input type="submit" value="Cancel" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
-					</p>
-				</div>
-				<?php endif ?>
-				<?php if($asset->cost_lights != 0): ?>
-				<div id="PurchaseLights" style="display: none;">
-					<p>
-						Would you like to purchase "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a> for <b><?= $asset->cost_lights ?></b> traffic lights? 
-					</p>
-					<p>
-						Your balance after this transaction will be Traffic Lights: <?= $user->GetNetLights() - $asset->cost_lights ?>.
-					</p>
-					<p>
-						<input type="submit" value="Buy now!" onclick="ANORRL.Item.Purchasing.PurchaseItem(); return false;" class="MediumButton" style="width:100%;" />
-					</p>
-					<p>
-						<input type="submit" value="Cancel" onclick="ANORRL.Item.Purchasing.ClosePurchasePanel(); return false;" class="MediumButton" style="width:100%;" />
-					</p>
-				</div>
-				<?php endif ?>
-				<?php endif ?>
 				<div id="PurchaseProcessing" style="display: none;">
 					<p style="text-align: center;margin: 25px;">
 						<img src="/images/ProgressIndicator4White.gif" style="margin-bottom: -20px;margin-left: -25px;"> <span style="font-size: 15px;padding-left: 15px;">Processing...</span>
@@ -434,14 +399,9 @@ $header_data = $asset;
 							<div id="Purchasing">
 								<span>Sales: </span><b><?= $asset->sales_count ?></b><br>
 								<hr>
-								<?php if($asset->status == AssetStatus::ACCEPTED && $asset->onsale): ?>
+								<?php if($asset->onsale): ?>
 									<?php if(!$user_bought): ?>
-										<?php if($asset->cost_cones != 0 || $asset->cost_lights != 0): ?>
-											<?php if($asset->cost_cones != 0):  ?><button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel('cones')"><img src="/images/icons/traffic_cone.png"> <span><?= $asset->cost_cones ?></span></button><?php endif ?>
-											<?php if($asset->cost_lights != 0): ?><button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel('lights')"><img src="/images/icons/traffic_light.png"> <span><?= $asset->cost_lights ?></span></button><?php endif ?>
-										<?php else: ?>
-											<button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel()"><span>Free for grabs!</span></button>
-										<?php endif ?>
+										<button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel()"><span>Free for grabs!</span></button>
 									<?php else: ?>
 										<div id="NotOnSale">Hey! You already own this item??</div>
 									<?php endif ?>
@@ -460,7 +420,6 @@ $header_data = $asset;
 									<?php if($user != null && $user->IsAdmin() && in_array($asset->type, $rendering_types)): ?>
 									<a href="javascript:Render()">Render this asset</a>
 									<?php endif ?>
-									<a href="">Report this item</a>
 								</div>
 							</div>
 						</div>

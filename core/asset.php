@@ -2,28 +2,31 @@
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/user.php';
 
-	enum AssetStatus {
-		case REJECTED;
-		case PENDING;
-		case ACCEPTED;
+	enum AssetYear {
 
-		public static function index(?int $ordinal): AssetStatus {
+		case Y2008;
+		case Y2010;
+		case Y2012;
+		case NONE;
+
+		public static function index(string $ordinal): AssetYear {
 			return match($ordinal) {
-				-1 => AssetStatus::REJECTED, 
-				 0 => AssetStatus::PENDING, 
-				 1 => AssetStatus::ACCEPTED, 
+				"2008" => AssetYear::Y2008,
+				"2010" => AssetYear::Y2010,
+				"2012" => AssetYear::Y2012,
+				default => AssetYear::NONE
 			};
 		}
 
-		public function ordinal(): int {
+		public function label(): string {
 			return match($this) {
-				AssetStatus::REJECTED => -1, 
-				AssetStatus::PENDING  =>  0, 
-				AssetStatus::ACCEPTED =>  1, 
+				AssetYear::Y2008 => "2008",
+				AssetYear::Y2010 => "2010",
+				AssetYear::Y2012 => "2012",
+				default => "2010"
 			};
 		}
 	}
-
 	enum AssetType {
 		case IMAGE;
 		case TSHIRT;
@@ -184,16 +187,14 @@
 		public string      $description;
 		/** friends-only in places */
 		public bool        $public;
-		public AssetStatus $status;
+		
 
 		public int         $favourites_count;
 		public bool        $comments_enabled;
 
+		public AssetYear $year;
+
 		public bool        $onsale;
-		/** Tickets */
-		public int         $cost_lights;
-		/** Robux */
-		public int         $cost_cones;
 		public int         $sales_count;
 
 		public Asset|null $relatedasset;
@@ -218,40 +219,41 @@
 			}
 		}
 
-		public static function GetAllUncheckedAssets(): array|null {
+		//"Now", "MostPopular"
+		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count, string $time = "Now", string $sort = "MostPopular") {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getallusers = $con->prepare("SELECT * FROM `assets` WHERE `asset_status` = ? AND `asset_nevershow` = 0");
-			$ordinal = AssetStatus::PENDING->ordinal();
-			$stmt_getallusers->bind_param("i", $ordinal);
-			$stmt_getallusers->execute();
-			$result = $stmt_getallusers->get_result();
-			$result_array = array();
 
-			if($result->num_rows != 0) {
-				while($row = $result->fetch_assoc()) {
-					if(User::FromID($row['asset_creator']) != null) {
-						if($row['asset_type'] == AssetType::PLACE->ordinal()) {
-							$asset = Place::FromID($row['asset_id']);
-						} else {
-							$asset = new Asset($row);
-						}
+			$query_sort = "";
+			$query_time = "";
 
-						array_push($result_array, $asset);
-
-						if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
-							
-						}
-					}
-				}
-				return $result_array;
+			if($time == "AllTime") {
+				
+			} else if($time == "PastMonth") {
+				$query_time = "AND `asset_lastedited` >= NOW() - INTERVAL 1 MONTH";
+			} else if($time == "PastWeek") {
+				$query_time = "AND `asset_lastedited` >= NOW() - INTERVAL 1 WEEK";
+			} else if($time == "PastDay") {
+				$query_time = "AND `asset_lastedited` >= NOW() - INTERVAL 1 DAY";
+			} else if($time == "PastHour") {
+				$query_time = "AND `asset_lastedited` >= NOW() - INTERVAL 1 HOUR";
 			}
-			return [];
-		}
-
-
-		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count, bool $allowunchecked = true) {
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? ORDER BY `asset_lastedited` LIMIT ?, ?");
+			if($sort == "TopFavorites") {
+				$query_sort = "ORDER BY `asset_favourites_count` DESC";
+			} else if($sort == "BestSelling") {
+				$query_sort = "AND `asset_onsale` = 1 ORDER BY `asset_salecount` DESC";
+			} else if($sort == "ForSale") {
+				$query_sort = "AND `asset_onsale` = 1 ORDER BY `asset_lastedited` DESC";
+			} else if($sort == "RecentlyUpdated" || $sort == "PublicDomain") { 
+				$query_sort = "ORDER BY `asset_lastedited` DESC";
+			} else if($sort == "MostPopular") {
+				//$query_sort = "ORDER BY `place_playercount` DESC, `place_visitcount` DESC";
+				$query_sort = "";
+			} else {
+				$query_sort = "";
+			}
+			
+			
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? $query_time $query_sort LIMIT ?, ?");
 			
 			$page = (($pagenum-1)*$count);
 			$q = "%$query%";
@@ -272,15 +274,8 @@
 						$asset = new Asset($row);
 					}
 
-					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
-						if(!$allowunchecked && $asset->status == AssetStatus::ACCEPTED) {
-							array_push($result_array, $asset);
-						} else {
-							if(!$allowunchecked && $asset->status == AssetStatus::PENDING) {} 
-							else {
-								array_push($result_array, $asset);
-							}
-						}
+					if(!$asset->notcatalogueable && $asset->public) {
+						array_push($result_array, $asset);
 					}
 					
 				}
@@ -290,9 +285,36 @@
 			return [];
 		}
 
-		public static function GetAssetsOfType(string $query, AssetType $type, bool $allowunchecked = true) {
+		public static function GetAssetsOfType(string $query, AssetType $type, string $time = "AllTime", string $sort = "") {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ?");
+			$query_time = "";
+			if($time == "AllTime") {
+				
+			} else if($time == "PastMonth") {
+				$query_time = "AND `asset_lastedited` >= NOW() - INTERVAL 1 MONTH";
+			} else if($time == "PastWeek") {
+				$query_time = "AND `asset_lastedited` >= NOW() - INTERVAL 1 WEEK";
+			} else if($time == "PastDay") {
+				$query_time = "AND `asset_lastedited` >= NOW() - INTERVAL 1 DAY";
+			} else if($time == "PastHour") {
+				$query_time = "AND `asset_lastedited` >= NOW() - INTERVAL 1 HOUR";
+			}
+			if($sort == "TopFavorites") {
+				$query_sort = "ORDER BY `asset_favourites_count` DESC";
+			} else if($sort == "BestSelling") {
+				$query_sort = "AND `asset_onsale` = 1 ORDER BY `asset_salecount` DESC";
+			} else if($sort == "ForSale") {
+				$query_sort = "AND `asset_onsale` = 1 ORDER BY `asset_lastedited` DESC";
+			} else if($sort == "RecentlyUpdated" || $sort == "PublicDomain") { 
+				$query_sort = "ORDER BY `asset_lastedited` DESC";
+			} else if($sort == "MostPopular") {
+				//$query_sort = "ORDER BY `place_playercount` DESC, `place_visitcount` DESC";
+				$query_sort = "";
+			} else {
+				$query_sort = "";
+			}
+
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? $query_time $query_sort");
 			
 			$q = "%$query%";
 			$ordinal = $type->ordinal();
@@ -311,15 +333,8 @@
 						$asset = new Asset($row);
 					}
 
-					if(!$asset->notcatalogueable && $asset->status != AssetStatus::REJECTED && $asset->public) {
-						if(!$allowunchecked && $asset->status == AssetStatus::ACCEPTED) {
-							array_push($result_array, $asset);
-						} else {
-							if(!$allowunchecked && $asset->status == AssetStatus::PENDING) {} 
-							else {
-								array_push($result_array, $asset);
-							}
-						}
+					if(!$asset->notcatalogueable && $asset->public) {
+						array_push($result_array, $asset);
 						
 					}
 				}
@@ -337,15 +352,14 @@
 				$this->name = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['asset_name']));
 				$this->description = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['asset_description']));
 				$this->public = boolval($rowdata['asset_public']);
-				$this->status = AssetStatus::index(intval($rowdata['asset_status']));
-	
+				
 				$this->favourites_count = intval( $rowdata['asset_favourites_count']);
 				$this->comments_enabled = boolval($rowdata['asset_comments_enabled']);
-	
+				
 				$this->onsale = boolval($rowdata['asset_onsale']);
-				$this->cost_lights = intval($rowdata['asset_cost_lights']);
-				$this->cost_cones =  intval($rowdata['asset_cost_cones']);
 				$this->sales_count = intval($rowdata['asset_sales_count']);
+
+				$this->year = AssetYear::index(strval($rowdata['asset_year']));
 
 				$this->notcatalogueable = boolval($rowdata['asset_nevershow']);
 				$this->relatedasset = Asset::FromID(intval($rowdata['asset_relatedid']));
@@ -363,14 +377,13 @@
 				$this->name = $asset_data->name;
 				$this->description = $asset_data->description;
 				$this->public = $asset_data->public;
-				$this->status = $asset_data->status;
 	
 				$this->favourites_count = $asset_data->favourites_count;
 				$this->comments_enabled = $asset_data->comments_enabled;
+				
+				$this->year = $asset_data->year;
 	
 				$this->onsale = $asset_data->onsale;
-				$this->cost_lights = $asset_data->cost_lights;
-				$this->cost_cones = $asset_data->cost_cones;
 				$this->sales_count = $asset_data->sales_count;
 				
 				$this->notcatalogueable = $asset_data->notcatalogueable;

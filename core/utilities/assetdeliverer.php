@@ -53,6 +53,8 @@
 		140, // LoadingScript
 	];
 
+	$sign_ids = [];
+
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 
 	$access = $settings['asset']['ACCESSKEY'];
@@ -80,7 +82,7 @@
 		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/$id";
 	}
 
-	if($asset != null && $asset->status == AssetStatus::REJECTED && (!isset($_GET['access']) && $_GET['access'] == $access)) {
+	if($asset == null && (!isset($_GET['access']) || (isset($_GET['access']) && $_GET['access'] != $access))) {
 		die(http_response_code(403));
 	} else {
 		if(file_exists($filename)) {

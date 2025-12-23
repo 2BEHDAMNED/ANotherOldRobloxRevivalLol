@@ -45,27 +45,37 @@
 		if($asset != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			
-			if($asset->status == AssetStatus::ACCEPTED || $user != null && $user->IsAdmin()) {
 				
-				$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
-				$stmt->bind_param('i', $id);
-				$stmt->execute();
+			$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
+			$stmt->bind_param('i', $id);
+			$stmt->execute();
 
-				$stmt_result = $stmt->get_result();
+			$stmt_result = $stmt->get_result();
 
-				$md5hash = $stmt_result->fetch_assoc()['version_md5thumb'];
+			$md5hash = $stmt_result->fetch_assoc()['version_md5thumb'];
 
-				if($md5hash == "sound" && $asset->type == AssetType::AUDIO) {
-					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
-				} else if($md5hash == "script" && $asset->type == AssetType::LUA) {
-					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
+			if($md5hash == "sound" && $asset->type == AssetType::AUDIO) {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
+			} else if($md5hash == "script" && $asset->type == AssetType::LUA) {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
+			} else {
+				if($asset->relatedasset != null || $asset->type == AssetType::IMAGE) {
+					if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash")) {
+						$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash");
+						$specialcase = true;
+					} else {
+						$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
+					}
 				} else {
-					if($asset->relatedasset != null || $asset->type == AssetType::IMAGE) {
-						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash")) {
-							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash");
-							$specialcase = true;
+					if($asset->year == AssetYear::Y2008) {
+						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash"."_2008")) {
+							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash"."_2008");
 						} else {
-							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
+							if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash")) {
+								$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+							} else {
+								$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
+							}
 						}
 					} else {
 						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash")) {
@@ -76,11 +86,9 @@
 					}
 					
 				}
-			} else if($asset->status == AssetStatus::PENDING) {
-				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/review-pending.png");
-			} else {
-				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/rejected.png");
+				
 			}
+			
 			
 
 			ob_clean();

@@ -13,12 +13,14 @@
 	RewriteRule ^Asset/?$ /core/utilities/assetdeliverer.php 			  [END]
 	
 	RewriteRule ^IDE/Landing.aspx$ /core/ide/landing.php				  		  [END]
+	RewriteRule ^IDE/Start.aspx$ /core/ide/landing.php				  		  [END]
 	RewriteRule ^ide/welcome$ /my/places.php				  		  [END]
 	RewriteRule ^IDE/welcome$ /my/places.php				  		  [END]
 
 	RewriteRule ^IDE/Upload.aspx$ /core/ide/publish.php				  		  [END]
 	RewriteRule ^IDE/PublishNewPlace.aspx$ /core/ide/publishnewplace.php				  		  [END]
 	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
+	RewriteRule ^IDE/Gamma/Upload.aspx	/core/ide/gamma/upload.php			  [END]
 
 	RewriteRule ^Data/Upload.ashx	/core/ide/upload.php			  [END]
 
@@ -61,19 +63,20 @@
 	RewriteRule ^my/places$ /my/places.php							  [END]
 	RewriteRule ^my/character$ /my/character.php							  [END]
 
-	RewriteRule ^api/feeds$ /api/feeds.php								  [END]
-	RewriteRule ^api/logout$ /api/logout.php							  [END]
-	RewriteRule ^game/logout.aspx$ /api/logout.php							  [END]
-	RewriteRule ^Game/logout.aspx$ /api/logout.php							  [END]
-	RewriteRule ^api/user$ /api/user.php							  [END]
-	RewriteRule ^api/favourite$ /api/favourite.php							  [END]
-	RewriteRule ^api/stuff$ /api/stuff.php							  [END]
-	RewriteRule ^api/people$ /api/people.php							  [END]
-	RewriteRule ^api/games$ /api/games.php							  [END]
-	RewriteRule ^api/catalog$ /api/catalog.php							  [END]
-	RewriteRule ^api/stipend$ /api/stipend.php							  [END]
-	RewriteRule ^api/purchase$ /api/purchase.php							  [END]
-	RewriteRule ^api/character$ /api/character.php							  [END]
+	RewriteRule ^api/feeds$ /core/api/feeds.php								  [END]
+	RewriteRule ^api/logout$ /core/api/logout.php							  [END]
+	RewriteRule ^game/logout.aspx$ /core/api/logout.php							  [END]
+	RewriteRule ^Game/logout.aspx$ /core/api/logout.php							  [END]
+	RewriteRule ^api/user$ /core/api/user.php							  [END]
+	RewriteRule ^api/favourite$ /core/api/favourite.php							  [END]
+	RewriteRule ^api/favourites$ /core/api/favourites.php							  [END]
+	RewriteRule ^api/stuff$ /core/api/stuff.php							  [END]
+	RewriteRule ^api/people$ /core/api/people.php							  [END]
+	RewriteRule ^api/games$ /core/api/games.php							  [END]
+	RewriteRule ^api/catalog$ /core/api/catalog.php							  [END]
+	RewriteRule ^api/stipend$ /core/api/stipend.php							  [END]
+	RewriteRule ^api/purchase$ /core/api/purchase.php							  [END]
+	RewriteRule ^api/character$ /core/api/character.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
@@ -89,7 +92,6 @@
 
 	RewriteRule ^Sets/SetHandler.ashx /core/sets/setshandler.php [END]
 	RewriteRule ^sets/SetsHandler.ashx /core/sets/setshandler.php [END]
-	RewriteRule ^UploadMedia/UploadVideo.aspx /core/uploadmedia/uploadvideo.php [END]
 
 	RewriteRule ^Game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 	RewriteRule ^game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
@@ -99,8 +101,6 @@
 	RewriteRule ^Thumbs/Asset.ashx /core/thumbs/rawasset.php [END]
 	RewriteRule ^thumbs/Asset.ashx /core/thumbs/rawasset.php [END]
 	RewriteRule ^thumbs/?$ /core/thumbs/index.php [END]
-
-	RewriteRule ^marketplace/productinfo$ /core/marketplace/productinfo.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
 
@@ -145,7 +145,35 @@
 	RewriteRule ^Admin/components/(.*)$ Admin/components/$1.php [END]
 
 	RewriteRule ^core(/.*)?$ /core/error/404.php [END]
-	RewriteRule ^api(/.*)?$ /core/error/404.php  [END]
+	
+
+	# GAMMA STUFF
+
+	RewriteRule ^Gamma/Default.aspx /Gamma/index.php [END]
+	RewriteRule ^Gamma/Catalog.aspx /Gamma/catalog.php [END]
+	RewriteRule ^Gamma/Games.aspx /Gamma/games.php [END]
+	RewriteRule ^Gamma/Browse.aspx /Gamma/people.php [END]
+	RewriteRule ^Gamma/Item.aspx /Gamma/item.php [END]
+	RewriteRule ^Gamma/User.aspx /Gamma/user.php [END]
+
+	RewriteRule ^Gamma/My(/.*)$ /Gamma/redirect.php [END]
+	RewriteRule ^Gamma/Help.aspx$ /Gamma/redirect.php [END]
+
+	RewriteRule ^js/Gamma/PlaceLauncher.js$ /js/Gamma/placelauncher.php [END]
+	RewriteRule ^js/Gamma/placelauncher.php$ /core/error/404.php [END]
+
+	RewriteRule ^Gamma/Install/LaunchGame.aspx /Gamma/Install/launchgame.php [END]
+	RewriteRule ^Gamma/Install/Default.aspx /Gamma/Install/index.php [END]
+
+	RewriteRule ^game/gamma/gameserver.ashx$ /core/gamescripts/gamma/gameserver.php	  [END]
+	RewriteRule ^game/gamma/join.ashx$ /core/gamescripts/gamma/join.php				  [END]
+	RewriteRule ^game/gamma/visit.ashx$ /core/gamescripts/gamma/visit.php 			  [END]
+	RewriteRule ^game/gamma/edit.ashx$ /core/gamescripts/gamma/edit.php			  [END]
+	RewriteRule ^Game/gamma/gameserver.ashx$ /core/gamescripts/gamma/gameserver.php	  [END]
+	RewriteRule ^Game/gamma/join.ashx$ /core/gamescripts/gamma/join.php				  [END]
+	RewriteRule ^Game/gamma/visit.ashx$ /core/gamescripts/gamma/visit.php 			  [END]
+	RewriteRule ^Game/gamma/edit.ashx$ /core/gamescripts/gamma/edit.php			  [END]
+
 </IfModule>
 
 DirectoryIndex index.php index.html Default.aspx Default.aspx.php

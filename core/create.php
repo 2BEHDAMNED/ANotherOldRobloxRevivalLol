@@ -44,6 +44,7 @@
 
 					$name = trim($_POST['ANORRL$CreateAsset$Name']);
 					$description = trim($_POST['ANORRL$CreateAsset$Description']);
+					$year = AssetYear::index(trim($_POST['ANORRL$CreateAsset$Year']));
 					
 					if($type == "images") {
 						if($user->IsAdmin()) {
@@ -68,13 +69,15 @@
 					} else if($type == "faces") {
 						$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true);
 					} else if($type == "shirts") {
-						$result = AssetUploader::UploadShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						$result = AssetUploader::UploadShirt($name, $description, $year, $_FILES['ANORRL$CreateAsset$File']);
 					} else if($type == "pants") {
-						$result = AssetUploader::UploadPants($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						$result = AssetUploader::UploadPants($name, $description, $year, $_FILES['ANORRL$CreateAsset$File']);
 					} else if($type == "meshes") {
 						$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 					} else if($type == "places") {
-						$result = AssetUploader::UploadPlace($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						$result = AssetUploader::UploadPlace($name, $description, $year, $_FILES['ANORRL$CreateAsset$File']);
+					} else if($type == "models") {
+						$result = AssetUploader::UploadModel($name, $description, $year, $_FILES['ANORRL$CreateAsset$File']);
 					} else {
 						die("type found but not handled...");
 					}
@@ -158,29 +161,33 @@
 			}
 
 			#UploadPanel input[type=submit],
-			#UploadPanel label[for=files] {
+			#UploadPanel label[for=files], 
+			#UploadPanel select {
 				border: 2px solid black;
 				background: black;
 				color: white;
 				padding: 4px 8px;
 				font-weight: bold;
 				font-family: punk;
+				font-size: 12px
 			}
 
 			#UploadPanel input[type=submit]:hover,
-			#UploadPanel label[for=files]:hover {
+			#UploadPanel label[for=files]:hover,
+			#UploadPanel select:hover {
 				text-decoration: underline;
 				background: #161616;
 				cursor: pointer;
+				font-size: 12px
 			}
 
 
 			#UploadPanel input[type=text] {
-				width: 574px;
+				width: 550px;
 			}
 
 			#UploadPanel textarea {
-				width: 574px;
+				width: 550px;
 				height: 58px;
 				resize: vertical;
 			}
@@ -289,9 +296,22 @@
 											<td><textarea name="ANORRL$CreateAsset$Description" maxlength="1000"></textarea></td>
 										</tr>
 										<tr>
-											<td>File</td>
-											<td><label for="files">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$CreateAsset$File" required><label id="filename">No file chosen</label></td>
+											<td style="vertical-align: middle;">Designated Year</td>
+											<td>
+												<select name="ANORRL$CreateAsset$Year">
+													<option value="NONE">Any</option>
+													<option value="2008">2008 (Gamma)</option>
+													<option value="2010">2010</option>
+													<option value="2012">2012</option>
+													
+												</select>
+											</td>
 										</tr>
+										<tr>
+											<td>File</td>
+											<td><label for="files" style="margin-bottom: 2px">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$CreateAsset$File" required><label id="filename">No file chosen</label></td>
+										</tr>
+										
 										<tr>
 											<td><input type="submit" value="Upload" style="margin-top:10px" name="ANORRL$CreateAsset$Submit" onclick="$(this).attr('disabled', 'true'); document.forms[0].submit()"></td>
 										</tr>

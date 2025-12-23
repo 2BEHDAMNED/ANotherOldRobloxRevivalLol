@@ -217,22 +217,35 @@
 				"Looking at {place}"			  => "/place.php",
 				"Editing an item"				  => "/edit.php",
 				"Editing their character"		  => "/my/character.php",
-				"In Studio"						  => "/my/places.php"
+				"In Studio"						  => "/my/places.php",
+				"Looking at {usernames}'s profile (RETRO STYLE)" => "/user.php",
+				"Downloading Gamma..."    => "/Install/index.php",
+				"Thinking of getting Gamma..."    => "/Install/launchgame.php"
 			];
 
 			$dont_catalog_ever = [
+				"/js/",
 				"/api/",
 				"/core/",
 				"/Admin/"
 			];
 
+
+			$scriptName = $_SERVER['SCRIPT_NAME'];
+
+			$gamma = str_starts_with($scriptName, "/Gamma/");
+
+			if($gamma) {
+				$scriptName = str_replace( "/Gamma/", "/", $scriptName);
+			}
+
 			if($user != null) {
-				if(!in_array($_SERVER['SCRIPT_NAME'], $pages) && !self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
-					die($_SERVER['SCRIPT_NAME']);
+				if(!in_array($scriptName, $pages) && !self::StringContainsFromArray($dont_catalog_ever, $scriptName)) {
+					die($scriptName);
 				} else {
-					if(!self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
-						$page = array_search($_SERVER['SCRIPT_NAME'], $pages);
-						if($_SERVER['SCRIPT_NAME'] == "/users/profile.php" && $data instanceof User) {
+					if(!self::StringContainsFromArray($dont_catalog_ever, $scriptName)) {
+						$page = array_search($scriptName, $pages);
+						if(($scriptName == "/users/profile.php" || $scriptName == "/user.php") && $data instanceof User) {
 							if($data->id != $user->id) {
 								$user_id = $data->id;
 								$user_name = $data->name;
@@ -242,7 +255,7 @@
 							}
 						}
 
-						if($_SERVER['SCRIPT_NAME'] == "/item.php" && $data instanceof Asset) {
+						if($scriptName == "/item.php" && $data instanceof Asset) {
 							$asset_id = $data->id;
 							$asset_name = $data->name;
 							$asset_urlname = $data->GetURLTitle();
@@ -252,7 +265,7 @@
 							
 						}
 
-						if($_SERVER['SCRIPT_NAME'] == "/place.php" && $data instanceof Place) {
+						if($scriptName == "/place.php" && $data instanceof Place) {
 							$asset_id = $data->id;
 							$asset_name = $data->name;
 							$asset_urlname = $data->GetURLTitle();

@@ -65,31 +65,40 @@
 					isset($_GET['name']) &&
 					isset($_GET['description']) &&
 					isset($_GET['ispublic']) &&
-					isset($_GET['commentsenabled'])
+					isset($_GET['year'])
 				) {
 					$type = $_GET['type'];
 					$name = urldecode($_GET['name']);
 					$description = urldecode($_GET['description']);
 					$public = FunnyStrToBool($_GET['ispublic']);
-					$comments_enabled = FunnyStrToBool($_GET['commentsenabled']);
+					$comments_enabled = true;
+					$year = AssetYear::index($_GET['year']);
+
+					echo "year is: \"".$_GET['year']."\"";
+
+					if($year == AssetYear::NONE) {
+						echo "i couldnt get the year for some reason";
+						$year = AssetYear::Y2010;
+					}
+
+					if(isset($_GET['commentsenabled'])) {
+						$comments_enabled = FunnyStrToBool($_GET['commentsenabled']);
+					}
+					
 
 					$recieveddata = file_get_contents("php://input");
-					//echo "parsed:".$recieveddata;
 					if(strlen(gzdecode($recieveddata)) != 0) {
 						$recieveddata = gzdecode($recieveddata);
 						echo "decoding using gz\n";
 					}					
 
 					if(strtolower($type) == "place")  {
-						if(isset($_GET['serversize']) &&
-							isset($_GET['chattype']) &&
-							isset($_GET['iscopylocked'])
-						) {
-							$server_size = intval($_GET['serversize']);
-							$chattype = ChatType::index(intval($_GET['chattype']));
+						if(isset($_GET['iscopylocked'])) {
+							$server_size = isset($_GET['serversize']) ? intval($_GET['serversize']) : 12;
+							$chattype = isset($_GET['chattype']) ? ChatType::index(intval($_GET['chattype'])) : ChatType::CLASSIC;
 							$copylocked = FunnyStrToBool($_GET['iscopylocked']);
 
-							AssetUploader::UploadPlace($name, $description, $recieveddata, $public, $copylocked, $comments_enabled, $chattype, $server_size, $user);
+							AssetUploader::UploadPlace($name, $description, $year, $recieveddata, $public, $copylocked, $comments_enabled, $chattype, $server_size, $user);
 							
 							http_response_code(200);
 							die("Uploaded successfully!");

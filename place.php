@@ -263,6 +263,61 @@ $header_data = $asset;
 			#BigNumbersArea #Detail * {
 				display:block;
 			}
+
+			#ServersBox {
+				padding: 10px;
+				border: 2px solid black;
+			}
+
+			#ServersBox .Server {
+				width: 100%;
+				background: #1a1a1a;
+				border: 2px solid black;
+				
+			}
+
+			.Server td { 
+				padding: 10px;
+			}
+
+			.Server button {
+				border: 2px solid black;
+				background: black;
+				color: white;
+				padding: 4px 8px;
+				font-weight: bold;
+				font-family: punk;
+				font-size: 12px
+			}
+
+			.Server button:hover {
+				text-decoration: underline;
+				background: #161616;
+				cursor: pointer;
+				font-size: 12px
+			}
+
+			.Server #PlayersBox {
+
+			}
+
+			.Server #PlayersBox #Player {
+				float:left;
+				width: 64px;
+				height: 64px;
+				border: 2px solid #8e8e8e;
+				background: #555;
+			}
+
+			.Server #PlayersBox #Player img {
+				width: 64px;
+				height: 64px;
+			}
+
+			.Server #JoinBox {
+				text-align: center;
+				border-left: 2px solid #555;
+			}
 		</style>
 		<script>
 			function ChangeTab(tabName) {
@@ -326,7 +381,6 @@ $header_data = $asset;
 						<div id="PlaceDetails">
 							<div id="Content">
 								<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
-								<span>Allowed gears:</span> <span>(icons here)</span>
 							</div>
 							<div id="Information">
 								<div id="UserCard">
@@ -352,7 +406,6 @@ $header_data = $asset;
 										<?php if($user != null && $user->IsAdmin()): ?>
 										<a href="javascript:Render()" id="RenderButton">Render this asset</a>
 										<?php endif ?>
-										<a href="">Report this item</a>
 									</div>
 								</div>
 							</div>
@@ -394,22 +447,37 @@ $header_data = $asset;
 										<span><?= $asset->server_size ?></span>
 									</div>
 									<div id="Detail">
-										<b>Genre</b>
-										<span><?= $asset->genre->label() ?></span>
+										<b>Year</b>
+										<span><?= $asset->year->label() ?></span>
 									</div>
 								</div>
 							</div>
 							<div id="InfoBox" content="Badges" style="display:none">
 								<b>Badges</b><br>
-								Badges content in here
+								
 							</div>
 							<div id="InfoBox" content="Gamepasses" style="display:none">
 								<b>Gamepasses</b><br>
 								Gamepasses content in here
 							</div>
 							<div id="InfoBox" content="Servers" style="display:none">
-								<b>Servers</b><br>
-								Servers content in here
+								<h3>Servers</h3>
+								<div id="ServersBox">
+									<table class="Server">
+										<td id="PlayersBox">
+											<a title="Player" id="Player" href="/"><img src="/images/avatar.png"></a>
+											
+										</td>
+										<td id="JoinBox" width="150">
+											<div>
+												1 / 4
+											</div>
+											<div>
+												<button>Join Server</button>
+											</div>
+										</td>
+									</table>
+								</div>
 							</div>
 
 						</div>
