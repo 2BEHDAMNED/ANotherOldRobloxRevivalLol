@@ -225,6 +225,10 @@
 										<?php
 											foreach($places as $place) {
 												
+												if(!($place instanceof Place)) {
+													continue;
+												}
+ 
 												$place_id = $place->id;
 												$place_name = $place->name;
 												$place_desc = $place->description;
@@ -295,63 +299,6 @@
 										?>
 									</div>
 									<?php endif ?>
-								</div>
-							</div>
-							<div id="FriendsPane">
-								<div id="Friends">
-									<h4><?= $get_user->name ?>'s Friends <a href="Friends.aspx?UserID=<?= $get_user->id ?>">See all <?= $all_friends_count ?></a> <?php if($private_profile): ?>(<a href="/My/Friends.aspx">Edit</a>)<?php endif ?></h4>
-									<table id="ctl00_cphRoblox_rbxFriendsPane_dlFriends" cellspacing="0" align="Center" border="0">
-										<tbody>
-											<?php 
-												
-												if($user_friends_count != 0) {
-													foreach($user_friends as $friend) {
-														if(!($friend instanceof User)) {
-															continue;
-														}
-														if($user_count == 0) {
-															echo <<<EOT
-																<tr>
-															EOT;
-														}
-
-														$user_id = $friend->id;
-														$user_name = $friend->name;
-														$user_status = $friend->IsOnline() ? "Online" : "Offline";
-
-														$user_msg_status = $friend->GetOnlineActivity();
-														
-														//builderman is offline (last seen at 4/2/2012 2:59:01 PM).
-
-														echo <<<EOT
-															<td>
-																<div class="Friend">
-																	<div class="Avatar">
-																		<a title="$user_name" href="/Gamma/User.aspx?ID=$user_id" style="display:inline-block;cursor:pointer;">
-																			<img src="/thumbs/player?id=$user_id&type=100" height="100" border="0" alt="$user_name" blankurl="http://web.archive.org/web/20080515042338im_/http://t6.roblox.com:80/blank-100x100.gif">
-																		</a>
-																	</div>
-																	<div class="Summary">
-																		<span class="OnlineStatus"><img src="images/OnlineStatusIndicator_Is$user_status.gif" alt="$user_msg_status." border="0"></span>
-																		<span class="Name"><a href="User.aspx?ID=$user_id">$user_name</a></span>
-																	</div>
-																</div>
-															</td>
-														EOT;
-														
-														$user_count = ($user_count + 1) % 3;
-														if($user_count == 3) {
-															echo <<<EOT
-																</tr>
-															EOT;
-														}
-													}
-												} else {
-													echo "<tr><td style=\"padding:70px\">".$get_user->name." has no friends.</td></tr>";
-												}
-											?>
-										</tbody>
-									</table>
 								</div>
 							</div>
 							<div id="FavoritesPane">

@@ -368,18 +368,9 @@
 							<h2 style="margin: 5px 0px; width: 830px;"><?= $get_user->name ?>'s Profile</h2>
 							<div id="ProfileImage">
 								<div id="ImageContainer">
-									<a href="javascript:flipRenders(this)" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;"></a>
 									<img src="/images/avatar.png">
 								</div>
-								
-								<div id="Controls">
-									<?php if($user != null): ?>
-										<?php if($user->id != $get_user->id): ?>
-											<button style="margin-top: 4px;width: 107px;">Add Friend</button> <button style="margin-top: 4px;width: 70px;margin-left: 2px;">Follow</button><br>
-										<?php endif ?>
-										<button style="width: 74px;margin-top: 4px;">Message</button>
-									<?php endif ?>
-								</div>
+							
 							</div>
 							<div id="ProfileInfo">
 								<div id="Stats">

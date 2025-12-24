@@ -1,10 +1,11 @@
 <?php ob_start(); ?>
-local placeId, port, sleeptime, access, url, killID, deathID, timeout, autosaveInterval, locationID, groupBuild, machineAddress, gsmInterval, gsmUrl, maxPlayers, maxSlotsUpperLimit, maxSlotsLowerLimit, gsmAccess, injectScriptAssetID, servicesUrl, permissionsServiceUrl, apiKey, libraryRegistrationScriptAssetID = ...
+local placeId, port, sleeptime, access, url, timeout, maxPlayers, serverId, injectScriptAssetID, libraryRegistrationScriptAssetID = ...
 
 -- StartGame -- 
 pcall(function() game:GetService("ScriptContext"):AddStarterScript(injectScriptAssetID) end)
 game:GetService("RunService"):Run()
 
+--game:GetService("Visit"):SetUploadUrl("")
 
 
 -- REQUIRES: StartGanmeSharedArgs.txt
@@ -78,7 +79,7 @@ pcall(function() settings().Network.UseInstancePacketCache = true end)
 pcall(function() settings().Network.UsePhysicsPacketCache = true end)
 pcall(function() settings()["Task Scheduler"].PriorityMethod = Enum.PriorityMethod.AccumulatedError end)
 
-settings().Network.PhysicsSend = Enum.PhysicsSendMethod.ErrorComputation2
+pcall(function() settings().Network.PhysicsSend = Enum.PhysicsSendMethod.ErrorComputation2 end)
 settings().Network.ExperimentalPhysicsEnabled = true
 settings().Network.WaitingForCharacterLogRate = 100
 pcall(function() settings().Diagnostics:LegacyScriptMode() end)
@@ -89,9 +90,9 @@ local assetId = placeId -- might be able to remove this now
 
 local scriptContext = game:GetService('ScriptContext')
 pcall(function() scriptContext:AddStarterScript(libraryRegistrationScriptAssetID) end)
-scriptContext.ScriptsDisabled = true
+scriptContext.ScriptsDisabled = false
 
-game:SetPlaceID(assetId, false)
+game:SetPlaceID(assetId, true)
 game:GetService("ChangeHistoryService"):SetEnabled(false)
 
 -- establish this peer as the Server
@@ -109,9 +110,9 @@ if url~=nil then
 		game:GetService("BadgeService"):SetHasBadgeUrl(url .. "/Game/Badge/HasBadge.ashx?UserID=%d&BadgeID=%d&access=" .. access)
 		game:GetService("BadgeService"):SetIsBadgeDisabledUrl(url .. "/Game/Badge/IsBadgeDisabled.ashx?BadgeID=%d&PlaceID=%d&access=" .. access)
 
-		game:GetService("FriendService"):SetMakeFriendUrl(servicesUrl .. "/Friend/CreateFriend?firstUserId=%d&secondUserId=%d&access=" .. access)
-		game:GetService("FriendService"):SetBreakFriendUrl(servicesUrl .. "/Friend/BreakFriend?firstUserId=%d&secondUserId=%d&access=" .. access)
-		game:GetService("FriendService"):SetGetFriendsUrl(servicesUrl .. "/Friend/AreFriends?userId=%d&access=" .. access)
+		pcall(function() game:GetService("FriendService"):SetMakeFriendUrl(url .. "/Friend/CreateFriend?firstUserId=%d&secondUserId=%d&access=" .. access) end)
+		pcall(function() game:GetService("FriendService"):SetBreakFriendUrl(url .. "/Friend/BreakFriend?firstUserId=%d&secondUserId=%d&access=" .. access) end)
+		pcall(function() game:GetService("FriendService"):SetGetFriendsUrl(url .. "/Friend/AreFriends?userId=%d&access=" .. access) end)
 	end
 	game:GetService("BadgeService"):SetIsBadgeLegalUrl("")
 	game:GetService("InsertService"):SetBaseSetsUrl(url .. "/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
@@ -165,8 +166,7 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
 	
 	if url and access and placeId and player and player.userId then
-		game:HttpGet(url .. "/Game/ClientPresence.ashx?action=connect&" .. access .. "&PlaceID=" .. placeId .. "&UserID=" .. player.userId)
-		game:HttpGet(url .. "/Game/PlaceVisit.ashx?UserID=" .. player.userId .. "&AssociatedPlaceID=" .. placeId .. "&" .. access)
+		game:HttpGet(url .. "/Game/ClientPresence.ashx?action=connect&access=" .. access .. "&PlaceID=" .. placeId .. "&UserID=" .. player.userId .. "&serverId="..serverId)
 	end
 end)
 
@@ -174,8 +174,14 @@ end)
 game:GetService("Players").PlayerRemoving:connect(function(player)
 	print("Player " .. player.userId .. " leaving")	
 
+	local closingTimeRaw = #game:GetService("Players"):GetPlayers() == 0
+	local closingTime = "false"
+	if closingTimeRaw then
+		closingTime = "true"
+	end
+
 	if url and access and placeId and player and player.userId then
-		game:HttpGet(url .. "/Game/ClientPresence.ashx?action=disconnect&" .. access .. "&PlaceID=" .. placeId .. "&UserID=" .. player.userId)
+		game:HttpGet(url .. "/Game/ClientPresence.ashx?action=disconnect&access=" .. access .. "&PlaceID=" .. placeId .. "&UserID=" .. player.userId .. "&serverId=" .. serverId .. "&shouldClose="..closingTime)
 	end
 end)
 
@@ -185,7 +191,7 @@ if placeId~=nil and url~=nil then
 	
 	-- load the game
 	--game:Load("rbxasset://baseplate.rbxl");
-	game:Load(url .. "/asset/?id=" .. placeId)
+	game:Load(url .. "/asset/?id=" .. placeId .. "&access="..access)
 end
 
 -- Now start the connection

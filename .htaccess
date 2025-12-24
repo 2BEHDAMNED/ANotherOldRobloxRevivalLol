@@ -21,6 +21,7 @@
 	RewriteRule ^IDE/PublishNewPlace.aspx$ /core/ide/publishnewplace.php				  		  [END]
 	RewriteRule ^IDE/ClientToolbox.aspx	/core/ide/toolbox.php			  [END]
 	RewriteRule ^IDE/Gamma/Upload.aspx	/core/ide/gamma/upload.php			  [END]
+	RewriteRule ^IDE/2010/Upload.aspx	/core/ide/2010/upload.php			  [END]
 
 	RewriteRule ^Data/Upload.ashx	/core/ide/upload.php			  [END]
 
@@ -34,6 +35,9 @@
 	RewriteRule ^login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
 	RewriteRule ^game/GetCurrentUser.ashx$ /core/authentication/getcurrentuser.php [END]
 	RewriteRule ^Game/GetCurrentUser.ashx$ /core/authentication/getcurrentuser.php [END]
+
+	RewriteRule ^game/ClientPresence.ashx$ /core/gamescripts/clientpresence.php [END]
+	RewriteRule ^Game/ClientPresence.ashx$ /core/gamescripts/clientpresence.php [END]
 	
 	RewriteRule ^Game/PlaceSpecificScript.ashx$ /core/gamescripts/placespecificscript.php   [END]
 	RewriteRule ^Game/LoadPlaceInfo.ashx$ /core/gamescripts/loadplaceinfo.php   [END]
@@ -77,6 +81,8 @@
 	RewriteRule ^api/stipend$ /core/api/stipend.php							  [END]
 	RewriteRule ^api/purchase$ /core/api/purchase.php							  [END]
 	RewriteRule ^api/character$ /core/api/character.php							  [END]
+	RewriteRule ^api/gameservers$ /core/api/gameservers.php							  [END]
+	RewriteRule ^api/ticketer$ /core/api/ticketer.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
@@ -165,10 +171,12 @@
 	RewriteRule ^Gamma/Install/LaunchGame.aspx /Gamma/Install/launchgame.php [END]
 	RewriteRule ^Gamma/Install/Default.aspx /Gamma/Install/index.php [END]
 
+	RewriteRule ^game/gamma/coregameserver.ashx$ /core/gamescripts/gamma/coregameserver.php	  [END]
 	RewriteRule ^game/gamma/gameserver.ashx$ /core/gamescripts/gamma/gameserver.php	  [END]
 	RewriteRule ^game/gamma/join.ashx$ /core/gamescripts/gamma/join.php				  [END]
 	RewriteRule ^game/gamma/visit.ashx$ /core/gamescripts/gamma/visit.php 			  [END]
 	RewriteRule ^game/gamma/edit.ashx$ /core/gamescripts/gamma/edit.php			  [END]
+	RewriteRule ^Game/gamma/coregameserver.ashx$ /core/gamescripts/gamma/coregameserver.php	  [END]
 	RewriteRule ^Game/gamma/gameserver.ashx$ /core/gamescripts/gamma/gameserver.php	  [END]
 	RewriteRule ^Game/gamma/join.ashx$ /core/gamescripts/gamma/join.php				  [END]
 	RewriteRule ^Game/gamma/visit.ashx$ /core/gamescripts/gamma/visit.php 			  [END]

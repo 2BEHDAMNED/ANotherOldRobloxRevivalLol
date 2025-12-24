@@ -5,7 +5,12 @@
 
 	$domain = $_SERVER['SERVER_NAME'];
 
-	$user = UserUtils::RetrieveUser();
+	if(isset($_GET['sessionToken'])) {
+		$user = User::FromSecurityKey(trim($_GET['sessionToken']));
+	} else {
+		$user = UserUtils::RetrieveUser();
+	}
+	
 
 	$mode = $user != null ? "true" : "false";
 
@@ -34,7 +39,7 @@ end
 client = game:GetService("NetworkClient")
 visit = game:GetService("Visit")
 
-local test = <?= $serverport == 53640 ? "true" : "false" ?>
+local test = <?= "false"//$serverport == 53640 ? "true" : "false" ?>
 
 -- functions ---------------------------------------
 

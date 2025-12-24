@@ -1,5 +1,7 @@
 <?php ob_start(); ?>
-loadfile('http://arl.lambda.cam/game/maingameserver.ashx')(133, 53640, 0, '8169b38d-abbc-480f-8971-14d8fd560aad', 'http://arl.lambda.cam', nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 'http://arl.lambda.cam')
+local placeId, port, maxPlayers, serverId = ...
+
+loadfile('http://arl.lambda.cam/game/maingameserver.ashx')(placeId, port, 0, '8169b38d-abbc-480f-8971-14d8fd560aad', 'http://arl.lambda.cam', 5, maxPlayers, serverId)
 <?php
 	 function get_signature($script)
     {

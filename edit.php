@@ -77,19 +77,14 @@
 				//TODO: Add Genres
 				$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
 				$server_size = intval($_POST['ANORRL$EditItem$Place$ServerSize']);
-				$chattype = intval($_POST['ANORRL$EditItem$Place$ChatType']);
-
-				if($chattype < 0 || $chattype > 2) {
-					$chattype = $asset->chattype->ordinal();
-				}
 
 				if($server_size < 0) {
 					$server_size = $asset->server_size;
 				}
 
 
-				$stmt = $con->prepare('UPDATE `asset_places` SET `place_copylocked` = ?, `place_serversize` = ?, `place_chattype` = ? WHERE `place_id` = ?;');
-				$stmt->bind_param('iiii', $copylocked, $server_size, $chattype, $id);
+				$stmt = $con->prepare('UPDATE `asset_places` SET `place_copylocked` = ?, `place_serversize` = ?, WHERE `place_id` = ?;');
+				$stmt->bind_param('iiii', $copylocked, $server_size, $id);
 				$stmt->execute();
 			}
 
@@ -256,6 +251,17 @@
 											<td>Enable Comments</td>
 											<td><input type="checkbox" name="ANORRL$EditItem$CommentsBox" <?php if($asset->comments_enabled): ?>checked<?php endif ?>></td>
 										</tr>
+										<tr>
+											<td>Year</td>
+											<td>
+												<select name="ANORRL$EditItem$Year">
+													<?php if($asset->type != AssetType::PLACE): ?><option value="NONE">Any</option><?php endif ?>
+													<option value="2008">2008</option>
+													<option value="2010">2010</option>
+													<option value="2012">2012</option>
+												</select>
+											</td>
+										</tr>
 									</table>
 								</div>
 								<?php if($asset->type == AssetType::PLACE): ?>
@@ -266,16 +272,6 @@
 										<tr>
 											<td>Server Size</td>
 											<td><input type="number" name="ANORRL$EditItem$Place$ServerSize" value="<?= $asset->server_size ?>"></td>
-										</tr>
-										<tr>
-											<td>Chat Type</td>
-											<td>
-												<select name="ANORRL$EditItem$Place$ChatType" id="cars">
-													<option value="1">Classic</option>
-													<option value="2">Bubble</option>
-													<option value="0">Both</option>
-												</select>
-											</td>
 										</tr>
 										<tr>
 											<td>Copylocked</td>

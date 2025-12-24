@@ -26,7 +26,7 @@ pcall(function() game:GetService("MarketplaceService"):SetPlayerOwnsAssetUrl("ht
 
 local result = pcall(function() game:GetService("ScriptContext"):AddStarterScript(1) end)
 if not result then
-  pcall(function() game:GetService("ScriptContext"):AddCoreScript(37801172,game:GetService("ScriptContext"),"1") end)
+  pcall(function() game:GetService("ScriptContext"):AddCoreScript(1,game:GetService("ScriptContext"),"StarterScript") end)
 end
 <?php
     function get_signature($script)

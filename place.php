@@ -63,6 +63,12 @@ $header_data = $asset;
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js"></script>
+		<script src="/js/placelauncher.js"></script>
+		<script>
+			$(function() {
+				ANORRL.PlaceLauncher.GrabGameservers(<?= $id ?>);
+			})
+		</script>
 		<style>
 			h1, h2, h3, h4 {
 				margin: 0;
@@ -183,7 +189,7 @@ $header_data = $asset;
 				color: white;
 				background: #e5962eff;
 				border: 2px solid #666;
-				width: 220px;
+				width: 180px;
 				
 			}
 
@@ -383,7 +389,7 @@ $header_data = $asset;
 								<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
 							</div>
 							<div id="Information">
-								<div id="UserCard">
+								<div id="UserCard" style="padding-top: 26px;padding-bottom: 17px;">
 									<a href="/users/<?= $asset->creator->id ?>/profile"><img src="/images/avatar.png" style="width: 110px;display:block;margin:0 auto;"></a>
 									<div id="AssetInfoStuff" style="margin: 3px 0px;">
 										<span>Created by <a href="/users/<?= $asset->creator->id ?>/profile"><?= $asset_creator_name ?></a></span>
@@ -392,11 +398,10 @@ $header_data = $asset;
 									<hr>
 									<div id="AssetInfoStuff" style="margin: 3px 0px;">
 										<span><b>Copylocked:</b> <?= $asset->copylocked ? "Yes" : "No" ?></span>
-										<span><b>Friends-Only:</b> <?= $asset->public ? "No" : "Yes" ?></span>
-										<span><b>Chat Type:</b> <?= $asset->chattype->label() ?></span>
 									</div>
 									<hr>
-									<div id="NotOnSale">Place is not open for you to join!</div>
+									<button class="PurchaseButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)">Join</button>
+									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
 									<hr>
 									<div id="ManageOptions">
 										<?php if($is_creator || !$asset->copylocked): ?>
@@ -461,22 +466,9 @@ $header_data = $asset;
 								Gamepasses content in here
 							</div>
 							<div id="InfoBox" content="Servers" style="display:none">
-								<h3>Servers</h3>
+								<h3>Servers <button onclick="ANORRL.PlaceLauncher.GrabGameservers(<?= $id ?>);">Refresh</button></h3>
 								<div id="ServersBox">
-									<table class="Server">
-										<td id="PlayersBox">
-											<a title="Player" id="Player" href="/"><img src="/images/avatar.png"></a>
-											
-										</td>
-										<td id="JoinBox" width="150">
-											<div>
-												1 / 4
-											</div>
-											<div>
-												<button>Join Server</button>
-											</div>
-										</td>
-									</table>
+									
 								</div>
 							</div>
 

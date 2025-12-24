@@ -1,19 +1,27 @@
 <?php
 	$domain = $_SERVER['SERVER_NAME'];
 	header("Content-Type: text/plain");
-	$pwn_mode = isset($_GET['PWNMODE']) && $_GET['PWNMODE'] == "true";
 ?>
 
-local placeId, port = ...
+local placeId, port, maxPlayers, serverId, access, sleeptime, throttleEnabled = ...
 
 if port==nil then
 	port = 53640
 end
 
-workspace:SetPhysicsThrottleEnabled(true)
+if sleeptime==nil then
+	sleeptime = 15
+end
+if throttleEnabled==nil then
+	throttleEnabled = true
+end
+
+workspace:SetPhysicsThrottleEnabled(throttleEnabled)
 
 -- establish this peer as the Server
 local ns = game:GetService("NetworkServer")
+
+game:GetService("Players"):SetAbuseReportUrl("http://<?= $domain ?>/AbuseReport/InGameChatHandler.ashx")
 
 -- utility
 function waitForChild(parent, childName)
@@ -52,6 +60,9 @@ function onDied(victim, humanoid)
 	if killer then
 		victorId = killer.userId
 		print("STAT: kill by " .. victorId .. " of " .. victim.userId)
+		game:httpGet("http://<?= $domain ?>/Game/Statistics.ashx?TypeID=15&UserID=" .. victorId .. "&AssociatedUserID=" .. victim.userId .. "&AssociatedPlaceID=" .. placeId .. "&code=3544bd46-a09e-4e9f-9f4a-8cb6821ad356")
+	else	
+		game:httpGet("http://<?= $domain ?>/Game/Statistics.ashx?TypeID=16&UserID=" .. victim.userId .. "&AssociatedUserID=" .. victorId .. "&AssociatedPlaceID=" .. placeId .. "&code=3544bd46-a09e-4e9f-9f4a-8cb6821ad356")
 	end
 	print("STAT: death of " .. victim.userId .. " by " .. victorId)
 	
@@ -107,6 +118,10 @@ function characterRessurection(player)
 	end
 end
 
+ns.IncommingConnection:connect(function(peer, repl)
+	repl.Name = "GenericNameFuckYou" -- prevent ip grabs
+end)
+
 game:GetService("Players").PlayerAdded:connect(function(player)
 	-- its embarassing that i even need to implement this...
 	if game:GetService("Players").MaxPlayers < game:GetService("Players").NumPlayers then
@@ -125,9 +140,32 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 			end
 		end)
 	end
+
+	if access and placeId and player and player.userId then
+		game:httpGet("http://<?= $domain ?>/Game/ClientPresence.ashx?action=connect" .. access .. "&PlaceID=" .. placeId .. "&UserID=" .. player.userId .. "&serverId="..serverId)
+	end
 end)
+
+game:GetService("Players").PlayerRemoving:connect(function(player)
+print("Player " .. player.userId .. " " .. player.Name .. " leaving")
+
+	local closingTimeRaw = #game:GetService("Players"):GetPlayers() == 0
+	local closingTime = "false"
+	if closingTimeRaw then
+		closingTime = "true"
+	end
+
+	if access and placeId and player and player.userId then
+		game:httpGet("http://<?= $domain ?>/Game/ClientPresence.ashx?action=disconnect" .. access .. "&PlaceID=" .. placeId .. "&UserID=" .. player.userId .. "&serverId="..serverId .. "&shouldClose="..closingTime)
+	end
+end)
+
+if placeId~=nil and placeId~=0 then
+	-- load the game
+	game:Load("http://<?= $domain ?>/asset/?id=".. placeId .. access)
+end
 	
 -- Now start the connection
-ns:start(port, 15) 
+ns:start(port, sleeptime) 
 
 game:GetService("RunService"):Run()

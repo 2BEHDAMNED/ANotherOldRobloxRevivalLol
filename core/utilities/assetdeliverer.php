@@ -53,7 +53,9 @@
 		140, // LoadingScript
 	];
 
-	$sign_ids = [];
+	$sign_ids = [
+		1,2,3,4,5,6,7,8
+	];
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 

@@ -821,7 +821,6 @@
 			bool $public = true,
 			bool $copylocked = true,
 			bool $comments_enabled = true,
-			ChatType $chattype = ChatType::BOTH,
 			int $server_size = 12,
 			User|null $user = null
 		) {
@@ -865,12 +864,10 @@
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
 
-				$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`, `place_copylocked`, `place_chattype`, `place_serversize`) VALUES (?, ?, ?, ?)");
-				
-				$place_chattype = $chattype->ordinal();
+				$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`, `place_copylocked`, `place_serversize`) VALUES (?, ?, ?)");
 				$place_copylocked = $copylocked ? 1 : 0;
 				
-				$stmt_addplace->bind_param('iiii', $place_id, $place_copylocked, $place_chattype, $server_size);
+				$stmt_addplace->bind_param('iii', $place_id, $place_copylocked, $server_size);
 				$stmt_addplace->execute();
 
 				if(!file_exists($assetsdir) && $user->IsAdmin()) {

@@ -43,13 +43,13 @@ function LoadAssetMenu(userid, menuName, page) {
 	$.get( "/api/stuff?c="+menuName+"&uid="+userid+"&page="+page, function( data ) {
 		$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").css("color", "");
 		if(menuName == 2) {
-			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "/My/ContentBuilder.aspx?ContentType=2");
+			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "/Gamma/My/ContentBuilder.aspx?ContentType=2");
 		} else if(menuName == 11) {
-			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "/My/ContentBuilder.aspx?ContentType=11");
+			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "/Gamma/My/ContentBuilder.aspx?ContentType=11");
 		} else if(menuName == 12) {
-			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "/My/ContentBuilder.aspx?ContentType=12");
+			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "/Gamma/My/ContentBuilder.aspx?ContentType=12");
 		} else if(menuName == 13) {
-			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "/My/ContentBuilder.aspx?ContentType=13");
+			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "/Gamma/My/ContentBuilder.aspx?ContentType=13");
 		} else {
 			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").attr("href", "#");
 			$("#ctl00_cphRoblox_rbxUserAssetsPane_CreateHyperLink").css("color", "gray");

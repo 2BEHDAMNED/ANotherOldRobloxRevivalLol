@@ -38,7 +38,7 @@ local playStartTime = 0
 local cdnSuccess = 0
 local cdnFailure = 0
 
-settings()["Game Options"].CollisionSoundEnabled = true
+pcall(function() settings()["Game Options"].CollisionSoundEnabled = true end)
 pcall(function() settings().Rendering.EnableFRM = true end)
 pcall(function() settings().Physics.Is30FpsThrottleEnabled = true end)
 pcall(function() settings()["Task Scheduler"].PriorityMethod = Enum.PriorityMethod.AccumulatedError end)
@@ -63,11 +63,12 @@ function reportCdn(blocking)
 end
 
 function reportDuration(category, result, duration, blocking,errorType)
-	if not errorType then
+	return
+	--[[if not errorType then
 		errorType = ''
 	end
 	local platform = settings().Diagnostics.OsPlatform
-	pcall(function() game:HttpGet("http://arl.lambda.cam/Game/JoinRate.ashx?st=0&i=0&p=-1&c=" .. category .. "&r=" .. result .. "&d=" .. (math.floor(duration*1000)) .. "&ip=localhost&errorType=" .. errorType .. "&platform=" .. platform, blocking) end)
+	pcall(function() game:HttpGet("http://arl.lambda.cam/Game/JoinRate.ashx?st=0&i=0&p=-1&c=" .. category .. "&r=" .. result .. "&d=" .. (math.floor(duration*1000)) .. "&ip=localhost&errorType=" .. errorType .. "&platform=" .. platform, blocking) end)]]
 end
 -- arguments ---------------------------------------
 local threadSleepTime = ...
@@ -329,10 +330,11 @@ local success, err = pcall(function()
 	client.ConnectionRejected:connect(onConnectionRejected)
 	connectionFailed = client.ConnectionFailed:connect(onConnectionFailed)
 	
-	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", 53640, 0, threadSleepTime) end)
+	playerConnectSuccess, player = pcall(function() return client:PlayerConnect({playerid}, "localhost", {serverport}, 0, threadSleepTime) end)
 	if not playerConnectSuccess then
-		setMessage("Failed to create player")
-		return true, false
+		player = game:GetService("Players"):CreateLocalPlayer({playerid})
+		analytics("Created Player")
+		client:Connect("localhost", {serverport}, 0, threadSleepTime)
 	else
 		analytics("Created Player")
 	end
@@ -351,14 +353,9 @@ local success, err = pcall(function()
 	-- Overriden
 	onPlayerAdded(player)
 	
-	pcall(function() player.Name = [========[Player]========] end)
-	--player.CharacterAppearance = client.Ticket
+	pcall(function() player.Name = [========[{playername}]========] end)
 
-	player.CharacterAdded:connect(function(char)
-		local stringVal = Instance.new("StringValue", player)
-		stringVal.Name = "TicketCheck"
-		stringVal.Value = client.Ticket
-	end)
+	player.CharacterAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId={playerid}"
 
 	pcall(function() visit:SetUploadUrl("") end)
 	
@@ -376,6 +373,10 @@ pcall(function() game:SetVideoInfo("") end)
 analytics("Join Finished")
 
 <?php
+	require_once $_SERVER["DOCUMENT_ROOT"]."/core/utilities/userutils.php";
+	require_once $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+	require_once $_SERVER["DOCUMENT_ROOT"]."/core/asset.php";
+
 	function get_signature($script)
 	{
 		$signature = "";
@@ -386,6 +387,30 @@ analytics("Join Finished")
 
 	$script = "\r\n" . ob_get_clean();
 	$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
+
+	if(isset($_GET['sessionToken'])) {
+		$user = User::FromSecurityKey(trim($_GET['sessionToken']));
+	} else {
+		$user = UserUtils::RetrieveUser();
+	}
+
+	if($user != null) {
+		$userID = $user->id;
+		$userName = $user->name;
+	} else {
+		die();
+	}
+
+	$serverport = $_GET['serverPort'] ?? 53640;
+	$serverport = intval($serverport);
+
+
+	$script = str_replace("{serverport}",$serverport, $script);
+	$script = str_replace("{playerid}",$userID, $script);
+	$script = str_replace("{playername}",$userName, $script);
+
+	header("Content-Type: text/plain");
+
 	$signature = get_signature($script);
 
 	echo "%". $signature . "%" . $script;
