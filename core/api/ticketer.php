@@ -15,7 +15,7 @@
 				$year = $place->year->label();
 				$id = $place->id;
 				$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
-				$address = $settings['renderer']['RCCIP'];
+				$address = $settings['renderer']['WEBIP'];
 				$fcontents = file_get_contents("http://$address:64209/$year/StartServer?id=$id");
 				
 				if(str_starts_with($fcontents, "{'success':true,")) {

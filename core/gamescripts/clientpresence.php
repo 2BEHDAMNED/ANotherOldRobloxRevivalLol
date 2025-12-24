@@ -56,7 +56,7 @@
 
 				if($_GET['shouldClose'] == "true") {
 					$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
-					$address = $settings['renderer']['RCCIP'];
+					$address = $settings['renderer']['WEBIP'];
 				
 					file_get_contents("http://$address:64209/$year/StopServer?serverId=$serverId&placeId=$placeId");
 				}
