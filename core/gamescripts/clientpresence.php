@@ -55,8 +55,10 @@
 				$year = $row['server_year'];
 
 				if($_GET['shouldClose'] == "true") {
-					echo "http://localhost:64209/$year/StopServer?serverId=$serverId&placeId=$placeId";
-					file_get_contents("http://localhost:64209/$year/StopServer?serverId=$serverId&placeId=$placeId");
+					$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+					$address = $settings['renderer']['RCCIP'];
+				
+					file_get_contents("http://$address:64209/$year/StopServer?serverId=$serverId&placeId=$placeId");
 				}
 			}
 		}

@@ -14,7 +14,9 @@
 			if($place != null) {
 				$year = $place->year->label();
 				$id = $place->id;
-				$fcontents = file_get_contents("http://localhost:64209/$year/StartServer?id=$id");
+				$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+				$address = $settings['renderer']['RCCIP'];
+				$fcontents = file_get_contents("http://$address:64209/$year/StartServer?id=$id");
 				
 				if(str_starts_with($fcontents, "{'success':true,")) {
 					$stringerr = str_replace("{'success':true,", "", $fcontents);
