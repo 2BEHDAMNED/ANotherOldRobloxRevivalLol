@@ -56,7 +56,6 @@
 					ispublic
 					commentsenabled
 					serversize
-					chattype
 					iscopylocked
 				*/
 
@@ -82,14 +81,12 @@
 
 					if(strtolower($type) == "place")  {
 						if(isset($_GET['serversize']) &&
-							isset($_GET['chattype']) &&
 							isset($_GET['iscopylocked'])
 						) {
 							$server_size = intval($_GET['serversize']);
-							$chattype = ChatType::index(intval($_GET['chattype']));
 							$copylocked = FunnyStrToBool($_GET['iscopylocked']);
 
-							AssetUploader::UploadPlace($name, $description, $recieveddata, $public, $copylocked, $comments_enabled, $chattype, $server_size, $user);
+							AssetUploader::UploadPlace($name, $description, $recieveddata, $public, $copylocked, $comments_enabled, $server_size, $user);
 							
 							http_response_code(200);
 							die("Uploaded successfully!");

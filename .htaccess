@@ -12,7 +12,9 @@
 	RewriteRule ^users/([0-9]+)/friends$ /users/friends.php?userId=$1  [END]
 	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)/$ /users/canmanage.php?userId=$1&placeId=$2  [END]
 	
+	RewriteRule ^Game/players/([0-9]+)$ /users/players.php?userId=$1  [END]
 	RewriteRule ^game/players/([0-9]+)$ /users/players.php?userId=$1  [END]
+	RewriteRule ^Game/players/([0-9]+)/$ /users/players.php?userId=$1  [END]
 	RewriteRule ^game/players/([0-9]+)/$ /users/players.php?userId=$1  [END]
 
 #/game/players/156
@@ -23,6 +25,7 @@
 	RewriteRule ^IDE/Landing.aspx$ /core/ide/landing.php				  		  [END]
 	RewriteRule ^ide/welcome$ /my/places.php				  		  [END]
 	RewriteRule ^IDE/welcome$ /my/places.php				  		  [END]
+	RewriteRule ^My/Place.aspx$ /my/places.php				  		  [END]
 
 	RewriteRule ^IDE/Upload.aspx$ /core/ide/publish.php				  		  [END]
 	RewriteRule ^IDE/PublishNewPlace.aspx$ /core/ide/publishnewplace.php				  		  [END]
@@ -43,7 +46,7 @@
 	
 	RewriteRule ^Game/PlaceSpecificScript.ashx$ /core/gamescripts/placespecificscript.php   [END]
 
-	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx$ /Game/LuaWebService/HandleSocialRequest.ashx.php   [END]
+	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx$ /core/social/socialrequests.php   [END]
 	
 	RewriteRule ^Game/LoadPlaceInfo.ashx$ /core/gamescripts/loadplaceinfo.php   [END]
 	RewriteRule ^game/gameserver.ashx$ /core/gamescripts/gameserver.php	  [END]

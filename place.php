@@ -326,7 +326,6 @@ $header_data = $asset;
 						<div id="PlaceDetails">
 							<div id="Content">
 								<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
-								<span>Allowed gears:</span> <span>(icons here)</span>
 							</div>
 							<div id="Information">
 								<div id="UserCard">
@@ -339,7 +338,6 @@ $header_data = $asset;
 									<div id="AssetInfoStuff" style="margin: 3px 0px;">
 										<span><b>Copylocked:</b> <?= $asset->copylocked ? "Yes" : "No" ?></span>
 										<span><b>Friends-Only:</b> <?= $asset->public ? "No" : "Yes" ?></span>
-										<span><b>Chat Type:</b> <?= $asset->chattype->label() ?></span>
 									</div>
 									<hr>
 									<div id="NotOnSale">Place is not open for you to join!</div>

@@ -135,38 +135,12 @@ ANORRL.Stuff  = {
 					var template = $($(".Asset[template]").clone().prop('outerHTML'));
 					td.append(template);
 					template.removeAttr("template");
-
 					
-
-					if(asset['cost']['cones'] + asset['cost']['lights'] == 0) {
-						template.find("#Pricing").attr("oneprice", "true");
-						template.find("#Pricing").children().each(function() {
-							$(this).remove();
-						});
-						template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"))
-					} else {
-
-						if(asset['cost']['cones'] == 0) {
-							template.find("#Pricing #Cones").remove();
-						} else {
-							template.find("#Pricing #Cones #Costing").html(asset['cost']['cones']);
-						}
-
-						if(asset['cost']['lights'] == 0) {
-							template.find("#Pricing #Lights").remove();
-						} else {
-							template.find("#Pricing #Lights #Costing").html(asset['cost']['lights']);
-						}
-
-
-						if(asset['cost']['lights'] != 0 && asset['cost']['cones'] != 0) {
-							template.find("#Pricing").removeAttr("oneprice");
-						} else {
-							template.find("#Pricing").attr("oneprice", "true");
-						}
-
-					}
-
+					template.find("#Pricing").attr("oneprice", "true");
+					template.find("#Pricing").children().each(function() {
+						$(this).remove();
+					});
+					template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"))
 					
 					var urlname = asset['name'].replaceAll(regex, "").trim().toLowerCase().replaceAll(" ", "-");
 					if(urlname == "") {

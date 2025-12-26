@@ -146,11 +146,6 @@
 		}
 	}
 
-	enum Currency {
-		case CONES;
-		case LIGHTS;
-	}
-
 	/**
 	 * Abstract class for assets
 	*/
@@ -538,51 +533,11 @@
 		}
 	}
 
-	enum ChatType {
-		/*
-			Classic Chat
-			Bubble Chat
-			Both
-		*/
-
-		case CLASSIC;
-		case BUBBLE;
-		case BOTH;
-
-		public static function index(?int $ordinal): ChatType {
-			return match($ordinal) {
-				1 => ChatType::CLASSIC,
-				2 => ChatType::BUBBLE,
-				0 => ChatType::BOTH,
-				default => ChatType::BOTH
-			};
-		}
-
-		public function ordinal(): int {
-			return match($this) {
-				ChatType::CLASSIC => 1,
-				ChatType::BUBBLE => 2,
-				ChatType::BOTH => 0,
-			};
-		}
-
-		public function label(): string {
-			return match($this) {
-				ChatType::CLASSIC => "Classic Chat",
-				ChatType::BUBBLE => "Bubble Chat",
-				ChatType::BOTH => "Both",
-			};
-		}
-	}
-
 	class Place extends Asset {
 		/** is the same as Asset::public */
 		public bool $friends_only;
 		public bool $copylocked;
-		public Genre  $genre;
-		public array|null $allowed_geartypes;
 		public int $server_size;
-		public ChatType $chattype;
 		public int  $visit_count;
 		public int  $current_playing_count;
 
@@ -606,10 +561,7 @@
 
 			$this->friends_only = $this->public;
 			$this->copylocked = boolval($rowdata['place_copylocked']);
-			$this->genre = Genre::index(intval($rowdata['place_genre']));
-			$this->allowed_geartypes = null;
 			$this->server_size = intval($rowdata['place_serversize']);
-			$this->chattype = ChatType::index(intval($rowdata['place_chattype']));
 			$this->visit_count = intval($rowdata['place_visit_count']);
 			$this->current_playing_count = intval($rowdata['place_currently_playing']);
 		}

@@ -22,7 +22,6 @@
 		isset($_POST['ANORRL$IDE$Publish$Place$Name']) && 
 		isset($_POST['ANORRL$IDE$Publish$Place$Description']) && 
 		isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']) && 
-		isset($_POST['ANORRL$IDE$Publish$Place$ChatType']) && 
 		isset($_POST['ANORRL$IDE$Publish$Place$Submit'])
 	) {
 
@@ -30,10 +29,6 @@
 		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Description']);
 
 		$server_size = intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']) <= 0 ? 12 : intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
-
-		$preprocessed_chattype = intval($_POST['ANORRL$IDE$Publish$Place$ChatType']);
-		$chattype = ($preprocessed_chattype > 2 || $preprocessed_chattype < 0) ? ChatType::BOTH->ordinal() : $preprocessed_chattype;
-
 		$isPublic = isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 		$commentsEnabled = isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 		$isCopylocked = isset($_POST['ANORRL$IDE$Publish$Place$Copylocked']);
@@ -187,16 +182,6 @@
 											<td><input type="number" name="ANORRL$IDE$Publish$Place$ServerSize" value="12"></td>
 										</tr>
 										<tr>
-											<td>Chat Type</td>
-											<td>
-												<select name="ANORRL$IDE$Publish$Place$ChatType" id="cars">
-													<option value="1">Classic</option>
-													<option value="2">Bubble</option>
-													<option value="0" selected>Both</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
 											<td>Copylocked</td>
 											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$Copylocked" checked></td>
 										</tr>
@@ -257,7 +242,7 @@
 				{
 					try
 					{
-						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&chattype=<?= $chattype ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>');
+						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>');
 						document.getElementById("Uploading").style.display='none';
 						document.getElementById("Confirmation").style.display='block';
 					}
@@ -265,7 +250,7 @@
 					{
 						try
 						{
-							window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&chattype=<?= $chattype ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>');
+							window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>');
 							document.getElementById("Uploading").style.display='none';
 							document.getElementById("Confirmation").style.display='block';
 						}

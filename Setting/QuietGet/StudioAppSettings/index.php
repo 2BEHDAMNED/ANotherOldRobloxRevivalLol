@@ -1540,7 +1540,7 @@
 "FStringToolboxInLuaWidgetWinABTest":"AllUsers.Studio.ToolboxInLuaWidgetWin",
 "FFlagDebugNavigationDrawCompactHeightfieldLayerSet":false,
 "FIntStudioAuthenticationTimeoutMs":10000,
-"FFlagDebugLocalRccServerConnection":false,
+"FFlagDebugLocalRccServerConnection":True,
 "DFFlagCSGv2SkipDegenerateTriangles":true,
 "DFFlagFixCharacterAppearanceLoadedEvent2":false,
 "DFFlagStudioTrackDeadRobloxIDEDocsThrottleEvents":false,

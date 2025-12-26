@@ -1,7 +1,7 @@
 {
     "DFFlagDebugRCCServerConfigurerEnabled":"True",
     "FFlagDebugRCCServerConfigurerEnabled":"True",
-    "FFlagDebugLocalRccServerConnection":"False",
+    "FFlagDebugLocalRccServerConnection":"True",
     "FFlag_DebugStatus":"True",
     "DFIntCrashUploadToBacktracePercentage": "10",
     "DFStringCrashUploadToBacktraceBlackholeToken": "7705528468a303e4e34a13fbcf9e42e219633ed6868e143e5ab16cd33bd2a069",
