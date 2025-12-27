@@ -87,7 +87,7 @@
 
 	RewriteRule ^game/logout.aspx$ /api/logout.php							  [END]
 	RewriteRule ^Game/logout.aspx$ /api/logout.php							  [END]
-	RewriteRule ^api/(.*?)$ /core/api/$1.php							  [END]
+	RewriteRule ^api/(.*)$ /core/api/$1.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
@@ -119,6 +119,7 @@
 	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]
 	
 	RewriteRule ^download/thankyou$ /download/thankyou.php [END]
+	RewriteRule ^moderation/v2/filtertext$ /core/moderation/filtertext.php [END]
 	RewriteRule ^moderation/v2/filtertext/$ /core/moderation/filtertext.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
