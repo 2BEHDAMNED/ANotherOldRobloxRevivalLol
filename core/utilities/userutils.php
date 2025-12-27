@@ -204,20 +204,22 @@
 			}
 
 			$pages = [
-				"Home"                            => "/my/home.php",
-				"Looking at {username}'s profile" => "/users/profile.php",
-				"Stuff"                           => "/my/stuff.php",
-				"Create Panel"                    => "/core/create.php",
-				"Changing their profile info"     => "/my/profile.php",
-				"People"                          => "/people.php",
-				"Browsing games"                  => "/games.php",
-				"Catalog"						  => "/catalog.php",
-				"Frontpage"                  	  => "/index.php",
-				"Looking at {item}"           	  => "/item.php",
-				"Looking at {place}"			  => "/place.php",
-				"Editing an item"				  => "/edit.php",
-				"Editing their character"		  => "/my/character.php",
-				"In Studio"						  => "/my/places.php"
+				"Home"                              => "/my/home.php",
+				"Looking at {username}'s profile"   => "/users/profile.php",
+				"Stuff"                             => "/my/stuff.php",
+				"Create Panel"                      => "/core/create.php",
+				"Changing their profile info"       => "/my/profile.php",
+				"People"                            => "/people.php",
+				"Browsing games"                    => "/games.php",
+				"Catalog"						    => "/catalog.php",
+				"Frontpage"                  	    => "/index.php",
+				"Looking at {item}"					=> "/item.php",
+				"Looking at {place}"			    => "/place.php",
+				"Editing an item"				    => "/edit.php",
+				"Editing their character"		    => "/my/character.php",
+				"In Studio"						    => "/my/places.php",
+				"Downloaded ANORRL!"			    => "/download/thankyou.php",
+				"Thinking of downloading ANORRL..." => "/download/index.php"
 			];
 
 			$dont_catalog_ever = [
