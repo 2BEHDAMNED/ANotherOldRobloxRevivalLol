@@ -1,0 +1,33 @@
+<?php
+	session_start();
+
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
+	$user = UserUtils::RetrieveUser();
+
+	if($user == null) {
+		die(header("Location: /"));
+	}
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Download - ANORRL</title>
+		<link rel="icon" type="image/x-icon" href="/favicon.ico">
+		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<script src="/js/jquery.js"></script>
+		<script src="/js/main.js?t=<?= time() ?>"></script>
+	</head>
+	<body>
+		<div id="Container">
+		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
+			<div id="Body">
+				<div id="BodyContainer">
+					<h2>Wow... Thanks for installing this!</h2>
+					<p>NOW I HAVE ALL UR CREDITS AND DEBITS AND PASSWORD AND PORN AND WHATEVER!!!!</p>
+					<p>MWAHHAHAHAHAHAHAHAHAHHAHAHAAHHAHA</p>
+				</div>
+				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
+			</div>
+		</div>
+	</body>
+</html>

@@ -126,6 +126,8 @@
 
 	RewriteRule ^marketplace/productinfo$ /core/marketplace/productinfo.php [END]
 	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]
+	
+	RewriteRule ^download/thankyou$ /download/thankyou.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
 
