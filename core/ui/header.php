@@ -44,9 +44,6 @@
 	<?php if($header_check_user != null): ?>
 	<div id="UserLinks" >
 		<a href="/my/home"      <?php if($_SERVER['SCRIPT_NAME'] == "/my/home.php"     ):?>selected<?php endif ?>>Home</a>
-		<?php if($header_check_user->IsAdmin()): ?>
-		<a href="/Admin/">Admin</a>
-		<?php endif ?>
 		<a href="/my/profile"   <?php if($_SERVER['SCRIPT_NAME'] == "/my/profile.php"  ):?>selected<?php endif ?>>Account</a>
 		<a href="/my/character" <?php if($_SERVER['SCRIPT_NAME'] == "/my/character.php"):?>selected<?php endif ?>>Character</a>
 		<a href="/my/friends"   <?php if($_SERVER['SCRIPT_NAME'] == "/my/friends.php"  ):?>selected<?php endif ?>>Friends</a>

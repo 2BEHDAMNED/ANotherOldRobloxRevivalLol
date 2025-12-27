@@ -85,18 +85,9 @@
 	RewriteRule ^universes/get-info$ /core/universes/get-info.php [END]
 	RewriteRule ^universes/validate-place-join$ /core/universes/validate-place-join.php [END]
 
-	RewriteRule ^api/feeds$ /api/feeds.php								  [END]
-	RewriteRule ^api/logout$ /api/logout.php							  [END]
 	RewriteRule ^game/logout.aspx$ /api/logout.php							  [END]
 	RewriteRule ^Game/logout.aspx$ /api/logout.php							  [END]
-	RewriteRule ^api/user$ /api/user.php							  [END]
-	RewriteRule ^api/favourite$ /api/favourite.php							  [END]
-	RewriteRule ^api/stuff$ /api/stuff.php							  [END]
-	RewriteRule ^api/people$ /api/people.php							  [END]
-	RewriteRule ^api/games$ /api/games.php							  [END]
-	RewriteRule ^api/catalog$ /api/catalog.php							  [END]
-	RewriteRule ^api/purchase$ /api/purchase.php							  [END]
-	RewriteRule ^api/character$ /api/character.php							  [END]
+	RewriteRule ^api/(.*?)$ /core/api/$1.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
@@ -128,6 +119,7 @@
 	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]
 	
 	RewriteRule ^download/thankyou$ /download/thankyou.php [END]
+	RewriteRule ^moderation/v2/filtertext/$ /core/moderation/filtertext.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
 
@@ -149,6 +141,12 @@
 	RewriteRule ^game/validate-machine?$ /core/success.txt [END]
 	RewriteRule ^Game/validate-machine?$ /core/success.txt [END]
 
+	RewriteRule ^game/MachineConfiguration.ashx?$ /core/authentication/machineconfiguration.txt [END]
+	RewriteRule ^Game/MachineConfiguration.ashx?$ /core/authentication/machineconfiguration.txt [END]
+
+	RewriteRule ^game/PlaceLauncher.ashx?$ /core/gamescripts/placelauncher.php [END]
+	RewriteRule ^Game/PlaceLauncher.ashx?$ /core/gamescripts/placelauncher.php [END]
+	
 	RewriteRule ^game/([0-9]+)$ /place.php?name=a&id=$1 [END]
 	RewriteRule ^Game/([0-9]+)$ /place.php?name=a&id=$1 [END]
 
