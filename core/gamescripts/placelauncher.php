@@ -1,1 +1,1 @@
-{"jobId":"mobiletest1","status":2,"joinScriptUrl":"http://arl.lambda.cam/Game/PlaceLauncher.ashx","authenticationUrl":"https://arl.lambda.cam/Login/Negotiate.ashx","authenticationTicket": "hi","message":"this text is useless except in like 2013L"}
+{"jobId":"mobiletest1","status":2,"joinScriptUrl":"http://arl.lambda.cam/game/join.ashx","authenticationUrl":"https://arl.lambda.cam/Login/Negotiate.ashx","authenticationTicket": "hi","message":"this text is useless except in like 2013L"}
