@@ -888,8 +888,7 @@
 			}
 		}
 
-		public static function UploadModel(string $name, string $description, array|string $file,
-		) {
+		public static function UploadModel(string $name, string $description, array|string $file) {
 			$user = UserUtils::RetrieveUser();
 
 			if(is_array($file)) {
@@ -942,13 +941,8 @@
 			}
 		}
 
-		public static function UploadHat(string $name, string $description, array|string $file,
-		) {
+		public static function UploadHat(string $name, string $description, array|string $file) {
 			$user = UserUtils::RetrieveUser();
-
-			if($user == null || ($user != null && !$user->IsAdmin())) {
-				return ["error" => true, "reason" => "You... are... not... ADMIN!"]; 
-			}
 
 			if(is_array($file)) {
 				if($file['error'] != 0) {
@@ -961,7 +955,7 @@
 			
 
 			// process singular asset
-			$place_result = self::UploadAsset($user, AssetType::HAT, $name, $description, false, false, $place_data);
+			$place_result = self::UploadAsset($user, AssetType::HAT, $name, $description, true, false, $place_data);
 			if($place_result['error']) {
 				return $place_result;
 			} else {
