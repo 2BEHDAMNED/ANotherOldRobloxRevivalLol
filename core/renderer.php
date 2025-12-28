@@ -255,7 +255,7 @@
 				end
 				data = data:sub(2) -- Remove the first &
 				
-				print(HttpService:PostAsync("http://127.0.0.1:8282/api/upload", data, Enum.HttpContentType.ApplicationUrlEncoded, false))
+				print(HttpService:PostAsync("http://192.168.0.104:8282/api/upload", data, Enum.HttpContentType.ApplicationUrlEncoded, false))
 				return
 				EOT;
 
