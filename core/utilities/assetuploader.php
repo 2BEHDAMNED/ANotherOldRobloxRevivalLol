@@ -1023,8 +1023,8 @@
 				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
 				$stmt_processtransaction->execute();
 				
-				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
-				$stmt->bind_param('si', "animation", $place_id);
+				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = 'animation' WHERE `version_assetid` = ?");
+				$stmt->bind_param('i', $place_id);
 				$stmt->execute();
 
 				return ["error" => false, "id" => $place_result['id']];
