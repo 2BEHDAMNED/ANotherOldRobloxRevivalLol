@@ -926,7 +926,7 @@
 				$stmt->execute();
 
 				if(!file_exists($assetsdir) && $user->IsAdmin()) {
-					$render = TheFuckingRenderer::RenderPlace($place_id);
+					$render = TheFuckingRenderer::RenderModel($place_id);
 					$data = "data:image/png;base64,$render";
 					list($type, $data) = explode(';', $data);
 					list(, $data)      = explode(',', $data);
@@ -979,7 +979,7 @@
 				$stmt->execute();
 
 				if(!file_exists($assetsdir) && $user->IsAdmin()) {
-					$render = TheFuckingRenderer::RenderPlace($place_id);
+					$render = TheFuckingRenderer::RenderModel($place_id);
 					$data = "data:image/png;base64,$render";
 					list($type, $data) = explode(';', $data);
 					list(, $data)      = explode(',', $data);
