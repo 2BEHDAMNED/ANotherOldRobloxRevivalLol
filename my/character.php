@@ -280,7 +280,7 @@
 										<button data_bodytype="2"></button><button data_bodytype="1"></button><button data_bodytype="3"></button>
 									</div>
 									<div id="LegsRow">
-										<button data_bodytype="4"></button><button data_bodytype="5"></button>
+										<button data_bodytype="5"></button><button data_bodytype="4"></button>
 									</div>
 									<div id="BodyPartInfo">&nbsp;</div>
 								</div>
