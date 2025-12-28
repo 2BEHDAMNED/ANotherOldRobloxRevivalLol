@@ -32,7 +32,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/home.js?t=12282025"></script>
+		<script src="/js/home.js?t=12282025_2"></script>
 		<style>
 			h1, h2, h3, h4 {
 				width: initial\9;

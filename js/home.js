@@ -62,7 +62,7 @@ ANORRL.Home = {
 
 				template.find("#Content code").html(status['content']);
 				template.find(".User").find("a").attr("href", "/users/"+status['poster']['id']+"/profile");
-				emplate.find(".User").find("a").find("img").attr("src", "/thumbs/player?id="+status['poster']['id']);
+				template.find(".User").find("a").find("img").attr("src", "/thumbs/player?id="+status['poster']['id']);
 				template.find(".User #Name").html(status['poster']['name']);
 				template.find("#Content #DatePosted #Date").html(status['time_posted_label']);
 				template.find("#Content #DatePosted a").attr("href", "/report?statusid="+status['id']);
