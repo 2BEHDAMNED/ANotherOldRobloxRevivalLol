@@ -30,8 +30,7 @@
 		return $file_info->buffer($contents);
 	}
 
-	$sign_ids = [
-	];
+	$sign_ids = [];
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 

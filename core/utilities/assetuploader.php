@@ -869,7 +869,7 @@
 				
 				$place_copylocked = $copylocked ? 1 : 0;
 				
-				$stmt_addplace->bind_param('iiii', $place_id, $place_copylocked, $server_size);
+				$stmt_addplace->bind_param('iii', $place_id, $place_copylocked, $server_size);
 				$stmt_addplace->execute();
 
 				if(!file_exists($assetsdir) && $user->IsAdmin()) {
