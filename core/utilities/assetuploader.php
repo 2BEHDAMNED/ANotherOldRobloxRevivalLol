@@ -641,6 +641,7 @@
 				list($width, $height) = getimagesize($file['tmp_name']);
 
 				ob_start();
+				imagesavealpha($original_image, true);
 				imagepng($original_image);
 				$image_data = ob_get_contents();
 				ob_end_clean();
@@ -733,6 +734,7 @@
 				list($width, $height) = getimagesize($file['tmp_name']);
 
 				ob_start();
+				imagesavealpha($original_image, true);
 				imagepng($original_image);
 				$image_data = ob_get_contents();
 				ob_end_clean();
