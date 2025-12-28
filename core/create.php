@@ -24,7 +24,8 @@
 		"meshes",
 		"images",
 		"lua",
-		"hats"
+		"hats",
+		"animations"
 	];
 
 	if(count($_POST) != 0) {
@@ -81,6 +82,13 @@
 					} else if($type == "hats") {
 						if($user->IsAdmin()) {
 							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else {
+							$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
+						}
+						
+					} else if($type == "animations") {
+						if($user->IsAdmin()) {
+							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 						} else {
 							$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
 						}
@@ -275,7 +283,8 @@
 								<hr>
 								<li data_category="1"><a>Images</a></li>
 								<li data_category="5"><a>Lua</a></li>
-								
+								<hr>
+								<li data_category="24"><a>Animations</a></li>
 								<?php endif ?>
 							</ul>
 						</div><div id="CreationPanel">

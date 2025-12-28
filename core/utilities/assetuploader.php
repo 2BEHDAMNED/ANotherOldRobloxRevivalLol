@@ -994,5 +994,42 @@
 			}
 		}
 
+		public static function UploadAnimation(string $name, string $description, array|string $file) {
+			$user = UserUtils::RetrieveUser();
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+			
+
+			// process singular asset
+			$place_result = self::UploadAsset($user, AssetType::ANIMATION, $name, $description, true, false, $place_data);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				$place_id = $place_result['id'];
+
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
+
+				$ta_id = TransactionUtils::GenerateID();
+				$ta_assettype = AssetType::ANIMATION->ordinal();
+				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
+				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
+				$stmt_processtransaction->execute();
+				
+				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+				$stmt->bind_param('si', "animation", $place_id);
+				$stmt->execute();
+
+				return ["error" => false, "id" => $place_result['id']];
+			}
+		}
+
 	}
 ?>

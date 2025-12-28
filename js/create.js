@@ -27,6 +27,7 @@ var categoryFileTypes = {
 	5:".txt,.lua",
 	9: ".rbxl",
 	8: ".rbxm,.rbxmx",
+	24: ".rbxm",
 }
 
 const regex = /[^A-Za-z0-9 ]/g;
