@@ -115,7 +115,7 @@
 				player.CharacterAppearance = "http://$domain/Asset/CharacterFetch.ashx?userId=$id"
 				player:LoadCharacter(false)
 
-				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
+				return  (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
 				EOT;
 
 				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
@@ -227,22 +227,40 @@
 				$domain = self::$domain;
 
 				$JobId = md5(rand());
+				$access = $settings['asset']['ACCESSKEY'];
+				$time = time();
 
 				$job = new Roblox\Grid\Rcc\Job($JobId);
 				$scriptText = <<<EOT
 				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
 				game:GetService("ScriptContext").ScriptsDisabled = true
+				game:GetService("Lighting").Outlines = false
 
 				game:GetService("InsertService"):LoadAsset($id).Parent = workspace
 
-				game:GetService("Lighting").Outlines = false
+				local b64 = (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
+				local HttpService = game:GetService("HttpService")
+
+				HttpService.HttpEnabled = true
+
+				local dataFields = {
+					["data"] = b64,
+					["access"] = "$access",
+					["coolassetid"] = $id
+				}
+
+				local data = ""
+				for k, v in pairs(dataFields) do
+					data = data .. ("&%s=%s"):format(HttpService:UrlEncode(k), HttpService:UrlEncode(v))
+				end
+				data = data:sub(2) -- Remove the first &
 				
-				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
+				print(HttpService:PostAsync("http://127.0.0.1:8282/api/upload", data, Enum.HttpContentType.ApplicationUrlEncoded, false))
+				return
 				EOT;
 
 				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
-				$base64data = $rcc->OpenJob($job, $script);
-				$rcc->RenewLease($JobId, 1);
+				$rcc->OpenJob($job, $script);
 			} catch(SoapFault $e) {
 				echo "some fault happened ig";
 				echo "\n".self::$address. " " . self::$port;

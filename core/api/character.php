@@ -267,7 +267,7 @@
 				$user->SetBodyColours($head, $torso, $leftarm, $rightarm, $leftleg, $rightleg);
 				die(json_encode(["error" => false]));
 			} else if($request == "rendercharacter") {
-				$mediadir = $_SERVER['DOCUMENT_ROOT']."/../users/".$user->id;
+				$mediadir = $_SERVER['DOCUMENT_ROOT']."/../users/".$user->id.".png";
 
 				$render = TheFuckingRenderer::RenderUser($user->id);
 				$data = "data:image/png;base64,$render";
@@ -277,9 +277,10 @@
 
 				$render_image = imagecreatefromstring($data);
 				imagesavealpha($render_image, true);
-				ob_clean();
-				header("Content-Type: image/png");
-				imagepng($render_image);
+				//ob_clean();
+				//header("Content-Type: image/png");
+				imagepng($render_image, $mediadir);
+				die(json_encode(["error" => false, "reason" => "Wow we rendered!"]));
 			}
 		}
 		die(json_encode(["error" => true, "reason" => "Invalid request."]));

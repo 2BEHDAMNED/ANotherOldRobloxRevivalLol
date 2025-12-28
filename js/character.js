@@ -175,6 +175,7 @@ function rgb2hex(rgb) {
 }
 
 ANORRL.Character  = {
+	PlayerRenderUrl: "",
 	CurrentPage: 1,
 	CurrentCategory: 8,
 	CurrentlyLoadingCrapBruh: false,
@@ -390,6 +391,7 @@ ANORRL.Character  = {
 			if(!data['error']) {
 				ANORRL.Character.LoadWardrobe();
 				ANORRL.Character.LoadCurrentlyWearing();
+				ANORRL.Character.RenderPlayer();
 				// Render
 			} else {
 				alert("Error: " + data['reason']);
@@ -401,6 +403,7 @@ ANORRL.Character  = {
 			if(!data['error']) {
 				ANORRL.Character.LoadWardrobe();
 				ANORRL.Character.LoadCurrentlyWearing();
+				ANORRL.Character.RenderPlayer();
 				// Render
 			} else {
 				alert("Error: " + data['reason']);
@@ -484,8 +487,28 @@ ANORRL.Character  = {
 				rightleg: ANORRL.Character.GetBodyColourID(5)
 			}, function() {
 				// success or something
+				ANORRL.Character.RenderPlayer();
 			});
 		}
+	},
+	IsRendering: false,
+	RenderPlayer: function() {
+		if(ANORRL.Character.IsRendering) {
+			return;
+		}
+		$("#PlayerRender").attr("src","/images/ProgressIndicator4White.gif");
+		ANORRL.Character.IsRendering = true;
+
+		$.get("/api/character?r=rendercharacter", function(data) {
+			
+			if(data['error']) {
+				alert(data['reason']);
+			}
+
+			
+			$("#PlayerRender").attr("src",ANORRL.Character.PlayerRenderUrl+"&t="+Date.now());
+			ANORRL.Character.IsRendering = false;
+		});
 	}
 };
 
@@ -495,6 +518,8 @@ function setBackgroundColour(bodycontainer, bodytype, data, bodycolor) {
 
 $(function(){
 
+	ANORRL.Character.PlayerRenderUrl = $("#PlayerRender").attr("src");
+	
 	$("a[data_category]").on("click",function() {
 		ANORRL.Character.LoadWardrobe($(this).attr("data_category"), ANORRL.Character.CurrentPage);
 	});

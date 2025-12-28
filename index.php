@@ -66,7 +66,7 @@
 												<td>
 													<div class="User">
 														<a href="/users/$user_id/profile">
-															<img src="/images/avatar.png">
+															<img src="/thumbs/player?id=$user_id">
 															<span>$user_name</span>
 														</a>
 													</div>
@@ -87,40 +87,6 @@
 							</tr>
 						</table>
 					</div>
-
-
-					<div id="PopularGamesContainer">
-						<h3>Popular Games</h3>
-						<table id="PopularGamesBox">
-							<td class="PopularGame">
-								<table>
-									<td id="ShowcaseBigImages">
-										<img src="/images/avatar.png">
-										<a id="Play" href=""></a>
-									</td>
-									<td id="ShowcaseDetails">
-										<div id="NameAndCreator">
-											<a href="" id="Name">Game Name</a>
-											<a href="" id="Creator">Creator</a>
-										</div>
-										<code>
-											Description hi hihi
-										</code>
-									</td>
-								</table>
-							</td>
-							<td id="PopularGames">
-								<div style="height: 201px;overflow: auto;">
-									<img src="/images/avatar.png">
-									<img src="/images/avatar.png">
-									<img src="/images/avatar.png">
-								</div>
-								
-							</td>
-						</table>
-					</div>
-					
-					
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 			</div>

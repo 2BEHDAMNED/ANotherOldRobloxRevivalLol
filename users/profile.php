@@ -369,7 +369,7 @@
 							<div id="ProfileImage">
 								<div id="ImageContainer">
 									<a href="javascript:flipRenders(this)" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;"></a>
-									<img src="/images/avatar.png">
+									<img src="/thumbs/player?id=<?= $get_user->id ?>">
 								</div>
 								
 								<div id="Controls">

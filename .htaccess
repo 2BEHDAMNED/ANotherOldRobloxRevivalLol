@@ -114,6 +114,7 @@
 	RewriteRule ^Thumbs/Asset.ashx /core/thumbs/rawasset.php [END]
 	RewriteRule ^thumbs/Asset.ashx /core/thumbs/rawasset.php [END]
 	RewriteRule ^thumbs/?$ /core/thumbs/index.php [END]
+	RewriteRule ^thumbs/player?$ /core/thumbs/player.php [END]
 
 	RewriteRule ^marketplace/productinfo$ /core/marketplace/productinfo.php [END]
 	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]

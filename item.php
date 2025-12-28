@@ -385,7 +385,7 @@ $header_data = $asset;
 							</div>
 							<div id="Information">
 								<div id="UserCard">
-									<a href="/users/<?= $asset->creator->id ?>/profile"><img src="/images/avatar.png" style="width: 100px;"></a>
+									<a href="/users/<?= $asset->creator->id ?>/profile"><img src="/thumbs/player?id=<?= $asset->creator->id ?>" style="width: 100px;"></a>
 									<div id="AssetInfoStuff">
 										<span>Created by <a href="/users/<?= $asset->creator->id ?>/profile"><?= $asset_creator_name ?></a></span>
 										<span><b>Created on</b>: <?= $asset->created_at->format('d/m/Y H:i'); ?></span>

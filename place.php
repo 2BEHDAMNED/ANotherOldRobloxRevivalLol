@@ -396,7 +396,7 @@ $header_data = $asset;
 							</div>
 							<div id="Information">
 								<div id="UserCard">
-									<a href="/users/<?= $asset->creator->id ?>/profile"><img src="/images/avatar.png" style="width: 110px;display:block;margin:0 auto;"></a>
+									<a href="/users/<?= $asset->creator->id ?>/profile"><img src="/thumbs/player?id=<?= $asset->creator->id ?>" style="width: 110px;display:block;margin:0 auto;"></a>
 									<div id="AssetInfoStuff" style="margin: 3px 0px;">
 										<span>Created by <a href="/users/<?= $asset->creator->id ?>/profile"><?= $asset_creator_name ?></a></span>
 										<span><b>Favourited</b>: <?= $favourites_count ?></span>

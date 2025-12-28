@@ -263,7 +263,7 @@
 							<div id="AvatarRender">
 								<h4>Avatar Render</h4>
 								<div id="RenderContainer">
-									<img src="/images/avatar.png" width="260">
+									<img id="PlayerRender" src="/thumbs/player?id=<?= $user->id ?>" width="260">
 									<div style="margin-top: -10px;margin-bottom: 5px">
 										<button style="width: 105px;">Create Outfit</button>
 										<button style="width: 90px;">Re-Render</button>

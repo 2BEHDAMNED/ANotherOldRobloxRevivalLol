@@ -39,6 +39,7 @@
 		<a href="/games">Games</a>
 		<a href="/catalog">Catalog</a>
 		<a href="/people">People</a>
+		<a href="/download">Download</a>
 	</div>
 	
 	<?php if($header_check_user != null): ?>
@@ -46,10 +47,8 @@
 		<a href="/my/home"      <?php if($_SERVER['SCRIPT_NAME'] == "/my/home.php"     ):?>selected<?php endif ?>>Home</a>
 		<a href="/my/profile"   <?php if($_SERVER['SCRIPT_NAME'] == "/my/profile.php"  ):?>selected<?php endif ?>>Account</a>
 		<a href="/my/character" <?php if($_SERVER['SCRIPT_NAME'] == "/my/character.php"):?>selected<?php endif ?>>Character</a>
-		<a href="/my/friends"   <?php if($_SERVER['SCRIPT_NAME'] == "/my/friends.php"  ):?>selected<?php endif ?>>Friends</a>
 		<a href="/create/"      <?php if($_SERVER['SCRIPT_NAME'] == "/core/create.php" ):?>selected<?php endif ?>>Create</a>
 		<a href="/my/stuff"     <?php if($_SERVER['SCRIPT_NAME'] == "/my/stuff.php"    ):?>selected<?php endif ?>>Stuff</a>
-		<a href="/download/"     <?php if($_SERVER['SCRIPT_NAME'] == "/download/index.php"    ):?>selected<?php endif ?>>Download</a>
 	</div>
 	<?php endif ?>
 	
