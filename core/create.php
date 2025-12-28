@@ -77,6 +77,13 @@
 						$result = AssetUploader::UploadPlace($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 					} else if($type == "models") {
 						$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+					} else if($type == "hats") {
+						if($user->IsAdmin()) {
+							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else {
+							$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
+						}
+						
 					} else {
 						die("type found but not handled...");
 					}

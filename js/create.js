@@ -22,10 +22,11 @@ var categoryFileTypes = {
 	12:"image/*",
 	3: ".mp3",
 	13:"image/*",
-	10:".rbxm",
+	10:".rbxm,.rbxmx",
 	4:"*",
 	5:".txt,.lua",
 	9: ".rbxl",
+	8: ".rbxm,.rbxmx",
 }
 
 const regex = /[^A-Za-z0-9 ]/g;

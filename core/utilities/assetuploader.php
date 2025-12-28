@@ -942,5 +942,63 @@
 			}
 		}
 
+		public static function UploadHat(string $name, string $description, array|string $file,
+		) {
+			$user = UserUtils::RetrieveUser();
+
+			if($user == null || ($user != null && !$user->IsAdmin())) {
+				return ["error" => true, "reason" => "You... are... not... ADMIN!"]; 
+			}
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+			
+
+			// process singular asset
+			$place_result = self::UploadAsset($user, AssetType::HAT, $name, $description, false, false, $place_data);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				$place_id = $place_result['id'];
+
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
+
+				$ta_id = TransactionUtils::GenerateID();
+				$ta_assettype = AssetType::HAT->ordinal();
+				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
+				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
+				$stmt_processtransaction->execute();
+
+				$directory = $_SERVER['DOCUMENT_ROOT'];
+				$md5hashfile = md5($place_data);
+				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+				
+				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+				$stmt->bind_param('si', $md5hashfile, $place_id);
+				$stmt->execute();
+
+				if(!file_exists($assetsdir) && $user->IsAdmin()) {
+					$render = TheFuckingRenderer::RenderPlace($place_id);
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
+
+					$render_image = imagecreatefromstring($data);
+					imagesavealpha($render_image, true);
+					imagepng($render_image, $assetsdir);
+				}
+
+				return ["error" => false, "id" => $place_result['id']];
+			}
+		}
+
 	}
 ?>
