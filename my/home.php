@@ -32,7 +32,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/home.js"></script>
+		<script src="/js/home.js?t=12282025"></script>
 		<style>
 			h1, h2, h3, h4 {
 				width: initial\9;
@@ -43,7 +43,7 @@
 		<table id="FeedItem" template>
 			<td class="User">
 				<a href="">
-					<img src="/images/avatar.png">
+					<img src="/thumbs/player?id=">
 					<div id="Name">Name here</div>
 				</a>
 			</td>
@@ -60,7 +60,7 @@
 						<div id="HelloStuff">
 							<h1 id="Hello">Hello, <?= $user->name ?>!</h1>
 							<div id="UserProfile">
-								<a href="/users/<?= $user->id ?>/profile"><img id="ProfilePicture" src="/images/avatar.png"></a>
+								<a href="/users/<?= $user->id ?>/profile"><img id="ProfilePicture" src="/thumbs/player?id=<?= $user->id ?>"></a>
 								<div id="StatusContainer">
 								<?php 
 									if($user->GetLatestStatus() != null) {
