@@ -107,6 +107,8 @@
 				die(header("Location: /create/".$type));
 			}
 			
+		} else {
+			die("Not valid type...");
 		}
 	}
 
