@@ -72,14 +72,12 @@
 			if($asset->type == AssetType::PLACE &&
 			   isset($_POST['ANORRL$EditItem$Place$ServerSize'])) {
 
-				//TODO: Add Genres
 				$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
 				$server_size = intval($_POST['ANORRL$EditItem$Place$ServerSize']);
 				
 				if($server_size < 0) {
 					$server_size = $asset->server_size;
 				}
-
 
 				$stmt = $con->prepare('UPDATE `asset_places` SET `place_copylocked` = ?, `place_serversize` = ?  WHERE `place_id` = ?;');
 				$stmt->bind_param('iii', $copylocked, $server_size, $id);

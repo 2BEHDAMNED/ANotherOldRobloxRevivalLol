@@ -3,9 +3,9 @@
 
 	if($method != null) {
 		if(str_contains($method, "Group") && $method != "GetGroupRank") {
-			echo "<Value Type=\"boolean\">true</Value>";
+			echo "<Value Type=\"boolean\">false</Value>";
 		} elseif($method == "GetGroupRank") {
-			echo "<Value Type=\"integer\">1</Value>";
+			echo "<Value Type=\"integer\">2</Value>";
 		} else {
 			echo "true";
 		}

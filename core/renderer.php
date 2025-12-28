@@ -196,8 +196,6 @@
 				game:GetService("ScriptContext").ScriptsDisabled = true
 
 				game:Load("http://$domain/asset/?id=$id&access=$access&time=$time")
-
-				game:GetService("Lighting").Outlines = false
 				
 				return (game:GetService("ThumbnailGenerator"):Click("PNG", 768, 432, false))
 				EOT;
@@ -214,6 +212,45 @@
 			return $base64data;
 		}
 
+		public static function RenderModel(int $id = 0) {
+			$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+			self::UpdateAndSetConfig($settings['renderer']);
+
+			if(self::$cantuserenderer) {
+				echo "renderer is disabled?";
+				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			}
+
+			try{
+				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
+				
+				$domain = self::$domain;
+
+				$JobId = md5(rand());
+
+				$job = new Roblox\Grid\Rcc\Job($JobId);
+				$scriptText = <<<EOT
+				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
+				game:GetService("ScriptContext").ScriptsDisabled = true
+
+				game:GetService("InsertService"):LoadAsset($id).Parent = workspace
+
+				game:GetService("Lighting").Outlines = false
+				
+				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
+				EOT;
+
+				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
+				$base64data = $rcc->OpenJob($job, $script);
+				$rcc->RenewLease($JobId, 1);
+			} catch(SoapFault $e) {
+				echo "some fault happened ig";
+				echo "\n".self::$address. " " . self::$port;
+				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			}
+
+			return $base64data;
+		}
 	}
 
 	

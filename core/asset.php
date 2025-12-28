@@ -424,10 +424,6 @@
 			return $stmt->get_result()->num_rows != 0;
 		}
 
-		function Buy(User|int $user, Currency $mode) {
-
-		}
-
 		function UpdateSalesCount() {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			$stmt = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` != `ta_assetcreator` AND `ta_asset` = ?;");
@@ -439,97 +435,6 @@
 			$stmt = $con->prepare("UPDATE `assets` SET `asset_sales_count` = ? WHERE `asset_id` = ?");
 			$stmt->bind_param("ii", $salescount, $this->id);
 			$stmt->execute();
-		}
-	}
-
-
-	enum Genre {
-		/*
-			Town and City
-			Fantasy
-			Sci-Fi
-			Ninja
-			Scary
-			Pirate
-			Adventure
-			Sports
-			Funny
-			Wild West
-			War
-			Skate Park
-			Tutorial 
-		*/
-
-		case ALL;
-		case TOWNANDCITY;
-		case FANTASY;
-		case SCIFI;
-		case NINJA;
-		case SCARY;
-		case PIRATE;
-		case ADVENTURE;
-		case SPORTS;
-		case FUNNY;
-		case WILDWEST;
-		case WAR;
-		case SKATEPARK;
-		case TUTORIAL;
-
-		public static function index(?int $ordinal): Genre {
-			return match($ordinal) {
-				1 => Genre::ALL,
-				7 => Genre::TOWNANDCITY,
-				8 => Genre::FANTASY,
-				9 => Genre::SCIFI,
-				10 => Genre::NINJA,
-				11 => Genre::SCARY,
-				12 => Genre::PIRATE,
-				13 => Genre::ADVENTURE,
-				14 => Genre::SPORTS,
-				15 => Genre::FUNNY,
-				16 => Genre::WILDWEST,
-				17 => Genre::WAR,
-				18 => Genre::SKATEPARK,
-				19 => Genre::TUTORIAL,
-			};
-		}
-
-		public function ordinal(): int {
-			return match($this) {
-				Genre::ALL => 1,
-				Genre::TOWNANDCITY => 7,
-				Genre::FANTASY => 8,
-				Genre::SCIFI => 9,
-				Genre::NINJA => 10,
-				Genre::SCARY => 11,
-				Genre::PIRATE => 12,
-				Genre::ADVENTURE => 13,
-				Genre::SPORTS => 14,
-				Genre::FUNNY => 15,
-				Genre::WILDWEST => 16,
-				Genre::WAR => 17,
-				Genre::SKATEPARK => 18,
-				Genre::TUTORIAL => 19,
-			};
-		}
-
-		public function label(): string {
-			return match($this) {
-				Genre::ALL => "All",
-				Genre::TOWNANDCITY => "Town and City",
-				Genre::FANTASY => "Fantasy",
-				Genre::SCIFI => "Sci-Fi",
-				Genre::NINJA => "Ninja",
-				Genre::SCARY => "Scary",
-				Genre::PIRATE => "Pirate",
-				Genre::ADVENTURE => "Adventure",
-				Genre::SPORTS => "Sports",
-				Genre::FUNNY => "Funny",
-				Genre::WILDWEST => "Wild West",
-				Genre::WAR => "War",
-				Genre::SKATEPARK => "Skate Park",
-				Genre::TUTORIAL => "Tutorial",
-			};
 		}
 	}
 
@@ -566,7 +471,9 @@
 			$this->current_playing_count = intval($rowdata['place_currently_playing']);
 		}
 
-		function Visit(User|int $user) {}
+		function Visit(User|int $user) {
+
+		}
 		function GetBadges() {}
 		function GetGamepasses() {}
 	}
@@ -614,7 +521,7 @@
 			$this->md5sig = strval($rowdata['version_md5sig']);
 			$this->md5thumb = strval($rowdata['version_md5thumb']);
 
-			$this->publish_date      = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['version_publishdate']);	
+			$this->publish_date = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['version_publishdate']);	
 		}
 
 	}

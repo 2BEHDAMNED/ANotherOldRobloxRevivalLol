@@ -63,6 +63,7 @@ $header_data = $asset;
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js"></script>
+		<script src="/js/placelauncher.js"></script>
 		<style>
 			h1, h2, h3, h4 {
 				margin: 0;
@@ -142,6 +143,9 @@ $header_data = $asset;
 				background: #222;
 				margin-left: 10px;
 				padding: 10px;
+				height: 348px;
+				padding-top: 15px;
+				padding-bottom: 0px;
 			}
 
 			#PlaceDetails #Information #UserCard #AssetInfoStuff {
@@ -183,7 +187,7 @@ $header_data = $asset;
 				color: white;
 				background: #e5962eff;
 				border: 2px solid #666;
-				width: 220px;
+				width: 180px;
 				
 			}
 
@@ -263,6 +267,69 @@ $header_data = $asset;
 			#BigNumbersArea #Detail * {
 				display:block;
 			}
+
+			#ServersBox {
+				padding: 10px;
+				border: 2px solid black;
+			}
+
+			#ServersBox #NoGamesWarning {
+				font-size: 14px;
+				font-weight: bold;
+				text-align: center;
+			}
+
+			#ServersBox .Server {
+				width: 100%;
+				background: #1a1a1a;
+				border: 2px solid black;
+				
+			}
+
+			.Server td { 
+				padding: 10px;
+			}
+
+			.Server button {
+				border: 2px solid black;
+				background: black;
+				color: white;
+				padding: 4px 8px;
+				font-weight: bold;
+				font-family: punk;
+				font-size: 12px
+			}
+
+			.Server button:hover {
+				text-decoration: underline;
+				background: #161616;
+				cursor: pointer;
+				font-size: 12px
+			}
+
+			.Server #PlayersBox {
+
+			}
+
+			.Server #PlayersBox #Player {
+				float:left;
+				width: 64px;
+				height: 64px;
+				border: 2px solid #8e8e8e;
+				background: #555;
+			}
+
+			.Server #PlayersBox #Player img {
+				width: 64px;
+				height: 64px;
+			}
+
+			.Server #JoinBox {
+				text-align: center;
+				border-left: 2px solid #555;
+			}
+
+
 		</style>
 		<script>
 			function ChangeTab(tabName) {
@@ -337,10 +404,10 @@ $header_data = $asset;
 									<hr>
 									<div id="AssetInfoStuff" style="margin: 3px 0px;">
 										<span><b>Copylocked:</b> <?= $asset->copylocked ? "Yes" : "No" ?></span>
-										<span><b>Friends-Only:</b> <?= $asset->public ? "No" : "Yes" ?></span>
 									</div>
 									<hr>
-									<div id="NotOnSale">Place is not open for you to join!</div>
+									<button class="PurchaseButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)">Join</button>
+									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
 									<hr>
 									<div id="ManageOptions">
 										<?php if($is_creator || !$asset->copylocked): ?>
@@ -350,7 +417,6 @@ $header_data = $asset;
 										<?php if($user != null && $user->IsAdmin()): ?>
 										<a href="javascript:Render()" id="RenderButton">Render this asset</a>
 										<?php endif ?>
-										<a href="">Report this item</a>
 									</div>
 								</div>
 							</div>
@@ -391,10 +457,7 @@ $header_data = $asset;
 										<b>Server Size</b>
 										<span><?= $asset->server_size ?></span>
 									</div>
-									<div id="Detail">
-										<b>Genre</b>
-										<span><?= $asset->genre->label() ?></span>
-									</div>
+									
 								</div>
 							</div>
 							<div id="InfoBox" content="Badges" style="display:none">
@@ -406,13 +469,15 @@ $header_data = $asset;
 								Gamepasses content in here
 							</div>
 							<div id="InfoBox" content="Servers" style="display:none">
-								<b>Servers</b><br>
-								Servers content in here
+								<h3>Servers <button onclick="ANORRL.PlaceLauncher.GrabGameservers(<?= $id ?>);">Refresh</button></h3>
+								<div id="ServersBox">
+									<p id="NoGamesWarning">There are no servers for this game!</p>
+								</div>
 							</div>
 
 						</div>
 
-						<div id="CommentsContainer">
+						<!--<div id="CommentsContainer">
 							<h3>Comments</h3>
 							<div id="CommentSection">
 								<?php if($asset->comments_enabled): ?>
@@ -421,7 +486,7 @@ $header_data = $asset;
 								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
 								<?php endif ?>
 							</div>
-						</div>
+						</div>-->
 					</div>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
