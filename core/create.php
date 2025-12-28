@@ -23,7 +23,8 @@
 
 		"meshes",
 		"images",
-		"lua"
+		"lua",
+		"hats"
 	];
 
 	if(count($_POST) != 0) {
