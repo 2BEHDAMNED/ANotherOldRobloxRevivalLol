@@ -75,7 +75,7 @@
 						$render = TheFuckingRenderer::RenderPlace($id);
 					} else if($type == AssetType::MESH) {
 						$render = TheFuckingRenderer::RenderMesh($id);
-					} else if($type == AssetType::MODEL) {
+					} else if($type == AssetType::MODEL || $type == AssetType::HAT) {
 						$render = TheFuckingRenderer::RenderModel($id);
 					}
 
