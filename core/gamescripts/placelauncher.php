@@ -16,7 +16,7 @@
 	$rcc_settings = $settings['renderer'];
 
 	$access = $settings['asset']['ACCESSKEY'];
-	$rcc_ip = $rcc_settings['RCC_IP'];
+	$rcc_ip = $rcc_settings['RCCGAMEIP'];
 	$rcc_port = 64898;
 
 	header("Content-Type: application/json");
@@ -89,6 +89,22 @@
 		return null;
 	}
 
+	function updatePlaceOfSession(string $sessionID, string $placeID): array|null {
+		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+		$stmt_getsessiondetails = $con->prepare("UPDATE `active_players` SET `session_serverid` = ? WHERE `session_id` = ?");
+		$stmt_getsessiondetails->bind_param("ss", $placeID, $sessionID);
+		$stmt_getsessiondetails->execute();
+
+		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
+
+		if($result_getsessiondetails->num_rows != 0) {
+			return $result_getsessiondetails->fetch_assoc();
+		}
+
+		return null;
+	}
+
 	if(isset($_GET['sessionID'])) {
 
 		$sessionToken = $_GET['sessionID'];
@@ -121,6 +137,9 @@
 						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_placeid`, `server_playercount`, `server_maxcount`, `server_port`) VALUES (?,?,0,?,?)");
 						$stmt_createnewserver->bind_param("siis", $serverid, $placeId, $place->server_size, $strPort);
 						$stmt_createnewserver->execute();
+
+						updatePlaceOfSession($sessionToken, $serverid);
+
 					} catch(SoapFault $e) {
 						// later
 						$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ?;");

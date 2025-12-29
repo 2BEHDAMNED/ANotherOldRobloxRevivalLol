@@ -45,7 +45,7 @@
 		if($asset != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			
-			if($user != null && $user->IsAdmin()) {
+			if($user != null) {
 				
 				$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
 				$stmt->bind_param('i', $id);
