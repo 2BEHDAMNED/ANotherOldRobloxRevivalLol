@@ -457,7 +457,10 @@ $header_data = $asset;
 										<b>Server Size</b>
 										<span><?= $asset->server_size ?></span>
 									</div>
-									
+									<div id="Detail">
+										<b>Copylocked</b>
+										<span><?= $asset->copylocked ? "Yes" : "No" ?></span>
+									</div>
 								</div>
 							</div>
 							<div id="InfoBox" content="Badges" style="display:none">

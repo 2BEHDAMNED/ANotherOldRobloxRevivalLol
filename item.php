@@ -426,16 +426,16 @@ $header_data = $asset;
 							</div>
 						</div>
 
-						<div id="CommentsContainer">
+						<!--<div id="CommentsContainer">
 							<h3>Comments</h3>
 							<div id="CommentSection">
-								<?php if(!$asset->comments_enabled): ?>
-								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
-								<?php else: ?>
+								<?php if($asset->comments_enabled): ?>
 								<div id="CommentsDisabled">Comments have not been implemented yet... (sorry :[)</div>
+								<?php else: ?>
+								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
 								<?php endif ?>
 							</div>
-						</div>
+						</div>-->
 					</div>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
