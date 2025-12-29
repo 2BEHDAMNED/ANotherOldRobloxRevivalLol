@@ -134,6 +134,7 @@
 						$base64data = $rcc->OpenJob($job, $script);
 						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
 
+						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_placeid`, `server_playercount`, `server_maxcount`, `server_port`) VALUES (?,?,0,?,?)");
 						$stmt_createnewserver->bind_param("siis", $serverid, $placeId, $place->server_size, $strPort);
 						$stmt_createnewserver->execute();
@@ -141,7 +142,7 @@
 						updatePlaceOfSession($sessionToken, $serverid);
 
 					} catch(SoapFault $e) {
-						// later
+						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ?;");
 						$stmt_createnewserver->bind_param("s", $sessionToken);
 						$stmt_createnewserver->execute();
