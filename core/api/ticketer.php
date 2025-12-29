@@ -66,7 +66,7 @@
 			$place = Place::FromID(intval($_POST['placeID']));
 
 			if($place != null) {
-
+				$playerID = $user->id;
 				if(isUserInAGame($user->id)) {
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 					$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
@@ -82,7 +82,7 @@
 					$serverID = strval($place->id);
 				}
 				$sessionID = getRandomString();
-				$playerID = $user->id;
+				
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
 				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
@@ -100,6 +100,7 @@
 				$place = Place::FromID(intval($server_details['server_placeid']));
 
 				if($place != null) {
+					$playerID = $user->id;
 					if(isUserInAGame($user->id)) {
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
@@ -109,7 +110,6 @@
 
 					$serverID = $server_details['server_id'];
 					$sessionID = getRandomString();
-					$playerID = $user->id;
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 					$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
 					$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
