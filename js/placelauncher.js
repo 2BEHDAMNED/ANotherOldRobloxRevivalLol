@@ -111,7 +111,7 @@ ANORRL.PlaceLauncher  = {
 					var playerCount = players.length;
 					var maxPlayerCount = server['maxplayercount'];
 
-					var template = ANORRL.PlaceLauncher.CreateServerElement(server['id']);
+					var template = ANORRL.PlaceLauncher.CreateServerElement(server['id'], playerCount, maxPlayerCount);
 					for (var pkey in players) {
 						var player = players[pkey];
 						template.find("#PlayersBox").append("<a title=\""+player['name']+"\" id=\"Player\" href=\"/users/"+player['id']+"/profile\"><img src=\"/thumbs/player?id="+player['id']+"\"></a>");
