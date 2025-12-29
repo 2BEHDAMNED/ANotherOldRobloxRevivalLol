@@ -5,8 +5,13 @@
 
 	$user = UserUtils::RetrieveUser();
 
-	if(isset($_GET['id'])) {
-		$id = intval($_GET['id']);
+	if(isset($_GET['id']) || isset($_GET['userId'])) {
+		if(isset($_GET['id'])) {
+			$id = intval($_GET['id']);
+		} else {
+			$id = intval($_GET['userId']);
+		}
+		
 
 		$specialcase = false;
 
