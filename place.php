@@ -63,7 +63,7 @@ $header_data = $asset;
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js"></script>
-		<script src="/js/placelauncher.js"></script>
+		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
 		<style>
 			h1, h2, h3, h4 {
 				margin: 0;
