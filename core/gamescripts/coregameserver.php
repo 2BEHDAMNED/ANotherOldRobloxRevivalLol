@@ -81,7 +81,7 @@ end)
 
 game:GetService("Players").PlayerRemoving:connect(function(player)
 	print("Player " .. player.userId .. " leaving")
-	game:HttpGet(url .. "/api/a_gameservers/removeplayer?jobID="..jobID .. "&access="..access)
+	game:HttpGet(url .. "/api/a_gameservers/removeplayer?jobID="..jobID .. "&access="..access.."&userID=" .. tostring(player.userId))
 
 	if #game:GetService("Players"):GetPlayers() == 0 then
 		print("CLOSING THE SERVER.")
