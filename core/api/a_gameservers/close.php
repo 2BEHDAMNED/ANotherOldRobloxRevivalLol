@@ -9,10 +9,11 @@
 	$access = $settings['asset']['ACCESSKEY'];
 	$rcc_ip = $rcc_settings['RCCGAMEIP'];
 	$rcc_port = 64898;
-	
+
 	if(isset($_GET['access']) && isset($_GET['jobID'])) {
 		if($_GET['access'] == $access) {
-			$rcc= new RCCServiceSoap($rcc_ip, $rcc_port);
+			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+			$rcc->RenewLease($_GET['jobID'], 1);
 			$rcc->CloseJob($_GET['jobID']."-GameScript");
 		}
 		
