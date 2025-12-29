@@ -1,9 +1,5 @@
 <?php
 header('Content-type: application/json');
-$assetid = $_GET['assetId'];
-?>
-<?php
-header('Content-type: application/json');
 $assetid = (int)$_GET['productId'] ?? (int)$_GET['assetId'];
 if(!$assetid){
 	die();

@@ -120,8 +120,10 @@
 	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]
 	
 	RewriteRule ^download/thankyou$ /download/thankyou.php [END]
-	RewriteRule ^moderation/v2/filtertext$ /core/moderation/filtertext.php [END]
+	RewriteRule ^moderation/v2/filtertext$  /core/moderation/filtertext.php [END]
 	RewriteRule ^moderation/v2/filtertext/$ /core/moderation/filtertext.php [END]
+	RewriteRule ^moderation/filtertext/     /core/moderation/filtertext.php [END]
+	RewriteRule ^/moderation/filtertext/    /core/moderation/filtertext.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
 
