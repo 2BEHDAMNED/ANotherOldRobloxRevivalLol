@@ -93,8 +93,7 @@
 
 	die("--rbxsig%". $signature . "%" . $script);
 ?>
-<?php else: 
-$script = <<<EOT
+<?php else: ?>
 {
 	"ClientPort":0,
 	"MachineAddress":"localhost",
@@ -135,7 +134,7 @@ $script = <<<EOT
 	"FollowUserId":0,
 	"characterAppearanceId":{playerid}
 }
-EOT;
+<?php
 	function get_signature($script)
 	{
 		$signature = "";
@@ -163,6 +162,7 @@ EOT;
 			$placecreator = $place->creator->id;
 			
 
+			$script = "\r\n" . ob_get_clean();
 			$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 			$script = str_replace("{playerid}",$playerid, $script);
 			$script = str_replace("{playername}",$playername, $script);
