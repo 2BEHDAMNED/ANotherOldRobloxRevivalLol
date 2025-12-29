@@ -159,7 +159,7 @@
 						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
 
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_playercount`, `server_maxcount`, `server_port`) VALUES (?,?,?,0,?,?)");
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`) VALUES (?,?,?,?,?)");
 						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
 						$stmt_createnewserver->execute();
 
