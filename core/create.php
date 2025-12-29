@@ -80,18 +80,15 @@
 					} else if($type == "models") {
 						$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 					} else if($type == "hats") {
-						if($user->IsAdmin()) {
-							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						/*if($user->IsAdmin()) {
 						} else {
 							$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-						}
+						}*/
+
+						$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
 						
 					} else if($type == "animations") {
-						if($user->IsAdmin()) {
-							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else {
-							$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-						}
+						$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 						
 					} else {
 						die("type found but not handled...");
@@ -263,10 +260,8 @@
 						<h1>Creation Panel</h1>
 						<div id="StuffNavigation">							
 							<ul>
-								<?php if($user->IsAdmin()): ?>
 								<li data_category="8" ><a>Hats</a></li>
 								<li data_category="18"><a>Faces</a></li>
-								<?php endif ?>
 								<li data_category="11"><a>Shirts</a></li>
 								<li data_category="2" ><a>T-Shirts</a></li>
 								<li data_category="12"><a>Pants</a></li>
@@ -283,9 +278,10 @@
 								<hr>
 								<li data_category="1"><a>Images</a></li>
 								<li data_category="5"><a>Lua</a></li>
+								<?php endif ?>
 								<hr>
 								<li data_category="24"><a>Animations</a></li>
-								<?php endif ?>
+								
 							</ul>
 						</div><div id="CreationPanel">
 							

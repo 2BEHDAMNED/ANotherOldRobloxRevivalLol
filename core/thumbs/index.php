@@ -59,6 +59,8 @@
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
 				} else if($md5hash == "script" && $asset->type == AssetType::LUA) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
+				} else if($md5hash == "animation" && $asset->type == AssetType::ANIMATION) {
+					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/animation.png");
 				} else {
 					if($asset->relatedasset != null || $asset->type == AssetType::IMAGE) {
 						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash")) {
