@@ -347,6 +347,9 @@ $header_data = $asset;
 						$(this).css("display", "none");
 					} else {
 						$(this).css("display", "block");
+						if($(this).attr("content") == "Servers") {
+							ANORRL.PlaceLauncher.GrabGameservers(<?= $id ?>);
+						}
 					}
 				});
 
