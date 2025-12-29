@@ -42,7 +42,7 @@ ANORRL.PlaceLauncher  = {
 		});
 	},
 	
-	CreateServerElement: function(serverId) {
+	CreateServerElement: function(serverId, currentPlayersCount, maxPlayersCount) {
 		var table = $("<table><tr></tr></table>");
 		table.addClass("Server");
 
@@ -56,7 +56,7 @@ ANORRL.PlaceLauncher  = {
 		joinBox.attr("id", "JoinBox");
 		joinBox.attr("width", "150");
 		
-		joinBox.append("<div id=\"PlayerCount\">0 / 0</div>");
+		joinBox.append("<div id=\"PlayerCount\">"+currentPlayersCount+" / "+maxPlayersCount+"</div>");
 		
 		var joinArea = $("<div id=\"JoinArea\"></div>");
 
@@ -69,7 +69,7 @@ ANORRL.PlaceLauncher  = {
 		});
 
 		joinButton.on("click", function() {
-			window.open("anorrl://"+joinLink, "_blank");
+			alert("yeah yeah SOON!");
 		});
 
 		joinArea.append(joinButton);
@@ -108,10 +108,13 @@ ANORRL.PlaceLauncher  = {
 					var server = servers[key];
 					var players = server['players'];
 
+					var playerCount = players.length;
+					var maxPlayerCount = server['maxplayercount'];
+
 					var template = ANORRL.PlaceLauncher.CreateServerElement(server['id']);
 					for (var pkey in players) {
 						var player = players[pkey];
-						template.find("#PlayersBox").append("<a title=\""+player['name']+"\" id=\"Player\" href=\"/users/"+player['id']+"/profile\"><img src=\"/images/avatar.png\"></a>");
+						template.find("#PlayersBox").append("<a title=\""+player['name']+"\" id=\"Player\" href=\"/users/"+player['id']+"/profile\"><img src=\"/thumbs/player?id="+player['id']+"\"></a>");
 					}
 					
 					serversContainer.append(template);

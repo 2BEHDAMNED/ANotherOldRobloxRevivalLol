@@ -402,10 +402,6 @@ $header_data = $asset;
 										<span><b>Favourited</b>: <?= $favourites_count ?></span>
 									</div>
 									<hr>
-									<div id="AssetInfoStuff" style="margin: 3px 0px;">
-										<span><b>Copylocked:</b> <?= $asset->copylocked ? "Yes" : "No" ?></span>
-									</div>
-									<hr>
 									<button class="PurchaseButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)">Join</button>
 									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
 									<hr>
