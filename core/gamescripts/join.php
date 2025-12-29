@@ -96,7 +96,7 @@
 <?php else: ?>
 {
 	"ClientPort":0,
-	"MachineAddress":"localhost",
+	"MachineAddress":"192.168.0.104",
 	"ServerPort":{serverport},
 	"PingUrl":"",
 	"PingInterval":120,
