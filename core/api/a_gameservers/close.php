@@ -1,6 +1,6 @@
 <?php
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/rcclib.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/renderer.php";
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 	
@@ -13,8 +13,12 @@
 	if(isset($_GET['access']) && isset($_GET['jobID'])) {
 		if($_GET['access'] == $access) {
 			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
-			$rcc->RenewLease($_GET['jobID'], 1);
 			$rcc->CloseJob($_GET['jobID']."-GameScript");
+
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
+			$stmt_createnewserver->bind_param("s", $_GET['jobID']);
+			$stmt_createnewserver->execute();
 		}
 		
 	}
