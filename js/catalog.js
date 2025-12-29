@@ -20,10 +20,10 @@ ANORRL.Catalog  = {
 	CurrentPage: 1,
 	CurrentCategory: 8,
 	CurrentlyLoadingCrapBruh: false,
-	AdvancePager: function() {
+	NextPage: function() {
 		this.GrabAssets(this.CurrentCategory, this.CurrentPage + 1);
 	},
-	DeadvancePager: function() {
+	PrevPage: function() {
 		this.GrabAssets(this.CurrentCategory, this.CurrentPage - 1);
 	},
 	GrabAssets: function(category, page) {
