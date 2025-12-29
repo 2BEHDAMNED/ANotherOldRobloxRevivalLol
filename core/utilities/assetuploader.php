@@ -598,7 +598,7 @@
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::IMAGE->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, 'none', 0, ?, ?, ?, 0)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`, `ta_showsupatall`) VALUES (?, ?, ?, ?, ?, 0)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $image_id, $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
