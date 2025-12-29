@@ -589,7 +589,7 @@
 					</roblox>
 		
 					EOT;
-					$decal_result = self::UploadAsset($user, AssetType::TSHIRT, $name, $description, false, false, $tshirt_data);
+					$decal_result = self::UploadAsset($user, AssetType::TSHIRT, $name, $description, true, false, $tshirt_data);
 					if($decal_result['error']) {
 						return $decal_result;
 					}
@@ -670,7 +670,7 @@
 						</Item>
 					</roblox>
 					EOT;
-					$shirt_result = self::UploadAsset($user, AssetType::SHIRT, $name, $description, false, false, $tshirt_data);
+					$shirt_result = self::UploadAsset($user, AssetType::SHIRT, $name, $description, true, false, $tshirt_data);
 					if($shirt_result['error']) {
 						return $shirt_result;
 					}
@@ -763,7 +763,7 @@
 						</Item>
 					</roblox>
 					EOT;
-					$pants_result = self::UploadAsset($user, AssetType::PANTS, $name, $description, false, false, $tshirt_data);
+					$pants_result = self::UploadAsset($user, AssetType::PANTS, $name, $description, true, false, $tshirt_data);
 					if($pants_result['error']) {
 						return $pants_result;
 					}
@@ -925,18 +925,6 @@
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
 
-				if(!file_exists($assetsdir) && $user->IsAdmin()) {
-					$render = TheFuckingRenderer::RenderModel($place_id);
-					$data = "data:image/png;base64,$render";
-					list($type, $data) = explode(';', $data);
-					list(, $data)      = explode(',', $data);
-					$data = base64_decode($data);
-
-					$render_image = imagecreatefromstring($data);
-					imagesavealpha($render_image, true);
-					imagepng($render_image, $assetsdir);
-				}
-
 				return ["error" => false, "id" => $place_result['id']];
 			}
 		}
@@ -977,18 +965,6 @@
 				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
-
-				if(!file_exists($assetsdir) && $user->IsAdmin()) {
-					$render = TheFuckingRenderer::RenderModel($place_id);
-					$data = "data:image/png;base64,$render";
-					list($type, $data) = explode(';', $data);
-					list(, $data)      = explode(',', $data);
-					$data = base64_decode($data);
-
-					$render_image = imagecreatefromstring($data);
-					imagesavealpha($render_image, true);
-					imagepng($render_image, $assetsdir);
-				}
 
 				return ["error" => false, "id" => $place_result['id']];
 			}
