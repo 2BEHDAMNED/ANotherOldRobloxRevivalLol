@@ -92,7 +92,11 @@ ANORRL.PlaceLauncher  = {
 		//serversContainer.attr("hidden", "true");
 
 		serversContainer.children().each(function() {
-			$(this).remove();
+			if($(this).attr("id") != "NoGamesWarning") {
+				$(this).remove();
+			} else {
+				$(this).css("display", "none")
+			}
 		});
 
 		$.get("/api/gameservers", {placeId: placeid}, function(data) {
@@ -100,6 +104,7 @@ ANORRL.PlaceLauncher  = {
 			var servers = data;
 
 			if(servers.length == 0) {
+				$("#NoGamesWarning").css("display", "block");
 			} else {
 
 				for (var key in servers) {
