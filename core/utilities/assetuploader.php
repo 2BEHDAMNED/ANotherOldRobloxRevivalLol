@@ -872,7 +872,7 @@
 				$stmt_addplace->bind_param('iii', $place_id, $place_copylocked, $server_size);
 				$stmt_addplace->execute();
 
-				if(!file_exists($assetsdir) && $user->IsAdmin()) {
+				if(!file_exists($assetsdir)) {
 					$render = TheFuckingRenderer::RenderPlace($place_id);
 					$data = "data:image/png;base64,$render";
 					list($type, $data) = explode(';', $data);
