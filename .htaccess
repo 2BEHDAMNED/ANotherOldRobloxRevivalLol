@@ -148,6 +148,8 @@
 
 	RewriteRule ^game/PlaceLauncher.ashx?$ /core/gamescripts/placelauncher.php [END]
 	RewriteRule ^Game/PlaceLauncher.ashx?$ /core/gamescripts/placelauncher.php [END]
+	RewriteRule ^game/PlaceLauncher.ashx/?$ /core/gamescripts/placelauncher.php [END]
+	RewriteRule ^Game/PlaceLauncher.ashx/?$ /core/gamescripts/placelauncher.php [END]
 	
 	RewriteRule ^game/([0-9]+)$ /place.php?name=a&id=$1 [END]
 	RewriteRule ^Game/([0-9]+)$ /place.php?name=a&id=$1 [END]
