@@ -52,6 +52,7 @@
 			if($place != null) {
 
 				if(isUserInAGame($user->id)) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 					$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
 					$stmt_createnewsession->bind_param("i", $playerID);
 					$stmt_createnewsession->execute();
