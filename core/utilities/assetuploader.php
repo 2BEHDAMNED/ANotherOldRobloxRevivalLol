@@ -925,6 +925,10 @@
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
 
+				if(!file_exists($assetsdir) && $user->IsAdmin()) {
+					$render = TheFuckingRenderer::RenderModel($place_id);
+				}
+
 				return ["error" => false, "id" => $place_result['id']];
 			}
 		}
@@ -965,6 +969,10 @@
 				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
+
+				if(!file_exists($assetsdir) && $user->IsAdmin()) {
+					$render = TheFuckingRenderer::RenderModel($place_id);
+				}
 
 				return ["error" => false, "id" => $place_result['id']];
 			}
