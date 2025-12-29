@@ -51,31 +51,27 @@
 
 			if($place != null) {
 
-				if(!isUserInAGame($user->id)) {
-					$server = getAnActiveServer($place->id);
-
-					if($server != null) {
-						$sessionID = getRandomString();
-						$serverID = $server['server_id'];
-						$playerID = $user->id;
-						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
-						$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
-						$stmt_createnewsession->execute();
-
-						die($sessionID);
-					} else {
-						$sessionID = getRandomString();
-						$serverID = strval($place->id);
-						$playerID = $user->id;
-						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
-						$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
-						$stmt_createnewsession->execute();
-
-						die($sessionID);
-					}
+				if(isUserInAGame($user->id)) {
+					$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
+					$stmt_createnewsession->bind_param("i", $playerID);
+					$stmt_createnewsession->execute();
 				}
+
+				$server = getAnActiveServer($place->id);
+
+				if($server != null) {
+					$serverID = $server['server_id'];
+				} else {
+					$serverID = strval($place->id);
+				}
+				$sessionID = getRandomString();
+				$playerID = $user->id;
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
+				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
+				$stmt_createnewsession->execute();
+
+				die($sessionID);
 
 			}
 
