@@ -604,7 +604,7 @@
 
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::TSHIRT->ordinal();
-					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, 'none', 0, ?, ?, ?)");
+					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
 					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $decal_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
