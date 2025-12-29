@@ -60,7 +60,7 @@
 						$sessionID = getRandomString();
 						$serverID = strval($place->id);
 						$playerID = $user->id;
-
+						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
 						$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 						$stmt_createnewsession->execute();
