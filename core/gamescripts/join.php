@@ -96,7 +96,7 @@
 <?php else: ?>
 {
 	"ClientPort":0,
-	"MachineAddress":"192.168.0.104",
+	"MachineAddress":"g3d.gurdit.com",
 	"ServerPort":{serverport},
 	"PingUrl":"",
 	"PingInterval":120,
