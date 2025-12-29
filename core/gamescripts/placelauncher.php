@@ -153,14 +153,14 @@
 						$job = new Roblox\Grid\Rcc\Job($jobId);
 						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId."-GameScript",
 						<<<EOT
-						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "&access=$access")
+						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
 						EOT);
 						$base64data = $rcc->OpenJob($job, $script);
 						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
 
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_placeid`, `server_playercount`, `server_maxcount`, `server_port`) VALUES (?,?,0,?,?)");
-						$stmt_createnewserver->bind_param("siis", $serverid, $placeId, $place->server_size, $strPort);
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_playercount`, `server_maxcount`, `server_port`) VALUES (?,?,0,?,?)");
+						$stmt_createnewserver->bind_param("siis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
 						$stmt_createnewserver->execute();
 
 						updatePlaceOfSession($sessionToken, $serverid);

@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-local placeId, port, url, access = ...
+local placeId, port, url, access, jobID = ...
 
 ------------------- UTILITY FUNCTIONS --------------------------
 
@@ -72,6 +72,8 @@ settings().Diagnostics.LuaRamLimit = 0
 --settings().Network.SendRate = 35
 --settings().Network.PhysicsSend = 0  -- 1==RoundRobin
 
+local shouldCountDown = true
+local countdownTimer = 60
 
 game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
@@ -81,7 +83,7 @@ game:GetService("Players").PlayerRemoving:connect(function(player)
 	print("Player " .. player.userId .. " leaving")
 
 	if #game:GetService("Players"):GetPlayers() == 0 then
-		game:Shutdown()
+		game:HttpGet(url .. "/api/a_gameservers/close?jobID="..jobID .. "&access="..access)
 	end
 end)
 
@@ -90,17 +92,14 @@ if placeId~=nil and url~=nil then
 	wait()
 	
 	-- load the game
-	game:Load(url .. "/asset/?id=" .. placeId .. access)
+	game:Load(url .. "/asset/?id=" .. placeId .. "&access=" .. access)
 end
 
 -- Now start the connection
 ns:Start(port) 
 
-
 scriptContext:SetTimeout(10)
 scriptContext.ScriptsDisabled = false
-
-
 
 ------------------------------END START GAME SHARED SCRIPT--------------------------
 
@@ -108,6 +107,21 @@ scriptContext.ScriptsDisabled = false
 
 -- StartGame -- 
 game:GetService("RunService"):Run()
+
+while wait(1) do
+	if shouldCountDown then
+		countdownTimer = countdownTimer - 1
+
+		if shouldCountDown and countdownTimer <= 0 then
+			game:HttpGet(url .. "/api/a_gameservers/close?jobID="..jobID .. "&access="..access)
+			ns:Stop()
+			game:GetService("RunService"):Stop()
+			break
+		end
+	else
+		break
+	end
+end
 <?php
 	 function get_signature($script)
     {

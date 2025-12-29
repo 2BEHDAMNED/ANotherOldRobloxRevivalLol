@@ -129,7 +129,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/create.js"></script>
+		<script src="/js/create.js?t=<?= time() ?>"></script>
 		<style>
 			#StuffContainer #StuffNavigation {
 				border-right: none;
