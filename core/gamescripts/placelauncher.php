@@ -105,14 +105,38 @@
 		return null;
 	}
 
+	function getServerDetails(string $serverID): array|null {
+		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_servers` WHERE `server_id` = ?");
+		$stmt_getsessiondetails->bind_param("s", $serverID);
+		$stmt_getsessiondetails->execute();
+
+		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
+
+		if($result_getsessiondetails->num_rows != 0) {
+			return $result_getsessiondetails->fetch_assoc();
+		}
+
+		return null;
+	}
+
 	if(isset($_GET['sessionID'])) {
 
 		$sessionToken = $_GET['sessionID'];
 		$session_data = getSessionDetails($sessionToken);
 
 		if($session_data != null) {
+
 			
-			$place = Place::FromID(intval($session_data['session_serverid']));
+			if(intval($session_data['session_serverid']) == 0) {
+				$server_details = getServerDetails($session_data['session_serverid']);
+				$place = Place::FromID(intval($server_details['server_placeid']));
+
+			} else {
+				$place = Place::FromID(intval($session_data['session_serverid']));
+			}
+			
 			$user = User::FromID(intval($session_data['session_playerid']));
 
 			if($place != null && $user != null && !$user->IsBanned()) {
