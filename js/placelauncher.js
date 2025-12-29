@@ -36,7 +36,7 @@ if (!Object.keys) {
 ANORRL.PlaceLauncher  = {
 	CurrentlyLoadingCrapBruh: false,
 	LetsJoinAndPlay: function(placeId) {
-		$.post("/api/ticketer", {placeId: placeId}, function(data) {
+		$.post("/api/ticketer", {placeID: placeId}, function(data) {
 			alert("Launching!");
 			window.open("anorrl-player-lambda://1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionToken="+data+"+placeid:"+placeId+"+launchmode:play+gameinfo:0");
 		});
