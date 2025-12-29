@@ -79,6 +79,10 @@ end)
 
 game:GetService("Players").PlayerRemoving:connect(function(player)
 	print("Player " .. player.userId .. " leaving")
+
+	if #game:GetService("Players"):GetPlayers() == 0 then
+		game:Shutdown()
+	end
 end)
 
 if placeId~=nil and url~=nil then

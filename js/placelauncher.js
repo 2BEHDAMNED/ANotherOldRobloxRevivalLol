@@ -37,12 +37,11 @@ ANORRL.PlaceLauncher  = {
 	CurrentlyLoadingCrapBruh: false,
 	LetsJoinAndPlay: function(placeId) {
 		$.post("/api/ticketer", {placeID: placeId}, function(data) {
-			alert("Launching!");
 			window.open("anorrl-player-lambda:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID="+data+"+placeid:"+placeId+"+launchmode:play+gameinfo:0");
 		});
 	},
 	
-	CreateServerElement: function(serverId, currentPlayersCount, maxPlayersCount) {
+	CreateServerElement: function(placeID, serverId, currentPlayersCount, maxPlayersCount) {
 		var table = $("<table><tr></tr></table>");
 		table.addClass("Server");
 
@@ -62,14 +61,10 @@ ANORRL.PlaceLauncher  = {
 
 		var joinButton = $("<button>Join Server</button>");
 
-		var joinLink = "";
-
-		$.post("/api/ticketer", {serverId: serverId}, function(data) {
-			joinLink = data;
-		});
-
 		joinButton.on("click", function() {
-			alert("yeah yeah SOON!");
+			$.post("/api/ticketer", {serverID: serverId}, function(data) {
+				window.open("anorrl-player-lambda:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID="+data+"+placeid:"+placeId+"+launchmode:play+gameinfo:0");
+			});
 		});
 
 		joinArea.append(joinButton);

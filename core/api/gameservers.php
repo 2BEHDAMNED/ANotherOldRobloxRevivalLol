@@ -42,7 +42,6 @@
 
 					array_push($data, [
 						"id" => $server_row['server_id'],
-						"port" => $server_row['server_port'],
 						"year" => $server_row['server_year'],
 						"playercount" => $server_row['server_playercount'],
 						"maxplayercount" => $server_row['server_maxcount'],
