@@ -85,8 +85,6 @@ game:GetService("Players").PlayerRemoving:connect(function(player)
 
 	if #game:GetService("Players"):GetPlayers() == 0 then
 		print("CLOSING THE SERVER.")
-		ns:Stop()
-		game:GetService("RunService"):Stop()
 		game:HttpGet(url .. "/api/a_gameservers/close?jobID="..jobID .. "&access="..access)
 	end
 end)
@@ -118,8 +116,6 @@ while wait(1) do
 
 		if shouldCountDown and countdownTimer <= 0 then
 			print("CLOSING THE SERVER.")
-			ns:Stop()
-			game:GetService("RunService"):Stop()
 			game:HttpGet(url .. "/api/a_gameservers/close?jobID="..jobID .. "&access="..access)
 			break
 		end
