@@ -196,6 +196,10 @@
 				game:GetService("ScriptContext").ScriptsDisabled = true
 
 				game:Load("http://$domain/asset/?id=$id&access=$access&time=$time")
+
+				for _, v in pairs(game:GetService("StarterGui"):GetChildren()) do
+					v:Remove()
+				end
 				
 				return (game:GetService("ThumbnailGenerator"):Click("PNG", 768, 432, false))
 				EOT;
