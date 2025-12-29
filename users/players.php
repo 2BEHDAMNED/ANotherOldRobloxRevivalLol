@@ -1,1 +1,1 @@
-{"ChatFilter":"Unfiltered"}
+{"ChatFilter":"Filtered"}
