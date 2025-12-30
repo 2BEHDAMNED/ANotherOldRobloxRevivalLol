@@ -225,7 +225,8 @@
 			$dont_catalog_ever = [
 				"/api/",
 				"/core/",
-				"/Admin/"
+				"/Admin/",
+				"/core/gamescripts/"
 			];
 
 			if($user != null) {

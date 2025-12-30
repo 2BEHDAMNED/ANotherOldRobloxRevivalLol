@@ -21,11 +21,11 @@
 
 	header("Content-Type: application/json");
 
-	function getRandomString(): string {
+	function getRandomString(int $length = 11): string {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$randomString = '';
 		
-		for ($i = 0; $i < 11; $i++) {
+		for ($i = 0; $i < $length; $i++) {
 			$index = rand(0, strlen($characters) - 1);
 			$randomString .= $characters[$index];
 		}
@@ -121,7 +121,108 @@
 		return null;
 	}
 
-	if(isset($_GET['sessionID'])) {
+	//
+	// request=RequestGame
+	// placeId=1818
+	// isPartyLeader=false
+	// gender=
+	// isTeleport=false
+
+	if(
+		isset($_GET['request']) &&
+		isset($_GET['placeId']) &&
+		isset($_GET['isPartyLeader']) &&
+		isset($_GET['gender']) &&
+		isset($_GET['isTeleport']) &&
+		$_GET['request'] == "RequestGame" &&
+		$_GET['gender'] == ""
+	) {
+		$place = Place::FromID(intval($_GET['placeId']));
+		$user = UserUtils::RetrieveUser();
+
+		if($place != null && $user != null) {
+			$playerID = $user->id;
+			if(isUserInAGame($user->id)) {
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
+				$stmt_createnewsession->bind_param("i", $playerID);
+				$stmt_createnewsession->execute();
+			}
+
+			$server = getAnActiveServer($place->id);
+
+			if($server != null) {
+				$serverID = $server['server_id'];
+			} else {
+				$serverID = strval($place->id);
+			}
+			$sessionID = getRandomString(25);
+			
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
+			$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
+			$stmt_createnewsession->execute();
+
+			$dont_load = false;
+			if(getActiveServersCount($place->id) == 0) {
+				try {
+					$serverid = getRandomString();
+					$placeId = $place->id;
+					$port = rand(50000, 60000);
+					$strPort = strval($port);
+
+					$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+					$jobId = md5(rand());
+					$job = new Roblox\Grid\Rcc\Job($jobId);
+					$script = new Roblox\Grid\Rcc\ScriptExecution($jobId."-GameScript",
+					<<<EOT
+					loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
+					EOT);
+					$base64data = $rcc->OpenJob($job, $script);
+					$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
+
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`) VALUES (?,?,?,?,?)");
+					$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
+					$stmt_createnewserver->execute();
+
+					updatePlaceOfSession($sessionID, $serverid);
+
+				} catch(SoapFault $e) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ?;");
+					$stmt_createnewserver->bind_param("s", $sessionID);
+					$stmt_createnewserver->execute();
+					die(json_encode([
+						"error" => "Wow so much errors!"
+					]));
+				}
+			} else {
+				$server_data = getAnActiveServer($place->id);
+
+				if($server_data != null) {
+					$serverid = $server_data['server_id'];
+				} else {
+					$dont_load = true;
+				}
+			}
+
+			if(!$dont_load) {
+				$jobIDThingy = md5(rand());
+				die(json_encode(
+					[
+						"jobId" => "$jobIDThingy",
+						"status" => 2,
+						"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken",
+						"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
+						"authenticationTicket" => "$sessionID",
+						"message" => "HELLOOOOOOOO!!!!!"
+					]
+				));
+			}
+
+		}
+	} else if(isset($_GET['sessionID'])) {
 
 		$sessionToken = $_GET['sessionID'];
 		$session_data = getSessionDetails($sessionToken);
