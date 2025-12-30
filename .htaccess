@@ -91,7 +91,7 @@
 	
 	
 	
-	RewriteRule ^inbox$ /mobile/inbox.php							  [END]
+	RewriteRule ^inbox /mobile/inbox.php							  [END]
 	RewriteRule ^home$ /mobile/home.php							  [END]
 	RewriteRule ^mobile/games$ /mobile/games.php							  [END]
 	
