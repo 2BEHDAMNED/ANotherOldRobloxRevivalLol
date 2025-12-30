@@ -174,7 +174,7 @@
 					$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
 					$jobId = md5(rand());
 					$job = new Roblox\Grid\Rcc\Job($jobId);
-					$script = new Roblox\Grid\Rcc\ScriptExecution($jobId."-GameScript",
+					$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
 					<<<EOT
 					loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
 					EOT);
@@ -252,7 +252,7 @@
 						$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
 						$jobId = md5(rand());
 						$job = new Roblox\Grid\Rcc\Job($jobId);
-						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId."-GameScript",
+						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
 						<<<EOT
 						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
 						EOT);

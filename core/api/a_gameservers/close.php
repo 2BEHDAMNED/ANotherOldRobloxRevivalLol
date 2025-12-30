@@ -14,10 +14,10 @@
 	if(isset($_GET['access']) && isset($_GET['jobID'])) {
 		if($_GET['access'] == $access) {
 			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
-			$rcc->CloseJob(trim($_GET['jobID'])."-GameScript");
+			$rcc->CloseJob(trim($_GET['jobID']));
 
 			$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
-			$rcc2->closeJob(trim($_GET['jobID'])."-GameScript");
+			$rcc2->closeJob(trim($_GET['jobID']));
 
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
