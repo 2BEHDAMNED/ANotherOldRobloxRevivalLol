@@ -93,6 +93,8 @@
 	
 	RewriteRule ^inbox /mobile/inbox.php							  [END]
 	RewriteRule ^home$ /mobile/home.php							  [END]
+	RewriteRule ^mobile-app-upgrades/native-ios/bc$ /mobile/nocurrencylol.php							  [END]
+	RewriteRule ^mobile-app-upgrades/native-ios/robux$ /mobile/nocurrencylol.php							  [END]
 	RewriteRule ^mobile/games$ /mobile/games.php							  [END]
 	
 	RewriteRule ^mobileapi/(.*)/$ /core/api/mobile/$1.php							  [END]
