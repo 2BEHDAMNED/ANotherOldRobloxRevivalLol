@@ -89,6 +89,7 @@
 	RewriteRule ^Game/logout.aspx$ /api/logout.php							  [END]
 	RewriteRule ^api/(.*)$ /core/api/$1.php							  [END]
 	RewriteRule ^mobileapi/(.*)$ /core/api/mobile/$1.php							  [END]
+	RewriteRule ^mobileapi/(.*)/$ /core/api/mobile/$1.php							  [END]
 
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
