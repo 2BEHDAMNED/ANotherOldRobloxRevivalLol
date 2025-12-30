@@ -17,8 +17,6 @@
 	RewriteRule ^Game/players/([0-9]+)/$ /users/players.php?userId=$1  [END]
 	RewriteRule ^game/players/([0-9]+)/$ /users/players.php?userId=$1  [END]
 
-#/game/players/156
-
 	RewriteRule ^asset/?$ /core/utilities/assetdeliverer.php			  [END]
 	RewriteRule ^Asset/?$ /core/utilities/assetdeliverer.php 			  [END]
 	
@@ -96,6 +94,7 @@
 	RewriteRule ^mobile-app-upgrades/native-ios/bc$ /mobile/nocurrencylol.php							  [END]
 	RewriteRule ^mobile-app-upgrades/native-ios/robux$ /mobile/nocurrencylol.php							  [END]
 	RewriteRule ^mobile/games$ /mobile/games.php							  [END]
+	RewriteRule ^mobile/games/$ /mobile/games.php							  [END]
 	
 	RewriteRule ^mobileapi/(.*)/$ /core/api/mobile/$1.php							  [END]
 	RewriteRule ^mobileapi/(.*)$ /core/api/mobile/$1.php							  [END]
