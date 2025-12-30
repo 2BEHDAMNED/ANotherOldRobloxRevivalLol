@@ -322,7 +322,7 @@
 				$stmt->execute();
 
 				if(!file_exists($assetsdir)) {
-					$render = TheFuckingRenderer::RenderPlace($id);
+					$render = TheFuckingRenderer::RenderPlace($place_id);
 					$data = "data:image/png;base64,$render";
 					list($type, $data) = explode(';', $data);
 					list(, $data)      = explode(',', $data);
@@ -925,7 +925,7 @@
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
 
-				if(!file_exists($assetsdir) && $user->IsAdmin()) {
+				if(!file_exists($assetsdir)) {
 					$render = TheFuckingRenderer::RenderModel($place_id);
 				}
 
@@ -970,7 +970,7 @@
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
 
-				if(!file_exists($assetsdir) && $user->IsAdmin()) {
+				if(!file_exists($assetsdir)) {
 					$render = TheFuckingRenderer::RenderModel($place_id);
 				}
 

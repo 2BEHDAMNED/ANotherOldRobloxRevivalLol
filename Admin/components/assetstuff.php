@@ -77,6 +77,8 @@
 						$render = TheFuckingRenderer::RenderMesh($id);
 					} else if($type == AssetType::MODEL || $type == AssetType::HAT) {
 						$render = TheFuckingRenderer::RenderModel($id);
+					} else if($type == AssetType::TORSO) {
+						$render = TheFuckingRenderer::RenderPlayer($id);
 					}
 
 					$data = base64_decode($render);
