@@ -88,7 +88,13 @@
 	RewriteRule ^game/logout.aspx$ /api/logout.php							  [END]
 	RewriteRule ^Game/logout.aspx$ /api/logout.php							  [END]
 	RewriteRule ^api/(.*)$ /core/api/$1.php							  [END]
-	RewriteRule ^mobile/(.*)$ /mobile/$1.php							  [END]
+	
+	
+	
+	RewriteRule ^inbox$ /mobile/inbox.php							  [END]
+	RewriteRule ^home$ /mobile/home.php							  [END]
+	RewriteRule ^mobile/games$ /mobile/games.php							  [END]
+	
 	RewriteRule ^mobileapi/(.*)/$ /core/api/mobile/$1.php							  [END]
 	RewriteRule ^mobileapi/(.*)$ /core/api/mobile/$1.php							  [END]
 	
