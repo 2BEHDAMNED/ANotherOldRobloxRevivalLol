@@ -77,6 +77,7 @@ local countdownTimer = 60
 
 game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
+	shouldCountDown = false
 end)
 
 game:GetService("Players").PlayerRemoving:connect(function(player)
