@@ -72,6 +72,7 @@ $rendering_types = [
 	AssetType::MESH,
 	AssetType::HEAD,
 	AssetType::PACKAGE,
+	AssetType::TORSO,
 	AssetType::LEFTARM,
 	AssetType::RIGHTARM,
 	AssetType::LEFTLEG,
