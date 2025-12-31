@@ -189,13 +189,12 @@
 
 		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? ORDER BY `asset_lastedited` LIMIT ?, ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 ORDER BY `asset_lastedited` LIMIT ?, ?");
 			
 			$page = (($pagenum-1)*$count);
 			$q = "%$query%";
 			$ordinal = $type->ordinal();
-			$new_count = $count + 1;
-			$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $new_count);
+			$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $count);
 			$stmt_getuser->execute();
 
 			$result = $stmt_getuser->get_result();
@@ -224,7 +223,7 @@
 
 		public static function GetAssetsOfType(string $query, AssetType $type) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1");
 			
 			$q = "%$query%";
 			$ordinal = $type->ordinal();
