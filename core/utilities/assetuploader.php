@@ -310,18 +310,18 @@
 			if($place_result['error']) {
 				return $place_result;
 			} else {
-
-				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-
 				$directory = $_SERVER['DOCUMENT_ROOT'];
 				$md5hashfile = md5($place_data);
 				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
-
-				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
-				$stmt->bind_param('si', $md5hashfile, $place_result['versionid']);
-				$stmt->execute();
-
+				
 				if(!file_exists($assetsdir)) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
+					$stmt->bind_param('si', $md5hashfile, $place_result['versionid']);
+					$stmt->execute();
+
+				
 					$render = TheFuckingRenderer::RenderPlace($place_id);
 					$data = "data:image/png;base64,$render";
 					list($type, $data) = explode(';', $data);
