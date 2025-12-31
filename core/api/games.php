@@ -73,7 +73,7 @@
 
 			$total_pages = floor((count(Asset::GetAssetsOfType($query, AssetType::PLACE))/9) + 0.5)+1;
 
-			if(count(Asset::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9)) == 0) {
+			if(count(Asset::GetAssetsOfTypePaged($query, AssetType::PLACE, $page+1, 9)) == 0) {
 				$total_pages--;
 			}
 
