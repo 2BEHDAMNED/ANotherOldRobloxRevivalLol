@@ -1,7 +1,10 @@
 <?php
 header('Content-type: application/json');
-$assetid = (int)$_GET['productId'] ?? (int)$_GET['assetId'];
-if(!$assetid){
+if(isset($_GET['productId'])) {
+	$assetid = intval($_GET['productId']);
+} else if(isset($_GET['assetId'])) {
+	$assetid = intval($_GET['assetId']);
+} else {
 	die();
 }
 ?>
