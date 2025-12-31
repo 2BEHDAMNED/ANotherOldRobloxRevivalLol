@@ -83,9 +83,9 @@
 	RewriteRule ^places/([0-9]+)/settings /core/places/settings.php?placeId=$1 [END]
 	RewriteRule ^universes/get-info$ /core/universes/get-info.php [END]
 	RewriteRule ^universes/validate-place-join$ /core/universes/validate-place-join.php [END]
-
-	RewriteRule ^game/logout.aspx$ /api/logout.php							  [END]
-	RewriteRule ^Game/logout.aspx$ /api/logout.php							  [END]
+	
+	RewriteRule ^game/logout.aspx$ /core/api/logout.php							  [END]
+	RewriteRule ^Game/logout.aspx$ /core/api/logout.php							  [END]
 	RewriteRule ^api/(.*)$ /core/api/$1.php							  [END]
 	
 	
