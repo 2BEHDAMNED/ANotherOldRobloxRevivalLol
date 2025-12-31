@@ -9,7 +9,7 @@
 		if($place != null && $user != null) {
 			die(json_encode([
 				"Success" => true,
-				"CanManage" => $place->creator->id == $user->id 
+				"CanManage" => $place->creator->id == $user->id || $user->IsAdmin() 
 			]));
 		}
 		
