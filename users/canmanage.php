@@ -3,10 +3,16 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 	if(isset($_GET['userId']) && isset($_GET['placeId'])) {
-		die(json_encode([
-			"Success" => true,
-			"CanManage" => true 
-		]));
+		$user = User::FromID(intval($_GET['userId']));
+		$place = Place::FromID(intval($_GET['placeId']));
+
+		if($place != null && $user != null) {
+			die(json_encode([
+				"Success" => true,
+				"CanManage" => $place->creator->id == $user->id 
+			]));
+		}
+		
 	}
 
 	die(json_encode([
