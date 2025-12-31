@@ -28,9 +28,13 @@
 
 		if($page < 1) {
 			die(header("Location: /api/catalog?c=$type&q=$query&p=1"));
-		}		
+		}
 
-		$total_pages = floor(count(Asset::GetAssetsOfType($query, $asset_type))/12)+1;
+		$total_pages = floor((count(Asset::GetAssetsOfType($query, $asset_type))/12) + 0.5)+1;
+
+		if(count(Asset::GetAssetsOfTypePaged($query, $asset_type, $page+1, 12)) == 0) {
+			$total_pages--;
+		}
 
 		if($total_pages < $page) {
 			die(header("Location: /api/stuff?c=$type&q=$query&p=1"));

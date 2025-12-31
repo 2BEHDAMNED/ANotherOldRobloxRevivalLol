@@ -152,7 +152,7 @@
 							</table>
 							
 							<div id="Paginator" style="display: block;">
-								<a id="BackPager" href="javascript:ANORRL.Catalog.PrevPage()" style="display: none;">&lt;&lt; Back</a> <input type="text" id="NumberPutter" maxlength="3"> of <span id="Counter">1</span> <a id="NextPager" href="javascript:ANORRL.Catalog.NextPage()" style="display: none;">Next &gt;&gt;</a>
+								<a id="PrevPager" href="javascript:ANORRL.Catalog.PrevPage()" style="display: none;">&lt;&lt; Back</a> <input type="text" id="NumberPutter" maxlength="3"> of <span id="Counter">1</span> <a id="NextPager" href="javascript:ANORRL.Catalog.NextPage()" style="display: none;">Next &gt;&gt;</a>
 							</div>
 						</div>
 						<br style="display:block; clear: both;">
