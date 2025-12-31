@@ -194,7 +194,8 @@
 			$page = (($pagenum-1)*$count);
 			$q = "%$query%";
 			$ordinal = $type->ordinal();
-			$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $count+1);
+			$new_count = $count + 1;
+			$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $new_count);
 			$stmt_getuser->execute();
 
 			$result = $stmt_getuser->get_result();
