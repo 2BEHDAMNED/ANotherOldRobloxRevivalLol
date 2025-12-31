@@ -78,6 +78,22 @@ local countdownTimer = 60
 game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
 	shouldCountDown = false
+
+	player.Chatted:connect(function(msg)
+		if msg == "arbys chibken" and player.Character ~= nil and player:FindFirstChild("Humanoid") and player:FindFirstChild("Humanoid").Health > 0 then
+			local sound = Instance.new("Sound")
+			sound.SoundId = "rbxasset://327"
+			sound.Volume = 0.5
+
+			sound.Ended:connect(function()
+				if player.Character ~= nil and player:FindFirstChild("Humanoid") and player:FindFirstChild("Humanoid").Health > 0 then
+					Instance.new("Explosion", player.Character)
+				end
+			end)
+
+			sound:Play()
+		end
+	end)
 end)
 
 game:GetService("Players").PlayerRemoving:connect(function(player)
