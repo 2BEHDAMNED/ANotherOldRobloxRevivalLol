@@ -91,6 +91,8 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 				end
 			end)
 
+			sound.Parent = player.Character
+
 			sound:Play()
 		end
 	end)
