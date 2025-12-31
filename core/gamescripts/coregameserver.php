@@ -80,20 +80,33 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 	shouldCountDown = false
 
 	player.Chatted:connect(function(msg)
-		if msg == "arbys chibken" and player.Character ~= nil and player:FindFirstChild("Humanoid") and player:FindFirstChild("Humanoid").Health > 0 then
+		print(msg)
+		if msg == "arbys chibken" then
 			local sound = Instance.new("Sound")
-			sound.SoundId = "rbxasset://327"
+			sound.SoundId = "rbxassetid://327"
 			sound.Volume = 0.5
-
-			sound.Ended:connect(function()
-				if player.Character ~= nil and player:FindFirstChild("Humanoid") and player:FindFirstChild("Humanoid").Health > 0 then
-					Instance.new("Explosion", player.Character)
-				end
-			end)
 
 			sound.Parent = player.Character
 
 			sound:Play()
+
+			wait(2)
+			local explosion = Instance.new("Explosion")
+			explosion.Position = player.Character.Torso.Position
+			explosion.Parent = player.Character.Torso
+		end
+		if msg == "/e californiagurls" then
+			local sound = Instance.new("Sound")
+			sound.SoundId = "rbxassetid://329"
+			sound.Volume = 0.5
+			sound.MaxDistance = 25
+			sound.Parent = player.Character
+			sound.Looped = true
+			sound:Play()
+
+			while wait(0.01) do
+				print(player.Character.Humanoid.MoveDirection)
+			end
 		end
 	end)
 end)
