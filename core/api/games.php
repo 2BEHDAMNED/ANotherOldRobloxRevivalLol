@@ -77,7 +77,7 @@
 				$total_pages--;
 			}
 
-			if($total_pages < $page) {
+			if($total_pages < $page && $total_pages != $page) {
 				die(header("Location: /api/games?q=$query&p=1"));
 			}
 
