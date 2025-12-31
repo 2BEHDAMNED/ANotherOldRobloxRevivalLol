@@ -157,7 +157,7 @@ ANORRL.Catalog  = {
 				}
 
 				pagercontainer.find("input").val(current_page);
-				pagercontainer.find("#Pages").html(total_pages);
+				pagercontainer.find("#Counter").html(total_pages);
 			}
 
 			ANORRL.Catalog.CurrentlyLoadingCrapBruh = false;
