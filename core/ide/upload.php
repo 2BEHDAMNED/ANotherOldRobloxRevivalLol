@@ -99,7 +99,7 @@
 				}
 
 			} else {
-				$asset = Asset::FromID($assetid);
+				$asset = Asset::FromID(intval($assetid));
 
 				$recieveddata = file_get_contents("php://input");
 				//echo "parsed:".$recieveddata;

@@ -322,7 +322,7 @@
 					$stmt->execute();
 
 				
-					$render = TheFuckingRenderer::RenderPlace($place_id);
+					$render = TheFuckingRenderer::RenderPlace($id);
 					$data = "data:image/png;base64,$render";
 					list($type, $data) = explode(';', $data);
 					list(, $data)      = explode(',', $data);
