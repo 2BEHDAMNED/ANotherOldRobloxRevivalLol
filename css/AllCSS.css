@@ -1206,6 +1206,13 @@ h1, h2, h3, h4 {
 	display:block;
 }
 
+#GamesContainer #Games .Game #Info > a {
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 #GamesContainer #Games .Game #Info > span {
 	color: lightgray;
 }
