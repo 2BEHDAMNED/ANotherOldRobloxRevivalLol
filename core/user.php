@@ -746,9 +746,61 @@
 			return $activity_result->num_rows != 0;
 		}
 
+		private function getUserGameDetails(): array|null {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+			$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_players` WHERE `session_playerid` = ? AND `session_status` = 1;");
+			$stmt_getsessiondetails->bind_param("i", $this->id);
+			$stmt_getsessiondetails->execute();
+
+			$result_getsessiondetails = $stmt_getsessiondetails->get_result();
+
+			if($result_getsessiondetails->num_rows == 1) {
+				return $result_getsessiondetails->fetch_assoc();
+			}
+
+			return null;
+		}
+
+		private function getServerDetails(string $serverID): array|null {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+			$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_servers` WHERE `server_id` = ?");
+			$stmt_getsessiondetails->bind_param("s", $serverID);
+			$stmt_getsessiondetails->execute();
+
+			$result_getsessiondetails = $stmt_getsessiondetails->get_result();
+
+			if($result_getsessiondetails->num_rows != 0) {
+				return $result_getsessiondetails->fetch_assoc();
+			}
+
+			return null;
+		}
+
 		function GetOnlineActivity(): string {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			
+			$userGameDetails = $this->getUserGameDetails();
+
+			if($userGameDetails != null) {
+				$server_details = getServerDetails($userGameDetails['session_serverid']);
+
+				if($server_details != null) {
+					$place = Place::FromID(intval($server_details['server_placeid']));
+
+					if($place != null) {
+						$place_stubname = $place->GetURLTitle();
+						$place_name = $place->name;
+						$place_id = $place->id;
+
+						return <<<EOT
+						Playing: <a href="/$place_stubname-place?id=$place_id">$place_name</a>
+						EOT;
+					}
+				}
+			}
+
 			$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ? AND `action_time` > DATE_SUB(NOW(),INTERVAL 5 MINUTE)');
 			$stmt_user_status_check->bind_param('i', $this->id);
 			$stmt_user_status_check->execute();
@@ -757,6 +809,8 @@
 			if($activity_result->num_rows != 0) {
 				return $activity_result->fetch_assoc()['action'];
 			}
+
+			
 
 			return "Offline";
 		}
