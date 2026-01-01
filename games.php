@@ -16,7 +16,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/games.js"></script>
+		<script src="/js/games.js?t=<?= time() ?>"></script>
 	</head>
 	<body>
 		<div class="Game" template>
@@ -29,7 +29,7 @@
 				<hr style="border: none; margin: 2px">
 				
 				<span>By <a href="" id="GameCreator">creator</a></span>
-				<span>Cool stats I think</span>
+				<b><span id="ActivePlayerCount">0</span> Players online...</b>
 			</div>
 		</div>
 		<div id="Container">

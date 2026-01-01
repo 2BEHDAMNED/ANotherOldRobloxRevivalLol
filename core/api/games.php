@@ -51,7 +51,7 @@
 				die(header("Location: /api/games?q=$query&p=1"));
 			}
 
-			$retrievedassets = Asset::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9);
+			$retrievedassets = Place::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9);
 
 			$assets = [];
 
@@ -65,15 +65,16 @@
 								"name" => $asset->creator->name
 							],
 							"name" => $asset->name,
-							"favourites" => $asset->favourites_count
+							"favourites" => $asset->favourites_count,
+							"activeplayercount" => $asset->current_playing_count
 						]);
 					}
 				}
 			}
 
-			$total_pages = floor((count(Asset::GetAssetsOfType($query, AssetType::PLACE))/9) + 0.5)+1;
+			$total_pages = floor((count(Place::GetAssetsOfType($query, AssetType::PLACE))/9) + 0.5)+1;
 
-			if(count(Asset::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9)) == 0) {
+			if(count(Place::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9)) == 0) {
 				$total_pages--;
 			}
 
@@ -93,7 +94,7 @@
 					"place" => [
 						"id" => $place->id,
 						"name" => $place->name,
-						"description" => $place->description
+						"description" => $place->description,
 					]
 				]
 			));

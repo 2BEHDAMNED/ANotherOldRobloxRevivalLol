@@ -20,9 +20,11 @@
 
 				$data = [];
 
+				$concurrentplayers = 0;
+
 				while($server_row = $result_checkserver->fetch_assoc()) {
 
-					$stmt_checkplayersfromserver = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ?;");
+					$stmt_checkplayersfromserver = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ? AND `session_status` = 1;");
 					$stmt_checkplayersfromserver->bind_param("s", $server_row['server_id']);
 					$stmt_checkplayersfromserver->execute();
 
@@ -40,14 +42,19 @@
 						}
 					}
 
+					$concurrentplayers += count($players);
+
 					array_push($data, [
 						"id" => $server_row['server_id'],
-						"year" => $server_row['server_year'],
 						"playercount" => $server_row['server_playercount'],
 						"maxplayercount" => $server_row['server_maxcount'],
 						"players" => $players
 					]);
 				}
+
+				$stmt_updateplayercount = $con->prepare("UPDATE `asset_places` SET `place_currently_playing` = ? WHERE `place_id` = ?");
+				$stmt_updateplayercount->bind_param("i", $place->id);
+				$stmt_updateplayercount->execute();
 
 				die(json_encode($data));
 			}

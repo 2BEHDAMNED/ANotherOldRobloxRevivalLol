@@ -103,6 +103,7 @@ ANORRL.Games = {
 
 					template.find("#GameCreator").html(asset['creator']['name']);
 					template.find("#GameCreator").attr("href", "/users/"+asset['creator']['id']+"/profile");
+					template.find("#ActivePlayerCount").html(asset['activeplayercount']);
 
 					template.attr("data-placeid", asset['id']);
 
