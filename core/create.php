@@ -44,59 +44,62 @@
 					isset($_POST ['ANORRL$CreateAsset$Description']) &&
 					isset($_FILES['ANORRL$CreateAsset$File'])) {
 
+					$result = null;
 					$name = trim($_POST['ANORRL$CreateAsset$Name']);
-
+					
 					if(strlen(trim($name)) <= 0) {
 						$result = ['error' => true, 'reason' => "You need to enter a name doofus!"];
 					}
 
 					$description = trim($_POST['ANORRL$CreateAsset$Description']);
 					
-					if($type == "images") {
-						if($user->IsAdmin()) {
-							$result = AssetUploader::UploadImage($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else {
-							$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-						}
-						
-					} else if($type == "lua") {
-						if($user->IsAdmin()) {
-							$result = AssetUploader::UploadLua($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else {
-							$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-						}
-						
-					} else if($type == "decals") {
-						$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-					} else if($type == "audio") {
-						$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-					} else if($type == "tshirts") {
-						$result = AssetUploader::UploadTShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-					} else if($type == "faces") {
-						$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true);
-					} else if($type == "shirts") {
-						$result = AssetUploader::UploadShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-					} else if($type == "pants") {
-						$result = AssetUploader::UploadPants($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-					} else if($type == "meshes") {
-						$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-					} else if($type == "places") {
-						$result = AssetUploader::UploadPlace($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-					} else if($type == "models") {
-						$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-					} else if($type == "hats") {
-						/*if($user->IsAdmin()) {
-						} else {
-							$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-						}*/
+					if($result == null) {
+						if($type == "images") {
+							if($user->IsAdmin()) {
+								$result = AssetUploader::UploadImage($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							} else {
+								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
+							}
+							
+						} else if($type == "lua") {
+							if($user->IsAdmin()) {
+								$result = AssetUploader::UploadLua($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							} else {
+								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
+							}
+							
+						} else if($type == "decals") {
+							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else if($type == "audio") {
+							$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else if($type == "tshirts") {
+							$result = AssetUploader::UploadTShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else if($type == "faces") {
+							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true);
+						} else if($type == "shirts") {
+							$result = AssetUploader::UploadShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else if($type == "pants") {
+							$result = AssetUploader::UploadPants($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else if($type == "meshes") {
+							$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else if($type == "places") {
+							$result = AssetUploader::UploadPlace($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else if($type == "models") {
+							$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+						} else if($type == "hats") {
+							/*if($user->IsAdmin()) {
+							} else {
+								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
+							}*/
 
-						$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
-						
-					} else if($type == "animations") {
-						$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						
-					} else {
-						die("type found but not handled...");
+							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
+							
+						} else if($type == "animations") {
+							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							
+						} else {
+							die("type found but not handled...");
+						}
 					}
 
 					if(isset($result)) {
