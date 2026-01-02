@@ -9,9 +9,7 @@ require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 $asset = Asset::FromID($id);
 $user = UserUtils::RetrieveUser();
 
-if($user == null) {
-	die(header("Location: /"));
-}
+
 
 if($asset != null) {
 
@@ -42,10 +40,12 @@ if($asset != null) {
 		$audio_asset_id = $stmt->get_result()->fetch_assoc()['asset_id'];
 	}
 
-	$is_creator = ($user != null && ($user->id == $asset->creator->id || $user->IsAdmin()));
-	$is_favourited = $user != null && $asset->HasUserFavourited($user);
+	if($user != null){
+		$is_creator = ($user != null && ($user->id == $asset->creator->id || $user->IsAdmin()));
+		$is_favourited = $user != null && $asset->HasUserFavourited($user);
 
-	$user_bought = $user != null && $user->Owns($asset);
+		$user_bought = $user != null && $user->Owns($asset);
+	}
 
 	$favourites_count = $asset->favourites_count . " times";
 	if($asset->favourites_count == 1) {
@@ -91,6 +91,13 @@ $header_data = $asset;
 		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
 
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="ANORRL">
+		<meta property="og:description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>">
+		<meta property="og:url" content="https://arl.lambda.cam/<?= $asset->GetURLTitle()?>-item?id=<?= $asset->id ?>">
+		<meta property="og:site_name" content="ANORRL">
+		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>"/></style>
+		<?php if($user == null) { die(); } ?>
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js?t=<?= time() ?>"></script>
@@ -427,7 +434,7 @@ $header_data = $asset;
 							</div>
 						</div>
 
-						<!--<div id="CommentsContainer">
+						<div id="CommentsContainer">
 							<h3>Comments</h3>
 							<div id="CommentSection">
 								<?php if($asset->comments_enabled): ?>
@@ -436,7 +443,7 @@ $header_data = $asset;
 								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
 								<?php endif ?>
 							</div>
-						</div>-->
+						</div>
 					</div>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>

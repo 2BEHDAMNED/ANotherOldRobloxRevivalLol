@@ -161,8 +161,6 @@ scriptContext.ScriptsDisabled = false
 
 ------------------------------END START GAME SHARED SCRIPT--------------------------
 
-
-
 -- StartGame -- 
 game:GetService("RunService"):Run()
 

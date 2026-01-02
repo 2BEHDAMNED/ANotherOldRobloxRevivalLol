@@ -8,10 +8,6 @@ require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 $user = UserUtils::RetrieveUser();
 
-if($user == null) {
-	die(header("Location: /"));
-}
-
 $asset = Place::FromID($id);
 
 if($asset != null) {
@@ -21,11 +17,12 @@ if($asset != null) {
 		die(header("Location: /$urlname-place?id=$id"));
 	}
 
-	$is_creator = ($user != null && $user->id == $asset->creator->id) || ($user != null && $user->IsAdmin());
-	$is_favourited = $user != null && $asset->HasUserFavourited($user);
+	if($user != null) {
+		$is_creator = ($user != null && $user->id == $asset->creator->id) || ($user != null && $user->IsAdmin());
+		$is_favourited = $user != null && $asset->HasUserFavourited($user);
 
-	$user_bought = $user != null && $user->Owns($asset);
-
+		$user_bought = $user != null && $user->Owns($asset);
+	}
 	$favourites_count = $asset->favourites_count . " times";
 	if($asset->favourites_count == 1) {
 		$favourites_count = $asset->favourites_count . " time";
@@ -60,9 +57,16 @@ $header_data = $asset;
 		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
 
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="ANORRL">
+		<meta property="og:description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>">
+		<meta property="og:url" content="https://arl.lambda.cam/<?= $asset->GetURLTitle()?>-item?id=<?= $asset->id ?>">
+		<meta property="og:site_name" content="ANORRL">
+		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>"/></style>
+		<?php if($user == null) { die(); } ?>
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/item.js"></script>
+		<script src="/js/item.js?t=<?= time() ?>"></script>
 		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
 		<style>
 			h1, h2, h3, h4 {
