@@ -74,12 +74,17 @@
 					}
 				}
 			}
+			
+			if(count(Place::GetAll($query)) <= 9) {
+				$total_pages = floor((count(Place::GetAll($query))/9) + 0.5);
 
-			$total_pages = floor((count(Place::GetAll($query))/9) + 0.5);
-
-			if(count(Place::GetAllPaged($query, $total_pages, 9)) == 0) {
-				$total_pages--;
+				if(count(Place::GetAllPaged($query, $total_pages, 9)) == 0) {
+					$total_pages--;
+				}
+			} else {
+				$total_pages = 1;
 			}
+			
 
 			if($total_pages < $page && $total_pages != $page && $page != 1) {
 				die(header("Location: /api/games?q=$query&p=1"));
