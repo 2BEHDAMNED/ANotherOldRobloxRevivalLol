@@ -376,8 +376,9 @@
 									<?php if($user != null): ?>
 										<?php if($user->id != $get_user->id): ?>
 											<button style="margin-top: 4px;width: 107px;">Add Friend</button> <button style="margin-top: 4px;width: 70px;margin-left: 2px;">Follow</button><br>
+										<?php else: ?>
+										<button style="width: 74px;margin-top: 4px;">It's you.</button>
 										<?php endif ?>
-										<button style="width: 74px;margin-top: 4px;">Message</button>
 									<?php endif ?>
 								</div>
 							</div>
