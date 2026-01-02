@@ -46,6 +46,11 @@
 		AssetType::LUA
 	];
 
+	function CheckMimeType($contents) {
+		$file_info = new finfo(FILEINFO_MIME_TYPE);
+		return $file_info->buffer($contents);
+	} 
+
 	if(isset($_POST['ANORRL$EditItem$Name']) &&
 	   isset($_POST['ANORRL$EditItem$Description'])) {
 
@@ -82,6 +87,24 @@
 				$stmt = $con->prepare('UPDATE `asset_places` SET `place_copylocked` = ?, `place_serversize` = ?  WHERE `place_id` = ?;');
 				$stmt->bind_param('iii', $copylocked, $server_size, $id);
 				$stmt->execute();
+
+				if(isset($_FILES['ANORRL$EditItem$Place$ThumbnailFile'])) {
+					$file = $_FILES['ANORRL$EditItem$Place$ThumbnailFile'];
+					
+					if($file['error'] == 0 && $file['size'] <= 5242880) {
+						$contents = file_get_contents($file['tmp_name']);
+						$type = CheckMimeType($contents);
+
+						if(str_starts_with($type,"image/")) {
+							$image = imagecreatefromstring($contents);
+							imagesavealpha($image, true);
+
+							if(imagesx($image) > 128 && imagesy($image) > 96) {
+								imagepng($image, $_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id");
+							}
+						}
+					}
+				}
 			}
 
 			die(header("Location: /".$asset->GetURLTitle()."-item?id=$id"));
@@ -98,7 +121,7 @@
 				$result = AssetUploader::UpdateMesh($asset->id, $_FILES['ANORRL$PublishAsset$File']);
 			} else if($asset->type == AssetType::PLACE) {
 				$result = AssetUploader::UpdatePlace($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			}  else {
+			} else {
 				die("Type was recognised but not implemented...");
 			}
 			
@@ -227,7 +250,7 @@
 					<div id="EditContainer">
 						<h2>Editing: <?= $asset->name ?></h2>
 						<div id="ItemDetails">
-							<form method="POST">
+							<form method="POST" enctype="multipart/form-data">
 								<div id="DetailStack">
 									<h4>Information</h4>
 									<table>
@@ -262,7 +285,10 @@
 											<td>Copylocked</td>
 											<td><input type="checkbox" name="ANORRL$EditItem$Place$Copylocked" <?php if($asset->copylocked): ?>checked<?php endif ?>></td>
 										</tr>
-										
+										<tr>
+											<td>Thumbnail!</td>
+											<td><label for="files" style="width: 72px;margin: 0;display: inline;">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$EditItem$Place$ThumbnailFile" accept="image/*"><label id="filename" >No file chosen</label></td>
+										</tr>
 									</table>
 								</div>
 								<?php endif ?>
