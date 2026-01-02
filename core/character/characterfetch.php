@@ -14,18 +14,5 @@ if($user == null) {
     $userId = 1;
 }
 
-$getwearing = $user->GetWearingArray();
-
-$parsedshit= "";
-
-foreach($getwearing as $id) {
-    $parsedshit .= ";http://arl.lambda.cam/asset/?id=$id";
-}
-
-if(str_ends_with($parsedshit, ";")) {
-    $parsedshit = substr($parsedshit, 0, strlen($parsedshit)-1);
-}
-
-echo "http://arl.lambda.cam/Asset/BodyColors.ashx?userId=$userId$parsedshit";
-
+die($user->GetCharacterAppearance());
 endif ?>

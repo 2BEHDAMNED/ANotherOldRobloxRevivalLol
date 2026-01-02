@@ -483,6 +483,55 @@
 			return ["error" => false];
 		}
 
+		function GetBodyColoursXML() {
+			$colours = $this->GetBodyColours();
+			$headcolour = $colours['head'];
+			$rightarmcolour = $colours['rightarm'];
+			$leftlegcolour = $colours['leftleg'];
+			$leftarmcolour = $colours['leftarm'];
+			$rightlegcolour = $colours['rightleg'];
+			$torsocolour = $colours['torso'];
+
+return <<<EOT
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://rbx.lambda.cam/roblox.xsd" version="4">
+	<External>null</External>
+	<External>nil</External>
+	<Item class="BodyColors" referent="RBXCCC36C132C584B37B29DB69EAE48292A">
+		<Properties>
+			<int name="HeadColor">$headcolour</int>
+			<int name="LeftArmColor">$rightarmcolour</int>
+			<int name="LeftLegColor">$leftlegcolour</int>
+			<string name="Name">Body Colors</string>
+			<int name="RightArmColor">$leftarmcolour</int>
+			<int name="RightLegColor">$rightlegcolour</int>
+			<int name="TorsoColor">$torsocolour</int>
+		</Properties>
+	</Item>
+</roblox>
+EOT;
+		}
+
+		function GetCharacterAppearance(): string {
+			$getwearing = $this->GetWearingArray();
+
+			$userId = $this->id;
+			$parsedshit= "";
+
+			foreach($getwearing as $id) {
+				$parsedshit .= ";http://arl.lambda.cam/asset/?id=$id";
+			}
+
+			if(str_ends_with($parsedshit, ";")) {
+				$parsedshit = substr($parsedshit, 0, strlen($parsedshit)-1);
+			}
+
+			return "http://arl.lambda.cam/Asset/BodyColors.ashx?userId=$userId$parsedshit";
+		}
+
+		function GetCharacterAppearanceHash() {
+			$bodycoloursxml = $this->GetBodyColoursXML();
+		}
+
 		function GetWearingArray() {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 

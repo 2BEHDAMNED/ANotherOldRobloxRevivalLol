@@ -26,7 +26,7 @@
 					<p>So much malware!!!!!!!!!!</p>
 
 					<p>Anyways here's the client here: <a href="ANORRLPlayerLauncher.exe">Download</a></p>
-					<!--<p>Here's the studio here: <a href="ANORRLStudioLauncher.exe">Download</a></p>-->
+					<p>Here's the studio here: <a href="ANORRLStudioLauncher.exe">Download</a></p>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 			</div>
