@@ -53,7 +53,8 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/user.js"></script>
+		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
+		<script src="/js/user.js?t=<?= time() ?>"></script>
 		<script>
 			$(function(){
 				ANORRL.User.GrabFeed(<?= $get_user->id ?>);
@@ -438,7 +439,7 @@
 									<td id="ShowcaseBigImages">
 										<div id="NameAndCreator"><a href="" id="Name">Game Name</a></div>
 										<img src="">
-										<a id="Play" href=""></a>
+										<a id="Play" href="javascript:ANORRL.User.JoinTheGame()" data-placeid=""></a>
 									</td>
 									<td id="ShowcaseDetails">
 										<code>
