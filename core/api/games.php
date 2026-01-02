@@ -75,7 +75,7 @@
 				}
 			}
 
-			$total_pages = floor((count(Place::GetAssetsOfType($query, AssetType::PLACE))/9) + 0.5);
+			$total_pages = floor((count(Place::GetAll($query))/9) + 0.5);
 
 			if(count(Place::GetAllPaged($query, $total_pages, 9)) == 0) {
 				$total_pages--;
