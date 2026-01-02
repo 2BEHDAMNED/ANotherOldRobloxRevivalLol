@@ -504,7 +504,7 @@
 
 				if($result->num_rows != 0) {
 					while($row = $result->fetch_assoc()) {
-						$asset = Place::FromID($row['asset_id']);
+						$asset = Place::FromID($row['place_id']);
 
 						if(!$asset->notcatalogueable && $asset->public) {
 							array_push($result_array, $asset);
@@ -556,7 +556,7 @@
 
 				if($result->num_rows != 0) {
 					while($row = $result->fetch_assoc()) {
-						$asset = Place::FromID($row['asset_id']);
+						$asset = Place::FromID($row['place_id']);
 						if(!$asset->notcatalogueable && $asset->public) {
 							array_push($result_array, $asset);
 						}

@@ -102,6 +102,36 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 				explosion.Parent = player.Character.Torso
 			end
 		end
+
+		--[[
+			if msg == "arbys chibken" then
+					local sound = Instance.new("Sound")
+					sound.SoundId = "rbxassetid://327"
+					sound.Volume = 0.5
+
+					sound.Parent = player.Character
+
+					sound:Play()
+
+					wait(2)
+					local explosion = Instance.new("Explosion")
+					explosion.Position = player.Character.Torso.Position
+					explosion.Parent = player.Character.Torso
+			end
+			if msg == "/e californiagurls" then
+					local sound = Instance.new("Sound")
+					sound.SoundId = "rbxassetid://329"
+					sound.Volume = 0.5
+					sound.MaxDistance = 25
+					sound.Parent = player.Character
+					sound.Looped = true
+					sound:Play()
+
+					player.Character.Humanoid.Running:connect(function()
+							sound:Remove()
+					end)
+			end
+		]]
 	end)
 end)
 
