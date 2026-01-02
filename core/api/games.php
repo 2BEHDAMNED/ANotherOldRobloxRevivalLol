@@ -81,7 +81,7 @@
 				$total_pages--;
 			}
 
-			if($total_pages < $page && $total_pages != $page) {
+			if($total_pages < $page && $total_pages != $page && $page != 1) {
 				die(header("Location: /api/games?q=$query&p=1"));
 			}
 
@@ -90,17 +90,26 @@
 			$placeid = intval($_GET['placeid']);
 
 			$place = Place::FromID($placeid);
-
-			die(json_encode(
-				[
-					"error" => false,
-					"place" => [
-						"id" => $place->id,
-						"name" => $place->name,
-						"description" => $place->description,
+			if($place == null) {
+				die(json_encode(
+					[
+						"error" => true
 					]
-				]
-			));
+				));
+			} else {
+				die(json_encode(
+					[
+						"error" => false,
+						"place" => [
+							"id" => $place->id,
+							"name" => $place->name,
+							"description" => $place->description,
+						]
+					]
+				));
+			}
+
+			
 		}
 
 	} else {
