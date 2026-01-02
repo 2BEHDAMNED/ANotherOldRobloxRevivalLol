@@ -58,11 +58,11 @@ $header_data = $asset;
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
 
 		<meta property="og:type" content="website">
-		<meta property="og:title" content="ANORRL">
+		<meta property="og:title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta property="og:description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>">
 		<meta property="og:url" content="https://arl.lambda.cam/<?= $asset->GetURLTitle()?>-place?id=<?= $asset->id ?>">
 		<meta property="og:site_name" content="ANORRL">
-		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>"/></style>
+		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>"/>
 		<?php if($user == null) { die(); } ?>
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
