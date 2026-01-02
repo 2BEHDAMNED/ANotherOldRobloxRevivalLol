@@ -22,7 +22,7 @@
 				<div id="BodyContainer">
 					<div id="IntroductionBox">
 						<h2 style="width: -moz-available;">What is ANORRL?</h2>
-						<p><b>ANORRL</b> is a 2013 "Old Roblox Revival" which aims to bring a fresh new look at the past!</p>
+						<p><b>ANORRL</b> is a 2016 "Old Roblox Revival" which aims to bring a fresh new look at the past!</p>
 						<p><b>ANORRL</b> stands for <code>"<b>AN</b>other <b>O</b>ld <b>R</b>oblox <b>R</b>evival <b>L</b>ol"</code></p>
 						<div style="margin-left: 5px;">
 							<h3 style="width: -moz-available;">So what is a "Old Roblox Revival"</h3>
@@ -30,6 +30,9 @@
 								It is a project that aims to recreate and bring life into relatively old clients that ROBLOX has created in the past.<br>
 								<b>Please note that</b>: These revivals do tend to be private (along with this one) as to ensure the maximum security because not only are These
 								clients old, they are also insecure!
+							</p>
+							<p>
+								However, note that this <i>IS</i> a <b>friends-only</b> revival. The clients you see here were built by me!!!! (So you can trust it I think!)
 							</p>
 						</div>
 						
