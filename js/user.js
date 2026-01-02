@@ -24,7 +24,7 @@ ANORRL.User = {
 				$("#NameAndCreator > a").html(place['name']);
 				$("#NameAndCreator > a").attr("href","/game/"+place['id']);
 				$("#ShowcaseBigImages > img").attr("src", "/thumbs/?id="+place['id']+"&sx=300&sy=169");
-				$("a#Play").attr("data-placeid", place['id']);
+				$("a#Play").attr("data-placejoinid", place['id']);
 
 				if(place['description'].trim() == "") {
 					$("#ShowcaseDetails > code").html("<b>No description provided...</b>");
@@ -38,7 +38,7 @@ ANORRL.User = {
 		//
 	},
 	JoinTheGame: function() {
-		ANORRL.PlaceLauncher.LetsJoinAndPlay($("a#Play").attr("data-placeid"));
+		ANORRL.PlaceLauncher.LetsJoinAndPlay($("a#Play").attr("data-placejoinid"));
 	}
 }
 

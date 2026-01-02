@@ -439,7 +439,7 @@
 									<td id="ShowcaseBigImages">
 										<div id="NameAndCreator"><a href="" id="Name">Game Name</a></div>
 										<img src="">
-										<a id="Play" href="javascript:ANORRL.User.JoinTheGame()" data-placeid=""></a>
+										<a id="Play" href="javascript:ANORRL.User.JoinTheGame()" data-placejoinid=""></a>
 									</td>
 									<td id="ShowcaseDetails">
 										<code>
