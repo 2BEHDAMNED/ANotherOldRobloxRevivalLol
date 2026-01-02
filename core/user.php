@@ -784,7 +784,7 @@
 			$userGameDetails = $this->getUserGameDetails();
 
 			if($userGameDetails != null) {
-				$server_details = getServerDetails($userGameDetails['session_serverid']);
+				$server_details = $this->getServerDetails($userGameDetails['session_serverid']);
 
 				if($server_details != null) {
 					$place = Place::FromID(intval($server_details['server_placeid']));
