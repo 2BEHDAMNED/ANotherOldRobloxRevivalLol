@@ -423,11 +423,11 @@
 							$stmt_replaceitem->execute();
 						}
 					} else {
-						$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ? AND `inv_assettype` = ?;");
+						/*$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ? AND `inv_assettype` = ?;");
 						$stmt_checkinventory->bind_param('ii', $this->id, $assettype);
 						$stmt_checkinventory->execute();
 
-						/*if($stmt_checkinventory->get_result()->num_rows < $theabsolutelimit) {
+						if($stmt_checkinventory->get_result()->num_rows < $theabsolutelimit) {
 							
 						} else {
 							return ["error" => true, "reason" => "Too many fucking ".strtolower($item->type->label())."s on"];
