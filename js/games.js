@@ -104,9 +104,14 @@ ANORRL.Games = {
 					template.find("#GameCreator").html(asset['creator']['name']);
 					template.find("#GameCreator").attr("href", "/users/"+asset['creator']['id']+"/profile");
 					template.find("#ActivePlayerCount").html(asset['activeplayercount']);
+					template.find("#VisitCount").html(asset['visitcount']);
 
 					if(asset['activeplayercount'] == 1) {
-						template.find("#Plural").remove();
+						template.find("#ActivePlayerCountLabel #Plural").remove();
+					}
+
+					if(asset['visitcount'] == 1) {
+						template.find("#VisitCountLabel #Plural").remove();
 					}
 
 					template.attr("data-placeid", asset['id']);

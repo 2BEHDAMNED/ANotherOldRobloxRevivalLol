@@ -500,7 +500,7 @@
 		
 		public static function GetAllPaged(string $query, int $pagenum, int $count) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 AND assets.asset_name LIKE ? ORDER BY `place_currently_playing` DESC, `asset_lastedited` DESC LIMIT ?, ?");
+			$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 AND assets.asset_name LIKE ? ORDER BY `place_currently_playing` DESC, `asset_lastedited` DESC, `place_visit_count` DESC LIMIT ?, ?");
 			$page = (($pagenum-1)*$count);
 			$q = "%$query%";
 			$stmt_getuser->bind_param('sii', $q, $page, $count);
@@ -528,7 +528,7 @@
 		public static function GetAll(string $query) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 
-			$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 AND assets.asset_name LIKE ? ORDER BY `place_currently_playing` DESC, `asset_lastedited` DESC;");
+			$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 AND assets.asset_name LIKE ? ORDER BY `place_currently_playing` DESC, `asset_lastedited` DESC, `place_visit_count` DESC;");
 			
 			$q = "%$query%";
 			$stmt_getuser->bind_param('s', $q);

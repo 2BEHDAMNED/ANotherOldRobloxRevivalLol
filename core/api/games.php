@@ -68,7 +68,8 @@
 							],
 							"name" => $asset->name,
 							"favourites" => $asset->favourites_count,
-							"activeplayercount" => $asset->current_playing_count
+							"activeplayercount" => $asset->current_playing_count,
+							"visitcount" => $place->visit_count
 						]);
 					}
 				}
