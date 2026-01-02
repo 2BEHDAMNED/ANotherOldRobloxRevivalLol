@@ -91,7 +91,6 @@
 							} else {
 								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
 							}*/
-
 							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
 							
 						} else if($type == "animations") {
