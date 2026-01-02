@@ -60,7 +60,7 @@ $header_data = $asset;
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="ANORRL">
 		<meta property="og:description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>">
-		<meta property="og:url" content="https://arl.lambda.cam/<?= $asset->GetURLTitle()?>-item?id=<?= $asset->id ?>">
+		<meta property="og:url" content="https://arl.lambda.cam/<?= $asset->GetURLTitle()?>-place?id=<?= $asset->id ?>">
 		<meta property="og:site_name" content="ANORRL">
 		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>"/></style>
 		<?php if($user == null) { die(); } ?>
