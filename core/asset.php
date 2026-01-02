@@ -493,7 +493,7 @@
 					return $result_array;
 				}
 			} else {
-				$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id ORDER BY `place_currently_playing` DESC, `asset_lastedited` DESC LIMIT ?, ?");
+				$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 ORDER BY `place_currently_playing` DESC, `asset_lastedited` DESC LIMIT ?, ?");
 				$page = (($pagenum-1)*$count);
 				$stmt_getuser->bind_param('ii', $page, $count);
 				$stmt_getuser->execute();
@@ -547,7 +547,7 @@
 					return $result_array;
 				}
 			} else {
-				$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id ORDER BY `place_currently_playing` DESC, `asset_lastedited` DESC;");
+				$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 ORDER BY `place_currently_playing` DESC, `asset_lastedited` DESC;");
 				$stmt_getuser->execute();
 
 				$result = $stmt_getuser->get_result();
