@@ -105,6 +105,10 @@ ANORRL.Games = {
 					template.find("#GameCreator").attr("href", "/users/"+asset['creator']['id']+"/profile");
 					template.find("#ActivePlayerCount").html(asset['activeplayercount']);
 
+					if(asset['activeplayercount'] == 1) {
+						template.find("#Plural").remove();
+					}
+
 					template.attr("data-placeid", asset['id']);
 
 					gamescontainer.append(template);

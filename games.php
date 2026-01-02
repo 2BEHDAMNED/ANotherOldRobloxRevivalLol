@@ -29,7 +29,7 @@
 				<hr style="border: none; margin: 2px">
 				
 				<span>By <a href="" id="GameCreator">creator</a></span>
-				<b><span id="ActivePlayerCount">0</span> Players online...</b>
+				<span style="font-weight: bold;letter-spacing: 1px;"><b id="ActivePlayerCount" style="letter-spacing: 0;">10</b> Player<span id="Plural">s</span> online...</span>
 			</div>
 		</div>
 		<div id="Container">

@@ -53,7 +53,7 @@
 				die(header("Location: /api/games?q=$query&p=1"));
 			}
 
-			$retrievedassets = Place::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9);
+			$retrievedassets = Place::GetAllPaged($query, $page, 9);
 
 			$assets = [];
 
@@ -76,7 +76,7 @@
 
 			$total_pages = floor((count(Place::GetAssetsOfType($query, AssetType::PLACE))/9) + 0.5);
 
-			if(count(Place::GetAssetsOfTypePaged($query, AssetType::PLACE, $page, 9)) == 0) {
+			if(count(Place::GetAllPaged($query, $total_pages, 9)) == 0) {
 				$total_pages--;
 			}
 
