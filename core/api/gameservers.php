@@ -53,7 +53,7 @@
 				}
 
 				$stmt_updateplayercount = $con->prepare("UPDATE `asset_places` SET `place_currently_playing` = ? WHERE `place_id` = ?");
-				$stmt_updateplayercount->bind_param("i", $place->id);
+				$stmt_updateplayercount->bind_param("ii", $concurrentplayers, $place->id);
 				$stmt_updateplayercount->execute();
 
 				die(json_encode($data));
