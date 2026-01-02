@@ -153,7 +153,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/edit.js"></script>
+		<script src="/js/edit.js?t=<?= time() ?>"></script>
 		<style>
 
 			h1, h2, h3, h4 {
@@ -291,7 +291,7 @@
 										</tr>
 										<tr>
 											<td>Thumbnail!</td>
-											<td><label for="files" style="width: 72px;margin: 0;display: inline;">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$EditItem$Place$ThumbnailFile" accept="image/*"><label id="filename" >No file chosen</label></td>
+											<td><label for="thumbfiles" style="width: 72px;margin: 0;display: inline;">Choose file</label><input id="thumbfiles" style="display:none;" type="file"  name="ANORRL$EditItem$Place$ThumbnailFile" accept="image/*"><label id="thumbfilename" >No file chosen</label></td>
 										</tr>
 									</table>
 								</div>

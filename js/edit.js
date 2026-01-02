@@ -19,6 +19,11 @@ $(function() {
 		ANORRL.EditItem.ShowPricingArea($(this).is(":checked"));
 	});
 
+	$("#thumbfiles").change(function() {
+		filename = this.files[0].name;
+		$("#thumbfilename").html(filename);
+	});
+
 	$("#files").change(function() {
 		filename = this.files[0].name;
 		$("#filename").html(filename);
