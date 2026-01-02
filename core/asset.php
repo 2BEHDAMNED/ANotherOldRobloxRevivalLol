@@ -563,9 +563,9 @@
 		}
 
 		function Visit(User|int $user) {
-			$user_id = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$user_id = $user->id;
+				$userid = $user->id;
 			}
 
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
