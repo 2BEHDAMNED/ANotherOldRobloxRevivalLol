@@ -124,7 +124,19 @@
 		 * @return void
 		 */
 		function GetOwnedGames(): array {
-			return [];
+			return $this->GetAllOwnedAssetsOfType(AssetType::PLACE);
+		}
+
+		function GiveProfileBadge(ANORRLBadges $badge): void {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `profilebadges` WHERE `badge_id` = ? AND `badge_userid` = ?");
+			$ordinal = $badge->ordinal();
+			$stmt->bind_param('ii', $ordinal, $this->id);
+			$stmt->execute();
+
+			if($stmt->get_result()->num_rows == 0) {
+				// something
+			}
 		}
 
 		function HasProfileBadgeOf(ANORRLBadges $badge): bool {
@@ -375,7 +387,7 @@
 
 		function Wear(Asset|int $asset): array {
 
-			$theabsolutelimit = 3;
+			$theabsolutelimit = 5;
 
 			$assetid = $asset;
 			if($asset instanceof Asset) {
@@ -415,14 +427,16 @@
 						$stmt_checkinventory->bind_param('ii', $this->id, $assettype);
 						$stmt_checkinventory->execute();
 
-						if($stmt_checkinventory->get_result()->num_rows < $theabsolutelimit) {
-							$stmt_additem = $con->prepare("INSERT INTO `inventory`(`inv_userid`, `inv_assetid`, `inv_assettype`) VALUES (?, ?, ?)");
-							$assettype = $item->type->ordinal();
-							$stmt_additem->bind_param('iii', $this->id, $assetid, $assettype);
-							$stmt_additem->execute();
+						/*if($stmt_checkinventory->get_result()->num_rows < $theabsolutelimit) {
+							
 						} else {
 							return ["error" => true, "reason" => "Too many fucking ".strtolower($item->type->label())."s on"];
-						}
+						}*/
+
+						$stmt_additem = $con->prepare("INSERT INTO `inventory`(`inv_userid`, `inv_assetid`, `inv_assettype`) VALUES (?, ?, ?)");
+						$assettype = $item->type->ordinal();
+						$stmt_additem->bind_param('iii', $this->id, $assetid, $assettype);
+						$stmt_additem->execute();
 					}
 				} else {
 					return ["error" => true, "reason" => "Invalid item"];

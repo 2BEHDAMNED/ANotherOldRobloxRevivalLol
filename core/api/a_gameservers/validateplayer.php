@@ -31,21 +31,26 @@
 			$user = User::FromID(intval($_GET['userID']));
 
 			if($server_details != null && $user != null) {
-				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-				$stmt_checkplayer = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ? AND `session_playerid` = ?;");
-				$stmt_checkplayer->bind_param("si", $server_details['server_id'], $user->id);
-				$stmt_checkplayer->execute();
-
-				$result_checkplayer = $stmt_checkplayer->get_result();
-
-				if($result_checkplayer->num_rows != 0) {
-					$stmt_checkplayer = $con->prepare("UPDATE `active_players` SET `session_status` = 1 WHERE `session_serverid` = ? AND `session_playerid` = ?;");
+				$place = Place::FromID(intval($server_details['server_placeid']));
+				if($place != null) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					$stmt_checkplayer = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ? AND `session_playerid` = ?;");
 					$stmt_checkplayer->bind_param("si", $server_details['server_id'], $user->id);
+					$stmt_checkplayer->execute();
 
-					if($stmt_checkplayer->execute()) {
-						echo "OK";
+					$result_checkplayer = $stmt_checkplayer->get_result();
+
+					if($result_checkplayer->num_rows != 0) {
+						$stmt_checkplayer = $con->prepare("UPDATE `active_players` SET `session_status` = 1 WHERE `session_serverid` = ? AND `session_playerid` = ?;");
+						$stmt_checkplayer->bind_param("si", $server_details['server_id'], $user->id);
+
+						if($stmt_checkplayer->execute()) {
+							$place->Visit($user);
+							echo "OK";
+						}
 					}
 				}
+				
 			}
 			
 		}

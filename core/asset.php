@@ -563,10 +563,51 @@
 		}
 
 		function Visit(User|int $user) {
+			$user_id = $user;
+			if($user instanceof User) {
+				$user_id = $user->id;
+			}
 
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+
+			$placeid = $this->id;
+
+			$stmt_checkvisit = $con->prepare('SELECT * FROM `visit` WHERE `visit_place` = ? AND `visit_player` = ? AND `visit_time` >= CURDATE() - INTERVAL 1 HOUR;');
+			$stmt_checkvisit->bind_param('ii', $placeid, $userid);
+			$stmt_checkvisit->execute();
+
+			if($stmt_checkvisit->get_result()->num_rows == 0) {
+				$stmt_addvisit = $con->prepare('INSERT INTO `visit`(`visit_place`, `visit_player`) VALUES (?, ?)');
+				$stmt_addvisit->bind_param('ii', $placeid, $userid);
+				$stmt_addvisit->execute();
+
+				// Update
+
+				$stmt_visitcount = $con->prepare('SELECT * FROM `visit` WHERE `visit_place` = ?;');
+				$stmt_visitcount->bind_param('i', $placeid);
+				$stmt_visitcount->execute();
+	
+				$visits = $stmt_visitcount->get_result()->num_rows;
+
+				/*if($visits > 100 && !Asset::FromID($placeid)->creator->HasProfileBadgeOf(User::BADGE_HOMESTEAD)) {
+					Asset::FromID($placeid)->creator->GiveProfileBadge(User::BADGE_HOMESTEAD);
+				}
+
+				if($visits > 1000 && !Asset::FromID($placeid)->creator->HasProfileBadgeOf(User::BADGE_BRICKSMITH)) {
+					Asset::FromID($placeid)->creator->GiveProfileBadge(User::BADGE_BRICKSMITH);
+				}*/
+	
+				$stmt = $con->prepare('UPDATE `asset_places` SET `place_visit_count` = ? WHERE `place_id` = ?;');
+				$stmt->bind_param('ii', $visits, $placeid);
+				$stmt->execute();
+			}
 		}
-		function GetBadges() {}
-		function GetGamepasses() {}
+		function GetBadges(): array {
+			return [];
+		}
+		function GetGamepasses(): array {
+			return [];
+		}
 	}
 	class AssetVersion {
 
