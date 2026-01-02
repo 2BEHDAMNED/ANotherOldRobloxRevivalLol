@@ -100,6 +100,10 @@
 							imagesavealpha($image, true);
 
 							if(imagesx($image) > 128 && imagesy($image) > 96) {
+								if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id")) {
+									unlink($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id");
+								}
+
 								imagepng($image, $_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id");
 							}
 						}
