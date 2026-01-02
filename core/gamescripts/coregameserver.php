@@ -150,7 +150,7 @@ if placeId~=nil and url~=nil then
 	wait()
 	
 	-- load the game
-	game:Load(url .. "/asset/?id=" .. placeId .. "&access=" .. access)
+	game:Load(url .. "/asset/?id=" .. placeId .. "&access=" .. access .. "&t=<?= time() ?>")
 end
 
 -- Now start the connection
