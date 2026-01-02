@@ -331,9 +331,7 @@
 				text-align: center;
 				margin-left: 10px;
 				height: 195px;
-				overflow: hidden;
 				background: #0f0f0f;
-				overflow-y: scroll;
 			}
 
 			#PopularGames img {
@@ -449,7 +447,7 @@
 								</table>
 							</td>
 							<td id="PopularGames">
-								<div style="height: 265px;overflow-y: scroll;width:244px;padding: 9px;">
+								<div style="height: 265px;overflow-x: hidden;overflow-y: scroll;width:244px;padding: 9px;">
 									<?php
 										foreach($games as $game) {
 											$game_id = $game->id;
