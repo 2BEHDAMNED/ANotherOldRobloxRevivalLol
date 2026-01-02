@@ -34,6 +34,8 @@
 		return $string ? implode(', ', $string) . ' ago' : 'just now';
 	}
 
+	Place::UpdateAllPlaces();
+
 	if($user != null) {
 		if(!isset($_GET['placeid'])) {
 			$page = 1;

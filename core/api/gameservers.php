@@ -3,7 +3,7 @@
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+	include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
 	$user = UserUtils::RetrieveUser();
 

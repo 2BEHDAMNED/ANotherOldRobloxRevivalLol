@@ -446,6 +446,43 @@
 		public int  $visit_count;
 		public int  $current_playing_count;
 
+		public static function UpdatePlaceStats(int $placeID) {
+			$place = Place::FromID($placeID);
+
+			if($place != null) {
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				$stmt_checkserver = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ?;");
+				$stmt_checkserver->bind_param("i", $place->id);
+				$stmt_checkserver->execute();
+
+				$result_checkserver = $stmt_checkserver->get_result();
+
+				$data = [];
+
+				$concurrentplayers = 0;
+
+				while($server_row = $result_checkserver->fetch_assoc()) {
+					$stmt_checkplayersfromserver = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ? AND `session_status` = 1;");
+					$stmt_checkplayersfromserver->bind_param("s", $server_row['server_id']);
+					$stmt_checkplayersfromserver->execute();
+
+					$result_checkplayersfromserver = $stmt_checkplayersfromserver->get_result();
+					
+					$concurrentplayers += $result_checkplayersfromserver->num_rows;
+				}
+
+				$stmt_updateplayercount = $con->prepare("UPDATE `asset_places` SET `place_currently_playing` = ? WHERE `place_id` = ?");
+				$stmt_updateplayercount->bind_param("ii", $concurrentplayers, $place->id);
+				$stmt_updateplayercount->execute();
+			}
+		}
+
+		public static function UpdateAllPlaces() {
+			foreach(self::GetAssetsOfType("", AssetType::PLACE) as $place) {
+				self::UpdatePlaceStats($place->id);
+			}
+		}
+
 		public static function FromID(int $id): Place|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `asset_places` WHERE `place_id` = ?");
