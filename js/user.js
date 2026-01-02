@@ -38,7 +38,7 @@ ANORRL.User = {
 		//
 	},
 	JoinTheGame: function() {
-		ANORRL.PlaceLauncher.LetsJoinTheGame($("a#Play").attr("data-placeid"));
+		ANORRL.PlaceLauncher.LetsJoinAndPlay($("a#Play").attr("data-placeid"));
 	}
 }
 
