@@ -311,7 +311,7 @@
 				background: #282828;
 				height: 240px;
 				display: block;
-				width: 249px;
+				width: 230px;
 				overflow-x: hidden;
 				overflow-y: auto;
 				margin-bottom: -5px;
@@ -338,10 +338,13 @@
 			#PopularGames img {
 				width: 227px;
 				height: 128px;
+				border: 1px solid gray;
 			}
 
 			#PopularGames img:hover {
 				cursor: pointer;
+				border: 1px solid white;
+				filter: brightness(1.25) contrast(0.5);
 			}
 
 			#PopularGames #Filler {
@@ -445,7 +448,7 @@
 								</table>
 							</td>
 							<td id="PopularGames">
-								<div style="height: 201px;overflow: scroll;width:244px">
+								<div style="height: 265px;overflow-y: scroll;width:244px;padding: 9px;">
 									<?php
 										foreach($games as $game) {
 											$game_id = $game->id;
