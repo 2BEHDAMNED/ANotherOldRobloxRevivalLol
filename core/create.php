@@ -45,6 +45,11 @@
 					isset($_FILES['ANORRL$CreateAsset$File'])) {
 
 					$name = trim($_POST['ANORRL$CreateAsset$Name']);
+
+					if(strlen(trim($name)) <= 0) {
+						$result = ['error' => true, 'reason' => "You need to enter a name doofus!"];
+					}
+
 					$description = trim($_POST['ANORRL$CreateAsset$Description']);
 					
 					if($type == "images") {
