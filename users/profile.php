@@ -309,9 +309,12 @@
 				border: 2px solid black;
 				padding: 10px;
 				background: #282828;
-				height: 182px;
+				height: 240px;
 				display: block;
 				width: 249px;
+				overflow-x: hidden;
+				overflow-y: auto;
+				margin-bottom: -5px;
 			}
 
 			.PopularGame #ShowcaseDetails #AllowedStuff {
@@ -438,7 +441,6 @@
 										<code>
 											Description hi hihi
 										</code>
-										<div id="AllowedStuff"></div>
 									</td>
 								</table>
 							</td>
@@ -447,6 +449,10 @@
 									<?php
 										foreach($games as $game) {
 											$game_id = $game->id;
+
+											if(!$game->public) {
+												continue;
+											}
 
 											echo <<<EOT
 											<a data-placeid="$game_id"><img src="/thumbs/?id=$game_id&sx=227&sy=128"></a>
