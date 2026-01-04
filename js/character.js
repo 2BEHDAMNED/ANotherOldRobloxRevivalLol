@@ -461,7 +461,6 @@ ANORRL.Character  = {
 		$("#Colours").modal({showClose: false});
 		$("#Colours").css("z-index", "999");
 		$(".jquery-modal").css("z-index", "998");
-		$("body").css("overflow", "hidden");
 		window.setTimeout(function() {
 			$("#BodyPartInfo").html(ANORRL.Character.GetBodyPartName(bodypartid));
 		}, 1)
@@ -475,7 +474,6 @@ ANORRL.Character  = {
 		$("#Colours").removeClass("modal");
 		$("#Colours").attr("style", "");
 		$(".jquery-modal").remove();
-		$("body").css("overflow", "auto");
 		$("#BodyPartInfo").html("&nbsp;");
 
 		if(save) {
