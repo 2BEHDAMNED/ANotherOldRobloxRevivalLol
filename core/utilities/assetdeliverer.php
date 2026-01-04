@@ -61,19 +61,22 @@
 	}
 
 	if($asset != null) {
-		if(
+		/*if(
 			(
 				!isset($_GET['access']) || 
 				(isset($_GET['access']) && $_GET['access'] != $access)
 			) && $user == null
 		) {
 			die(http_response_code(503));
-		}
+		}*/
 		
 		if($asset->type == AssetType::PLACE) {
 			$place = Place::FromID($asset->id);
 			
-			if($place->copylocked && $user->id != $place->creator->id) {
+			if($place->copylocked && $user->id != $place->creator->id
+				&& (!isset($_GET['access']) || 
+				(isset($_GET['access']) && $_GET['access'] != $access))
+			) {
 				die(http_response_code(503));
 			}
 		}
