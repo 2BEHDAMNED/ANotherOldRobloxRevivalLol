@@ -185,7 +185,7 @@
 
 				if($_GET['c'] != "outfits") {
 					$wearing_array = $user->GetWearingArray();
-					$total_pages = floor(count($user->GetAllOwnedAssetsOfTypeExcluding(AssetType::index($type), $wearing_array))/8)+1;
+					$total_pages = floor(count($user->GetAllOwnedAssetsOfTypeExcluding(AssetType::index($type), $wearing_array))/8);
 
 					if($total_pages < $page) {
 						die(header("Location: /api/wardrobe?r=getwardrobe&c=$type&p=1"));
