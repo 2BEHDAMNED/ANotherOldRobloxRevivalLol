@@ -477,7 +477,7 @@ ANORRL.Character  = {
 		return brickcolors[rgb2hex($("button[data_bodytype="+bodypartid+"]").css("background-color")).toUpperCase()];
 	},
 	CloseColourPicker: function(save) {
-		$.modal().close();
+		$("#Colours").modal().close();
 		$("body").css("overflow", "auto");
 		$("#BodyPartInfo").html("&nbsp;");
 
