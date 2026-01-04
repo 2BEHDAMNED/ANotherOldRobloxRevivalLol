@@ -1,4 +1,5 @@
 <?php
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilites/userutils.php";
 
 	function IsRewrite() {
 		if(!empty($_SERVER['IIS_WasUrlRewritten']))
@@ -60,6 +61,19 @@
 	}
 
 	if($asset != null) {
+		if((!isset($_GET['access'] || (isset($_GET['access']) && $_GET['access'] != $access)) && $user == null) {
+			die(http_response_code(503));
+		}
+		
+		if($asset-type == AssetType::PLACE) {
+			$place = Place::FromID($asset->id);
+			
+			if($place->copylocked && $user->id != $place->creator->id) {
+				die(http_response_code(503));
+			}
+		}
+
+		
 		if(file_exists($filename)) {
 			$handle = fopen($filename, "r"); 
 			$contents = fread($handle, filesize($filename)); 

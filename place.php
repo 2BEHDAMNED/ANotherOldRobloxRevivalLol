@@ -275,6 +275,7 @@ $header_data = $asset;
 			#ServersBox {
 				padding: 10px;
 				border: 2px solid black;
+				background: #1d1d1d;
 			}
 
 			#ServersBox #NoGamesWarning {
@@ -409,7 +410,7 @@ $header_data = $asset;
 										<span><b>Favourited</b>: <?= $favourites_count ?></span>
 									</div>
 									<hr>
-									<button class="PurchaseButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)">Join</button>
+									<button class="PurchaseButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)">Play</button>
 									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
 									<hr>
 									<div id="ManageOptions">
