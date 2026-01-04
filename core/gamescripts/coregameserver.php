@@ -84,7 +84,13 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 	if playerResult ~= "OK" then
 		player:Kick("Hey wait something ain't right here...")
 	end
-	
+
+	if game:GetService("Players").EmoteSoundsEnabled then
+		player.CharacterAdded:connect(function(character)
+			Instance.new("Sound", character).Name = "EmoteSounderEffect"
+		end)
+	end
+
 	player.Chatted:connect(function(msg)
 		if game:GetService("Players").ArbysChibkenEnabled then
 			if msg == "arbys chibken" then
@@ -120,7 +126,7 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 			end
 			if msg == "/e californiagurls" then
 					local sound = Instance.new("Sound")
-					sound.SoundId = "rbxassetid://329"
+					sound.SoundId = 
 					sound.Volume = 0.5
 					sound.MaxDistance = 25
 					sound.Parent = player.Character
@@ -151,6 +157,30 @@ if placeId~=nil and url~=nil then
 	
 	-- load the game
 	game:Load(url .. "/asset/?id=" .. placeId .. "&access=" .. access .. "&t=<?= time() ?>")
+end
+
+if game:GetService("Players").EmoteSoundsEnabled then
+	local emoteEvent = Instance.new("RemoteEvent", game:GetService("ReplicatedStorage"))
+	emoteEvent.Name = "ANORRLEMOTEEVENTERTHING"
+
+	emote.OnServerEvent:connect(function(player, emoteName, state)
+		if player.Character then
+			local emoteSounder = player.Character:FindFirstChild("EmoteSounderEffect")	
+			if not emoteSounder then
+				emoteSounder = Instance.new("Sound", player.Character)
+				emoteSounder.Name = "EmoteSounderEffect"
+			end
+
+			emoteSounder:Stop()
+
+			if state == "play" then
+				if emoteName == "californiagurls" then
+					emoteSounder.SoundId = "rbxassetid://329"
+					emoteSounder:Play()
+				end
+			end
+		end
+	end)
 end
 
 -- Now start the connection
