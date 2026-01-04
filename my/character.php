@@ -158,19 +158,8 @@
 				font-family: punk;
 				font-size: 16px;
 			}
-			#ColourPickerChooser {
-				position: absolute;
-				width: 100vw;
-				height: 100vh;
-				background: #0006;
-				z-index: 999;
-				margin-top: -55px;
-			}
 
-			#ColourPickerChooser #Colours {
-				position: absolute;
-				inset: 0;
-				margin: auto;
+			#Colours {
 				border: 2px solid black;
 				background: #333;
 				width: 580px;
@@ -178,14 +167,14 @@
 				padding: 10px;
 			}
 
-			#ColourPickerChooser #Colours button {
+			#Colours button {
 				border: 2px solid black;
 				width: 32px;
 				height: 32px;
 				margin: 2px;
 			}
 
-			#ColourPickerChooser #Colours button:hover {
+			#Colours button:hover {
 				cursor: pointer;
 				border-color: white;
 			}

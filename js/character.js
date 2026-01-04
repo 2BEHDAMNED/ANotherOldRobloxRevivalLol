@@ -461,12 +461,12 @@ ANORRL.Character  = {
 				$("button[data_bodytype="+self.CurrentBodyPart+"]").css("background-color", hexColour);
 				ANORRL.Character.CloseColourPicker(true);
 			});
-			$("#ColourPickerChooser #Colours").append(button);
+			$("#Colours").append(button);
 		}
 	},
 	OpenColourPicker: function(bodypartid) {
 		self.CurrentBodyPart = bodypartid;
-		$("#ColourPickerChooser").css("display", "block");
+		$("#Colours").modal({showClose: false});
 		$("body").css("overflow", "hidden");
 		window.setTimeout(function() {
 			$("#BodyPartInfo").html(ANORRL.Character.GetBodyPartName(bodypartid));
@@ -477,7 +477,7 @@ ANORRL.Character  = {
 		return brickcolors[rgb2hex($("button[data_bodytype="+bodypartid+"]").css("background-color")).toUpperCase()];
 	},
 	CloseColourPicker: function(save) {
-		$("#ColourPickerChooser").css("display", "none");
+		$.modal().close();
 		$("body").css("overflow", "auto");
 		$("#BodyPartInfo").html("&nbsp;");
 
