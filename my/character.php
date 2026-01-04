@@ -181,10 +181,8 @@
 		</style>
 	</head>
 	<body>
-		<div id="ColourPickerChooser" style="display: none">
-			<div id="Colours">
+		<div id="Colours">
 
-			</div>
 		</div>
 		<div class="Asset" template>
 			<div id="WearButton">[ wear ]</div>
