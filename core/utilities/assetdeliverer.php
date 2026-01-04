@@ -38,6 +38,8 @@
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
+	
+	$user = UserUtils::RetrieveUser();
 
 	$asset = Asset::FromID($id);
 	if($asset != null) {
