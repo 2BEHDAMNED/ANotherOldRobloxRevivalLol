@@ -1,5 +1,4 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilites/userutils.php";
 
 	function IsRewrite() {
 		if(!empty($_SERVER['IIS_WasUrlRewritten']))
@@ -37,7 +36,8 @@
 
 	$access = $settings['asset']['ACCESSKEY'];
 
-	include $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
 
 	$asset = Asset::FromID($id);
 	if($asset != null) {
@@ -61,11 +61,16 @@
 	}
 
 	if($asset != null) {
-		if((!isset($_GET['access'] || (isset($_GET['access']) && $_GET['access'] != $access)) && $user == null) {
+		if(
+			(
+				!isset($_GET['access']) || 
+				(isset($_GET['access']) && $_GET['access'] != $access)
+			) && $user == null
+		) {
 			die(http_response_code(503));
 		}
 		
-		if($asset-type == AssetType::PLACE) {
+		if($asset->type == AssetType::PLACE) {
 			$place = Place::FromID($asset->id);
 			
 			if($place->copylocked && $user->id != $place->creator->id) {
