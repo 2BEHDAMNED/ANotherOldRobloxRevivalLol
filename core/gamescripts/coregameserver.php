@@ -87,7 +87,7 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 
 	if game:GetService("Players").EmoteSoundsEnabled then
 		player.CharacterAdded:connect(function(character)
-			Instance.new("Sound", character).Name = "EmoteSounderEffect"
+			Instance.new("Sound", character:WaitForChild("Torso")).Name = "EmoteSounderEffect"
 		end)
 	end
 
@@ -108,36 +108,6 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 				explosion.Parent = player.Character.Torso
 			end
 		end
-
-		--[[
-			if msg == "arbys chibken" then
-					local sound = Instance.new("Sound")
-					sound.SoundId = "rbxassetid://327"
-					sound.Volume = 0.5
-
-					sound.Parent = player.Character
-
-					sound:Play()
-
-					wait(2)
-					local explosion = Instance.new("Explosion")
-					explosion.Position = player.Character.Torso.Position
-					explosion.Parent = player.Character.Torso
-			end
-			if msg == "/e californiagurls" then
-					local sound = Instance.new("Sound")
-					sound.SoundId = 
-					sound.Volume = 0.5
-					sound.MaxDistance = 25
-					sound.Parent = player.Character
-					sound.Looped = true
-					sound:Play()
-
-					player.Character.Humanoid.Running:connect(function()
-							sound:Remove()
-					end)
-			end
-		]]
 	end)
 end)
 
@@ -163,21 +133,25 @@ if game:GetService("Players").EmoteSoundsEnabled then
 	local emoteEvent = Instance.new("RemoteEvent", game:GetService("ReplicatedStorage"))
 	emoteEvent.Name = "ANORRLEMOTEEVENTERTHING"
 
-	emote.OnServerEvent:connect(function(player, emoteName, state)
+	emoteEvent.OnServerEvent:connect(function(player, emoteName, state)
 		if player.Character then
-			local emoteSounder = player.Character:FindFirstChild("EmoteSounderEffect")	
+			local emoteSounder = player.Character:WaitForChild("Torso"):FindFirstChild("EmoteSounderEffect")
 			if not emoteSounder then
-				emoteSounder = Instance.new("Sound", player.Character)
+				emoteSounder = Instance.new("Sound", player.Character:WaitForChild("Torso"))
 				emoteSounder.Name = "EmoteSounderEffect"
 			end
-
+			
+			emoteSounder.Volume = 0.75
+			emoteSounder.Looped = true
 			emoteSounder:Stop()
 
 			if state == "play" then
 				if emoteName == "californiagurls" then
 					emoteSounder.SoundId = "rbxassetid://329"
-					emoteSounder:Play()
 				end
+
+				wait(0.01)
+				emoteSounder:Play()
 			end
 		end
 	end)
