@@ -180,15 +180,19 @@
 				}
 
 				if($page < 1) {
-					die(header("Location: /api/wardrobe?r=getwardrobe&c=$type&p=1"));
+					die(header("Location: /api/character?r=getwardrobe&c=$type&p=1"));
 				}
 
 				if($_GET['c'] != "outfits") {
 					$wearing_array = $user->GetWearingArray();
-					$total_pages = floor(count($user->GetAllOwnedAssetsOfTypeExcluding(AssetType::index($type), $wearing_array))/8);
+					$total_pages = floor(count($user->GetAllOwnedAssetsOfTypeExcluding(AssetType::index($type), $wearing_array))/8)+1;
+
+					if(count($user->GetAllOwnedAssetsOfTypePagedExcluding(AssetType::index($type),$wearing_array, $total_pages, 8)) == 0) {
+						$total_pages--;
+					}
 
 					if($total_pages < $page) {
-						die(header("Location: /api/wardrobe?r=getwardrobe&c=$type&p=1"));
+						die(header("Location: /api/character?r=getwardrobe&c=$type&p=1"));
 					}
 
 					$assets = $user->GetAllOwnedAssetsOfTypePagedExcluding(AssetType::index($type),$wearing_array, $page, 8);
