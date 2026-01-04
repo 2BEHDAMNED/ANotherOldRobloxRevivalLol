@@ -147,6 +147,7 @@ if game:GetService("Players").EmoteSoundsEnabled then
 			emoteSounder:Stop()
 
 			if state == "play" then
+				local shouldPlay = true
 				if emoteName == "californiagurls" then
 					emoteSounder.SoundId = "rbxassetid://527"
 				elseif emoteName == "dwyec" then
@@ -155,10 +156,16 @@ if game:GetService("Players").EmoteSoundsEnabled then
 					emoteSounder.SoundId = "rbxassetid://533"
 				elseif emoteName == "awakening" then
 					emoteSounder.SoundId = "rbxassetid://107"
+				else
+					shouldPlay = false
 				end
 
-				wait(0.001)
-				emoteSounder:Play()
+				if not shouldPlay then
+					emoteSounder:Stop()
+				else
+					wait(0.001)
+					emoteSounder:Play()
+				end
 			end
 		end
 	end)
