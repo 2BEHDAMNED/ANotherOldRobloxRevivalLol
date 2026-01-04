@@ -459,6 +459,8 @@ ANORRL.Character  = {
 	OpenColourPicker: function(bodypartid) {
 		self.CurrentBodyPart = bodypartid;
 		$("#Colours").modal({showClose: false});
+		$("#Colours").css("z-index", "999");
+		$(".jquery-modal").css("z-index", "998");
 		$("body").css("overflow", "hidden");
 		window.setTimeout(function() {
 			$("#BodyPartInfo").html(ANORRL.Character.GetBodyPartName(bodypartid));
