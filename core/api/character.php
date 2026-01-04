@@ -187,7 +187,7 @@
 					$wearing_array = $user->GetWearingArray();
 					$total_pages = floor(count($user->GetAllOwnedAssetsOfTypeExcluding(AssetType::index($type), $wearing_array))/8)+1;
 
-					if(count($user->GetAllOwnedAssetsOfTypePagedExcluding(AssetType::index($type),$wearing_array, $total_pages, 8)) == 0) {
+					if(count($user->GetAllOwnedAssetsOfTypePagedExcluding(AssetType::index($type),$wearing_array, $total_pages, 8)) == 0 && $page != 1) {
 						$total_pages--;
 					}
 
