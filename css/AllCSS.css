@@ -929,13 +929,12 @@ h1, h2, h3, h4 {
 }
 
 #ShowcaseContainer {
-	margin-top: -195px;
+	margin-top: -230px;
 	float: right;
 }
 
 #ShowcaseContainer h3 {
 	margin: 0;
-	
 }
 
 #ShowcaseBox {
@@ -952,6 +951,7 @@ h1, h2, h3, h4 {
 	border: 2px solid #090909;
 	margin: 0 auto; 
 	display:block;
+	object-fit: contain;
 }
 
 #ShowcaseBox #Carousel {
@@ -970,12 +970,24 @@ h1, h2, h3, h4 {
 	display:inline;
 	width:42px;
 	height:42px;
+	object-fit: cover;
+	cursor: pointer;
+	background: #444;
+	border: 1px solid black;	
 }
 
-#ShowcaseBox #Carousel img:hover,
+#ShowcaseBox #Carousel img:hover {
+	filter: brightness(1.15);
+	border: 1px solid white;
+}
+
 #ShowcaseBox #Carousel img.selected {
-	background: #444;
-	cursor: pointer;
+	filter: brightness(1.5);
+	border: 1px solid gray;
+}
+
+#ShowcaseBox #Carousel img.selected:hover {
+	border: 1px solid white
 }
 
 #NewUsersContainer {

@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
+		<script src="/js/showcase.js"></script>
 		<style>
 			h2, h3 {
 				font-style:italic;
@@ -40,16 +41,17 @@
 					<div id="ShowcaseContainer">
 						<h3>Showcase</h3>
 						<div id="ShowcaseBox">
-						<img id="Showcase" src="/images/avatar.png">
+							<img id="Showcase" src="/media/showcase_anorrlmonday.png">
+							<video id="Showcase" src="" style="display:none" controls></video>
 							<div id="Carousel">
-								<img class="selected" src="/images/avatar.png">
-								<img src="/images/avatar.png">
-								<img src="/images/avatar.png">
-								<img src="/images/avatar.png">
-								<img src="/images/avatar.png">
+								<img class="selected" src="/media/showcase_anorrlmonday.png">
+								<img src="/media/showcase_amicute.png">
+								<img src="/media/showcase_darthrevanamogus.png">
+								<img src="/media/showcase_penguin.png">
+								<img src="/media/showcase_explosion.jpg">
+								<img src="/media/showcase_dancecuck.jpg">
 							</div>
 						</div>
-						
 					</div>
 					<br style="clear:both">
 
