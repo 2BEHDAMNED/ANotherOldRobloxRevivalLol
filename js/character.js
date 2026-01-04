@@ -221,7 +221,7 @@ ANORRL.Character  = {
 
 		var pagercontainer = $("#Wardrobe #AssetsContainer #Paginator");
 		
-		var backPager = pagercontainer.find("#PrevPager");
+		var backPager = pagercontainer.find("#BackPager");
 		var nextPager = pagercontainer.find("#NextPager");
 
 		$("a[data_category]").each(function() {
