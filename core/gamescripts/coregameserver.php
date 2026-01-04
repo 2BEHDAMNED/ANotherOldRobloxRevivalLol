@@ -139,6 +139,7 @@ if game:GetService("Players").EmoteSoundsEnabled then
 			if not emoteSounder then
 				emoteSounder = Instance.new("Sound", player.Character:WaitForChild("Torso"))
 				emoteSounder.Name = "EmoteSounderEffect"
+				print("I NEEDD TO MAKE A NEW ONE!")
 			end
 			
 			emoteSounder.Volume = 0.75
@@ -156,7 +157,7 @@ if game:GetService("Players").EmoteSoundsEnabled then
 					emoteSounder.SoundId = "rbxassetid://107"
 				end
 
-				wait(0.005)
+				wait(0.001)
 				emoteSounder:Play()
 			end
 		end
