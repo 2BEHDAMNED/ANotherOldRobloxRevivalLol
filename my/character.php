@@ -165,6 +165,7 @@
 				width: 580px;
 				height: 327px;
 				padding: 10px;
+				display: none;
 			}
 
 			#Colours button {

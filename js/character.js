@@ -444,14 +444,6 @@ ANORRL.Character  = {
 		});
 	},
 	PrepareColourPicker: function() {
-		
-		$("#ColourPickerChooser #Colours").on("click", function(evt) {
-			evt.stopPropagation();
-		})
-
-		$("#ColourPickerChooser").on("click", function() {
-			ANORRL.Character.CloseColourPicker(false);
-		})
 		var brickcolourhexes = Object.keys(brickcolors);
 		for(var i = 0; i < brickcolourhexes.length; i++) {
 			let hexColour = brickcolourhexes[i];
@@ -477,7 +469,10 @@ ANORRL.Character  = {
 		return brickcolors[rgb2hex($("button[data_bodytype="+bodypartid+"]").css("background-color")).toUpperCase()];
 	},
 	CloseColourPicker: function(save) {
-		$("#Colours").modal().close();
+		$("#Colours").removeClass("current");
+		$("#Colours").removeClass("modal");
+		$("#Colours").attr("style", "");
+		$(".jquery-modal").remove();
 		$("body").css("overflow", "auto");
 		$("#BodyPartInfo").html("&nbsp;");
 
