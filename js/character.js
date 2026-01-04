@@ -202,7 +202,11 @@ ANORRL.Character  = {
 
 		if(category === undefined) {
 			category = this.CurrentCategory;
+			
 		} else {
+			if(this.CurrentCategory != category) {
+				page = 1;
+			}
 			this.CurrentCategory = category;
 		}
 		if(page === undefined) {
