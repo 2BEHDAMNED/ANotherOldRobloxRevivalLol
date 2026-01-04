@@ -36,7 +36,10 @@
 
 	$access = $settings['asset']['ACCESSKEY'];
 
-	include $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/asset.php";
+	
+	$user = UserUtils::RetrieveUser();
 
 	$asset = Asset::FromID($id);
 	if($asset != null) {
@@ -60,6 +63,27 @@
 	}
 
 	if($asset != null) {
+		/*if(
+			(
+				!isset($_GET['access']) || 
+				(isset($_GET['access']) && $_GET['access'] != $access)
+			) && $user == null
+		) {
+			die(http_response_code(503));
+		}*/
+		
+		if($asset->type == AssetType::PLACE) {
+			$place = Place::FromID($asset->id);
+			
+			if($place->copylocked && $user->id != $place->creator->id
+				&& (!isset($_GET['access']) || 
+				(isset($_GET['access']) && $_GET['access'] != $access))
+			) {
+				die(http_response_code(503));
+			}
+		}
+
+		
 		if(file_exists($filename)) {
 			$handle = fopen($filename, "r"); 
 			$contents = fread($handle, filesize($filename)); 
