@@ -242,7 +242,7 @@
 									<table id="Assets" hidden>										
 									</table>
 									<div id="Paginator" style="display: block;">
-										<a id="BackPager" href="javascript:ANORRL.Character.PrevPage()" style="display: none;">&lt;&lt; Back</a> <input type="text" id="NumberPutter" maxlength="3"> of <span id="Counter">1</span> <a id="NextPager" href="javascript:ANORRL.Character.NextPage()" style="display: none;">Next &gt;&gt;</a>
+										<a id="BackPager" href="javascript:ANORRL.Character.DeadvancePager()" style="display: none;">&lt;&lt; Back</a> <input type="text" id="NumberPutter" maxlength="3"> of <span id="Counter">1</span> <a id="NextPager" href="javascript:ANORRL.Character.AdvancePager()" style="display: none;">Next &gt;&gt;</a>
 									</div>
 								</div>
 

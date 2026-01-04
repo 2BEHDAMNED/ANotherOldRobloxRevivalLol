@@ -22,9 +22,9 @@
 			die(header("Location: /api/people?q=$query&p=1"));
 		}
 
-		$total_pages = floor((count(UserUtils::GetAllUsers($query))/6) + 0.5)+1;
+		$total_pages = floor((count(UserUtils::GetAllUsers($query))/10) + 0.5)+1;
 
-		if(count(UserUtils::GetAllUsersPaged($total_pages, 6, $query)) == 0) {
+		if(count(UserUtils::GetAllUsersPaged($total_pages, 10, $query)) == 0) {
 			$total_pages--;
 		}
 
