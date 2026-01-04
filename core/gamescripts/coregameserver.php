@@ -148,9 +148,15 @@ if game:GetService("Players").EmoteSoundsEnabled then
 			if state == "play" then
 				if emoteName == "californiagurls" then
 					emoteSounder.SoundId = "rbxassetid://329"
+				elseif emoteName == "dwyec" then
+					emoteSounder.SoundId = "rbxassetid://329"
+				elseif emoteName == "caramelldansen" then
+					emoteSounder.SoundId = "rbxassetid://329"
+				elseif emoteName == "awakening" then
+					emoteSounder.SoundId = "rbxassetid://107"
 				end
 
-				wait(0.01)
+				wait(0.005)
 				emoteSounder:Play()
 			end
 		end
