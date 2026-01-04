@@ -44,12 +44,12 @@
 							<img id="Showcase" src="/media/showcase_anorrlmonday.png">
 							<video id="Showcase" src="" style="display:none" controls></video>
 							<div id="Carousel">
-								<img class="selected" src="/media/showcase_anorrlmonday.png">
-								<img src="/media/showcase_amicute.png">
-								<img src="/media/showcase_darthrevanamogus.png">
-								<img src="/media/showcase_penguin.png">
-								<img src="/media/showcase_explosion.jpg">
-								<img src="/media/showcase_dancecuck.jpg">
+								<img title="From grace, with Isamarah" class="selected" src="/media/showcase_anorrlmonday.png">
+								<img title="From grace, with Markinator" src="/media/showcase_amicute.png">
+								<img title="From grace, with DarthRevan" src="/media/showcase_darthrevanamogus.png">
+								<img title="From Markinator" src="/media/showcase_penguin.png">
+								<img title="From Markinator" src="/media/showcase_explosion.jpg">
+								<img title="From grace, with Markinator" src="/media/showcase_dancecuck.jpg">
 							</div>
 						</div>
 					</div>
