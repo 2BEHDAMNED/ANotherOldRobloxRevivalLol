@@ -90,6 +90,38 @@
  									}
 								?>
 							</tr>
+							<tr id="Other">
+								<?php  
+									$users = UserUtils::GetLatestUsers(100);
+									$users_count = count($users);
+
+									foreach($users as $user) {
+										if($user instanceof User) {
+											$user_id = $user->id;
+											$user_name = $user->name;
+											echo <<<EOT
+												<td>
+													<div class="User">
+														<a href="/users/$user_id/profile">
+															<img src="/thumbs/player?id=$user_id">
+															<span>$user_name</span>
+														</a>
+													</div>
+												</td>
+											EOT;
+										}
+									}
+
+									if($users_count < 7) {
+										$count = 7 - $users_count;
+										for($i = 0; $i < $count; $i++) {
+											echo <<<EOT
+												<td></td>
+											EOT;
+										}
+ 									}
+								?>
+							</tr>
 						</table>
 					</div>
 				</div>
