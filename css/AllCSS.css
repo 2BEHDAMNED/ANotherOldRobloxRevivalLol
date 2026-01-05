@@ -1012,18 +1012,21 @@ h1, h2, h3, h4 {
 }
 
 #NewUsersContainer #NewUsersBox tr {
-	animation: moveSlideshow 15s linear infinite;
+	display: inline-block;
+	animation-name: moveSlideshow;
+	animation-duration: 25s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
 }
 
 #NewUsersContainer #NewUsersBox tr#Other {
-	display: inline-block;
-	margin-top: -172px
-	animation: moveSlideshowEvil 15s linear infinite;
+	margin-top: -172px;
+	animation-name: moveSlideshowEvil;
 }
 
 @keyframes moveSlideshow {
   0% {
-      transform: translateX(0);
+      transform: translateX(0%);
   }
   100% {
       transform: translateX(-100%);
@@ -1032,7 +1035,7 @@ h1, h2, h3, h4 {
 
 @keyframes moveSlideshowEvil {
   0% {
-      transform: translateX(-100%);
+      transform: translateX(100%);
   }
   100% {
       transform: translateX(0%);
