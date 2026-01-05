@@ -69,7 +69,7 @@
 											$user_name = $user->name;
 											echo <<<EOT
 												<td>
-													<div class="User">
+													<div class="User" title="$user_name">
 														<a href="/users/$user_id/profile">
 															<img src="/thumbs/player?id=$user_id">
 															<span>$user_name</span>
@@ -101,7 +101,7 @@
 											$user_name = $user->name;
 											echo <<<EOT
 												<td>
-													<div class="User">
+													<div class="User" title="$user_name">
 														<a href="/users/$user_id/profile">
 															<img src="/thumbs/player?id=$user_id">
 															<span>$user_name</span>
