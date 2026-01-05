@@ -703,6 +703,10 @@ h1, h2, h3, h4 {
 	margin-left: 3px;
 }
 
+#HomePage #FriendsContainer h3 {
+	margin: 0px;
+}
+
 #HomePage #FriendsContainer #Friends {
 	padding: 5px;
 	border: 2px solid black;
@@ -715,6 +719,7 @@ h1, h2, h3, h4 {
 	overflow-x: scroll;
 	list-style: none;
 	white-space: nowrap;
+	margin: 0px;
 }
 
 #HomePage #FriendsContainer #NoFriends {
@@ -757,6 +762,8 @@ h1, h2, h3, h4 {
 	word-break: break-all;
 	font-weight: bold;
 }
+
+
 
 #StatusContainer #Quotation {
 	position: absolute;
