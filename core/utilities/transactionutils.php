@@ -39,7 +39,7 @@
 			}
 		}
 
-		public static function BuyItem(string $type, int $asset_id): string {
+		public static function BuyItem(int $asset_id): string {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			
 			$get_user = UserUtils::RetrieveUser();

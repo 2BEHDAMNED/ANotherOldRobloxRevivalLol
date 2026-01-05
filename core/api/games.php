@@ -36,87 +36,82 @@
 
 	Place::UpdateAllPlaces();
 
-	if($user != null) {
-		if(!isset($_GET['placeid'])) {
-			$page = 1;
-			if(isset($_GET['p'])) {
-				$page = intval($_GET['p']);
-			}
-
-			$query = "";
-
-			if(isset($_GET['q'])) {
-				$query = $_GET['q'];
-			}
-
-			if($page < 1) {
-				die(header("Location: /api/games?q=$query&p=1"));
-			}
-
-			$retrievedassets = Place::GetAllPaged($query, $page, 9);
-
-			$assets = [];
-
-			if(count($retrievedassets) != 0) {
-				foreach($retrievedassets as $asset) {
-					if($asset instanceof Place) {
-						array_push($assets, [
-							"id" => $asset->id,
-							"creator" => [
-								"id" => $asset->creator->id,
-								"name" => $asset->creator->name
-							],
-							"name" => $asset->name,
-							"favourites" => $asset->favourites_count,
-							"activeplayercount" => $asset->current_playing_count,
-							"visitcount" => $asset->visit_count
-						]);
-					}
-				}
-			}
-			
-			if(count(Place::GetAll($query)) <= 9) {
-				$total_pages = 1;
-			} else {
-				$total_pages = floor((count(Place::GetAll($query))/9) + 0.5);
-
-				if(count(Place::GetAllPaged($query, $total_pages, 9)) == 0) {
-					$total_pages--;
-				}
-			}
-
-			if($total_pages < $page && $total_pages != $page && $page != 1) {
-				die(header("Location: /api/games?q=$query&p=1"));
-			}
-
-			die(json_encode(["games" => $assets, "page" => $page, "total_pages" => $total_pages]));
-		} else {
-			$placeid = intval($_GET['placeid']);
-
-			$place = Place::FromID($placeid);
-			if($place == null) {
-				die(json_encode(
-					[
-						"error" => true
-					]
-				));
-			} else {
-				die(json_encode(
-					[
-						"error" => false,
-						"place" => [
-							"id" => $place->id,
-							"name" => $place->name,
-							"description" => $place->description,
-						]
-					]
-				));
-			}
-
-			
+	if(!isset($_GET['placeid'])) {
+		$page = 1;
+		if(isset($_GET['p'])) {
+			$page = intval($_GET['p']);
 		}
 
+		$query = "";
+
+		if(isset($_GET['q'])) {
+			$query = $_GET['q'];
+		}
+
+		if($page < 1) {
+			die(header("Location: /api/games?q=$query&p=1"));
+		}
+
+		$retrievedassets = Place::GetAllPaged($query, $page, 9);
+
+		$assets = [];
+
+		if(count($retrievedassets) != 0) {
+			foreach($retrievedassets as $asset) {
+				if($asset instanceof Place) {
+					array_push($assets, [
+						"id" => $asset->id,
+						"creator" => [
+							"id" => $asset->creator->id,
+							"name" => $asset->creator->name
+						],
+						"name" => $asset->name,
+						"favourites" => $asset->favourites_count,
+						"activeplayercount" => $asset->current_playing_count,
+						"visitcount" => $asset->visit_count
+					]);
+				}
+			}
+		}
+		
+		if(count(Place::GetAll($query)) <= 9) {
+			$total_pages = 1;
+		} else {
+			$total_pages = floor((count(Place::GetAll($query))/9) + 0.5);
+
+			if(count(Place::GetAllPaged($query, $total_pages, 9)) == 0) {
+				$total_pages--;
+			}
+		}
+
+		if($total_pages < $page && $total_pages != $page && $page != 1) {
+			die(header("Location: /api/games?q=$query&p=1"));
+		}
+
+		die(json_encode(["games" => $assets, "page" => $page, "total_pages" => $total_pages]));
 	} else {
-		die(json_encode(["error" => true, "reason" => "User not logged in."]));
+		$placeid = intval($_GET['placeid']);
+
+		$place = Place::FromID($placeid);
+		if($place == null) {
+			die(json_encode(
+				[
+					"error" => true
+				]
+			));
+		} else {
+			die(json_encode(
+				[
+					"error" => false,
+					"place" => [
+						"id" => $place->id,
+						"name" => $place->name,
+						"description" => $place->description,
+					]
+				]
+			));
+		}
+
+		
 	}
 ?>

@@ -63,7 +63,6 @@ $header_data = $asset;
 		<meta property="og:url" content="https://arl.lambda.cam/<?= $asset->GetURLTitle()?>-place?id=<?= $asset->id ?>">
 		<meta property="og:site_name" content="ANORRL">
 		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>">
-		<?php if($user == null) { die(); } ?>
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js?t=<?= time() ?>"></script>
@@ -352,9 +351,11 @@ $header_data = $asset;
 						$(this).css("display", "none");
 					} else {
 						$(this).css("display", "block");
+						<?php if($user != null): ?>
 						if($(this).attr("content") == "Servers") {
 							ANORRL.PlaceLauncher.GrabGameservers(<?= $id ?>);
 						}
+						<?php endif ?>
 					}
 				});
 
@@ -476,24 +477,34 @@ $header_data = $asset;
 								Gamepasses content in here
 							</div>
 							<div id="InfoBox" content="Servers" style="display:none">
+								<?php if($user == null): ?>
+								<div id="ServersBox">
+									<p id="NoGamesWarning">You need to be logged in to see the servers for this game!</p>
+								</div>
+								<?php else: ?>
 								<h3>Servers <button onclick="ANORRL.PlaceLauncher.GrabGameservers(<?= $id ?>);">Refresh</button></h3>
 								<div id="ServersBox">
 									<p id="NoGamesWarning">There are no servers for this game!</p>
 								</div>
+								<?php endif ?>
 							</div>
 
 						</div>
 
-						<!--<div id="CommentsContainer">
+						<div id="CommentsContainer">
 							<h3>Comments</h3>
 							<div id="CommentSection">
-								<?php if($asset->comments_enabled): ?>
-								<div id="CommentsDisabled">Comments have not been implemented yet... (sorry :[)</div>
+								<?php if($user == null): ?>
+									<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
 								<?php else: ?>
-								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
+									<?php if($asset->comments_enabled): ?>
+									<div id="CommentsDisabled">Comments have not been implemented yet... (sorry :[)</div>
+									<?php else: ?>
+									<div id="CommentsDisabled">Comments have been disabled for this item.</div>
+									<?php endif ?>
 								<?php endif ?>
 							</div>
-						</div>-->
+						</div>
 					</div>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>

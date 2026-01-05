@@ -5,64 +5,59 @@
 
 	$user = UserUtils::RetrieveUser();
 
-	if($user != null) {
+	$type = AssetType::HAT->ordinal();
+	if(isset($_GET['c'])) {
+		$type = intval($_GET['c']);
+	}
 
-		
-		$type = AssetType::HAT->ordinal();
-		if(isset($_GET['c'])) {
-			$type = intval($_GET['c']);
-		}
+	$asset_type = AssetType::index($type);
 
-		$asset_type = AssetType::index($type);
+	$query = "";
 
-		$query = "";
+	if(isset($_GET['q'])) {
+		$query = $_GET['q'];
+	}
 
-		if(isset($_GET['q'])) {
-			$query = $_GET['q'];
-		}
+	$page = 1;
+	if(isset($_GET['p'])) {
+		$page = intval($_GET['p']);
+	}
 
-		$page = 1;
-		if(isset($_GET['p'])) {
-			$page = intval($_GET['p']);
-		}
+	if($page < 1) {
+		die(header("Location: /api/catalog?c=$type&q=$query&p=1"));
+	}
 
-		if($page < 1) {
-			die(header("Location: /api/catalog?c=$type&q=$query&p=1"));
-		}
+	$total_pages = floor((count(Asset::GetAssetsOfType($query, $asset_type))/12) + 0.5)+1;
 
-		$total_pages = floor((count(Asset::GetAssetsOfType($query, $asset_type))/12) + 0.5)+1;
+	if(count(Asset::GetAssetsOfTypePaged($query, $asset_type, $total_pages, 12)) == 0) {
+		$total_pages--;
+	}
 
-		if(count(Asset::GetAssetsOfTypePaged($query, $asset_type, $total_pages, 12)) == 0) {
-			$total_pages--;
-		}
+	if($total_pages < $page) {
+		die(header("Location: /api/stuff?c=$type&q=$query&p=1"));
+	}
 
-		if($total_pages < $page) {
-			die(header("Location: /api/stuff?c=$type&q=$query&p=1"));
-		}
+	$assets = Asset::GetAssetsOfTypePaged($query, $asset_type, $page, 12);
 
-		$assets = Asset::GetAssetsOfTypePaged($query, $asset_type, $page, 12);
+	$assets_raw = [];
 
-		$assets_raw = [];
-
-		if(count($assets) != 0) {
-			foreach($assets as $asset) {
-				if($asset instanceof Asset) {
-					array_push($assets_raw, [
-						"id" => $asset->id,
-						"name" => $asset->name,
-						"creator" => [
-							"id" => $asset->creator->id,
-							"name" => $asset->creator->name
-						],
-						"onsale" => $asset->onsale
-					]);
-				}
+	if(count($assets) != 0) {
+		foreach($assets as $asset) {
+			if($asset instanceof Asset) {
+				array_push($assets_raw, [
+					"id" => $asset->id,
+					"name" => $asset->name,
+					"creator" => [
+						"id" => $asset->creator->id,
+						"name" => $asset->creator->name
+					],
+					"onsale" => $asset->onsale
+				]);
 			}
 		}
-		
-		die(json_encode(["assets" => $assets_raw, "page" => $page, "total_pages" => $total_pages]));
-	} else {
-		die(json_encode(["error" => true, "reason" => "User not logged in."]));
 	}
+		
+	die(json_encode(["assets" => $assets_raw, "page" => $page, "total_pages" => $total_pages]));
+
 	
 ?>

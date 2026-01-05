@@ -5,7 +5,7 @@
 	$user = UserUtils::RetrieveUser();
 
 	if($user == null) {
-		die(header("Location: /"));
+		die(header("Location: /login"));
 	}
 ?>
 <!DOCTYPE html>

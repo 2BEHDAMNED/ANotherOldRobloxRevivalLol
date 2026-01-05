@@ -97,7 +97,7 @@ $header_data = $asset;
 		<meta property="og:url" content="https://arl.lambda.cam/<?= $asset->GetURLTitle()?>-item?id=<?= $asset->id ?>">
 		<meta property="og:site_name" content="ANORRL">
 		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>">
-		<?php if($user == null) { die(); } ?>
+		
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js?t=<?= time() ?>"></script>
@@ -408,6 +408,9 @@ $header_data = $asset;
 							<div id="Purchasing">
 								<span>Sales: </span><b><?= $asset->sales_count ?></b><br>
 								<hr>
+								<?php if($user == null): ?>
+									<div id="NotOnSale">You need to be logged in to purchase this!</div>
+								<?php else: ?>
 								<?php if($asset->onsale): ?>
 									<?php if(!$user_bought): ?>
 										<button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel()"><span>Free for grabs!</span></button>
@@ -421,7 +424,9 @@ $header_data = $asset;
 										<div id="NotOnSale">Item not on sale.</div>
 									<?php endif ?>
 								<?php endif ?>
+								<?php endif ?>
 								<hr>
+								<?php if($user != null): ?>
 								<div id="ManageOptions">
 									<?php if($is_creator): ?>
 									<a href="/edit?id=<?= $asset->id ?>">Edit</a>
@@ -429,18 +434,22 @@ $header_data = $asset;
 									<?php if($user != null && $user->IsAdmin() && in_array($asset->type, $rendering_types)): ?>
 									<a href="javascript:Render()">Render this asset</a>
 									<?php endif ?>
-									<a href="">Report this item</a>
 								</div>
+								<?php endif ?>
 							</div>
 						</div>
 
 						<div id="CommentsContainer">
 							<h3>Comments</h3>
 							<div id="CommentSection">
-								<?php if($asset->comments_enabled): ?>
-								<div id="CommentsDisabled">Comments have not been implemented yet... (sorry :[)</div>
+								<?php if($user == null): ?>
+									<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
 								<?php else: ?>
-								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
+									<?php if($asset->comments_enabled): ?>
+									<div id="CommentsDisabled">Comments have not been implemented yet... (sorry :[)</div>
+									<?php else: ?>
+									<div id="CommentsDisabled">Comments have been disabled for this item.</div>
+									<?php endif ?>
 								<?php endif ?>
 							</div>
 						</div>

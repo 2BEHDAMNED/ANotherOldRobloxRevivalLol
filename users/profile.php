@@ -38,10 +38,6 @@
 
 	$header_data = $get_user;
 
-	if($user == null) {
-		die(header("Location: /"));
-	}
-
 	$games = $get_user->GetAllOwnedAssetsOfType(AssetType::PLACE);
 
 ?>
