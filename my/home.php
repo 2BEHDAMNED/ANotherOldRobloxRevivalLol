@@ -58,7 +58,10 @@
 				<div id="BodyContainer">
 					<div id="HomePage">
 						<div id="HelloStuff">
-							<h1 id="Hello">Hello, <?= $user->name ?>!</h1>
+							<h1 id="Hello" style="width: 850px">
+								<marquee scrollamount="15" direction="right" behavior="alternate">grace</marquee>
+								<marquee scrollamount="15" behavior="alternate" style="display: block;margin-top: -33px;z-index: 9;" direction="left">grace</marquee>
+							</h1>
 							<div id="UserProfile">
 								<a href="/users/<?= $user->id ?>/profile"><img id="ProfilePicture" src="/thumbs/player?id=<?= $user->id ?>"></a>
 								<div id="StatusContainer">
