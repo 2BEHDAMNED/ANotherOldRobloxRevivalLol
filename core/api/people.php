@@ -32,7 +32,7 @@
 			die(header("Location: /api/people?q=$query&p=1"));
 		}
 
-		$users = UserUtils::GetAllUsersPaged($page, 6, $query);
+		$users = UserUtils::GetAllUsersPaged($page, 10, $query);
 
 		$users_raw = [];
 
