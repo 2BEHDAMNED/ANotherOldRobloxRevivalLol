@@ -60,7 +60,7 @@
 						<table id="NewUsersBox">
 							<tr>
 								<?php  
-									$users = UserUtils::GetLatestUsers(7);
+									$users = UserUtils::GetLatestUsers(100);
 									$users_count = count($users);
 
 									foreach($users as $user) {

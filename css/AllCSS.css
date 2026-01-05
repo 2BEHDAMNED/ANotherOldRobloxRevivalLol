@@ -1007,10 +1007,37 @@ h1, h2, h3, h4 {
 	padding: 10px;
 	padding-left: 15px;
 	width: 100%;
-	table-layout: fixed;
+	overflow: hidden;
+	display: block;
 }
 
+#NewUsersContainer #NewUsersBox tr {
+	animation: moveSlideshow 15s linear infinite;
+}
 
+#NewUsersContainer #NewUsersBox tr#Other {
+	display: inline-block;
+	margin-top: -172px
+	animation: moveSlideshowEvil 15s linear infinite;
+}
+
+@keyframes moveSlideshow {
+  0% {
+      transform: translateX(0);
+  }
+  100% {
+      transform: translateX(-100%);
+  }
+}
+
+@keyframes moveSlideshowEvil {
+  0% {
+      transform: translateX(-100%);
+  }
+  100% {
+      transform: translateX(0%);
+  }
+}  
 
 #NewUsersContainer #NewUsersBox .User {
 	border: 2px solid #090909;
