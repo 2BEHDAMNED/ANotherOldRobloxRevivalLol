@@ -105,6 +105,7 @@ ANORRL.Games = {
 					template.find("#GameCreator").attr("href", "/users/"+asset['creator']['id']+"/profile");
 					template.find("#ActivePlayerCount").html(asset['activeplayercount']);
 					template.find("#VisitCount").html(asset['visitcount']);
+					template.find("#FavouritesArea > span").html(asset['favouritescount']);
 
 					if(asset['activeplayercount'] == 1) {
 						template.find("#ActivePlayerCountLabel #Plural").remove();

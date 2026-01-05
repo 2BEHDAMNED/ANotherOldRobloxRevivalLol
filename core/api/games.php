@@ -66,7 +66,7 @@
 							"name" => $asset->creator->name
 						],
 						"name" => $asset->name,
-						"favourites" => $asset->favourites_count,
+						"favouritescount" => $asset->favourites_count,
 						"activeplayercount" => $asset->current_playing_count,
 						"visitcount" => $asset->visit_count
 					]);
