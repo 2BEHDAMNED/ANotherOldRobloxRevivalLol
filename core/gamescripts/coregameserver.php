@@ -163,7 +163,7 @@ if game:GetService("Players").EmoteSoundsEnabled then
 				if not shouldPlay then
 					emoteSounder:Stop()
 				else
-					wait(0.01)
+					wait(0.001)
 					emoteSounder:Play()
 				end
 			end
