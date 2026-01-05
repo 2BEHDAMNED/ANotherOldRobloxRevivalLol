@@ -77,6 +77,38 @@
 									}
 								?>			
 								</div>
+								<div id="Favourites">
+									<h3>Favourites</h3>
+									<div id="Games">
+										<!--<div class="Game">
+											<a href="/game/1000" title="Whats up guys im gonna rob a store">
+												<img src="/images/review-pending.png">
+												<span id="Name">aaaaaaaaaaaaaaaaaaaaa...</span>
+											</a>
+											<div id="Stats">
+												<div id="OnlinePlayers">Couple ppl online</div>
+												<div id="Created">Creator: <a href="/profile/1">Creator</a></div>
+											</div>
+										</div>-->
+										<span id="NoTagline">No favourites yet!</span>
+									</div>
+								</div>
+								<div id="RecentlyPlayed">
+									<h3>Recently Played</h3>
+									<div id="Games">
+										<!--<div class="Game">
+											<a href="/game/1000" title="Whats up guys im gonna rob a store">
+												<img src="/images/review-pending.png">
+												<span id="Name">aaaaaaaaaaaaaaaaaaaaa...</span>
+											</a>
+											<div id="Stats">
+												<div id="OnlinePlayers">Couple ppl online</div>
+												<div id="Created">Creator: <a href="/profile/1">Creator</a></div>
+											</div>
+										</div>-->
+										<span id="NoTagline">Haven't played anything yet!</span>
+									</div>
+								</div>
 							</div>
 							<div id="FeedsContainer">
 								<h2>Your feed</h2>
@@ -99,27 +131,6 @@
 								<div id="Pager" style="display:none">
 									<a href="javascript:ANORRL.Home.DeadvanceFeed()" id="BackPager">&lt;&lt; Back</a> <span id="PageCounter">Page 1 of 1</span> <a href="javascript:ANORRL.Home.AdvanceFeed()" id="NextPager">Next &gt;&gt;</a>
 								</div>	
-							</div>
-							<br style="clear: both">
-							<div id="FeedAndGames">
-								<div id="ProfileGames">
-									<div id="Favourites">
-										<h3>Favourites</h3>
-										<div id="Games">
-											<!--<div class="Game">
-												<a href="/game/1000" title="Whats up guys im gonna rob a store">
-													<img src="/images/review-pending.png">
-													<span id="Name">aaaaaaaaaaaaaaaaaaaaa...</span>
-												</a>
-												<div id="Stats">
-													<div id="OnlinePlayers">Couple ppl online</div>
-													<div id="Created">Creator: <a href="/profile/1">Creator</a></div>
-												</div>
-											</div>-->
-											<span id="NoTagline">No favourites yet!</span>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
