@@ -27,7 +27,7 @@
 				<span>By <a href="" id="GameCreator">creator</a></span>
 				<div style="font-weight: bold;letter-spacing: 1px;font-size:10px;">
 					<span id="ActivePlayerCountLabel" style="color: #a93cac;"><b id="ActivePlayerCount" style="letter-spacing: 0;">0</b> Player<span id="Plural">s</span> online...</span><br>
-					<span id="VisitCountLabel" style="color:#777;font-style:italic;"><b id="VisitCount" style="letter-spacing: 0;">0</b> Visit<span id="Plural">s</span></span>
+					<span id="VisitCountLabel" style="color:#8a8a8a;font-style:italic;"><b id="VisitCount" style="letter-spacing: 0;">0</b> Visit<span id="Plural">s</span></span>
 				</div>
 				
 			</div>
