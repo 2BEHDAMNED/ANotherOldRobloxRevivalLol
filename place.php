@@ -491,9 +491,70 @@ $header_data = $asset;
 
 						</div>
 
+						<style>
+							.Comment {
+								padding: 5px;
+								border: 2px solid black;
+								background: #121212;
+							}
+
+							.Comment[other] {
+								background: #2a2a2a;
+							}
+
+							.Comment > div {
+								float: left;
+							}
+
+							.Comment #CommenterAvatar > a > img {
+								width: 115px;
+								border: 2px solid black;
+								margin-right: 5px;
+								background: #333;
+							}
+
+							.Comment #CommentPartArea {
+								border-bottom: 1px solid gray;padding: 3px;padding-top: 0px;
+							}
+
+							.Comment #CommentPartArea #CommentInfoArea > a {
+								font-weight: bold;
+							}
+							
+							.Comment #CommentPartArea #CommentInfoArea > span {
+								font-size: 10px;
+								font-style: italic;
+								color: #aaa;
+							}
+
+							.Comment #CommentPartArea > code {
+								margin-top: 5px;
+								display: block;
+								border: 2px solid black;
+								padding: 5px;
+								background: #222;
+								width: 704px;
+								height: 82px;
+							}
+						</style>
+
 						<div id="CommentsContainer">
-							<h3>Comments</h3>
+							<h3>Comments (0)</h3>
 							<div id="CommentSection">
+								<div class="Comment">
+									<div id="CommenterAvatar">
+										<a href="">
+											<img src="/thumbs/player?id=1">
+										</a>
+									</div>
+									<div id="CommentPartArea">
+										<div id="CommentInfoArea">
+											<a href="">Commenter Name</a>&nbsp;<span>Posted on dd/mm/yyyy HH:MM</span>
+										</div>
+										<code>Contents here</code>
+									</div>
+									<div style="clear: both;"></div>
+								</div>
 								<?php if($user == null): ?>
 									<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
 								<?php else: ?>
