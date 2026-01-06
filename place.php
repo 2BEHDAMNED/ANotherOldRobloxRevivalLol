@@ -513,8 +513,10 @@ $header_data = $asset;
 								background: #333;
 							}
 
-							.Comment #CommentPartArea {
-								border-bottom: 1px solid gray;padding: 3px;padding-top: 0px;
+							.Comment #CommentPartArea #CommentInfoArea {
+								border-bottom: 1px solid gray;
+								padding: 3px;
+								padding-top: 0px;
 							}
 
 							.Comment #CommentPartArea #CommentInfoArea > a {
