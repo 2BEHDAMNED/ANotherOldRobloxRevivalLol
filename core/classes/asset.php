@@ -1,6 +1,6 @@
 <?php
 
-	require_once $_SERVER['DOCUMENT_ROOT'].'/core/user.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/classes/user.php';
 
 	enum AssetType {
 		case IMAGE;
@@ -357,9 +357,24 @@
 			return $row["version_md5sig"];
 		}
 
-		function Comment(User|int $user, string $content) {}
-		function GetAllComments() {}
-		function GetComments(int $page, int $rows) {}
+		function Comment(User|int|null $user, string $contents) {
+			if($user != null) {
+				$user_id = $user;
+				if($user instanceof User) {
+					$user_id = $user->id;
+				}
+
+
+			} else {
+				return ['error' => true, 'reason' => "User not logged in!"];
+			}
+		}
+		function GetAllComments(): array {
+			return [];
+		}
+		function GetComments(int $page = 1, int $rows = 15): array {
+			return [];
+		}
 
 		function Favourite(User|int $user) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";

@@ -107,7 +107,8 @@
 
 	RewriteRule ^Friend/AreFriends$ /Friend/AreFriends.php [END]
 
-	RewriteRule ^create/(.*?)$ /core/create.php?type=$1 [END]
+	RewriteRule ^create/(.*?)$ /create.php?type=$1 [END]
+	RewriteRule ^create.php$ /core/error/404.php [END]
 
 	RewriteRule ^UploadMedia/PostImage.aspx /core/uploadmedia/postimage.php [END]
 	RewriteRule ^UploadMedia/UploadVideo.aspx /core/uploadmedia/uploadvideo.php [END]

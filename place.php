@@ -3,7 +3,7 @@
 $name = $_GET['name'];
 $id = intval($_GET['id']);
 
-require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 $user = UserUtils::RetrieveUser();
@@ -583,7 +583,7 @@ $header_data = $asset;
 							<h3>Comments (0)</h3>
 							<div id="CommentPostArea">
 								<form method="POST">
-									<h4 style="margin: 0;">Post a comment or something</h4>
+									<h4 style="margin: 0; letter-spacing: 5px;">Post a comment or something</h4>
 									<textarea placeholder="Write a wonderful comment about this place!"></textarea>
 									<input type="submit" value="Submit!">
 								</form>

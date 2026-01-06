@@ -1,6 +1,6 @@
 <?php
 
-	require_once $_SERVER['DOCUMENT_ROOT'].'/core/user.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/classes/user.php';
 
 	/**
 	 * Utilities for User stuff<br>

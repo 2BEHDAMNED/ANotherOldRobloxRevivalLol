@@ -1,7 +1,7 @@
 <?php
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/status.php";
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/status.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
 	/**
 	 *  Core Profile Badges.

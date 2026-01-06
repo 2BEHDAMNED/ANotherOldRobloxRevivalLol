@@ -18,7 +18,7 @@ pcall(function() game:GetService("GamePassService"):SetPlayerHasPassUrl("http://
 
 	header("Content-Type: text/plain");
 
-	require_once $_SERVER['DOCUMENT_ROOT'].'/core/asset.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/classes/asset.php';
 
 	if(isset($_GET['PlaceId'])) {
 		$place = Place::FromID(intval($_GET['PlaceId']));

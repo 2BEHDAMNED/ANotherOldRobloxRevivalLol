@@ -1,7 +1,7 @@
 <?php
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/renderer.php";
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/rcclib.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/rcclib.php";
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 	

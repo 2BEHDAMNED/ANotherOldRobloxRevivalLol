@@ -3,7 +3,7 @@
 $name = $_GET['name'];
 $id = intval($_GET['id']);
 
-require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 $asset = Asset::FromID($id);

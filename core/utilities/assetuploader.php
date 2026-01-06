@@ -1,6 +1,6 @@
 <?php
-	include_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
-	include_once $_SERVER['DOCUMENT_ROOT']."/core/renderer.php";
+	include_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	include_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 	include_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 	

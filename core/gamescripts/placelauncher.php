@@ -7,8 +7,8 @@
 	 * I CANNOT BE ASKED TO DO SECURITY STUFF AS MUCH AS I WANT TO.
 	 */
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/renderer.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 

@@ -1,6 +1,6 @@
 <?php
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 	$access = $settings['asset']['ACCESSKEY'];

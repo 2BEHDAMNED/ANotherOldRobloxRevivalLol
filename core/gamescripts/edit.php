@@ -58,7 +58,7 @@ game:GetService("ChangeHistoryService"):SetEnabled(true)
 
 	header("Content-Type: text/plain");
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 	$user = UserUtils::RetrieveUser();

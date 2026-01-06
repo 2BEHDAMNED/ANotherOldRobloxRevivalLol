@@ -2,7 +2,7 @@
 	header("Content-Type: application/json");
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 	include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
 	$user = UserUtils::RetrieveUser();
