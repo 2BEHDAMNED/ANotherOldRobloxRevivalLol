@@ -499,7 +499,7 @@ $header_data = $asset;
 							}
 
 							.Comment[other] {
-								background: #2a2a2a;
+								background: #0a0a0a;
 							}
 
 							.Comment > div {
@@ -538,10 +538,53 @@ $header_data = $asset;
 								width: 704px;
 								height: 82px;
 							}
+
+							#CommentPostArea {
+								padding: 5px;
+								background: #222;
+								border: 2px solid black;
+							}
+
+							#CommentPostArea > form > * {
+								margin: 5px;
+							}
+
+							#CommentPostArea textarea {
+								border: 2px solid black;
+								display: block;
+								width: 840px;
+								height: 80px;
+								resize: none;
+								background: #3a3a3a;
+							}
+
+							#CommentPostArea textarea::placeholder {
+								color: gray;
+								font-style: italic;
+							}
+
+							#CommentPostArea input[type="submit"] {
+								border: 2px solid black;
+								padding: 3px 10px;
+								font-family: punk;
+								color: white;
+								background: black;
+							}
+
+							#CommentPostArea input[type="submit"]:hover {
+								background: #222;
+							}
 						</style>
 
 						<div id="CommentsContainer">
 							<h3>Comments (0)</h3>
+							<div id="CommentPostArea">
+								<form method="POST">
+									<h4 style="margin: 0;">Post a comment or something</h4>
+									<textarea placeholder="Write a wonderful comment about this place!"></textarea>
+									<input type="submit" value="Submit!">
+								</form>
+							</div>
 							<div id="CommentSection">
 								<div class="Comment">
 									<div id="CommenterAvatar">
