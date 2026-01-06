@@ -552,10 +552,12 @@ $header_data = $asset;
 							#CommentPostArea textarea {
 								border: 2px solid black;
 								display: block;
-								width: 840px;
+								width: 830px;
 								height: 80px;
 								resize: none;
 								background: #3a3a3a;
+								padding: 5px;
+								color: white;
 							}
 
 							#CommentPostArea textarea::placeholder {
@@ -598,7 +600,7 @@ $header_data = $asset;
 										</div>
 										<code>Contents here</code>
 									</div>
-									<div style="clear: both;"></div>
+									<div style="float: none; clear: both;"></div>
 								</div>
 								<?php if($user == null): ?>
 									<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
