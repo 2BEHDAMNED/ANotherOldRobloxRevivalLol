@@ -571,6 +571,7 @@ $header_data = $asset;
 								font-family: punk;
 								color: white;
 								background: black;
+								cursor: pointer;
 							}
 
 							#CommentPostArea input[type="submit"]:hover {
@@ -589,6 +590,20 @@ $header_data = $asset;
 							</div>
 							<div id="CommentSection">
 								<div class="Comment">
+									<div id="CommenterAvatar">
+										<a href="">
+											<img src="/thumbs/player?id=1">
+										</a>
+									</div>
+									<div id="CommentPartArea">
+										<div id="CommentInfoArea">
+											<a href="">Commenter Name</a>&nbsp;<span>Posted on dd/mm/yyyy HH:MM</span>
+										</div>
+										<code>Contents here</code>
+									</div>
+									<div style="float: none; clear: both;"></div>
+								</div>
+								<div class="Comment" other>
 									<div id="CommenterAvatar">
 										<a href="">
 											<img src="/thumbs/player?id=1">
