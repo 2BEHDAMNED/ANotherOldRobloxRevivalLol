@@ -337,6 +337,41 @@
 			}
 		}
 
+		public static function UpdateHat(int $id, array|string $file) {
+			$user = UserUtils::RetrieveUser();
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+
+			// process singular asset
+			$place_result = self::UpdateAsset($id, $user, $place_data);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				$directory = $_SERVER['DOCUMENT_ROOT'];
+				$md5hashfile = md5($place_data);
+				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+				
+				if(!file_exists($assetsdir)) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
+					$stmt->bind_param('si', $md5hashfile, $place_result['versionid']);
+					$stmt->execute();
+				
+					$render = TheFuckingRenderer::RenderModel($id);
+				}
+
+				return ["error" => false, "vid" => $place_result['versionid']];
+			}
+		}
+
 		public static function UploadDecal(string $name, string $description, array $file, bool $face = false) {
 			$user = UserUtils::RetrieveUser();
 

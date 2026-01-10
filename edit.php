@@ -43,7 +43,8 @@
 		AssetType::PLACE,
 		AssetType::MESH,
 		AssetType::MODEL,
-		AssetType::LUA
+		AssetType::LUA,
+		AssetType::HAT
 	];
 
 	function CheckMimeType($contents) {
@@ -125,6 +126,8 @@
 				$result = AssetUploader::UpdateMesh($asset->id, $_FILES['ANORRL$PublishAsset$File']);
 			} else if($asset->type == AssetType::PLACE) {
 				$result = AssetUploader::UpdatePlace($asset->id, $_FILES['ANORRL$PublishAsset$File']);
+			} else if($asset->type == AssetType::HAT) {
+				$result = AssetUploader::UpdateHat($asset->id, $_FILES['ANORRL$PublishAsset$File']);
 			} else {
 				die("Type was recognised but not implemented...");
 			}
