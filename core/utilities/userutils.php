@@ -207,7 +207,7 @@
 				"Home"                              => "/my/home.php",
 				"Looking at {username}'s profile"   => "/users/profile.php",
 				"Stuff"                             => "/my/stuff.php",
-				"Create Panel"                      => "/core/create.php",
+				"Create Panel"                      => "/create.php",
 				"Changing their profile info"       => "/my/profile.php",
 				"People"                            => "/people.php",
 				"Browsing games"                    => "/games.php",
