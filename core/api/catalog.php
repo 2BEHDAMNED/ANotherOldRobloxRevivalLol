@@ -27,9 +27,9 @@
 		die(header("Location: /api/catalog?c=$type&q=$query&p=1"));
 	}
 
-	$total_pages = floor((count(Asset::GetAssetsOfType($query, $asset_type))/12) + 0.5)+1;
+	$total_pages = floor((count(Asset::GetAssetsOfType($query, $asset_type))/16) + 0.5)+1;
 
-	if(count(Asset::GetAssetsOfTypePaged($query, $asset_type, $total_pages, 12)) == 0) {
+	if(count(Asset::GetAssetsOfTypePaged($query, $asset_type, $total_pages, 16)) == 0) {
 		$total_pages--;
 	}
 
@@ -37,7 +37,7 @@
 		die(header("Location: /api/stuff?c=$type&q=$query&p=1"));
 	}
 
-	$assets = Asset::GetAssetsOfTypePaged($query, $asset_type, $page, 12);
+	$assets = Asset::GetAssetsOfTypePaged($query, $asset_type, $page, 16);
 
 	$assets_raw = [];
 
