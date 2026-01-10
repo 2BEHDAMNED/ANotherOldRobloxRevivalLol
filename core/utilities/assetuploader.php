@@ -355,6 +355,10 @@
 				if(str_contains($place_data, "class=\"Script\"")) {
 					return ["error" => true, "reason" => "Hat cannot contain scripts!"];
 				}
+
+				if(str_contains($place_data, "class=\"CharacterMesh\"")) {
+					return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
+				}
 			}
 
 			// process singular asset
@@ -993,6 +997,10 @@
 			} else {
 				if(str_contains($place_data, "class=\"Script\"")) {
 					return ["error" => true, "reason" => "Hat cannot contain scripts!"];
+				}
+
+				if(str_contains($place_data, "class=\"CharacterMesh\"")) {
+					return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
 				}
 			}
 
