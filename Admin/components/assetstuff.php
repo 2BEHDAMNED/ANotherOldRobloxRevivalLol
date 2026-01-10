@@ -89,7 +89,11 @@
 				}
 
 				if($_POST['type'] == "delete") {
-					$stmt = $con->prepare('UPDATE `assets` SET `asset_status`= -1  WHERE `asset_id` = ?');
+					$stmt = $con->prepare('UPDATE `assets` SET `asset_public` = 0  WHERE `asset_id` = ?');
+					$stmt -> bind_param("i", $id);
+					$stmt->execute();
+
+					$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ? AND `ta_assetcreator` != `ta_userid`');
 					$stmt -> bind_param("i", $id);
 					$stmt->execute();
 

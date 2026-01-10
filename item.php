@@ -319,6 +319,12 @@ $header_data = $asset;
 					window.location.reload();
 				});
 			}
+
+			function Delete() {
+				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
+					window.location.reload();
+				});
+			}
 		</script>
 		<?php endif ?>
 	</head>
@@ -433,6 +439,7 @@ $header_data = $asset;
 									<?php endif ?>
 									<?php if($user != null && $user->IsAdmin() && in_array($asset->type, $rendering_types)): ?>
 									<a href="javascript:Render()">Render this asset</a>
+									<a href="javascript:Delete()">Delete this asset</a>
 									<?php endif ?>
 								</div>
 								<?php endif ?>
