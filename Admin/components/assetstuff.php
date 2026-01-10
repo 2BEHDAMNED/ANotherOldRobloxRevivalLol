@@ -93,7 +93,7 @@
 					$stmt -> bind_param("i", $id);
 					$stmt->execute();
 
-					$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ? AND `ta_assetcreator` != `ta_userid`');
+					$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ?');
 					$stmt -> bind_param("i", $id);
 					$stmt->execute();
 
