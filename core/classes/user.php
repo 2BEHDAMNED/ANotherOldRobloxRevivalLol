@@ -220,9 +220,16 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					if($asset->type == $type) {
-						array_push($result_array, $asset);
+					if($asset != null) {
+						if($asset->type == $type) {
+							array_push($result_array, $asset);
+						}
+					} else {
+						$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ?');
+						$stmt -> bind_param("i", $row['ta_asset']);
+						$stmt->execute();
 					}
+					
 				}
 				return $result_array;
 			}
@@ -255,7 +262,13 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					array_push($result_array, $asset);
+					if($asset != null) {
+						array_push($result_array, $asset);
+					} else {
+						$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ?');
+						$stmt -> bind_param("i", $row['ta_asset']);
+						$stmt->execute();
+					}
 				}
 			}
 
@@ -279,8 +292,12 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					if($asset->type == $type) {
+					if($asset != null) {
 						array_push($result_array, $asset);
+					} else {
+						$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ?');
+						$stmt -> bind_param("i", $row['ta_asset']);
+						$stmt->execute();
 					}
 				}
 				return $result_array;
@@ -303,7 +320,14 @@
 			if($result->num_rows != 0) {
 				while($row = $result->fetch_assoc()) {
 					$asset = Asset::FromID($row['ta_asset']);
-					array_push($result_array, $asset);
+					if($asset == null) {
+						$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ?');
+						$stmt -> bind_param("i", $row['ta_asset']);
+						$stmt->execute();
+					} else {
+						array_push($result_array, $asset);
+					}
+					
 				}
 			}
 
