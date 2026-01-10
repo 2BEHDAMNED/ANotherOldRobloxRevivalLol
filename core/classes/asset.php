@@ -189,7 +189,7 @@
 
 		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 ORDER BY `asset_lastedited` LIMIT ?, ?");
+			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 ORDER BY `asset_lastedited` DESC LIMIT ?, ?");
 			
 			$page = (($pagenum-1)*$count);
 			$q = "%$query%";

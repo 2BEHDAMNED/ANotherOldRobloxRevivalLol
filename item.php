@@ -319,7 +319,10 @@ $header_data = $asset;
 					window.location.reload();
 				});
 			}
-
+		</script>
+		<?php endif ?>
+		<?php if($user != null && $user->IsAdmin() || $is_creator): ?>
+		<script>
 			function Delete() {
 				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
 					window.location.reload();
@@ -439,6 +442,8 @@ $header_data = $asset;
 									<?php endif ?>
 									<?php if($user != null && $user->IsAdmin() && in_array($asset->type, $rendering_types)): ?>
 									<a href="javascript:Render()">Render this asset</a>
+									<?php endif ?>
+									<?php if($is_creator): ?>
 									<a href="javascript:Delete()">Delete this asset</a>
 									<?php endif ?>
 								</div>
