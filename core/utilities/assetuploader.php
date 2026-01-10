@@ -349,6 +349,14 @@
 				$place_data = $file;
 			}
 
+			if(!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://arl.lambda.cam/roblox.xsd\" version=\"4\">")) {
+				return ["error" => true, "reason" => "Not a valid model file!"];
+			} else {
+				if(str_contains($place_data, "class=\"Script\"")) {
+					return ["error" => true, "reason" => "Hat cannot contain scripts!"];
+				}
+			}
+
 			// process singular asset
 			$place_result = self::UpdateAsset($id, $user, $place_data);
 			if($place_result['error']) {
@@ -980,6 +988,13 @@
 				$place_data = $file;
 			}
 			
+			if(!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://arl.lambda.cam/roblox.xsd\" version=\"4\">")) {
+				return ["error" => true, "reason" => "Not a valid model file!"];
+			} else {
+				if(str_contains($place_data, "class=\"Script\"")) {
+					return ["error" => true, "reason" => "Hat cannot contain scripts!"];
+				}
+			}
 
 			// process singular asset
 			$place_result = self::UploadAsset($user, AssetType::HAT, $name, $description, true, false, $place_data);
