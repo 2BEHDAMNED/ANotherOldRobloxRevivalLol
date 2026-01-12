@@ -19,6 +19,7 @@
 		}
 	}
 	else if ($_GET["method"] == "IsInGroup") {
+		$value = 'false';
 		if ($_GET['groupid'] == "1200769") {
 			
 			$user = User::FromID(intval($_GET['playerid']));
@@ -26,8 +27,6 @@
 			if($user != null) {
 				$value = $user->IsAdmin() ? "true" : "false";
 			}
-		} else {
-			$value = 'false';
 		}
 		echo '<Value Type="boolean">'.$value.'</Value>';
 	} 
