@@ -96,15 +96,52 @@
 		}
 		
 		function GetFriends(): array {
-			return [];
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE (`sender` LIKE ? OR `reciever` LIKE ?) AND `status` = 1;");
+			$stmt_getuser->bind_param('ss', $this->name, $this->name);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			$friends = [];
+
+			while($row = $result->fetch_assoc()) {
+				if($row['sender'] == $this->name) {
+					array_push($friends, User::FromID($row['reciever']));
+				} else {
+					array_push($friends, User::FromID($row['sender']));
+				}
+			}
+			return $friends;
 		}
 		
 		function GetFollowers(): array {
-			return [];
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `follows` WHERE `followed` = ?;");
+			$stmt_getuser->bind_param('s', $this->name);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			$followers = [];
+
+			while($row = $result->fetch_assoc()) {
+				array_push($followers, User::FromID($row['follower']));
+			}
+			return $followers;
 		}
 		
 		function GetFollowing(): array {
-			return [];
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `follows` WHERE `follower` = ?;");
+			$stmt_getuser->bind_param('s', $this->name);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			$following = [];
+
+			while($row = $result->fetch_assoc()) {
+				array_push($following, User::FromID($row['followed']));
+			}
+			return $following;
 		}
 
 		function GetFriendsCount(): int {
@@ -611,19 +648,19 @@ EOT;
 			$stmt_createcolours->execute();
 		}
 		
-		function Follow(User|string $user) {
+		function Follow(User|int $user) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$username = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$username = $user->name;
+				$userid = $user->id;
 			}
 			if(!$this->IsFollowing($user)) {
 				$stmt_getuser = $con->prepare("INSERT INTO `follows`(`follower`, `followed`) VALUES (?, ?);");
-				$stmt_getuser->bind_param('ss', $this->name, $username);
+				$stmt_getuser->bind_param('ii', $this->id, $userid);
 				$stmt_getuser->execute();
 			} else {
 				$stmt_getuser = $con->prepare("DELETE FROM `follows` WHERE `follower` = ? AND `followed` = ?;");
-				$stmt_getuser->bind_param('ss', $this->name, $username);
+				$stmt_getuser->bind_param('ii', $this->id, $userid);
 				$stmt_getuser->execute();
 			}
 		}
