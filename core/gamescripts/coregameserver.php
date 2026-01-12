@@ -134,13 +134,13 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 
 		if starterCharacter then
 			for _, v in pairs(character:GetChildren()) do
-				if v.Name ~= "HumanoidRootPart" and not v:IsA("LocalScript") and not v:IsA("Script") then
+				if v.Name ~= "HumanoidRootPart" and not v:IsA("LocalScript") and not v:IsA("Script") and not v:IsA("BasePart") and not v:IsA("Humanoid") then
 					v:Remove()
 				end
 			end
 			for _, v in pairs(starterCharacter:GetChildren()) do
 				
-				if v.Name ~= "HumanoidRootPart" then
+				if v.Name ~= "HumanoidRootPart" and not v:IsA("BasePart") and not v:IsA("Humanoid") then
 					v:Clone().Parent = character
 				end
 			end
