@@ -85,14 +85,27 @@
 							<div id="FriendsContainer">
 								<h3>Friends<?php if($user->GetFriendsCount() > 5): ?> <a href="/my/friends" style="font-size: 12px;">(See all)</a><?php endif ?></h3>
 								<?php if($user->GetFriendsCount() != 0): ?>
-								<ul id="Friends">
-									<li class="Friend">
-										<a id="ProfileLink" href="/users/1/profile">
-											<img id="Profile" src="/images/avatar.png">
-											<div id="Name">Username</div>
-										</a>
-									</li>
-								</ul>
+								<?php 
+									$friends = $user->GetFriends();
+
+									foreach($friends as $friend) {
+										if($friend instanceof User) {
+											$fID = $friend->id;
+											$fName = $friend->name;
+											echo <<<EOT
+											<ul id="Friends">
+												<li class="Friend">
+													<a id="ProfileLink" href="/users/$fID/profile">
+														<img id="Profile" src="/thumbs/player?id=$fID">
+														<div id="Name">$fName</div>
+													</a>
+												</li>
+											</ul>
+											EOT;
+										}
+										
+									}
+								?>
 								<?php else: ?>
 								<ul id="Friends" style="display: table">
 									<div id="NoFriends">You don't have any friends!</div>
