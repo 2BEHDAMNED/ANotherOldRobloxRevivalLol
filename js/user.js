@@ -39,6 +39,15 @@ ANORRL.User = {
 	},
 	JoinTheGame: function() {
 		ANORRL.PlaceLauncher.LetsJoinAndPlay($("a#Play").attr("data-placejoinid"));
+	},
+	Follow: function(id) {
+		$.post("/api/user", { id: id, request: "follow"}, function(data) {
+			if(data['error']) {
+				alert(data['reason']);
+			} else {
+				window.location.reload();
+			}
+		});
 	}
 }
 

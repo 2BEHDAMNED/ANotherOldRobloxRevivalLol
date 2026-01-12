@@ -132,6 +132,8 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 			v:Clone().Parent = character
 		end
 
+		starterCharacter = false
+
 		if starterCharacter then
 			for _, v in pairs(character:GetChildren()) do
 				if v.Name ~= "HumanoidRootPart" and not v:IsA("LocalScript") and not v:IsA("Script") and not v:IsA("BasePart") and not v:IsA("Humanoid") then

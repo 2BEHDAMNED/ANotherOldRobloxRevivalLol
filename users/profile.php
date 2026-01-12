@@ -374,11 +374,21 @@
 								</div>
 								
 								<div id="Controls">
+									<style>
+										#Controls button {
+											margin-top: 4px;
+										}
+									</style>
 									<?php if($user != null): ?>
 										<?php if($user->id != $get_user->id): ?>
-											<button style="margin-top: 4px;width: 107px;">Add Friend</button> <button style="margin-top: 4px;width: 70px;margin-left: 2px;">Follow</button><br>
+											<button style="width: 107px;">Add Friend</button>
+											<?php if($user->IsFollowing($get_user)): ?>
+											<button style="width: 70px;margin-left: 2px;" onclick="ANORRL.User.Follow(<?= $get_user->id ?>);">Unfollow</button><br>
+											<?php else :?>
+											<button style="width: 70px;margin-left: 2px;" onclick="ANORRL.User.Follow(<?= $get_user->id ?>);">Follow</button><br>
+											<?php endif ?>
 										<?php else: ?>
-										<button style="width: 74px;margin-top: 4px;">It's you.</button>
+										<button style="width: 74px;">It's you.</button>
 										<?php endif ?>
 									<?php endif ?>
 								</div>
@@ -403,7 +413,7 @@
 										
 										<span class="Online"><b>Online</b> - <?= $get_user->GetOnlineActivity() ?></span>
 										<?php else: ?>
-										<span class="Offline"><b>Offline</b></span>
+										<span class="Offline"><b>Offline</b> - Last seen... IDK</span>
 										<?php endif ?>
 									</div>
 									<div id="OnlineStatusArea" style="padding-top:0px; margin-top:-5px;">

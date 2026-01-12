@@ -5,8 +5,10 @@
 
 	if(isset($_GET['id']) && isset($_GET['request'])) {
 		$user = User::FromID(intval($_GET['id']));
+		$selfuser = false;
 		if($user == null) {
 			$user = UserUtils::RetrieveUser();
+			$selfuser = true;
 		}
 
 		if($user != null) {
@@ -36,18 +38,44 @@
 				}
 		
 				die(json_encode(["badges" => $badges_raw, "page" => $page, "total_pages" => floor(count($user->GetAllOwnedAssetsOfType(AssetType::BADGE))/12)+1]));
-			} else if($_GET['request'] == "isadmin") {
+			}
+			else if($_GET['request'] == "isadmin") {
 				die(json_encode(['error' => false, 'isadmin' => $user->IsAdmin()]));
-			} else {
+			}
+			
+			else {
 				die(json_encode(["error" => true, "reason" => "Invalid request"]));
 			}
 			
 		} else {
 			die(json_encode(["error" => true, "reason" => "User not found."]));
 		}
-	} else {
-		die(json_encode(["error" => true, "reason" => "Invalid request"]));
+	} else if(isset($_POST['id']) && isset($_POST['request'])) {
+		$user = User::FromID(intval($_POST['id']));
+		$selfuser = false;
+		if($user == null) {
+			$user = UserUtils::RetrieveUser();
+			$selfuser = true;
+		}
+
+
+		if($user != null) {
+			
+			if($_POST['request'] == "follow" && !$selfuser) {
+				$founduser = UserUtils::RetrieveUser();
+
+				if($founduser != null) {
+					if($founduser->id != $user->id) {
+						$founduser->Follow($user);
+						die(json_encode(['error' => false]));
+					}
+				}
+			}
+		} else {
+			die(json_encode(["error" => true, "reason" => "User not found."]));
+		}
+		 
 	}
 	
-	
+	die(json_encode(["error" => true, "reason" => "Invalid request"]));
 ?>
