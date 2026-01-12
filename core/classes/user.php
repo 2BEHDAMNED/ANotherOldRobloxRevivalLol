@@ -678,15 +678,15 @@ EOT;
 			}
 		}
 
-		function IsFollowing(User|string $user): bool {
+		function IsFollowing(User|int $user): bool {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$username = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$username = $user->name;
+				$userid = $user->id;
 			}
 
 			$stmt_getuser = $con->prepare("SELECT * FROM `follows` WHERE `follower` LIKE ? AND `followed` LIKE ?;");
-			$stmt_getuser->bind_param('ss', $this->name, $username);
+			$stmt_getuser->bind_param('ii', $this->id, $userid);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
