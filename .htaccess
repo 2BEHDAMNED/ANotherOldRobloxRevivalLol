@@ -66,6 +66,8 @@
 
 	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx /core/social/socialrequests.php [END]
 	RewriteRule ^userblock/getblockedusers /core/social/getblockedusers.php [END]
+	RewriteRule ^user/following-exists /core/social/following-exists.php [END]
+	RewriteRule ^user/get-friendship-count /core/social/get-friendship-count.php [END]
 	
 	RewriteRule ^login$ login.php										  [END]
 	RewriteRule ^Login$ login.php										  [END]
