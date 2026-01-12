@@ -122,7 +122,7 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 		local animateScript = character:WaitForChild("Animate")
 
 		if folders:FindFirstChild("Animate") then
-			soundScript:Remove()
+			animateScript:Remove()
 		end
 
 		for _, v in pairs(folders:GetChildren()) do
