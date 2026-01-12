@@ -685,7 +685,7 @@ EOT;
 				$userid = $user->id;
 			}
 
-			$stmt_getuser = $con->prepare("SELECT * FROM `follows` WHERE `follower` LIKE ? AND `followed` LIKE ?;");
+			$stmt_getuser = $con->prepare("SELECT * FROM `follows` WHERE `follower` = ? AND `followed` = ?;");
 			$stmt_getuser->bind_param('ii', $this->id, $userid);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
@@ -721,11 +721,11 @@ EOT;
 			}
 
 			if($this->IsPendingFriendsReq($user) || $this->IsIncomingFriendsReq($user) || $this->IsFriendsWith($user)) {
-				$stmt_getuser = $con->prepare("DELETE FROM `friends` WHERE (`reciever` LIKE ? AND `sender` LIKE ?)");
+				$stmt_getuser = $con->prepare("DELETE FROM `friends` WHERE (`reciever` = ? AND `sender` = ?)");
 				$stmt_getuser->bind_param('ii', $this->id, $userid);
 				$stmt_getuser->execute();
 
-				$stmt_getuser = $con->prepare("DELETE FROM `friends` WHERE (`sender` LIKE ? AND `reciever` LIKE ?)");
+				$stmt_getuser = $con->prepare("DELETE FROM `friends` WHERE (`sender` = ? AND `reciever` = ?)");
 				$stmt_getuser->bind_param('ii', $this->id, $userid);
 				$stmt_getuser->execute();
 			}
@@ -738,7 +738,7 @@ EOT;
 				$userid = $user->name;
 			}
 
-			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE `sender` LIKE ? AND `reciever` LIKE ? AND `status` = 0;");
+			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE `sender` = ? AND `reciever` = ? AND `status` = 0;");
 			$stmt_getuser->bind_param('ii', $this->id, $userid);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
@@ -753,7 +753,7 @@ EOT;
 				$userid = $user->id;
 			}
 
-			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE `reciever` LIKE ? AND `sender` LIKE ? AND `status` = 0;");
+			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE `reciever` = ? AND `sender` = ? AND `status` = 0;");
 			$stmt_getuser->bind_param('ii', $this->id, $userid);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
@@ -768,8 +768,8 @@ EOT;
 				$userid = $user->id;
 			}
 
-			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE ((`reciever` LIKE ? AND `sender` LIKE ?) OR (`sender` LIKE ? AND `reciever` LIKE ?)) AND `status` = 1;");
-			$stmt_getuser->bind_param('ssss', $this->id, $userid, $this->id, $userid);
+			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE ((`reciever` = ? AND `sender` = ?) OR (`sender` = ? AND `reciever` = ?)) AND `status` = 1;");
+			$stmt_getuser->bind_param('iiii', $this->id, $userid, $this->id, $userid);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
