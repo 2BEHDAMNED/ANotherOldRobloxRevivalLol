@@ -693,20 +693,20 @@ EOT;
 			return $result->num_rows != 0;
 		}
 
-		function Friend(User|string $user) {
+		function Friend(User|int $user) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$username = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$username = $user->name;
+				$userid = $user->id;
 			}
 
 			if(!$this->IsFriendsWith($user) && !$this->IsPendingFriendsReq($user) && !$this->IsIncomingFriendsReq($user)) {
 				$stmt_addfriend = $con->prepare("INSERT INTO `friends`(`sender`, `reciever`) VALUES (?,?)");
-				$stmt_addfriend->bind_param('ss', $this->name, $username);
+				$stmt_addfriend->bind_param('ii', $this->id, $userid);
 				$stmt_addfriend->execute();
 			} else if($this->IsIncomingFriendsReq($user)) {
 				$stmt_addfriend = $con->prepare("UPDATE `friends` SET `status`= 1 WHERE `reciever` = ? AND `sender` = ?;");
-				$stmt_addfriend->bind_param('ss', $this->name, $username);
+				$stmt_addfriend->bind_param('ii', $this->id, $userid);
 				$stmt_addfriend->execute();
 			} else {
 				$this->Unfriend($user);

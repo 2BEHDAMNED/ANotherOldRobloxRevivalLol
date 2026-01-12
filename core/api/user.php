@@ -70,6 +70,15 @@
 						die(json_encode(['error' => false]));
 					}
 				}
+			} else if($_POST['request'] == "friend" && !$selfuser) {
+				$founduser = UserUtils::RetrieveUser();
+
+				if($founduser != null) {
+					if($founduser->id != $user->id) {
+						$founduser->Friend($user);
+						die(json_encode(['error' => false]));
+					}
+				}
 			}
 		} else {
 			die(json_encode(["error" => true, "reason" => "User not found."]));

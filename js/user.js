@@ -48,6 +48,15 @@ ANORRL.User = {
 				window.location.reload();
 			}
 		});
+	},
+	Friend: function(id) {
+		$.post("/api/user", { id: id, request: "friend"}, function(data) {
+			if(data['error']) {
+				alert(data['reason']);
+			} else {
+				window.location.reload();
+			}
+		});
 	}
 }
 

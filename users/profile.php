@@ -381,7 +381,24 @@
 									</style>
 									<?php if($user != null): ?>
 										<?php if($user->id != $get_user->id): ?>
-											<button style="width: 107px;">Add Friend</button>
+											
+
+											<?php if($user->IsFriendsWith($get_user)): ?>
+												<button style="width: 107px;" onclick="ANORRL.User.Friend(<?= $get_user->id ?>)">Unfriend :[</button>
+											<?php else: ?>
+												<div>
+													<?php if($user->IsPendingFriendsReq($get_user)): ?>
+														<button style="width: 107px;" onclick="ANORRL.User.Friend(<?= $get_user->id ?>)">Cancel Req.</button>
+													<?php else: ?>
+														<?php if($user->IsIncomingFriendsReq($get_user)): ?>
+														<button style="width: 107px;" onclick="ANORRL.User.Friend(<?= $get_user->id ?>)">Accept Req.</button>
+														<?php else: ?>
+														<button style="width: 107px;" onclick="ANORRL.User.Friend(<?= $get_user->id ?>)">Add Friend</button>
+														<?php endif ?>
+													<?php endif ?>
+												</div>
+											<?php endif ?>
+
 											<?php if($user->IsFollowing($get_user)): ?>
 											<button style="width: 70px;margin-left: 2px;" onclick="ANORRL.User.Follow(<?= $get_user->id ?>);">Unfollow</button><br>
 											<?php else :?>
