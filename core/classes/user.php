@@ -98,14 +98,14 @@
 		function GetFriends(): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE (`sender` LIKE ? OR `reciever` LIKE ?) AND `status` = 1;");
-			$stmt_getuser->bind_param('ss', $this->name, $this->name);
+			$stmt_getuser->bind_param('ii', $this->id, $this->id);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
 			$friends = [];
 
 			while($row = $result->fetch_assoc()) {
-				if($row['sender'] == $this->name) {
+				if($row['sender'] == $this->id) {
 					array_push($friends, User::FromID($row['reciever']));
 				} else {
 					array_push($friends, User::FromID($row['sender']));
@@ -117,7 +117,7 @@
 		function GetFollowers(): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `follows` WHERE `followed` = ?;");
-			$stmt_getuser->bind_param('s', $this->name);
+			$stmt_getuser->bind_param('i', $this->id);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
@@ -132,7 +132,7 @@
 		function GetFollowing(): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `follows` WHERE `follower` = ?;");
-			$stmt_getuser->bind_param('s', $this->name);
+			$stmt_getuser->bind_param('i', $this->id);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
