@@ -111,7 +111,10 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 	end)
 
 	player.CharacterAdded:connect(function(character)
-		local folders = game:GetService("StarterPlayer"):WaitForChild("StarterCharacterScripts")
+		local starterPlayer = game:GetService("StarterPlayer")
+
+		local starterCharacter = starterPlayer:FindFirstChild("StarterCharacter")
+		local folders = starterPlayer:WaitForChild("StarterCharacterScripts")
 
 		local soundScript = character:WaitForChild("Sound")
 
@@ -129,7 +132,19 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 			v:Clone().Parent = character
 		end
 
-
+		if starterCharacter then
+			for _, v in pairs(character:GetChildren()) do
+				if v.Name ~= "HumanoidRootPart" and not v:IsA("LocalScript") and not v:IsA("Script") then
+					v:Remove()
+				end
+			end
+			for _, v in pairs(starterCharacter:GetChildren()) do
+				
+				if v.Name ~= "HumanoidRootPart" then
+					v:Clone().Parent = character
+				end
+			end
+		end
 	end)
 end)
 
