@@ -3,7 +3,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 	header("Content-Type: application/xml;charset=utf-8");
-	include ($_SERVER['DOCUMENT_ROOT'].'/config/database.php');
+	
 	if ($_GET["method"] == "IsBestFriendsWith" || $_GET["method"] == "IsFriendsWith") {
 		
 		$uID = (int)$_GET['playerid'];
@@ -12,8 +12,8 @@
 		$user = User::FromID(intval($_GET['playerid']));
 		$userToCheckFriendsWith = User::FromID(intval($_GET['userid']));
 
-		if($user != null && $userToCheckFriendsWith != null && $user->IsFriendsWith($userToCheckFriendsWith)){
-			echo '<Value Type="boolean">true</Value>';
+		if($user != null && $userToCheckFriendsWith != null && $user->IsFriendsWith($userToCheckFriendsWith)) {
+			echo "<Value Type=\"boolean\">true</Value>";
 		}else{
 			echo '<Value Type="boolean">false</Value>';
 		}
