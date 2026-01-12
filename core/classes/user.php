@@ -735,7 +735,7 @@ EOT;
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$userid = $user;
 			if($user instanceof User) {
-				$userid = $user->name;
+				$userid = $user->id;
 			}
 
 			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE `sender` = ? AND `reciever` = ? AND `status` = 0;");
