@@ -41,7 +41,7 @@ ANORRL.PlaceLauncher  = {
 				alert("You need to be logged in to play!");
 				return;
 			}
-			window.open("anorrl-player-lambda:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID="+data+"+placeid:"+placeId+"+launchmode:play+gameinfo:0");
+			window.open("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID="+data+"+placeid:"+placeId+"+launchmode:play+gameinfo:0");
 		});
 	},
 	
@@ -71,7 +71,7 @@ ANORRL.PlaceLauncher  = {
 					alert("You need to be logged in to play!");
 					return;
 				}
-				window.open("anorrl-player-lambda:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID="+data+"+placeid:"+placeID+"+launchmode:play+gameinfo:0");
+				window.open("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID="+data+"+placeid:"+placeID+"+launchmode:play+gameinfo:0");
 			});
 		});
 
