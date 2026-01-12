@@ -713,63 +713,63 @@ EOT;
 			}
 		}
 
-		function Unfriend(User|string $user) {
+		function Unfriend(User|int $user) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$username = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$username = $user->name;
+				$userid = $user->id;
 			}
 
 			if($this->IsPendingFriendsReq($user) || $this->IsIncomingFriendsReq($user) || $this->IsFriendsWith($user)) {
 				$stmt_getuser = $con->prepare("DELETE FROM `friends` WHERE (`reciever` LIKE ? AND `sender` LIKE ?)");
-				$stmt_getuser->bind_param('ss', $this->name, $username);
+				$stmt_getuser->bind_param('ii', $this->id, $userid);
 				$stmt_getuser->execute();
 
 				$stmt_getuser = $con->prepare("DELETE FROM `friends` WHERE (`sender` LIKE ? AND `reciever` LIKE ?)");
-				$stmt_getuser->bind_param('ss', $this->name, $username);
+				$stmt_getuser->bind_param('ii', $this->id, $userid);
 				$stmt_getuser->execute();
 			}
 		}
 
-		function IsPendingFriendsReq(User|string $user) {
+		function IsPendingFriendsReq(User|int $user) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$username = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$username = $user->name;
+				$userid = $user->name;
 			}
 
 			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE `sender` LIKE ? AND `reciever` LIKE ? AND `status` = 0;");
-			$stmt_getuser->bind_param('ss', $this->name, $username);
+			$stmt_getuser->bind_param('ii', $this->id, $userid);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
 			return $result->num_rows != 0;
 		}
 
-		function IsIncomingFriendsReq(User|string $user) {
+		function IsIncomingFriendsReq(User|int $user) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$username = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$username = $user->name;
+				$userid = $user->id;
 			}
 
 			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE `reciever` LIKE ? AND `sender` LIKE ? AND `status` = 0;");
-			$stmt_getuser->bind_param('ss', $this->name, $username);
+			$stmt_getuser->bind_param('ii', $this->id, $userid);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
 			return $result->num_rows != 0;
 		}
 
-		function IsFriendsWith(User|string $user): bool {
+		function IsFriendsWith(User|int $user): bool {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$username = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$username = $user->name;
+				$userid = $user->id;
 			}
 
 			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE ((`reciever` LIKE ? AND `sender` LIKE ?) OR (`sender` LIKE ? AND `reciever` LIKE ?)) AND `status` = 1;");
-			$stmt_getuser->bind_param('ssss', $this->name, $username, $this->name, $username);
+			$stmt_getuser->bind_param('ssss', $this->id, $userid, $this->id, $userid);
 			$stmt_getuser->execute();
 			$result = $stmt_getuser->get_result();
 
