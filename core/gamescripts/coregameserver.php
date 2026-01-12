@@ -109,6 +109,14 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 			end
 		end
 	end)
+
+	player.CharacterAdded:connect(function(character)
+		local folders = game:GetService("StarterPlayer"):WaitForChild("StarterCharacterScripts")
+
+		for _, v in pairs(folders:GetChildren()) do
+			v:Clone().Parent = character
+		end
+	end)
 end)
 
 game:GetService("Players").PlayerRemoving:connect(function(player)
