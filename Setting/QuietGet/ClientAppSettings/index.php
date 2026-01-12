@@ -720,7 +720,7 @@ header("Content-Type: application/json");
 "FFLagEnableFullMonitorsResolution": "True",
 "FFlagEnableGetHitWhitelist": "True",
 "FFlagEnableiOSSettingsLeave": "True",
-"FFlagEnableLuaFollowers": "False",
+"FFlagEnableLuaFollowers": "True",
 "FFlagEnableNonleathalExplosions": "True",
 "FFlagEnableRenderCSGTrianglesDebug": "False",
 "FFlagEnableRubberBandSelection": "True",
