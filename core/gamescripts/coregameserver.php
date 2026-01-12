@@ -113,9 +113,23 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 	player.CharacterAdded:connect(function(character)
 		local folders = game:GetService("StarterPlayer"):WaitForChild("StarterCharacterScripts")
 
+		local soundScript = character:WaitForChild("Sound")
+
+		if folders:FindFirstChild("Sound") then
+			soundScript:Remove()
+		end
+
+		local animateScript = character:WaitForChild("Animate")
+
+		if folders:FindFirstChild("Animate") then
+			soundScript:Remove()
+		end
+
 		for _, v in pairs(folders:GetChildren()) do
 			v:Clone().Parent = character
 		end
+
+
 	end)
 end)
 
