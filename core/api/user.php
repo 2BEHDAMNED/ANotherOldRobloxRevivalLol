@@ -75,7 +75,12 @@
 
 				if($founduser != null) {
 					if($founduser->id != $user->id) {
-						$founduser->Friend($user);
+						if($founduser->IsFriendsWith($user)) {
+							$founduser->Unfriend($user);
+						} else {
+							$founduser->Friend($user);
+						}
+						
 						die(json_encode(['error' => false]));
 					}
 				}
