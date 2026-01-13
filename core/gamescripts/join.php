@@ -155,6 +155,11 @@
 		$place = Place::FromID(intval($serverDetails['server_placeid']));
 		
 		if($player != null && !$player->IsBanned() && $place != null) {
+
+			if(UserUtils::RetrieveUser() == null && $_SERVER['HTTP_USER_AGENT'] == "Roblox/WinInet") {
+				UserUtils::SetCookies($player->security_key);
+			}
+
 			$playerid = $player->id;
 			$playername = $player->name;
 			$serverport = $serverDetails['server_port'];
