@@ -17,7 +17,18 @@
 
 		if($toFollowUser != null) {
 			$user->Follow($toFollowUser);
-			die(http_response_code(200));
+			http_response_code(200);
+			die(json_encode(
+				[
+					"success" => true
+				]
+			));
+		} else {
+			die(json_encode(
+				[
+					"success" => false
+				]
+			));
 		}
 	}
 	http_response_code(405);
