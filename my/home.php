@@ -85,6 +85,7 @@
 							<div id="FriendsContainer">
 								<h3>Friends<?php if($user->GetFriendsCount() > 5): ?> <a href="/my/friends" style="font-size: 12px;">(See all)</a><?php endif ?></h3>
 								<?php if($user->GetFriendsCount() != 0): ?>
+								<ul id="Friends">
 								<?php 
 									$friends = $user->GetFriends();
 
@@ -93,19 +94,18 @@
 											$fID = $friend->id;
 											$fName = $friend->name;
 											echo <<<EOT
-											<ul id="Friends">
-												<li class="Friend">
-													<a id="ProfileLink" href="/users/$fID/profile">
-														<img id="Profile" src="/thumbs/player?id=$fID">
-														<div id="Name">$fName</div>
-													</a>
-												</li>
-											</ul>
+											<li class="Friend">
+												<a id="ProfileLink" href="/users/$fID/profile">
+													<img id="Profile" src="/thumbs/player?id=$fID">
+													<div id="Name">$fName</div>
+												</a>
+											</li>
 											EOT;
 										}
 										
 									}
 								?>
+								</ul>
 								<?php else: ?>
 								<ul id="Friends" style="display: table">
 									<div id="NoFriends">You don't have any friends!</div>
