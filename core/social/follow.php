@@ -4,6 +4,7 @@
 	ob_clean();
 
 	print_r($_POST);
+	print_r($_COOKIE);
 
 	$data = ob_get_clean();
 
