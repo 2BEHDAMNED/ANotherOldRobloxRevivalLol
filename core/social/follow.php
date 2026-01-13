@@ -9,13 +9,25 @@
 		if($toFollowUser != null) {
 			if(!$user->IsFollowing($toFollowUser)) {
 				$user->Follow($toFollowUser);
-			}
 
-			die(json_encode(
-				[
-					"success" => true
-				]
-			));
+				die(json_encode(
+					[
+						"success" => true
+					]
+				));
+			} else {
+				die(json_encode(
+					[
+						"success" => false
+					]
+				));
+			}
 		}
 	}
+
+	die(json_encode(
+		[
+			"success" => false
+		]
+	));
 ?>
