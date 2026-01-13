@@ -1,7 +1,13 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
-	file_put_contents($_SERVER['DOCUMENT_ROOT']."/test.txt", print_r($_POST));
+	ob_clean();
+
+	print_r($_POST);
+
+	$data = ob_get_clean();
+
+	file_put_contents($_SERVER['DOCUMENT_ROOT']."/test.txt", $data);
 
 	$user = UserUtils::RetrieveUser();
 
@@ -12,6 +18,6 @@
 			$user->Follow($toFollowUser);
 		}
 	}
-	http_response_code(500);
+	http_response_code(405);
 	die("Invalid shit or something");
 ?>
