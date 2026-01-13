@@ -17,6 +17,7 @@
 
 		if($toFollowUser != null) {
 			$user->Follow($toFollowUser);
+			die(http_response_code(200));
 		}
 	}
 	http_response_code(405);
