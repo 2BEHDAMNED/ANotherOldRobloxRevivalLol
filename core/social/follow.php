@@ -7,21 +7,29 @@
 		$toFollowUser = User::FromID(intval($_POST['followedUserId']));
 
 		if($toFollowUser != null) {
-			$user->Follow($toFollowUser);
-			http_response_code(200);
-			die(json_encode(
-				[
-					"success" => true
-				]
-			));
-		} else {
-			die(json_encode(
-				[
-					"success" => false
-				]
-			));
+			if(!$user->IsFollowing($toFollowUser)) {
+				$user->Follow($toFollowUser);
+
+				die(json_encode(
+					[
+						"success" => true
+					]
+				));
+			} else {
+				die(json_encode(
+					[
+						"success" => false
+					]
+				));
+			}
+			
+			
 		}
 	}
-	http_response_code(405);
-	die("Invalid shit or something");
+
+	die(json_encode(
+		[
+			"success" => false
+		]
+	));
 ?>
