@@ -238,6 +238,10 @@
 			
 			$user = User::FromID(intval($session_data['session_playerid']));
 
+			if(UserUtils::RetrieveUser() == null && $_SERVER['HTTP_USER_AGENT'] == "Roblox/WinInet") {
+				UserUtils::SetCookies($user->security_key);
+			}
+
 			if($place != null && $user != null && !$user->IsBanned()) {
 				$dont_load = false;
 				if(getActiveServersCount($place->id) == 0) {
