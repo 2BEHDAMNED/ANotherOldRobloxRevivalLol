@@ -11,6 +11,17 @@
 					"count" => $user->GetFriendsCount()
 				]
 			));
+		} else {
+			$user = UserUtils::RetrieveUser();
+
+			if($user != null) {
+				die(json_encode(
+					[
+						"success" => true,
+						"count" => $user->GetFriendsCount()
+					]
+				));
+			} 
 		}
 	}
 
