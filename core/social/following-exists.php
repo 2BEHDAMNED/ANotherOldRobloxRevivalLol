@@ -14,7 +14,7 @@
 			die(json_encode(
 				[
 					"success" => true,
-					"isFollowing" => $user->IsFollowing($userToCheck)
+					"isFollowing" => $userToCheck->IsFollowing($user)
 				]
 			));
 		}
