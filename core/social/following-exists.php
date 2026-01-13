@@ -1,6 +1,11 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	header("Content-Type: application/json");
+
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("Cache-Control: post-check=0, pre-check=0", false);
+	header("Pragma: no-cache");
+
 	if(isset($_GET['userId']) && isset($_GET['followerUserId'])) {
 		$user = User::FromID(intval($_GET['userId']));
 		$userToCheck = User::FromID(intval($_GET['followerUserId']));
