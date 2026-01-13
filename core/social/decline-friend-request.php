@@ -9,7 +9,7 @@
 	$user = UserUtils::RetrieveUser();
 
 	if(isset($_GET['requesterUserId']) && $user != null) {
-		$toFriendUser = User::FromID(intval($_POST['requesterUserId']));
+		$toFriendUser = User::FromID(intval($_GET['requesterUserId']));
 
 		if($toFriendUser != null) {
 			$user->Unfriend($toFriendUser);

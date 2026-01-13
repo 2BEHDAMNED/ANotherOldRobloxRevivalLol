@@ -9,7 +9,7 @@
 	$user = UserUtils::RetrieveUser();
 
 	if(isset($_GET['recipientUserId']) && $user != null) {
-		$toFriendUser = User::FromID(intval($_POST['recipientUserId']));
+		$toFriendUser = User::FromID(intval($_GET['recipientUserId']));
 
 		if($toFriendUser != null) {
 			if(!$user->IsFriendsWith($toFriendUser)) {
@@ -35,4 +35,4 @@
 			"success" => false
 		]
 	));
-?>decline-friend-request?requesterUserId=2
+?>
