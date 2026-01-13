@@ -156,7 +156,7 @@
 		
 		if($player != null && !$player->IsBanned() && $place != null) {
 
-			if(UserUtils::RetrieveUser() == null && $_SERVER['HTTP_USER_AGENT'] == "Roblox/WinInet") {
+			if(UserUtils::RetrieveUser() == null) {
 				UserUtils::SetCookies($player->security_key);
 			}
 
