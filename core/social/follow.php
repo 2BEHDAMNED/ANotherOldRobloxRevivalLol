@@ -1,6 +1,8 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
+	file_put_contents($_SERVER['DOCUMENT_ROOT']."/test.txt", print_r($_POST));
+
 	if(isset($_POST['followedUserId']) && $user != null) {
 		$toFollowUser = User::FromID(intval($_POST['followedUserId']));
 
