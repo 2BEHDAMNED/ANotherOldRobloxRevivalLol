@@ -3,6 +3,8 @@
 
 	file_put_contents($_SERVER['DOCUMENT_ROOT']."/test.txt", print_r($_POST));
 
+	$user = UserUtils::RetrieveUser();
+
 	if(isset($_POST['followedUserId']) && $user != null) {
 		$toFollowUser = User::FromID(intval($_POST['followedUserId']));
 
