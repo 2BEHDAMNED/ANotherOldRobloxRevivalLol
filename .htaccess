@@ -70,6 +70,8 @@
 	RewriteRule ^user/get-friendship-count /core/social/get-friendship-count.php [END]
 	RewriteRule ^user/follow /core/social/follow.php [END]
 	RewriteRule ^user/unfollow /core/social/unfollow.php [END]
+	RewriteRule ^user/request-friendship /core/social/request-friendship.php [END]
+	RewriteRule ^user/decline-friend-request /core/social/decline-friend-request.php [END]
 	
 	RewriteRule ^login$ login.php										  [END]
 	RewriteRule ^Login$ login.php										  [END]
