@@ -7,7 +7,7 @@
 		$toFollowUser = User::FromID(intval($_POST['followedUserId']));
 
 		if($toFollowUser != null) {
-			$user->Follow($toFollowUser);
+			$user->Unfollow($toFollowUser);
 			http_response_code(200);
 			die(json_encode(
 				[

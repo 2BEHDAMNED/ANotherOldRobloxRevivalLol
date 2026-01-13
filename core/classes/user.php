@@ -658,22 +658,18 @@ EOT;
 				$stmt_getuser = $con->prepare("INSERT INTO `follows`(`follower`, `followed`) VALUES (?, ?);");
 				$stmt_getuser->bind_param('ii', $this->id, $userid);
 				$stmt_getuser->execute();
-			} else {
-				$stmt_getuser = $con->prepare("DELETE FROM `follows` WHERE `follower` = ? AND `followed` = ?;");
-				$stmt_getuser->bind_param('ii', $this->id, $userid);
-				$stmt_getuser->execute();
 			}
 		}
 
-		function Unfollow(User|string $user) {
+		function Unfollow(User|int $user) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$username = $user;
+			$userid = $user;
 			if($user instanceof User) {
-				$username = $user->name;
+				$userid = $user->id;
 			}
 			if($this->IsFollowing($user)) {
 				$stmt_getuser = $con->prepare("DELETE FROM `follows` WHERE `follower` = ? AND `followed` = ?;");
-				$stmt_getuser->bind_param('ss', $this->name, $username);
+				$stmt_getuser->bind_param('ii', $this->id, $userid);
 				$stmt_getuser->execute();
 			}
 		}

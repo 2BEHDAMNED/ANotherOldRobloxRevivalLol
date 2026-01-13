@@ -66,7 +66,12 @@
 
 				if($founduser != null) {
 					if($founduser->id != $user->id) {
-						$founduser->Follow($user);
+						if(!$founduser->IsFollowing($user)) {
+							$founduser->Follow($user);
+						} else {
+							$founduser->Unfollow($user);
+						}
+						
 						die(json_encode(['error' => false]));
 					}
 				}

@@ -69,6 +69,7 @@
 	RewriteRule ^user/following-exists /core/social/following-exists.php [END]
 	RewriteRule ^user/get-friendship-count /core/social/get-friendship-count.php [END]
 	RewriteRule ^user/follow /core/social/follow.php [END]
+	RewriteRule ^user/unfollow /core/social/unfollow.php [END]
 	
 	RewriteRule ^login$ login.php										  [END]
 	RewriteRule ^Login$ login.php										  [END]
