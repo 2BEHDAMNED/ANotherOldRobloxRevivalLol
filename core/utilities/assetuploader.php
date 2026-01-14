@@ -422,6 +422,11 @@
 					return $image_result;
 				} else {
 					$image_id = $image_result['id'];
+					$newname = str_replace("<", "&lt;", str_replace(">", "&gt;", $name));
+				
+					if($face) {
+						$newname = "face";
+					}
 					$decal_data = <<<EOT
 					<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://arl.lambda.cam/roblox.xsd" version="4">
 						<External>null</External>
@@ -429,7 +434,7 @@
 						<Item class="Decal" referent="RBX0">
 							<Properties>
 								<token name="Face">5</token>
-								<string name="Name">Decal</string>
+								<string name="Name">$newname</string>
 								<float name="Shiny">20</float>
 								<float name="Specular">0</float>
 								<Content name="Texture">
@@ -992,7 +997,10 @@
 				$place_data = $file;
 			}
 			
-			if(!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://arl.lambda.cam/roblox.xsd\" version=\"4\">")) {
+			if(
+				!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://arl.lambda.cam/roblox.xsd\" version=\"4\">") &&
+				!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://www.roblox.com/roblox.xsd\" version=\"4\">")
+			) {
 				return ["error" => true, "reason" => "Not a valid model file!"];
 			} else {
 				if(str_contains($place_data, "class=\"Script\"")) {
