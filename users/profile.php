@@ -440,7 +440,7 @@
 											if(strlen($get_user->blurb) == 0) {
 												echo "<b>This user has no blurb!</b>";
 											} else {
-												echo str_replace(PHP_EOL, "<br>", $get_user->blurb);
+												echo str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $get_user->blurb));
 											}
 										?>
 									</div>

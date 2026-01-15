@@ -735,7 +735,7 @@ h1, h2, h3, h4 {
 	border: 2px solid #090909;
 	background: #282828;
 	width: 114px;
-	height: 135px;
+	height: 125px;
 	padding: 5px;
 	text-align: center;
 	margin-right: 5px;
@@ -755,7 +755,6 @@ h1, h2, h3, h4 {
 #HomePage #FriendsContainer #Friends .Friend #Name {
 	vertical-align: middle;
 	text-align: center;
-	width: 124px;
 	height: 30px;
 	
 	word-break: break-all;
