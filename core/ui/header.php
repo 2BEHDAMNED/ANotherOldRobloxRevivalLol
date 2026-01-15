@@ -16,7 +16,11 @@
 		</div>
 		<hr>
 		<div id="CreditsRow">
-			<span title="Your messages" style="width:auto"><img src="/images/icons/messages_notify.png">Thank you for trying this!</span>
+			
+			<span title="Your messages"><a href="/my/messages"><img src="/images/icons/messages.png"> 0</a></span> <span class="Separator">|</span>
+			<span title="Your friends"><a href="/my/friends"><img src="/images/icons/friends.png"> <?= $header_check_user->GetFriendsCount() ?></a></span>
+			<hr>
+			<span title="Message" style="width:auto"><img src="/images/icons/messages_notify.png">Thank you for trying this!</span>
 		</div>
 	</div>
 	<a id="LogoutSign" href="javascript:ANORRL.Logout()">LOGOUT</a>
