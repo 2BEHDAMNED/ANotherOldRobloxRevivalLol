@@ -178,10 +178,9 @@ if game:GetService("Players").EmoteSoundsEnabled then
 			if not emoteSounder then
 				emoteSounder = Instance.new("Sound", player.Character:WaitForChild("Torso"))
 				emoteSounder.Name = "EmoteSounderEffect"
-				print("I NEEDD TO MAKE A NEW ONE!")
 			end
 			
-			emoteSounder.Volume = 0.75
+			emoteSounder.Volume = 0.5
 			emoteSounder.Looped = true
 			emoteSounder:Stop()
 
