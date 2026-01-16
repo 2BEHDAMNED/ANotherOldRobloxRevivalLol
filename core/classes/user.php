@@ -996,6 +996,14 @@ EOT;
 						
 						imagepng($image, $_SERVER['DOCUMENT_ROOT']."/../users/profile_".$this->id.".png");
 
+						if(!$this->setprofilepicture) {
+							include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+							$stmt_updateuser = $con->prepare("UPDATE `users` SET `user_setprofilepicture` = 1 WHERE `user_id` = ?;");
+							$stmt_updateuser->bind_param("i", $this->id);
+							$stmt_updateuser->execute();
+						}
+
 						return ["error" => false];
 					}
 
@@ -1008,15 +1016,17 @@ EOT;
 			return ["error" => true, "reason" => "Something went wrong when uploading!"];
 		}
 
-		function GetProfilePictureURL() {
+		function ResetProfilePicture() {
 			if($this->setprofilepicture) {
-				return "\"><script>alert(\"How\")</script";
-			} else {
-				$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/"), array("..", "."));
-				 
-				$rand_pic = 1+rand(0, count($pictures) - 1);
-				
-				return "/images/profile_pictures/pfp_$rand_pic.png";
+				if(file_exists($_SERVER['DOCUMENT_ROOT']."/../users/profile_".$this->id.".png")) {
+					unlink($_SERVER['DOCUMENT_ROOT']."/../users/profile_".$this->id.".png");
+				}
+
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+				$stmt_updateuser = $con->prepare("UPDATE `users` SET `user_setprofilepicture` = 0 WHERE `user_id` = ?;");
+				$stmt_updateuser->bind_param("i", $this->id);
+				$stmt_updateuser->execute();
 			}
 		}
 	}

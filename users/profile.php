@@ -353,8 +353,15 @@
 			}
 		</style>
 		<script>
+			var render = true;
 			function flipRenders(element) {
+				render = !render;
 
+				if(render) {
+					$("#ProfilePictureYeah").attr("src", "/thumbs/player?id=<?= $get_user->id ?>");
+				} else {
+					$("#ProfilePictureYeah").attr("src", "/thumbs/profile?id=<?= $get_user->id ?>");
+				}
 			}
 		</script>
 	</head>
@@ -370,7 +377,7 @@
 							<div id="ProfileImage">
 								<div id="ImageContainer">
 									<a href="javascript:flipRenders(this)" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;"></a>
-									<img src="/thumbs/player?id=<?= $get_user->id ?>">
+									<img id="ProfilePictureYeah" src="/thumbs/player?id=<?= $get_user->id ?>">
 								</div>
 								
 								<div id="Controls">
