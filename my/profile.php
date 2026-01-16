@@ -15,8 +15,8 @@
 		$result = $user->UpdateBio(trim($_POST['ANORRL$Update$Profile$Bio']));
 
 		if($result['error']) {
-			$_SESSION['ANORRL$Home$StatusError'] = true;
-			$_SESSION['ANORRL$Home$StatusResult'] = $result['reason'];
+			$_SESSION['ANORRL$Update$ProfileError'] = true;
+			$_SESSION['ANORRL$Update$ProfileResult'] = $result['reason'];
 			die(header("Location: /my/profile"));
 		} else {
 			die(header("Location: /users/".$user->id."/profile"));
@@ -41,16 +41,30 @@
 			<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
+					<?php if(isset($_SESSION['ANORRL$Update$ProfileError']) && $_SESSION['ANORRL$Update$ProfileError']): ?>
+					<div id="ErrorTime">Error: <?= $_SESSION['ANORRL$Update$ProfileResult'] ?></div>
+					<?php endif ?>
 					<form method="POST" class="FormBox">
 						<div id="DetailsBox">
 							<h3>About yourself</h3>
 							<div id="FormStuff">
-								<?php if(isset($_SESSION['ANORRL$Home$StatusError']) && $_SESSION['ANORRL$Home$StatusError']): ?>
-								<div id="ErrorTime">Error: <?= $_SESSION['ANORRL$Home$StatusResult'] ?></div>
-								<?php endif ?>
+								
 								<span>Who are you? What do you like etc etc</span>
 								<textarea name="ANORRL$Update$Profile$Bio"><?= $user->blurb ?></textarea>
 								<input type="submit" value="Update" name="ANORRL$Update$Profile$Submit">
+							</div>
+						</div>
+					</form>
+					<form method="POST" class="FormBox">
+						<div id="DetailsBox" style="margin-top: 5px;">
+							<h3>Get a look!</h3>
+							<div id="FormStuff">
+								<span>Profile Picture!!!!</span>
+								<div class="FilePicker">
+									<label for="thumbfiles">Choose file</label>
+									<input id="thumbfiles" type="file" name="ANORRL$Update$Profile$Picture" accept="image/*">
+									<label id="thumbfilename" >No file chosen</label>
+								</div>
 							</div>
 						</div>
 					</form>

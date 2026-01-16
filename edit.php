@@ -181,44 +181,7 @@
 				width:512px;
 				
 			}
-
-			/*
-
 			
-
-			*/
-
-			.FilePicker > label[for] {
-				border: 2px solid black;
-				background: black;
-				color: white;
-				padding: 4px 8px;
-				font-weight: bold;
-				font-family: punk;
-				margin-bottom: 0px;
-				display: block;
-
-				width: 72px;
-				margin: 0;
-				display: inline;
-			}
-
-			.FilePicker > label[for]:hover {
-				text-decoration: underline;
-				background: #161616;
-				cursor: pointer;
-			}
-
-			.FilePicker > input[type="file"] {
-				display: none;
-			}
-
-			.FilePicker > label[id] {
-				margin-left: 5px;
-			}
-
-			
-
 			#ItemDetails input[type=text],
 			#ItemDetails input[type=number],
 			#ItemDetails select,
