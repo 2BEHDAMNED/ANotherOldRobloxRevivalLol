@@ -359,6 +359,10 @@
 				if(str_contains($place_data, "class=\"CharacterMesh\"")) {
 					return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
 				}
+
+				if(str_contains($place_data, needle: "class=\"Tool\"")) {
+					return ["error" => true, "reason" => "That is not a hat... That is a gear!"];
+				}
 			}
 
 			// process singular asset
@@ -1009,6 +1013,10 @@
 
 				if(str_contains($place_data, "class=\"CharacterMesh\"")) {
 					return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
+				}
+
+				if(str_contains($place_data, needle: "class=\"Tool\"")) {
+					return ["error" => true, "reason" => "That is not a hat... That is a gear!"];
 				}
 			}
 
