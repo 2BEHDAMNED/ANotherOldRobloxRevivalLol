@@ -24,6 +24,21 @@
 
 		
 	}
+
+	if(isset($_FILES['ANORRL$Profile$Picture'])) {
+		
+		$file = $_FILES['ANORRL$Profile$Picture'];
+
+		$result = $user->SetProfilePicture($file);
+		
+		if($result['error']) {
+			$_SESSION['ANORRL$Update$ProfileError'] = true;
+			$_SESSION['ANORRL$Update$ProfileResult'] = $result['reason'];
+			die(header("Location: /my/profile"));
+		} else {
+			die(header("Location: /users/".$user->id."/profile"));
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -59,11 +74,16 @@
 						<div id="DetailsBox" style="margin-top: 5px;">
 							<h3>Get a look!</h3>
 							<div id="FormStuff">
-								<span>Profile Picture!!!!</span>
-								<div class="FilePicker">
-									<label for="thumbfiles">Choose file</label>
-									<input id="thumbfiles" type="file" name="ANORRL$Update$Profile$Picture" accept="image/*">
-									<label id="thumbfilename" >No file chosen</label>
+								<span>Thanks gamma for the template and letting my ass scrutinise it :sob:</span>
+								<div style="width:294px;margin: 0 auto;">
+									<h4 style="margin: 0;width: 254px;">This what you look like right now...</h4>
+									<img style="width: 290px;border: 2px solid black;background: #1a1a1a;" src="<?= $user->GetProfilePictureURL() ?>">
+									<div class="FilePicker" style="display: block;margin-top: 10px;">
+										<label for="thumbfiles">Choose file</label>
+										<input id="thumbfiles" type="file" name="ANORRL$Update$Profile$Picture" accept="image/*">
+										<label id="thumbfilename">No file chosen</label>
+										<a href="javascript:ANORRL.Profile.RemovePicture()">Remove...</a>
+									</div>
 								</div>
 							</div>
 						</div>

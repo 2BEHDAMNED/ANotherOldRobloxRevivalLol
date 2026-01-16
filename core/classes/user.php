@@ -33,6 +33,11 @@
 		public string $password;
 		public string $security_key;
 		public DateTime $last_update;
+		/**
+		 * How do you name this better...
+		 * @var bool
+		 */
+		public bool $setprofilepicture;
 		public DateTime $join_date;
 		
 		/**
@@ -89,6 +94,7 @@
 			$this->name = strval($rowdata['user_name']);
 			$this->blurb = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['user_blurb']));
 			$this->last_update = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['user_lastprofileupdate']);
+			$this->setprofilepicture = boolval($rowdata['user_setprofilepicture']);
 			$this->join_date = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['user_joindate']);
 			
 			$this->password = strval($rowdata['user_password']);
@@ -966,6 +972,52 @@ EOT;
 			
 
 			return "Offline";
+		}
+
+		function SetProfilePicture(array $file): array {
+			if($file['error'] == 0 && $file['size'] > 0 && $file['size'] <= 1048576) { // 1mb cap
+				$file_contents = file_get_contents($file['tmp_name']);
+				if(str_starts_with(ImageUtils::checkMimeType($file_contents),"image/")) {
+					$pre_image = imagecreatefromstring($file_contents);
+					
+					$width = imagesx($pre_image);
+					$height = imagesy($pre_image);
+
+					if($width > 16 && $height > 16) {
+						$size = $width;
+
+						if($width == $height) {
+							$size = $width;
+						} else if($height < $width) {
+							$size = $height;
+						}
+
+						$image = imagescale(ImageUtils::cropAlign($pre_image, $size, $size), 420, 420);
+						
+						imagepng($image, $_SERVER['DOCUMENT_ROOT']."/../users/profile_".$this->id.".png");
+
+						return ["error" => false];
+					}
+
+					return ["error" => true, "reason" => "Image was wayyy too small!"];
+
+				}
+				return ["error" => true, "reason" => "Something went wrong when uploading!"];
+			}
+
+			return ["error" => true, "reason" => "Something went wrong when uploading!"];
+		}
+
+		function GetProfilePictureURL() {
+			if($this->setprofilepicture) {
+				return "\"><script>alert(\"How\")</script";
+			} else {
+				$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/", SCANDIR_SORT_NONE), array("..", "."));
+				 
+				$rand_pic = rand(0, count($pictures) - 1);
+
+				return "/images/profile_pictures/$rand_pic";
+			}
 		}
 	}
 
