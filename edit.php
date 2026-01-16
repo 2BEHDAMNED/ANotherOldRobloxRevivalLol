@@ -182,6 +182,43 @@
 				
 			}
 
+			/*
+
+			
+
+			*/
+
+			.FilePicker > label[for] {
+				border: 2px solid black;
+				background: black;
+				color: white;
+				padding: 4px 8px;
+				font-weight: bold;
+				font-family: punk;
+				margin-bottom: 0px;
+				display: block;
+
+				width: 72px;
+				margin: 0;
+				display: inline;
+			}
+
+			.FilePicker > label[for]:hover {
+				text-decoration: underline;
+				background: #161616;
+				cursor: pointer;
+			}
+
+			.FilePicker > input[type="file"] {
+				display: none;
+			}
+
+			.FilePicker > label[id] {
+				margin-left: 5px;
+			}
+
+			
+
 			#ItemDetails input[type=text],
 			#ItemDetails input[type=number],
 			#ItemDetails select,
@@ -199,8 +236,7 @@
 			}
 
 			#ItemDetails input[type=submit],
-			#ItemDetails a[type=submit],
-			#ItemDetails label[for=files] {
+			#ItemDetails a[type=submit] {
 				border: 2px solid black;
 				background: black;
 				color: white;
@@ -212,16 +248,10 @@
 				display: block;
 			}
 
-			#ItemDetails input[type=submit]:hover,
-			#ItemDetails input[type=submit]:hover,
-			#ItemDetails label[for=files]:hover {
+			#ItemDetails input[type=submit]:hover {
 				text-decoration: underline;
 				background: #161616;
 				cursor: pointer;
-			}
-
-			#ItemDetails label#filename {
-				margin-left: 5px;
 			}
 
 			#EditContainer #ItemDetails table td {
@@ -294,7 +324,11 @@
 										</tr>
 										<tr>
 											<td>Thumbnail!</td>
-											<td><label for="thumbfiles" style="width: 72px;margin: 0;display: inline;">Choose file</label><input id="thumbfiles" style="display:none;" type="file"  name="ANORRL$EditItem$Place$ThumbnailFile" accept="image/*"><label id="thumbfilename" >No file chosen</label></td>
+											<td class="FilePicker">
+												<label for="thumbfiles">Choose file</label>
+												<input id="thumbfiles" type="file" name="ANORRL$EditItem$Place$ThumbnailFile" accept="image/*">
+												<label id="thumbfilename" >No file chosen</label>
+											</td>
 										</tr>
 									</table>
 								</div>
@@ -325,7 +359,11 @@
 									</tr>
 									<tr>
 										<td>File</td>
-										<td><label for="files" style="width: 72px;margin: 0;display: inline;">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$PublishAsset$File" accept="" required><label id="filename" >No file chosen</label></td>
+										<td class="FilePicker">
+											<label for="files">Choose file</label>
+											<input id="files" type="file"  name="ANORRL$PublishAsset$File" accept="" required>
+											<label id="filename" >No file chosen</label>
+										</td>
 									</tr>
 									
 								</table>
@@ -360,7 +398,7 @@
 													
 													$version_date = $version->publish_date->format('d/m/Y H:i:s A');
 													
-													
+													// TODO: TODO...
 													$versionpicker = <<<EOT
 													<td><a class="VersionPicker" href="">[ Make Current ]</a></td>
 													EOT; 
