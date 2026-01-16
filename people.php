@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/people.js?t=12282025"></script>
+		<script src="/js/people.js?t=<?= time() ?>"></script>
 		<style>
 
 			#Users #SearchBox {
