@@ -59,10 +59,13 @@
 				})
 			}
 
-			$("input[type=file]")[0].onchange = e => { 
-				//var file = e.target.files[0];
-				$("#PictureForm").submit();
-			}
+			$(function () {
+				$("input[type=file]")[0].onchange = e => { 
+					//var file = e.target.files[0];
+					$("#PictureForm").submit();
+				}
+			})
+			
 		</script>
 	</head>
 	<body>
