@@ -51,7 +51,9 @@
 						"id" => $asset->creator->id,
 						"name" => $asset->creator->name
 					],
-					"onsale" => $asset->onsale
+					"onsale" => $asset->onsale,
+					"favourites" => $asset->favourites_count,
+					"sales_count" => $asset->sales_count
 				]);
 			}
 		}

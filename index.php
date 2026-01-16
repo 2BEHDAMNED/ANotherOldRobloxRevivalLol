@@ -93,9 +93,7 @@
 								?>
 							</tr>
 							<tr id="Other">
-								<?php  
-									
-
+								<?php 
 									foreach($users as $user) {
 										if($user instanceof User) {
 											$user_id = $user->id;

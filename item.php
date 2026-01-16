@@ -371,9 +371,15 @@ $header_data = $asset;
 					<p>
 						Awesome sauce! You just bought "<?= $asset->name ?>" from <a target="__blank" href="/users/<?= $asset->creator->id ?>/profile"><?= $asset->creator->name ?></a>!
 					</p>
+					<?php if($asset->type->wearable()): ?>
+					<p>
+						<input type="submit" value="Try it on your character!" onclick="window.location.href='/my/character#<?= strtolower($asset->type->label()) ?>'; return false;" class="MediumButton" style="width:100%;" />
+					</p>
+					<?php else: ?>
 					<p>
 						<input type="submit" value="Check it out in your inventory!" onclick="window.location.href='/my/stuff#<?= strtolower($asset->type->label()) ?>'; return false;" class="MediumButton" style="width:100%;" />
 					</p>
+					<?php endif ?>
 					<p>
 						<input type="submit" value="Continue Shopping" onclick="window.location.href='/catalog'; return false;" class="MediumButton" style="width:100%;" />
 					</p>

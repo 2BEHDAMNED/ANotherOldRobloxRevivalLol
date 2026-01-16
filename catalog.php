@@ -83,11 +83,33 @@
 				*background: #262626;
 			}
 
+			#CatalogContainer #AssetsContainer .Asset #FavouritesArea {
+				margin-bottom: -15px;
+				height: 15px;
+				border: 2px solid black;
+				background: #222;
+				position: absolute;
+				z-index: 2;
+				padding: 2px 5px;
+			}
+
+			#CatalogContainer #AssetsContainer .Asset #FavouritesArea > img {
+				width: 16px;
+				margin-bottom: -3px;
+			}
+
+			#CatalogContainer #AssetsContainer .Asset #FavouritesArea > span {
+				font-size: 12px;
+				padding: 4px;
+				color: white;
+			}
+
 		</style>
 	</head>
 	<body>
 		<div class="Asset" template>
 			<a id="NameAndThumbs">
+				<div id="FavouritesArea"><img src="/images/favourite_star.gif"> <span>0</span></div>
 				<img src="">
 				<div id="Pricing">
 					<span id="Cones" ><img src="/images/icons/traffic_cone.png" > <span id="Costing"></span></span>

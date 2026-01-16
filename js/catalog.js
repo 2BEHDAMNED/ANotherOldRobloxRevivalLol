@@ -117,7 +117,12 @@ ANORRL.Catalog  = {
 					});
 					
 					if(asset['onsale']) {
-						template.find("#Pricing").append($("<span id=\"FreeTag\">Free</span>"));
+						var salecount = asset['sales_count']+" times";
+						if(asset['sales_count'] == 1) {
+							salecount = asset['sales_count']+" time";
+						}
+
+						template.find("#Pricing").append($("<span id=\"FreeTag\">Sold: "+ salecount +"</span>"));
 					} else {
 						template.find("#Pricing").append($("<span id=\"NotOnSaleTag\">Not on sale</span>"))
 					}
@@ -136,6 +141,8 @@ ANORRL.Catalog  = {
 
 					template.find("#Creator > span").html(asset['creator']['name']);
 					template.find("#Creator").attr("href", "/users/"+asset['creator']['id']+"/profile");
+
+					template.find("#FavouritesArea > span").html(asset['favourites']);
 
 					// implement details
 					feedscontainer.removeAttr("hidden");
