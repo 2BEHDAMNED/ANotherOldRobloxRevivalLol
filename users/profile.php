@@ -353,7 +353,7 @@
 			}
 		</style>
 		<script>
-			var render = true;
+			var render = <?= $user->setprofilepicture ? "false" : "true" ?>;
 			function flipRenders(element) {
 				render = !render;
 
@@ -377,7 +377,7 @@
 							<div id="ProfileImage">
 								<div id="ImageContainer">
 									<a href="javascript:flipRenders(this)" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;"></a>
-									<img id="ProfilePictureYeah" src="/thumbs/player?id=<?= $get_user->id ?>">
+									<img id="ProfilePictureYeah" src="/thumbs/<?= $user->setprofilepicture ? "profile" : "player" ?>?id=<?= $get_user->id ?>">
 								</div>
 								
 								<div id="Controls">
