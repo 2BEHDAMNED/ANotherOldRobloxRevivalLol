@@ -37,7 +37,7 @@ ANORRL.People = {
 		var $userprofilelink = $("<a></a>");
 		$userprofilelink.attr("href", "/users/"+data['id']+"/profile");
 		$userprofilelink.attr("title", data['name']);
-		$userprofilelink.append($("<img src='/thumbs/player?id="+data['id']+"' width='64'>"));
+		$userprofilelink.append($("<img src=\""+data['thumbnail']+"\">"));
 		$userprofile.append($userprofilelink);
 
 

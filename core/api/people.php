@@ -41,7 +41,8 @@
 					"name" => $user->name,
 					"blurb" => htmlspecialchars($user->blurb, ENT_QUOTES),
 					"online" => $user->IsOnline(),
-					"status" => $user->GetOnlineActivity()
+					"status" => $user->GetOnlineActivity(),
+					"thumbnail" => "/thumbs/".($user->setprofilepicture ? "profile":"player")."?id=".$user->id."&sxy=64"
 				]);
 			}
 		}
