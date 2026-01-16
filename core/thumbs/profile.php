@@ -19,7 +19,7 @@
 		if($asset != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			
-			if(file_exists($_SERVER['DOCUMENT_ROOT']."/../users/$id.png")) {
+			if(file_exists($_SERVER['DOCUMENT_ROOT']."/../users/profile_$id.png")) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../users/profile_$id.png");
 			} else {
 				$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/"), array("..", "."));
