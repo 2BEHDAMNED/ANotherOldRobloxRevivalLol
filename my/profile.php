@@ -58,6 +58,11 @@
 					window.location.reload();
 				})
 			}
+
+			$("input[type=file]")[0].onchange = e => { 
+				//var file = e.target.files[0];
+				$("#PictureForm").submit();
+			}
 		</script>
 	</head>
 	<body>
@@ -78,7 +83,7 @@
 							</div>
 						</div>
 					</form>
-					<form method="POST" class="FormBox">
+					<form method="POST" class="FormBox" id="PictureForm" enctype="multipart/form-data">
 						<div id="DetailsBox" style="margin-top: 5px;">
 							<h3>Get a look!</h3>
 							<div id="FormStuff">
