@@ -1012,11 +1012,11 @@ EOT;
 			if($this->setprofilepicture) {
 				return "\"><script>alert(\"How\")</script";
 			} else {
-				$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/", SCANDIR_SORT_NONE), array("..", "."));
+				$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/"), array("..", "."));
 				 
-				$rand_pic_index = rand(0, count($pictures) - 1);
-				$rand_pic = $pictures[$rand_pic_index];
-				return "/images/profile_pictures/$rand_pic";
+				$rand_pic = rand(0, count($pictures) - 1);
+				
+				return "/images/profile_pictures/pfp_$rand_pic.png";
 			}
 		}
 	}
