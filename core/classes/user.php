@@ -1014,8 +1014,8 @@ EOT;
 			} else {
 				$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/", SCANDIR_SORT_NONE), array("..", "."));
 				 
-				$rand_pic = rand(0, count($pictures) - 1);
-
+				$rand_pic_index = rand(0, count($pictures) - 1);
+				$rand_pic = $pictures[$rand_pic_index];
 				return "/images/profile_pictures/$rand_pic";
 			}
 		}
