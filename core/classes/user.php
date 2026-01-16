@@ -1014,7 +1014,7 @@ EOT;
 			} else {
 				$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/"), array("..", "."));
 				 
-				$rand_pic = rand(0, count($pictures) - 1);
+				$rand_pic = 1+rand(0, count($pictures) - 1);
 				
 				return "/images/profile_pictures/pfp_$rand_pic.png";
 			}
