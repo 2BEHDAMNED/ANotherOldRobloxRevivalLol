@@ -25,9 +25,9 @@
 		
 	}
 
-	if(isset($_FILES['ANORRL$Profile$Picture'])) {
+	if(isset($_FILES['ANORRL$Update$Profile$Picture'])) {
 		
-		$file = $_FILES['ANORRL$Profile$Picture'];
+		$file = $_FILES['ANORRL$Update$Profile$Picture'];
 
 		$result = $user->SetProfilePicture($file);
 		
