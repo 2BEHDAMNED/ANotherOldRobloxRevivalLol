@@ -7,7 +7,9 @@
 	// 99999999 max
 ?>
 <div id="Header">
-	<?php if($header_check_user != null): ?>
+	<?php if($header_check_user != null): 
+		$pendingreqscount = $header_check_user->GetPendingFriendRequestsCount();	
+	?>
 	<div id="ProfileSign" logged="true">
 		<img id="background" src="/images/header/signs/profile.png"> <!-- DO NOT FUCKING REMOVE -->
 		<div id="UsernameRow">
@@ -17,7 +19,7 @@
 		<hr>
 		<div id="CreditsRow">
 			
-			<span title="Your messages"><a href="/my/messages"><img src="/images/icons/messages.png"> 0</a></span> <span class="Separator">|</span>
+			<span title="Your pending requests"><a href="/my/friends?pending"><img src="/images/icons/messages<?= $pendingreqscount == 0 ? "" : "_notify" ?>.png"> <?= $pendingreqscount ?></a></span> <span class="Separator">|</span>
 			<span title="Your friends"><a href="/my/friends"><img src="/images/icons/friends.png"> <?= $header_check_user->GetFriendsCount() ?></a></span>
 			<hr>
 			<span title="Message" style="width:auto"><img src="/images/icons/messages_notify.png">Thank you for trying this!</span>

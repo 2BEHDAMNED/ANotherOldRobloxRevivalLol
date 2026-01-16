@@ -144,6 +144,39 @@
 			return $following;
 		}
 
+		function GetPendingFriendRequests(): array {
+			include $_SERVER['DOCUMENT_ROOT'] . "/core/connection.php";
+
+			$stmt_getfriendreqs = $con->prepare("SELECT * FROM `friends` WHERE `reciever` = ? AND `status` = 0;");
+			$stmt_getfriendreqs->bind_param("i", $this->id);
+			$stmt_getfriendreqs->execute();
+
+			$result_getfriendreqs = $stmt_getfriendreqs->get_result();
+			
+			$result = [];
+
+			if($result_getfriendreqs->num_rows != 0) {
+				while($row = $result_getfriendreqs->fetch_assoc()) {
+					$user = User::FromID($row['sender']);
+
+					if($user != null) {
+						array_push($result, $user);
+					} else {
+						$stmt_deletefriendreq = $con->prepare("DELETE FROM `friends` WHERE `sender` = ? AND `reciever` = ? AND `status` = 0;");
+						$stmt_deletefriendreq->bind_param("ii", $row['sender'], $this->id);
+						$stmt_deletefriendreq->execute();
+						// remove the request maybe
+					}
+				}
+			}
+
+			return $result;
+		}
+
+		function GetPendingFriendRequestsCount() {
+			return count($this->GetPendingFriendRequests());
+		}
+
 		function GetFriendsCount(): int {
 			return count($this->GetFriends());
 		}
