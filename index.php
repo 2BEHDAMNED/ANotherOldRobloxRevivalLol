@@ -58,20 +58,22 @@
 					<div id="NewUsersContainer">
 						<h3>New Users!</h3>
 						<table id="NewUsersBox">
+							<?php 
+								$users = UserUtils::GetLatestUsers(100);
+								$users_count = count($users);
+							?>
 							<tr>
 								<?php  
-									$users = UserUtils::GetLatestUsers(100);
-									$users_count = count($users);
-
 									foreach($users as $user) {
 										if($user instanceof User) {
 											$user_id = $user->id;
 											$user_name = $user->name;
+											$profile = $user->setprofilepicture ? "profile" : "player";
 											echo <<<EOT
 												<td>
 													<div class="User" title="$user_name">
 														<a href="/users/$user_id/profile">
-															<img src="/thumbs/player?id=$user_id">
+															<img src="/thumbs/$profile?id=$user_id">
 															<span>$user_name</span>
 														</a>
 													</div>
@@ -92,18 +94,18 @@
 							</tr>
 							<tr id="Other">
 								<?php  
-									$users = UserUtils::GetLatestUsers(100);
-									$users_count = count($users);
+									
 
 									foreach($users as $user) {
 										if($user instanceof User) {
 											$user_id = $user->id;
 											$user_name = $user->name;
+											$profile = $user->setprofilepicture ? "profile" : "player";
 											echo <<<EOT
 												<td>
 													<div class="User" title="$user_name">
 														<a href="/users/$user_id/profile">
-															<img src="/thumbs/player?id=$user_id">
+															<img src="/thumbs/$profile?id=$user_id">
 															<span>$user_name</span>
 														</a>
 													</div>
