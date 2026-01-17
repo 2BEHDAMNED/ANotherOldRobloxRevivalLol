@@ -194,6 +194,10 @@ if game:GetService("Players").EmoteSoundsEnabled then
 					emoteSounder.SoundId = "rbxassetid://533"
 				elseif emoteName == "awakening" then
 					emoteSounder.SoundId = "rbxassetid://107"
+				elseif emoteName == "unlockit" then
+					emoteSounder.SoundId = "rbxassetid://1316"
+				elseif emoteName == "otsukare" then
+					emoteSounder.SoundId = "rbxassetid://1318"
 				else
 					shouldPlay = false
 				end
