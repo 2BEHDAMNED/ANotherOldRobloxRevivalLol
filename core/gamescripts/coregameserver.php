@@ -198,6 +198,8 @@ if game:GetService("Players").EmoteSoundsEnabled then
 					emoteSounder.SoundId = "rbxassetid://1316"
 				elseif emoteName == "otsukare" then
 					emoteSounder.SoundId = "rbxassetid://1318"
+				elseif emoteName == "hakari" then
+					emoteSounder.SoundId = "rbxassetid://1381"
 				else
 					shouldPlay = false
 				end
