@@ -426,7 +426,9 @@ $header_data = $asset;
 										<a href="">Open in Studio</a>
 										<?php endif ?>
 										<?php if($user != null && $user->IsAdmin()): ?>
-										<a href="javascript:Render()" id="RenderButton">Render this asset</a>
+										<a href="javascript:Render()">Render this asset</a>
+										<?php endif ?>
+										<?php if($is_creator): ?>
 										<a href="javascript:Delete()">Delete this asset</a>
 										<?php endif ?>
 									</div>
