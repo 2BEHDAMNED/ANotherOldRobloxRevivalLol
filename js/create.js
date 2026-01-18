@@ -20,7 +20,7 @@ var categoryFileTypes = {
 	18:"image/*",
 	2: "image/*",
 	12:"image/*",
-	3: ".mp3",
+	3: ".mp3,.ogg,.wav",
 	13:"image/*",
 	10:".rbxm,.rbxmx",
 	4:"*",

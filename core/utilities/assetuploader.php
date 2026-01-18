@@ -500,8 +500,13 @@
 
 				$data = file_get_contents($file['tmp_name']);
 
-				if(self::CheckMimeType($data) != "audio/mpeg") {
-					return ["error" => true, "reason" => "Audio file was not mp3!"];
+				if(
+					self::CheckMimeType($data) != "audio/mpeg" &&
+					self::CheckMimeType($data) != "audio/ogg" &&
+					self::CheckMimeType($data) != "audio/vorbis" &&
+					self::CheckMimeType($data) != "audio/vnd.wav"
+				) {
+					return ["error" => true, "reason" => "Audio file was not a valid format!"];
 				}
 
 				// process singular asset
