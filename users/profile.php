@@ -353,7 +353,7 @@
 			}
 		</style>
 		<script>
-			var render = <?= $user->setprofilepicture ? "false" : "true" ?>;
+			var render = <?= $get_user->setprofilepicture ? "false" : "true" ?>;
 			function flipRenders(element) {
 				render = !render;
 
