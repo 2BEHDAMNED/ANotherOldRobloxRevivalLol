@@ -41,6 +41,8 @@ coroutine.yield()
 game:Load("http://arl.lambda.cam/Asset/?id={placeid}") 
 visit:SetUploadUrl("http://arl.lambda.cam/Data/Upload.ashx?assetid={placeid}")
 
+game:SetUniverseId({placeid})
+
 message.Parent = nil
 
 game:GetService("ChangeHistoryService"):SetEnabled(true)
