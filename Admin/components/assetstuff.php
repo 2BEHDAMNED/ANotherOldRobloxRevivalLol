@@ -114,7 +114,7 @@
 						$stmt -> bind_param("i", $id);
 						$stmt->execute();
 						
-						CheckAndDeleteAsset($id);
+						CheckAndDeleteAsset($asset->id);
 
 						$stmt = $con->prepare('DELETE FROM `assets` WHERE `asset_id` = ?');
 						$stmt -> bind_param("i", $id);
