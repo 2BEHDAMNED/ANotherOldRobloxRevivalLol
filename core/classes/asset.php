@@ -507,6 +507,7 @@
 		public int $server_size;
 		public int  $visit_count;
 		public int  $current_playing_count;
+		public bool $teamcreate_enabled;
 
 		public static function UpdatePlaceStats(int $placeID) {
 			$place = Place::FromID($placeID);
@@ -622,6 +623,7 @@
 			$this->server_size = intval($rowdata['place_serversize']);
 			$this->visit_count = intval($rowdata['place_visit_count']);
 			$this->current_playing_count = intval($rowdata['place_currently_playing']);
+			$this->teamcreate_enabled = boolval($rowdata['place_teamcreate_enabled']);
 		}
 
 		function Visit(User|int $user) {
