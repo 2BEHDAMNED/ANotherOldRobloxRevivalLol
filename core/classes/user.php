@@ -272,7 +272,7 @@
 
 		function GetAllOwnedAssetsOfTypePagedExcluding(AssetType $type, array $excludedids = [], int $pagenum, int $count): array {
 			if(count($excludedids) == 0) {
-				return $this->GetAllOwnedAssetsOfType($type);
+				return $this->GetAllOwnedAssetsOfTypePaged($type, $pagenum, $count);
 			}
 
 			$processedids = "AND `ta_asset` NOT IN (";
