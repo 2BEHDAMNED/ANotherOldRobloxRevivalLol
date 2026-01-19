@@ -87,6 +87,8 @@
 
 	RewriteRule ^universes/get-universe-containing-place /core/universes/get-universe-containing-place.php [END]
 	RewriteRule ^universes/([0-9]+)/cloudeditenabled /core/universes/cloudeditenabled.php?universeId=$1 [END]
+	RewriteRule ^universes/([0-9]+)/game-start-info /core/universes/game-start-info.php [END]
+	RewriteRule ^universes/([0-9]+)/enablecloudedit /core/universes/enablecloudedit.php?universeId=$1 [END]
 	RewriteRule ^places/([0-9]+)/settings /core/places/settings.php?placeId=$1 [END]
 	RewriteRule ^universes/get-info$ /core/universes/get-info.php [END]
 	RewriteRule ^universes/validate-place-join$ /core/universes/validate-place-join.php [END]

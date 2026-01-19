@@ -626,6 +626,14 @@
 			$this->teamcreate_enabled = boolval($rowdata['place_teamcreate_enabled']);
 		}
 
+		function EnableTeamCreate() {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			
+			$stmt_checkvisit = $con->prepare('UPDATE `asset_places` SET `place_teamcreate_enabled` = 1 WHERE `place_id` = ?');
+			$stmt_checkvisit->bind_param('i', $this->id);
+			$stmt_checkvisit->execute();
+		}
+
 		function Visit(User|int $user) {
 			$userid = $user;
 			if($user instanceof User) {
