@@ -1,6 +1,13 @@
 <?php
 
-	$placeid = intval($_GET['placeid']);
+	if(isset($_GET['placeId'])) {
+		$placeid = intval($_GET['placeId']);
+	} else {
+		$placeid = intval($_GET['placeid']);
+	}
+	
+
+	
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
