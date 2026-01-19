@@ -628,8 +628,46 @@ EOT;
 			return "http://arl.lambda.cam/Asset/BodyColors.ashx?userId=$userId$parsedshit";
 		}
 
+		function GetCharacterAppearanceVerbose(): string {
+			$bodycoloursxml = $this->GetBodyColoursXML();
+			$getwearing = $this->GetWearingArray();
+
+			$userId = $this->id;
+			$parsedshit= "";
+
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+			foreach($getwearing as $id) {
+				$asset = Asset::FromID($id);
+				if($asset != null) {
+					$version = $asset->current_version;
+					$parsedshit .= "http://arl.lambda.cam/asset/?id=$id&version=$version;";
+
+					$relatedassets = $asset->GetRelatedAssets();
+
+					if(count($relatedassets) != 0) {
+						foreach($relatedassets as $relatedasset) {
+							$subversion = $relatedasset->current_version;
+							$parsedshit .= "http://arl.lambda.cam/asset/?id=$id&version=$subversion;";
+						}
+					}
+				} else {
+					// remove from everyone...
+				}
+			}
+
+			if(str_ends_with($parsedshit, ";")) {
+				$parsedshit = substr($parsedshit, 0, strlen($parsedshit)-1);
+			}
+
+			return "$bodycoloursxml$parsedshit";
+		}
+
 		function GetCharacterAppearanceHash() {
 			$bodycoloursxml = $this->GetBodyColoursXML();
+
+
+			return $this->GetCharacterAppearanceVerbose();
 		}
 
 		function GetWearingArray() {

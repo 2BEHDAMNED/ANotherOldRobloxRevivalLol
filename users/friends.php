@@ -1,1 +1,1 @@
-<?php echo "Unfortunately friending does not exist here because EVERYONE here is a friend!"; ?>
+<?php echo "TO BE WORKED ON LOL!!!!!"; ?>

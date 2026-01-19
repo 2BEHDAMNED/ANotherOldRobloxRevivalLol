@@ -451,6 +451,53 @@
 			$stmt->bind_param("ii", $salescount, $this->id);
 			$stmt->execute();
 		}
+
+		function GetFileContents(int $version = -1) {
+			if($version > 0) {
+				$asset_version = AssetVersion::GetVersionOf($this, $version);
+
+				if($asset_version != null) {
+					$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset_version->md5sig;
+				} else {
+					return null;
+				}
+			} else {
+				$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$this->GetLatestVersionDetails()->md5sig;
+			}
+
+			if(file_exists($filename)) {
+				$handle = fopen($filename, "r"); 
+				$contents = fread($handle, filesize($filename)); 
+				fclose($handle);
+				$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
+				$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
+
+				return str_replace("arl.lambda.cam", $_SERVER['SERVER_NAME'], $contents);
+			}
+			
+			return null;
+		}
+
+		function GetRelatedAssets() {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+			$stmt = $con->prepare("SELECT `asset_id` FROM `assets` WHERE `asset_relatedid` = ?");
+			$stmt->bind_param("i", $this->id);
+			$stmt->execute();
+			
+			$stmt_result = $stmt->get_result();
+
+			$result = [];
+
+			while($row = $stmt_result->fetch_assoc()) {
+				$asset = Asset::FromID(intval($row['asset_id']));
+				if($asset != null) {
+					array_push($result, $asset);
+				}
+			}
+
+			return $result;
+		}
 	}
 
 	class Place extends Asset {
