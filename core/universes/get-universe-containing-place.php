@@ -1,7 +1,16 @@
 <?php
 
-	echo json_encode([
-		"UniverseId" => 1, "openGameFromPlaceId" => 2, "updateFromPlaceID" => 2
-	]);
+	$placeid = intval($_GET['placeId']);
+
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+
+	$place = Place::FromID($placeid);
+
+	if($place != null) {
+		echo json_encode([
+			"UniverseId" => $placeid
+		]);
+	}
+	
 
 ?>

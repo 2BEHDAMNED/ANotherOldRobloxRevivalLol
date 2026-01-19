@@ -632,7 +632,7 @@ EOT;
 
 		function GetCharacterAppearanceVerbose(): string {
 			$bodycoloursxml = $this->GetBodyColoursXML();
-			$getwearing = $this->GetWearingArray();
+			$getwearing = $this->GetWearingArray(true);
 
 			$userId = $this->id;
 			$parsedshit= "";
@@ -680,10 +680,25 @@ EOT;
 			$stmt->execute();
 		}
 
-		function GetWearingArray() {
+		function GetWearingArray(bool $ordered = false) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 
-			$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ?;");
+			if($ordered) {
+				$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ? ORDER BY `inv_assetid`");
+				$stmt_checkinventory->bind_param('i', $this->id);
+				$stmt_checkinventory->execute();
+				$checkinventory_result = $stmt_checkinventory->get_result();
+				$ids = [];
+			
+				if($checkinventory_result->num_rows != 0) {
+					while($row = $checkinventory_result->fetch_assoc()) {
+						array_push($ids, $row['inv_assetid']);
+					}
+				}	
+				return $ids;
+			}
+
+			$stmt_checkinventory = $con->prepare("SELECT * FROM `inventory` WHERE `inv_userid` = ?");
 			$stmt_checkinventory->bind_param('i', $this->id);
 			$stmt_checkinventory->execute();
 			$checkinventory_result = $stmt_checkinventory->get_result();

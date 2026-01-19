@@ -1,29 +1,44 @@
 <?php
 header('Content-type: application/json');
-$assetid = $_GET['universeId'];
+$assetid = intval($_GET['universeId']);
+
+require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+
+$asset = Asset::FromID($assetid);
+
+if($asset != null) {
+
+	echo json_encode([
+		"TargetId" => $assetid,
+		"ProductType" => "User Product",
+		"AssetId" => $assetid,
+		"ProductId" => $assetid,
+		"Name" => $asset->name,
+		"Description" => $asset->description,
+		"AssetTypeId" => $asset->type->ordinal(),
+		"CreatorId" => $asset->creator->id,
+		"CreatorName" => $asset->creator->id,
+		"IconImageAssetId" => $assetid,
+		"Created" => "2015-06-25T20:07:49.147Z",
+		"Updated" => "2015-07-11T20:07:51.863Z",
+		"PriceInRobux" => 0,
+		"PriceInTickets" => 0,
+		"Sales" => 0,
+		"IsNew" => true,
+		"IsForSale" => true,
+		"IsPublicDomain" => $asset->public,
+		"IsLimited" => false,
+		"IsLimitedUnique" => false,
+		"Remaining" => null,
+		"MinimumMembershipLevel" => 0,
+		"ContentRatingTypeId" => 0
+	]);
+
+} else {
+	echo "{}";
+}
+
 ?>
 {
-	"TargetId": <?= $assetid ?>,
-	"ProductType": "User Product",
-	"AssetId": <?= $assetid ?>,
-	"ProductId": <?= $assetid ?>,
-	"Name": "Test",
-	"Description": "HEEELP",
-	"AssetTypeId": 9,
-	"CreatorId": 1,
-	"CreatorName": "GRACE",
-	"IconImageAssetId": 1818,
-	"Created": "2015-06-25T20:07:49.147Z",
-	"Updated": "2015-07-11T20:07:51.863Z",
-	"PriceInRobux": 1,
-	"PriceInTickets": 1,
-	"Sales": 0,
-	"IsNew": true,
-	"IsForSale": true,
-	"IsPublicDomain": true,
-	"IsLimited": false,
-	"IsLimitedUnique": false,
-	"Remaining": null,
-	"MinimumMembershipLevel": 0,
-	"ContentRatingTypeId": 0
+
 }
