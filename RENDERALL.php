@@ -1,4 +1,5 @@
 <?php
+	die("Nice try but this is no longer needed...");
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 
