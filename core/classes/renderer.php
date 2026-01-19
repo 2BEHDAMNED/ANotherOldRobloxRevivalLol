@@ -78,7 +78,7 @@
 				$rcc->RenewLease($JobId, 1);
 			} catch(SoapFault $e) {
 				echo "some fault happened ig";
-				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+				$base64data = null;
 			}
 
 			return $base64data;

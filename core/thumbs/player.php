@@ -3,8 +3,6 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
-	$user = UserUtils::RetrieveUser();
-
 	if(isset($_GET['id']) || isset($_GET['userId'])) {
 		if(isset($_GET['id'])) {
 			$id = intval($_GET['id']);
@@ -15,12 +13,16 @@
 
 		$specialcase = false;
 
-		$asset = User::FromID($id);
-		if($asset != null) {
+		$user = User::FromID($id);
+		if($user != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			
-			if(file_exists($_SERVER['DOCUMENT_ROOT']."/../users/$id.png")) {
-				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../users/$id.png");
+			//base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+
+			$md5hash = $user->GetCharacterAppearanceHash();
+
+			if(file_exists($_SERVER['DOCUMENT_ROOT']."/../renders/$md5hash.png")) {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../renders/$md5hash.png");
 			} else {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/avatar.png");
 			}

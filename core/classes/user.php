@@ -38,6 +38,7 @@
 		 * @var bool
 		 */
 		public bool $setprofilepicture;
+		public string $currentoutfitmd5;
 		public DateTime $join_date;
 		
 		/**
@@ -95,6 +96,7 @@
 			$this->blurb = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['user_blurb']));
 			$this->last_update = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['user_lastprofileupdate']);
 			$this->setprofilepicture = boolval($rowdata['user_setprofilepicture']);
+			$this->currentoutfitmd5 = strval($rowdata['user_currentappearancemd5']);
 			$this->join_date = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['user_joindate']);
 			
 			$this->password = strval($rowdata['user_password']);
@@ -593,7 +595,7 @@
 			$torsocolour = $colours['torso'];
 
 return <<<EOT
-<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://rbx.lambda.cam/roblox.xsd" version="4">
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://arl.lambda.cam/roblox.xsd" version="4">
 	<External>null</External>
 	<External>nil</External>
 	<Item class="BodyColors" referent="RBXCCC36C132C584B37B29DB69EAE48292A">
@@ -660,14 +662,22 @@ EOT;
 				$parsedshit = substr($parsedshit, 0, strlen($parsedshit)-1);
 			}
 
-			return "$bodycoloursxml$parsedshit";
+			$bodycoloursxml_encoded = base64_encode($bodycoloursxml);
+
+			return "$bodycoloursxml_encoded;$parsedshit";
 		}
 
 		function GetCharacterAppearanceHash() {
-			$bodycoloursxml = $this->GetBodyColoursXML();
+			return md5($this->GetCharacterAppearanceVerbose());
+		}
 
+		function UpdateOutfitHash() {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$md5 = $this->GetCharacterAppearanceHash();
 
-			return $this->GetCharacterAppearanceVerbose();
+			$stmt = $con->prepare("UPDATE `users` SET `user_currentappearancemd5` = ? WHERE `user_id` = ?");
+			$stmt->bind_param("si", $md5, $this->id);
+			$stmt->execute();
 		}
 
 		function GetWearingArray() {

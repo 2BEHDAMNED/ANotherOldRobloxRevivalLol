@@ -271,19 +271,30 @@
 				$user->SetBodyColours($head, $torso, $leftarm, $rightarm, $leftleg, $rightleg);
 				die(json_encode(["error" => false]));
 			} else if($request == "rendercharacter") {
-				$mediadir = $_SERVER['DOCUMENT_ROOT']."/../users/".$user->id.".png";
+				
+				$mediadir = $_SERVER['DOCUMENT_ROOT']."/../renders/";
 
-				$render = TheFuckingRenderer::RenderUser($user->id);
-				$data = "data:image/png;base64,$render";
-				list($type, $data) = explode(';', $data);
-				list(, $data)      = explode(',', $data);
-				$data = base64_decode($data);
+				$characterinfo = $user->GetCharacterAppearanceVerbose();
+				$charactermd5 = md5($characterinfo);
 
-				$render_image = imagecreatefromstring($data);
-				imagesavealpha($render_image, true);
-				//ob_clean();
-				//header("Content-Type: image/png");
-				imagepng($render_image, $mediadir);
+				if(!file_exists("$mediadir/$charactermd5.png")) {
+					$render = TheFuckingRenderer::RenderUser($user->id);
+					if($render != null) {
+						$data = "data:image/png;base64,$render";
+						list($type, $data) = explode(';', $data);
+						list(, $data)      = explode(',', $data);
+						$data = base64_decode($data);
+
+						$render_image = imagecreatefromstring($data);
+						imagesavealpha($render_image, true);
+						imagepng($render_image, "$mediadir/$charactermd5.png");
+
+						$user->UpdateOutfitHash();
+					}
+					
+				}
+
+				
 				die(json_encode(["error" => false, "reason" => "Wow we rendered!"]));
 			}
 		}
