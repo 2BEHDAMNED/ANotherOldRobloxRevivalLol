@@ -1030,11 +1030,42 @@ EOT;
 			
 			if($activity_result->num_rows != 0) {
 				return $activity_result->fetch_assoc()['action'];
+			} else {
+				$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ?');
+				$stmt_user_status_check->bind_param('i', $this->id);
+				$stmt_user_status_check->execute();
+				$activity_result = $stmt_user_status_check->get_result();
+
+				if($activity_result->num_rows != 0) {
+					$row = $activity_result->fetch_assoc();
+					//
+					return "Was last seen: ".$row['action'].", ".getTimeAgo(DateTime::createFromFormat("Y-m-d H:i:s", $row['action_time']))
+				} else {
+					return "Was never online I guess :[";
+				}
 			}
+		}
 
-			
+		private function getTimeAgo(DateTime $time) {
+			$time_difference = time() - $time->getTimestamp();
 
-			return "Offline";
+			if( $time_difference < 1 ) { return 'less than 1 second ago'; }
+			$condition = array( 12 * 30 * 24 * 60 * 60 =>  'year',
+						30 * 24 * 60 * 60       =>  'month',
+						24 * 60 * 60            =>  'day',
+						60 * 60                 =>  'hour',
+						60                      =>  'minute',
+						1                       =>  'second'
+			);
+
+			foreach($condition as $secs => $str) {
+				$d = $time_difference / $secs;
+
+				if($d >= 1) {
+					$t = round( $d );
+					return $t . ' ' . $str . ( $t > 1 ? 's' : '' ) . ' ago';
+				}
+			}
 		}
 
 		function SetProfilePicture(array $file): array {
