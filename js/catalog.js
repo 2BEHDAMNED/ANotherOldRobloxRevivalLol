@@ -185,6 +185,7 @@ ANORRL.Catalog  = {
 $(function(){
 
 	$("li[data_category]").on("click",function() {
+		$("#Paginator").find("input").val("");
 		ANORRL.Catalog.GrabAssets($(this).attr("data_category"), ANORRL.Catalog.CurrentPage, "");
 	});
 	
