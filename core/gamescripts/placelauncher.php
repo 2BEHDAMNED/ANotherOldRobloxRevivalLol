@@ -235,6 +235,7 @@
 
 			}
 		} else if($_GET['request'] == "CloudEdit" && isset($_GET['placeId'])) {
+			echo "yes i am here";
 			$place = Place::FromID(intval($_GET['placeId']));
 			$user = UserUtils::RetrieveUser();
 
@@ -274,7 +275,7 @@
 						$job = new Roblox\Grid\Rcc\Job($jobId);
 						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
 						<<<EOT
-						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
+						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId", true)
 						EOT);
 						$base64data = $rcc->OpenJob($job, $script);
 						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
