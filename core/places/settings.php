@@ -14,7 +14,11 @@ if($place != null) {
 			"CreatorTargetId" => $place->creator->id,
 			"CreatorType" => 0
 		],
-		
+		"GameId" => $place->id,
+		"UniverseId" => $place->id,
+		"PlaceId" => $place->id,
+		"openGameFromPlaceId" => $place->id,
+		"updateFromPlaceId" => $place->id,
 	]);
 } else {
 	echo "{}";

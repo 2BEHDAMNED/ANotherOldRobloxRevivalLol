@@ -15,7 +15,11 @@
 
 	if($place != null) {
 		echo json_encode([
-			"UniverseId" => $placeid
+			"UniverseId" => $placeid,
+			"GameId" => $placeid,
+			"PlaceId" => $placeid,
+			"openGameFromPlaceId" => $placeid,
+			"updateFromPlaceId" => $placeid,
 		]);
 	}
 	
