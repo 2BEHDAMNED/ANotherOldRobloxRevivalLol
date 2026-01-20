@@ -308,6 +308,7 @@
 
 					if($server_data != null) {
 						$serverid = $server_data['server_id'];
+						$port = $server_data['server_port'];
 					} else {
 						$dont_load = true;
 					}
@@ -343,19 +344,8 @@
 									"CreatorTypeEnum" => "User",
 									"MembershipType" => "None",
 									"AccountAge" => 256,
-									"CookieStoreFirstTimePlayKey" => "rbx_evt_ftp",
-									"CookieStoreFiveMinutePlayKey" => "rbx_evt_fmp",
-									"CookieStoreEnabled" => true,
-									"IsRobloxPlace" => true,
-									"GenerateTeleportJoin" => false,
-									"IsUnknownOrUnder13" => false,
 									"SessionId" => "{sessionid}",
-									"DataCenterId" => 0,
 									"UniverseId" => $place->id,
-									"BrowserTrackerId" => 0,
-									"UsePortraitMode" => false,
-									"FollowUserId" => 0,
-									"characterAppearanceId" => $user->id
 							]
 						]
 					);
