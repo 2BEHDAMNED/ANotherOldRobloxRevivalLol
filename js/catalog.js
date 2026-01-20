@@ -185,7 +185,7 @@ ANORRL.Catalog  = {
 $(function(){
 
 	$("li[data_category]").on("click",function() {
-		ANORRL.Catalog.GrabAssets($(this).attr("data_category"), ANORRL.Catalog.CurrentPage);
+		ANORRL.Catalog.GrabAssets($(this).attr("data_category"), ANORRL.Catalog.CurrentPage, "");
 	});
 	
 	ANORRL.Catalog.GrabAssets();
