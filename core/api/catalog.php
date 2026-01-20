@@ -33,7 +33,7 @@
 		$total_pages--;
 	}
 
-	if($total_pages < $page && $total_pages != $page) {
+	if($total_pages < $page && $page != 1) {
 		die(header("Location: /api/catalog?c=$type&q=$query&p=1"));
 	}
 
