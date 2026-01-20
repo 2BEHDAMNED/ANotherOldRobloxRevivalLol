@@ -317,12 +317,7 @@
 					$jobIDThingy = md5(rand());
 					$json = json_encode(
 						[
-							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID",
-							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
-							"authenticationTicket" => "$sessionID",
-							"message" => "HELLOOOOOOOO!!!!!",
 							"settings" => [
 									"ClientPort" => 0,
 									"MachineAddress" => "g3d.gurdit.com",

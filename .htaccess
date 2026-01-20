@@ -92,6 +92,8 @@
 	RewriteRule ^places/([0-9]+)/settings /core/places/settings.php?placeId=$1 [END]
 	RewriteRule ^universes/get-info$ /core/universes/get-info.php [END]
 	RewriteRule ^universes/validate-place-join$ /core/universes/validate-place-join.php [END]
+	RewriteRule ^universes/get-universe-places$ /core/universes/get-universe-places.php [END]
+	RewriteRule ^universes/get-aliases$ /core/universes/get-aliases.php [END]
 	
 	RewriteRule ^game/logout.aspx$ /core/api/logout.php							  [END]
 	RewriteRule ^Game/logout.aspx$ /core/api/logout.php							  [END]
