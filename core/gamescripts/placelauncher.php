@@ -321,7 +321,7 @@
 							"settings" => [
 									"ClientPort" => 0,
 									"MachineAddress" => "g3d.gurdit.com",
-									"ServerPort" => $port,
+									"ServerPort" => "$port",
 									"PingUrl" => "",
 									"PingInterval" => 120,
 									"UserName" => $user->name,
