@@ -280,7 +280,7 @@
 						$job = new Roblox\Grid\Rcc\Job($jobId);
 						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
 						<<<EOT
-						loadfile("http://arl.lambda.cam/game/teamcreate.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId", true)
+						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId", true)
 						EOT);
 						$base64data = $rcc->OpenJob($job, $script);
 						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
@@ -322,7 +322,7 @@
 							"settings" => [
 									"ClientPort" => 0,
 									"MachineAddress" => "g3d.gurdit.com",
-									"ServerPort" => "$port",
+									"ServerPort" => intval($port),
 									"PingUrl" => "",
 									"PingInterval" => 120,
 									"UserName" => $user->name,
