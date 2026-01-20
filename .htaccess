@@ -112,6 +112,10 @@
 	RewriteRule ^game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 	RewriteRule ^Game/maingameserver.ashx$ /core/gamescripts/coregameserver.php [END]
 
+	RewriteRule ^game/teamcreate.ashx$ /core/gamescripts/teamcreategameserver.php [END]
+	RewriteRule ^Game/teamcreate.ashx$ /core/gamescripts/teamcreategameserver.php [END]
+
+
 	RewriteRule ^Game/Tools/InsertAsset.ashx$ /core/insertasset.php [END]
 
 	RewriteRule ^Friend/AreFriends$ /Friend/AreFriends.php [END]
