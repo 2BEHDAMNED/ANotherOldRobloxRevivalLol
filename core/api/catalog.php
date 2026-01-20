@@ -33,8 +33,8 @@
 		$total_pages--;
 	}
 
-	if($total_pages < $page) {
-		die(header("Location: /api/stuff?c=$type&q=$query&p=1"));
+	if($total_pages < $page && $total_pages != $page) {
+		die(header("Location: /api/catalog?c=$type&q=$query&p=1"));
 	}
 
 	$assets = Asset::GetAssetsOfTypePaged($query, $asset_type, $page, 16);
