@@ -46,6 +46,27 @@ game:GetService("ChangeHistoryService"):SetEnabled(false)
 -- establish this peer as the Server
 local ns = game:GetService("NetworkServer")
 
+if cloudEditEnabled then
+	print("cloud edit enabled!")
+	ns:ConfigureAsCloudEditServer()
+
+	local doPeriodicSaves = true
+	local delayBetweenSavesSeconds = 5 * 60 -- 5 minutes
+	local function periodicSave()
+		if doPeriodicSaves then
+			game:ServerSave()
+			delay(delayBetweenSavesSeconds, periodicSave)
+		end
+	end
+	-- Spawn thread to save in the future
+	delay(delayBetweenSavesSeconds, periodicSave)
+	-- Hook into OnClose to save on shutdown
+	game.OnClose = function()
+		doPeriodicSaves = false
+		game:ServerSave()
+	end
+end
+
 if url~=nil then
 	pcall(function() game:GetService("Players"):SetAbuseReportUrl(url .. "/AbuseReport/InGameChatHandler.ashx") end)
 	pcall(function() game:GetService("ScriptInformationProvider"):SetAssetUrl(url .. "/Asset/") end)
@@ -70,7 +91,7 @@ if url~=nil then
 	-- end)
 end
 
---pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(true) end)
+pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(false) end)
 settings().Diagnostics.LuaRamLimit = 0
 --settings().Network:SetThroughputSensitivity(0.08, 0.01)
 --settings().Network.SendRate = 35
@@ -223,27 +244,6 @@ if game:GetService("Players").EmoteSoundsEnabled then
 			end
 		end
 	end)
-end
-
-if cloudEditEnabled then
-	print("cloud edit enabled!")
-	ns:ConfigureAsCloudEditServer()
-
-	local doPeriodicSaves = true
-	local delayBetweenSavesSeconds = 5 * 60 -- 5 minutes
-	local function periodicSave()
-		if doPeriodicSaves then
-			game:ServerSave()
-			delay(delayBetweenSavesSeconds, periodicSave)
-		end
-	end
-	-- Spawn thread to save in the future
-	delay(delayBetweenSavesSeconds, periodicSave)
-	-- Hook into OnClose to save on shutdown
-	game.OnClose = function()
-		doPeriodicSaves = false
-		game:ServerSave()
-	end
 end
 
 -- Now start the connection
