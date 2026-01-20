@@ -33,11 +33,13 @@
 		return $randomString;
 	}
 
-	function getActiveServersCount(int $placeID): bool {
+	function getActiveServersCount(int $placeID, bool $teamcreate = false): bool {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` != `server_maxcount`");
-		$stmt_getactiveservers->bind_param("i", $placeID);
+		$stmt_teamcreate = $teamcreate ? 1 : 0;
+
+		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` != `server_maxcount` AND `server_teamcreate` = ?");
+		$stmt_getactiveservers->bind_param("ii", $placeID, $stmt_teamcreate);
 		$stmt_getactiveservers->execute();
 
 		$result_getactiveservers = $stmt_getactiveservers->get_result();
@@ -45,11 +47,13 @@
 		return $result_getactiveservers->num_rows;
 	}
 
-	function getAnActiveServer(int $placeID): array|null {
+	function getAnActiveServer(int $placeID, bool $teamcreate = false): array|null {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` != `server_maxcount`");
-		$stmt_getactiveservers->bind_param("i", $placeID);
+		$stmt_teamcreate = $teamcreate ? 1 : 0;
+
+		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` != `server_maxcount` AND `server_teamcreate` = ?");
+		$stmt_getactiveservers->bind_param("ii", $placeID, $stmt_teamcreate);
 		$stmt_getactiveservers->execute();
 
 		$result_getactiveservers = $stmt_getactiveservers->get_result();
@@ -61,10 +65,12 @@
 		return null;
 	}
 
-	function isUserInAGame(int $userID): bool {
+	function isUserInAGame(int $userID, bool $teamcreate = false): bool {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_players` WHERE `session_playerid` = ?");
+		$stmt_teamcreate = $teamcreate ? 1 : 0;
+
+		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_players` WHERE `session_playerid` = ? AND `session_teamcreate` = ?");
 		$stmt_getsessiondetails->bind_param("i", $userID);
 		$stmt_getsessiondetails->execute();
 
@@ -73,11 +79,13 @@
 		return $result_getsessiondetails->num_rows != 0;
 	}
 
-	function getSessionDetails(string $sessionID): array|null {
+	function getSessionDetails(string $sessionID, bool $teamcreate = false): array|null {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_players` WHERE `session_id` = ?");
-		$stmt_getsessiondetails->bind_param("s", $sessionID);
+		$stmt_teamcreate = $teamcreate ? 1 : 0;
+
+		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_players` WHERE `session_id` = ? AND `session_teamcreate` = ?");
+		$stmt_getsessiondetails->bind_param("si", $sessionID, $stmt_teamcreate);
 		$stmt_getsessiondetails->execute();
 
 		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
@@ -89,11 +97,13 @@
 		return null;
 	}
 
-	function updatePlaceOfSession(string $sessionID, string $placeID): array|null {
+	function updatePlaceOfSession(string $sessionID, string $placeID, bool $teamcreate = false): array|null {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		$stmt_getsessiondetails = $con->prepare("UPDATE `active_players` SET `session_serverid` = ? WHERE `session_id` = ?");
-		$stmt_getsessiondetails->bind_param("ss", $placeID, $sessionID);
+		$stmt_teamcreate = $teamcreate ? 1 : 0;
+
+		$stmt_getsessiondetails = $con->prepare("UPDATE `active_players` SET `session_serverid` = ? WHERE `session_id` = ? AND `session_teamcreate` = ?");
+		$stmt_getsessiondetails->bind_param("ssi", $placeID, $sessionID, $stmt_teamcreate);
 		$stmt_getsessiondetails->execute();
 
 		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
@@ -105,11 +115,13 @@
 		return null;
 	}
 
-	function getServerDetails(string $serverID): array|null {
+	function getServerDetails(string $serverID, bool $teamcreate = false): array|null {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_servers` WHERE `server_id` = ?");
-		$stmt_getsessiondetails->bind_param("s", $serverID);
+		$stmt_teamcreate = $teamcreate ? 1 : 0;
+
+		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_servers` WHERE `server_id` = ? AND `server_teamcreate` = ?");
+		$stmt_getsessiondetails->bind_param("si", $serverID, $stmt_teamcreate);
 		$stmt_getsessiondetails->execute();
 
 		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
@@ -129,98 +141,184 @@
 	// isTeleport=false
 
 	if(
-		isset($_GET['request']) &&
-		isset($_GET['placeId']) &&
+		isset($_GET['request'])
+	) {
+		if(isset($_GET['placeId']) &&
 		isset($_GET['isPartyLeader']) &&
 		isset($_GET['gender']) &&
 		isset($_GET['isTeleport']) &&
 		$_GET['request'] == "RequestGame" &&
-		$_GET['gender'] == ""
-	) {
-		$place = Place::FromID(intval($_GET['placeId']));
-		$user = UserUtils::RetrieveUser();
+		$_GET['gender'] == "") {
+			$place = Place::FromID(intval($_GET['placeId']));
+			$user = UserUtils::RetrieveUser();
 
-		if($place != null && $user != null) {
-			$playerID = $user->id;
-			if(isUserInAGame($user->id)) {
-				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-				$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
-				$stmt_createnewsession->bind_param("i", $playerID);
-				$stmt_createnewsession->execute();
-			}
-
-			$server = getAnActiveServer($place->id);
-
-			if($server != null) {
-				$serverID = $server['server_id'];
-			} else {
-				$serverID = strval($place->id);
-			}
-			$sessionID = getRandomString(25);
-			
-			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-			$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
-			$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
-			$stmt_createnewsession->execute();
-
-			$dont_load = false;
-			if(getActiveServersCount($place->id) == 0) {
-				try {
-					$serverid = getRandomString();
-					$placeId = $place->id;
-					$port = rand(50000, 60000);
-					$strPort = strval($port);
-
-					$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
-					$jobId = md5(rand());
-					$job = new Roblox\Grid\Rcc\Job($jobId);
-					$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
-					<<<EOT
-					loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
-					EOT);
-					$base64data = $rcc->OpenJob($job, $script);
-					$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
-
+			if($place != null && $user != null) {
+				$playerID = $user->id;
+				if(isUserInAGame($user->id)) {
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-					$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`) VALUES (?,?,?,?,?)");
-					$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
-					$stmt_createnewserver->execute();
-
-					updatePlaceOfSession($sessionID, $serverid);
-
-				} catch(SoapFault $e) {
-					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-					$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ?;");
-					$stmt_createnewserver->bind_param("s", $sessionID);
-					$stmt_createnewserver->execute();
-					die(json_encode([
-						"error" => "Wow so much errors!"
-					]));
+					$stmt_deletesession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
+					$stmt_deletesession->bind_param("i", $playerID);
+					$stmt_deletesession->execute();
 				}
-			} else {
-				$server_data = getAnActiveServer($place->id);
 
-				if($server_data != null) {
-					$serverid = $server_data['server_id'];
+				$server = getAnActiveServer($place->id);
+
+				if($server != null) {
+					$serverID = $server['server_id'];
 				} else {
-					$dont_load = true;
+					$serverID = strval($place->id);
+				}
+				$sessionID = getRandomString(25);
+				
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
+				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
+				$stmt_createnewsession->execute();
+
+				$dont_load = false;
+				if(getActiveServersCount($place->id) == 0) {
+					try {
+						$serverid = getRandomString();
+						$placeId = $place->id;
+						$port = rand(50000, 60000);
+						$strPort = strval($port);
+
+						$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+						$jobId = md5(rand());
+						$job = new Roblox\Grid\Rcc\Job($jobId);
+						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
+						<<<EOT
+						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
+						EOT);
+						$base64data = $rcc->OpenJob($job, $script);
+						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
+
+						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`) VALUES (?,?,?,?,?)");
+						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
+						$stmt_createnewserver->execute();
+
+						updatePlaceOfSession($sessionID, $serverid);
+
+					} catch(SoapFault $e) {
+						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+						$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ?;");
+						$stmt_createnewserver->bind_param("s", $sessionID);
+						$stmt_createnewserver->execute();
+						die(json_encode([
+							"error" => "Wow so much errors!"
+						]));
+					}
+				} else {
+					$server_data = getAnActiveServer($place->id);
+
+					if($server_data != null) {
+						$serverid = $server_data['server_id'];
+					} else {
+						$dont_load = true;
+					}
+				}
+
+				if(!$dont_load) {
+					$jobIDThingy = md5(rand());
+					die(json_encode(
+						[
+							"jobId" => "$jobIDThingy",
+							"status" => 2,
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID",
+							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
+							"authenticationTicket" => "$sessionID",
+							"message" => "HELLOOOOOOOO!!!!!"
+						]
+					));
+				}
+
+			}
+		} else if($_GET['request'] == "CloudEdit" && isset($_GET['placeId'])) {
+			$place = Place::FromID(intval($_GET['placeId']));
+			$user = UserUtils::RetrieveUser();
+
+			if($place != null && $user != null) {
+				$playerID = $user->id;
+				if(isUserInAGame($user->id, true)) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					$stmt_deletesession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ? AND `session_teamcreate` = 1");
+					$stmt_deletesession->bind_param("i", $playerID);
+					$stmt_deletesession->execute();
+				}
+
+				$server = getAnActiveServer($place->id, true);
+
+				if($server != null) {
+					$serverID = $server['server_id'];
+				} else {
+					$serverID = strval($place->id);
+				}
+				$sessionID = getRandomString(25);
+				
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`, `session_teamcreate`) VALUES (?,?,?,0,1)");
+				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
+				$stmt_createnewsession->execute();
+
+				$dont_load = false;
+				if(getActiveServersCount($place->id, true) == 0) {
+					try {
+						$serverid = getRandomString();
+						$placeId = $place->id;
+						$port = rand(50000, 60000);
+						$strPort = strval($port);
+
+						$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+						$jobId = md5(rand());
+						$job = new Roblox\Grid\Rcc\Job($jobId);
+						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
+						<<<EOT
+						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
+						EOT);
+						$base64data = $rcc->OpenJob($job, $script);
+						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
+
+						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`, `server_teamcreate`) VALUES (?,?,?,?,?,1)");
+						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
+						$stmt_createnewserver->execute();
+
+						updatePlaceOfSession($sessionID, $serverid);
+
+					} catch(SoapFault $e) {
+						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+						$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ? AND `session_teamcreate` = 1;");
+						$stmt_createnewserver->bind_param("s", $sessionID);
+						$stmt_createnewserver->execute();
+						die(json_encode([
+							"error" => "Wow so much errors!"
+						]));
+					}
+				} else {
+					$server_data = getAnActiveServer($place->id, true);
+
+					if($server_data != null) {
+						$serverid = $server_data['server_id'];
+					} else {
+						$dont_load = true;
+					}
+				}
+
+				if(!$dont_load) {
+					$jobIDThingy = md5(rand());
+					die(json_encode(
+						[
+							"jobId" => "$jobIDThingy",
+							"status" => 2,
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID",
+							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
+							"authenticationTicket" => "$sessionID",
+							"message" => "HELLOOOOOOOO!!!!!"
+						]
+					));
 				}
 			}
-
-			if(!$dont_load) {
-				$jobIDThingy = md5(rand());
-				die(json_encode(
-					[
-						"jobId" => "$jobIDThingy",
-						"status" => 2,
-						"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID",
-						"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
-						"authenticationTicket" => "$sessionID",
-						"message" => "HELLOOOOOOOO!!!!!"
-					]
-				));
-			}
-
 		}
 	} else if(isset($_GET['sessionID'])) {
 

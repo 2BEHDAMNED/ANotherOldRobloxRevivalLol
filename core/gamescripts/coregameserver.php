@@ -1,5 +1,9 @@
 <?php ob_start(); ?>
-local placeId, port, url, access, jobID = ...
+local placeId, port, url, access, jobID, cloudEditEnabled = ...
+
+if not cloudEditEnabled then
+	cloudEditEnabled = false
+end
 
 ------------------- UTILITY FUNCTIONS --------------------------
 
@@ -16,7 +20,7 @@ end
 
 -----------------------------------END UTILITY FUNCTIONS -------------------------
 
------------------------------------"CUSTOM" SHARED CODE----------------------------------
+-----------------------------------"CUSTOM" SHARED CODE----------------------------------1
 
 pcall(function() settings().Network.UseInstancePacketCache = true end)
 pcall(function() settings().Network.UsePhysicsPacketCache = true end)
@@ -215,6 +219,26 @@ if game:GetService("Players").EmoteSoundsEnabled then
 			end
 		end
 	end)
+end
+
+if cloudEditEnabled then
+	ns:ConfigureAsCloudEditServer()
+
+	local doPeriodicSaves = true
+	local delayBetweenSavesSeconds = 5 * 60 -- 5 minutes
+	local function periodicSave()
+		if doPeriodicSaves then
+			game:ServerSave()
+			delay(delayBetweenSavesSeconds, periodicSave)
+		end
+	end
+	-- Spawn thread to save in the future
+	delay(delayBetweenSavesSeconds, periodicSave)
+	-- Hook into OnClose to save on shutdown
+	game.OnClose = function()
+		doPeriodicSaves = false
+		game:ServerSave()
+	end
 end
 
 -- Now start the connection
