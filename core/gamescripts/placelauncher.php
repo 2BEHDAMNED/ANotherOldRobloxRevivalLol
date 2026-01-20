@@ -284,16 +284,17 @@
 						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
 						$stmt_createnewserver->execute();
 
-						updatePlaceOfSession($sessionID, $serverid);
+						updatePlaceOfSession($sessionID, $serverid, true);
 
 					} catch(SoapFault $e) {
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ? AND `session_teamcreate` = 1;");
 						$stmt_createnewserver->bind_param("s", $sessionID);
 						$stmt_createnewserver->execute();
-						die(json_encode([
+						die(print_r($e));
+						/*die(json_encode([
 							"error" => "Wow so much errors!"
-						]));
+						]));*/
 					}
 				} else {
 					$server_data = getAnActiveServer($place->id, true);
