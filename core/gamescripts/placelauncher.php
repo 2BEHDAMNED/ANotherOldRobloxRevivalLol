@@ -71,7 +71,7 @@
 		$stmt_teamcreate = $teamcreate ? 1 : 0;
 
 		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_players` WHERE `session_playerid` = ? AND `session_teamcreate` = ?");
-		$stmt_getsessiondetails->bind_param("i", $userID);
+		$stmt_getsessiondetails->bind_param("ii", $userID, $stmt_teamcreate);
 		$stmt_getsessiondetails->execute();
 
 		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
@@ -221,7 +221,7 @@
 
 				if(!$dont_load) {
 					$jobIDThingy = md5(rand());
-					die(json_encode(
+					$json = json_encode(
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
@@ -230,12 +230,15 @@
 							"authenticationTicket" => "$sessionID",
 							"message" => "HELLOOOOOOOO!!!!!"
 						]
-					));
+					);
+					$json = str_replace("\\\\". "", $json);
+					$json = str_replace("\\", "", $json); 
+					die($json);
 				}
 
 			}
 		} else if($_GET['request'] == "CloudEdit" && isset($_GET['placeId'])) {
-			echo "yes i am here";
+			
 			$place = Place::FromID(intval($_GET['placeId']));
 			$user = UserUtils::RetrieveUser();
 
@@ -263,7 +266,9 @@
 				$stmt_createnewsession->execute();
 
 				$dont_load = false;
+//				echo strval(getActiveServersCount($place->id, true));
 				if(getActiveServersCount($place->id, true) == 0) {
+//					echo "creating new server i hope";
 					try {
 						$serverid = getRandomString();
 						$placeId = $place->id;
@@ -309,7 +314,7 @@
 
 				if(!$dont_load) {
 					$jobIDThingy = md5(rand());
-					die(json_encode(
+					$json = json_encode(
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
@@ -318,7 +323,11 @@
 							"authenticationTicket" => "$sessionID",
 							"message" => "HELLOOOOOOOO!!!!!"
 						]
-					));
+					);
+					$json = str_replace("\\\\", "",$json);
+                                        $json = str_replace("\\", "", $json); 
+                                        die($json);
+
 				}
 			}
 		}

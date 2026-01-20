@@ -82,10 +82,14 @@ local countdownTimer = 60
 game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
 	shouldCountDown = false
+	
+	if cloudEditEnabled then
+		return
+	end
 
 	local playerResult = game:HttpGet(url .. "/api/a_gameservers/validateplayer?jobID="..jobID .. "&access="..access.."&userID=" .. tostring(player.userId), true)
 
-	if playerResult ~= "OK" then
+	if not cloudEditEnabled and playerResult ~= "OK" then
 		player:Kick("Hey wait something ain't right here...")
 	end
 
@@ -222,6 +226,7 @@ if game:GetService("Players").EmoteSoundsEnabled then
 end
 
 if cloudEditEnabled then
+	print("cloud edit enabled!")
 	ns:ConfigureAsCloudEditServer()
 
 	local doPeriodicSaves = true
