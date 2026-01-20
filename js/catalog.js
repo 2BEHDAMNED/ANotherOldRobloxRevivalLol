@@ -19,14 +19,18 @@ const regex = /[^A-Za-z0-9 ]/g;
 ANORRL.Catalog  = {
 	CurrentPage: 1,
 	CurrentCategory: 8,
+	CurrentQuery: "",
 	CurrentlyLoadingCrapBruh: false,
+	Submit: function() {
+		this.GrabAssets(this.CurrentCategory, 1, $("#SearchBox[name=query]").val());
+	},
 	NextPage: function() {
 		this.GrabAssets(this.CurrentCategory, this.CurrentPage + 1);
 	},
 	PrevPage: function() {
 		this.GrabAssets(this.CurrentCategory, this.CurrentPage - 1);
 	},
-	GrabAssets: function(category, page) {
+	GrabAssets: function(category, page, query) {
 
 		if(this.CurrentlyLoadingCrapBruh) {
 			return;
@@ -49,6 +53,12 @@ ANORRL.Catalog  = {
 			page = 1;
 		}
 
+		if(query === undefined) {
+			query = this.CurrentQuery;
+		} else {
+			this.CurrentQuery = query;
+		}
+
 		var feedscontainer = $("#AssetsContainer > table");
 
 		feedscontainer.children().each(function() {
@@ -68,7 +78,7 @@ ANORRL.Catalog  = {
 
 		$("li[data_category="+category+"]").attr("selected", "");
 		
-		$.get("/api/catalog", {c: category, q: "", p : page}, function(data) {
+		$.get("/api/catalog", {c: category, q: query, p : page}, function(data) {
 			
 			var assets = data['assets'];
 			ANORRL.Catalog.CurrentPage = data['page'];
