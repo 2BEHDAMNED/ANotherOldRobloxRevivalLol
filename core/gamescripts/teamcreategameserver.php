@@ -1,4 +1,3 @@
-
 <?php ob_start(); ?>
 local placeId, port, url, access, jobID, cloudEditEnabled = ...
 
