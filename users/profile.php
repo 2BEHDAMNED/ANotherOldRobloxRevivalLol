@@ -571,8 +571,8 @@
 						</div>
 						<br clear="all">
 					</div>
-					<div id="CommentsContainer">
-						<h3>Comments (<?= $com_count ?>)</h3>
+					<div id="CommentsContainer" style="margin: 10px;">
+						<h3 style="margin: 0px">Comments (<?= $com_count ?>)</h3>
 						<?php if($user != null): ?>
 						<div id="CommentPostArea">
 							<?php if($comment_post_error): ?>
