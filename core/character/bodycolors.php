@@ -1,7 +1,7 @@
 <?php 
 header("Content-Type: text/plain"); 
 if(isset($_GET['clothing'])): ?>
-<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.novarin.co/roblox.xsd" version="4">
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://arl.lambda.cam/roblox.xsd" version="4">
 	<External>null</External>
 	<External>nil</External>
 	<Item class="BodyColors" referent="RBX96B37B6C58984541BA7545B230B6E10D">
@@ -32,7 +32,7 @@ if(isset($_GET['clothing'])): ?>
 	}
 	
 ?>
-<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://rbx.lambda.cam/roblox.xsd" version="4">
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://arl.lambda.cam/roblox.xsd" version="4">
 	<External>null</External>
 	<External>nil</External>
 	<Item class="BodyColors" referent="RBXCCC36C132C584B37B29DB69EAE48292A">
