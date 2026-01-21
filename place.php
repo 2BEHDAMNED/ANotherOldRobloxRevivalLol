@@ -10,6 +10,10 @@ $user = UserUtils::RetrieveUser();
 
 $asset = Place::FromID($id);
 
+if(session_start() != PHP_SESSION_ACTIVE) {
+	session_start();
+}
+
 if($asset != null) {
 	$urlname = $asset->GetURLTitle();
 	
@@ -22,6 +26,8 @@ if($asset != null) {
 		$is_favourited = $user != null && $asset->HasUserFavourited($user);
 
 		$user_bought = $user != null && $user->Owns($asset);
+		unset($_SESSION['ANORRL$Comment$Post$ProfileID']);
+		$_SESSION['ANORRL$Comment$Post$AssetID'] = $asset->id;
 	}
 	$favourites_count = $asset->favourites_count . " times";
 	if($asset->favourites_count == 1) {

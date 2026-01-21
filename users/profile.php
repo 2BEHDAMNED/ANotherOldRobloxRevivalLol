@@ -40,6 +40,11 @@
 
 	$games = $get_user->GetAllOwnedAssetsOfType(AssetType::PLACE);
 
+	if($user != null) {
+		unset($_SESSION['ANORRL$Comment$Post$AssetID']);
+		$_SESSION['ANORRL$Comment$Post$ProfileID'] = $get_user->id;
+	}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
