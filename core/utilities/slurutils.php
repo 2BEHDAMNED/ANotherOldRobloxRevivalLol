@@ -19,17 +19,19 @@
 
 			$words = explode(" ", $processed);
 
+			$processed = "";
+
 			foreach($words as $word) {
 				foreach($profanity as $slur) {
 					if(str_starts_with($word, "$slur ")) {
 						$pretext = substr($word, strlen("$slur"), strlen($word));
 
-						$processed = str_repeat("#", strlen($slur)).$pretext;
+						$processed .= str_repeat("#", strlen($slur)).$pretext." ";
 					}
 				}
 			}
 
-			return $processed;
+			return trim($processed);
 		}
 
 	}
