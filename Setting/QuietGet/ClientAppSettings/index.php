@@ -2,6 +2,7 @@
 header("Content-Type: application/json");
 ?>
 {
+"FFlagDebugLocalRccServerConnection":"False",
 "AllowVideoPreRoll": "True",
 "AxisAdornmentGrabSize": "12",
 "CaptureCountersIntervalInMinutes": "5",
