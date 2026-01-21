@@ -4,6 +4,7 @@ $name = $_GET['name'];
 $id = intval($_GET['id']);
 
 require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/comment.php";
 require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 $user = UserUtils::RetrieveUser();
