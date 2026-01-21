@@ -2,6 +2,7 @@
 header("Content-Type: application/json");
 ?>
 {
+"FFlagRCCSupportCloudEdit": "True",
 "FFlagDebugLocalRccServerConnection":"False",
 "AllowVideoPreRoll": "True",
 "AxisAdornmentGrabSize": "12",
