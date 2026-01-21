@@ -384,7 +384,7 @@
 			return $result_array;
 		}
 
-		function GetAllOwnedAssetsOfType(AssetType $type): array {
+		function GetAllOwnedAssetsOfType(AssetType $type, bool $showAll = true): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? ORDER BY `ta_date` DESC");
 			$ordinal = $type->ordinal();
@@ -403,7 +403,10 @@
 						$stmt -> bind_param("i", $row['ta_asset']);
 						$stmt->execute();
 					} else {
-						array_push($result_array, $asset);
+						if($asset->public || $showAll) {
+							array_push($result_array, $asset);
+						}
+						
 					}
 					
 				}

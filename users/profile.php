@@ -39,7 +39,7 @@
 
 	$header_data = $get_user;
 
-	$games = $get_user->GetAllOwnedAssetsOfType(AssetType::PLACE);
+	$games = $get_user->GetAllOwnedAssetsOfType(AssetType::PLACE, false);
 
 	$comments = Comment::GetCommentsOn($get_user);
 	$com_count = count($comments);
