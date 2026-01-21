@@ -342,7 +342,16 @@
 				$queryfiltered = "%";
 			}
 
-			$stmt_getallusers = $con->prepare("SELECT * FROM `users` WHERE `user_name` LIKE ? ORDER BY `user_joindate` DESC LIMIT ?, ?");
+			$stmt = $con->prepare("SELECT `user_id` FROM `users` WHERE 1;");
+			$stmt->execute();
+
+			$result_stmt = $stmt->get_result();
+
+			while($row = $result_stmt->fetch_assoc()) {
+				User::FromID(intval($row['user_id']))->IsOnline();
+			}
+
+			$stmt_getallusers = $con->prepare("SELECT * FROM `users` WHERE `user_name` LIKE ? ORDER BY `user_online` DESC, `user_joindate` DESC LIMIT ?, ?");
 			$page = (($pagenum-1)*$count);
 			
 			$stmt_getallusers->bind_param('sii', $queryfiltered, $page, $count);

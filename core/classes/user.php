@@ -965,7 +965,14 @@ EOT;
 			$stmt_user_status_check->execute();
 			$activity_result = $stmt_user_status_check->get_result();
 			
-			return $activity_result->num_rows != 0;
+			$result = $activity_result->num_rows != 0;
+
+			$stmt_result = $result ? 1 : 0;
+
+			$stmt_user_status_check = $con->prepare('UPDATE `users` SET `user_online` = ? WHERE `user_id` = ?');
+			$stmt_user_status_check->bind_param('i', $stmt_result, $this->id);
+			$stmt_user_status_check->execute();
+			return $result;
 		}
 
 		private function getUserGameDetails(): array|null {
@@ -1023,12 +1030,9 @@ EOT;
 				}
 			}
 
-			$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ? AND `action_time` > DATE_SUB(NOW(),INTERVAL 5 MINUTE)');
-			$stmt_user_status_check->bind_param('i', $this->id);
-			$stmt_user_status_check->execute();
-			$activity_result = $stmt_user_status_check->get_result();
+			$is_online = $this->IsOnline();
 			
-			if($activity_result->num_rows != 0) {
+			if($is_online) {
 				return $activity_result->fetch_assoc()['action'];
 			} else {
 				$stmt_user_status_check = $con->prepare('SELECT * FROM `activity` WHERE `userid` = ?');
