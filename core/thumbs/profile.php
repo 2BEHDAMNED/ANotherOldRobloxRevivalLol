@@ -41,8 +41,11 @@
 				$width = imagesx($image);
 				$height = imagesy($image);
 
-				$image = imagescale($image, $size, $size);
-				imagesavealpha($image, true);
+				$resizedimage = imagecreatetruecolor($size, $size);
+				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $width, $height, $size, $size);
+				
+
+				imagesavealpha($resizedimage, true);
 				header("Content-Type: image/png");
 				ob_clean();
 				imagepng($image);
