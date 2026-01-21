@@ -6,7 +6,7 @@ try {
     $text = $_REQUEST['text'];
 	
     if (isset($_REQUEST['text'])) {
-		$filtered = SlurUtils::ProcessText($text);
+	$filtered = SlurUtils::ProcessText($text);
         $response = [
             "success" => true,
             "data" => [

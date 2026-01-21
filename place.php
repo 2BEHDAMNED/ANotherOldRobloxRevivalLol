@@ -373,7 +373,7 @@ $header_data = $asset;
 				});
 			})
 		</script>
-		<?php if($user != null && $user->IsAdmin()): ?>
+		<?php if($user != null && ($user->id == $asset->creator->id || $user->IsAdmin())): ?>
 		<script>
 			var rendering = false;
 			function Render() {

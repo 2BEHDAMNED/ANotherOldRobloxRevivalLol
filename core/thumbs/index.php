@@ -84,7 +84,7 @@
 				imagesavealpha($resizedimage, true);
 				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
 				imagefill($resizedimage, 0, 0, $trans_colour);
-				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $size, $size, $width, $height);
+				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
 
 				imagesavealpha($resizedimage, true);
 				header("Content-Type: image/png");
@@ -111,7 +111,7 @@
 				imagesavealpha($resizedimage, true);
 				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
 				imagefill($resizedimage, 0, 0, $trans_colour);
-				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $sizex, $sizey, $width, $height);
+				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
 
 				
 				header("Content-Type: image/png");

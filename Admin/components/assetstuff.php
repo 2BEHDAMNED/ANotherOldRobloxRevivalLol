@@ -98,6 +98,7 @@
 
 				if($asset != null && $asset->creator->id == $user->id || $user->IsAdmin()) {
 					if($_POST['type'] == "delete") {
+						$id = $asset->id;
 						$stmt = $con->prepare('DELETE FROM `inventory` WHERE `inv_assetid` = ?');
 						$stmt -> bind_param("i", $id);
 						$stmt->execute();
@@ -119,6 +120,10 @@
 						$stmt = $con->prepare('DELETE FROM `assets` WHERE `asset_id` = ?');
 						$stmt -> bind_param("i", $id);
 						$stmt->execute();
+
+						$stmt = $con->prepare('DELETE FROM `asset_places` WHERE `place_id` = ?');
+                                                $stmt -> bind_param("i", $id);
+                                                $stmt->execute();
 						die("Success!");
 					}
 				}
