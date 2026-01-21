@@ -30,7 +30,8 @@ if($asset != null) {
 
 		if(
 			isset($_POST['ANORRL$Comment$Post$Contents']) &&
-			isset($_POST['ANORRL$Comment$Post$Submit'])
+			isset($_POST['ANORRL$Comment$Post$Submit']) &&
+			$asset->comments_enabled
 		) {
 			$result = Comment::Post($asset, $_POST['ANORRL$Comment$Post$Contents']);
 			$comment_post_error = $result['error'];
@@ -608,7 +609,7 @@ $header_data = $asset;
 						?>
 						<div id="CommentsContainer">
 							<h3>Comments (<?= $com_count ?>)</h3>
-							<?php if($user != null): ?>
+							<?php if($user != null && $asset->comments_enabled): ?>
 							<div id="CommentPostArea">
 								<?php if($comment_post_error): ?>
 									<div style="border: 1px solid white;padding: 2px 5px;background: #c30000;font-weight: bold;"><?= $result['reason'] ?></div>
