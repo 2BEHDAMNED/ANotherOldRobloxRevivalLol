@@ -45,10 +45,9 @@
 				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $width, $height, $size, $size);
 				
 
-				imagesavealpha($resizedimage, true);
 				header("Content-Type: image/png");
 				ob_clean();
-				imagepng($image);
+				imagepng($resizedimage);
 				
 			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
 				$sizex = intval($_GET['sx']);
