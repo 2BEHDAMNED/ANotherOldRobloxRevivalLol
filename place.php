@@ -34,7 +34,6 @@ if($asset != null) {
 		) {
 			$result = Comment::Post($asset, $_POST['ANORRL$Comment$Post$Contents']);
 			$comment_post_error = $result['error'];
-
 		}
 		
 	}
@@ -606,8 +605,6 @@ $header_data = $asset;
 						<?php
 							$comments = Comment::GetCommentsOn($asset);
 							$com_count = count($comments);
-
-
 						?>
 						<div id="CommentsContainer">
 							<h3>Comments (<?= $com_count ?>)</h3>
