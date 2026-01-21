@@ -18,17 +18,33 @@
 			}
 
 			$words = explode(" ", $processed);
-
+			
 			$processed = "";
-
-			foreach($words as $word) {
+			
+			
+			for($i = 0; $i < count($words); $i++) {
+				//$word = $words[$i];
 				foreach($profanity as $slur) {
-					if(str_starts_with($word, "$slur ")) {
-						$pretext = substr($word, strlen("$slur"), strlen($word));
+					if(strlen($slur) >= 4 && str_contains($words[$i], $slur)) {
+						$words[$i] = str_replace($slur,str_repeat("#", strlen($slur)),$words[$i]);
+					} else {
+						//echo $slur;
+						if(str_starts_with(strtolower($words[$i]), $slur)) {
+							//echo $slur;
+							$pretext = substr($words[$i], strlen($slur), strlen($words[$i]));
 
-						$processed .= str_repeat("#", strlen($slur)).$pretext." ";
+							$words[$i] = str_repeat("#", strlen($slur)).$pretext;
+						}
 					}
 				}
+
+				if(str_contains($words[$i], "#") && count(count_chars($words[$i], 1)) <= 2) {
+					$words[$i] = str_repeat("#", strlen($words[$i]));
+				}
+			}
+
+			foreach($words as $word) {
+				$processed .= $word." ";
 			}
 
 			return trim($processed);
