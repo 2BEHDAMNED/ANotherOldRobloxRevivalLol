@@ -390,7 +390,7 @@
 							<h2 style="margin: 5px 0px; width: 830px;"><?= $get_user->name ?>'s Profile</h2>
 							<div id="ProfileImage">
 								<div id="ImageContainer">
-									<a href="javascript:flipRenders(this)" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;"></a>
+									<a href="javascript:flipRenders(this)" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;" title="Swap pictures!"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;" title="Swap pictures!"></a>
 									<img id="ProfilePictureYeah" src="/thumbs/<?= $get_user->setprofilepicture ? "profile" : "player" ?>?id=<?= $get_user->id ?>">
 								</div>
 								
@@ -605,13 +605,13 @@
 											echo <<<EOT
 											<div class="Comment">
 												<div id="CommenterAvatar">
-													<a href="/user/$user_id/profile">
+													<a href="/users/$user_id/profile">
 														<img src="/thumbs/$profileurl?id=$user_id">
 													</a>
 												</div>
 												<div id="CommentPartArea">
 													<div id="CommentInfoArea">
-														<a href="/user/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
+														<a href="/users/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
 													</div>
 													<code>$contents</code>
 												</div>

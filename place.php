@@ -538,13 +538,13 @@ $header_data = $asset;
 												echo <<<EOT
 												<div class="Comment">
 													<div id="CommenterAvatar">
-														<a href="/user/$user_id/profile">
+														<a href="/users/$user_id/profile">
 															<img src="/thumbs/$profileurl?id=$user_id">
 														</a>
 													</div>
 													<div id="CommentPartArea">
 														<div id="CommentInfoArea">
-															<a href="/user/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
+															<a href="/users/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
 														</div>
 														<code>$contents</code>
 													</div>
