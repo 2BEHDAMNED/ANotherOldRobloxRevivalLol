@@ -26,8 +26,16 @@ if($asset != null) {
 		$is_favourited = $user != null && $asset->HasUserFavourited($user);
 
 		$user_bought = $user != null && $user->Owns($asset);
-		unset($_SESSION['ANORRL$Comment$Post$ProfileID']);
-		$_SESSION['ANORRL$Comment$Post$AssetID'] = $asset->id;
+
+		if(
+			isset($_POST['ANORRL$Comment$Post$Contents']) &&
+			isset($_POST['ANORRL$Comment$Post$Submit'])
+		) {
+			$result = Comment::Post($asset, $_POST['ANORRL$Comment$Post$Contents']);
+			$comment_post_error = $result['error'];
+
+		}
+		
 	}
 	$favourites_count = $asset->favourites_count . " times";
 	if($asset->favourites_count == 1) {
@@ -594,49 +602,60 @@ $header_data = $asset;
 							}
 						</style>
 
+						<?php
+							$comments = Comment::GetCommentsOn($asset);
+							$com_count = count($comments);
+
+
+						?>
 						<div id="CommentsContainer">
-							<h3>Comments (0)</h3>
+							<h3>Comments (<?= $com_count ?>)</h3>
+							<?php if($user != null): ?>
 							<div id="CommentPostArea">
 								<form method="POST">
 									<h4 style="margin: 0; letter-spacing: 5px;">Post a comment or something</h4>
-									<textarea placeholder="Write a wonderful comment about this place!"></textarea>
-									<input type="submit" value="Submit!">
+									<textarea placeholder="Write a wonderful comment about this place!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
+									<input type="submit" value="Submit!" name="ANORRL$Comment$Post$Submit">
 								</form>
 							</div>
+							<?php endif ?>
 							<div id="CommentSection">
-								<div class="Comment">
-									<div id="CommenterAvatar">
-										<a href="">
-											<img src="/thumbs/player?id=1">
-										</a>
-									</div>
-									<div id="CommentPartArea">
-										<div id="CommentInfoArea">
-											<a href="">Commenter Name</a>&nbsp;<span>Posted on dd/mm/yyyy HH:MM</span>
-										</div>
-										<code>Contents here</code>
-									</div>
-									<div style="float: none; clear: both;"></div>
-								</div>
-								<div class="Comment" other>
-									<div id="CommenterAvatar">
-										<a href="">
-											<img src="/thumbs/player?id=1">
-										</a>
-									</div>
-									<div id="CommentPartArea">
-										<div id="CommentInfoArea">
-											<a href="">Commenter Name</a>&nbsp;<span>Posted on dd/mm/yyyy HH:MM</span>
-										</div>
-										<code>Contents here</code>
-									</div>
-									<div style="float: none; clear: both;"></div>
-								</div>
+								
+
 								<?php if($user == null): ?>
 									<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
 								<?php else: ?>
 									<?php if($asset->comments_enabled): ?>
-									<div id="CommentsDisabled">Comments have not been implemented yet... (sorry :[)</div>
+									<?php
+										if($com_count != 0):
+											foreach($comments as $comment) {
+												$contents = str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $comment->contents));
+												$user_id = $comment->poster->id;
+												$user_name = $comment->poster->name;
+
+												$profileurl = $comment->poster->setprofilepicture ? "profile" : "player";
+
+												echo <<<EOT
+												<div class="Comment">
+													<div id="CommenterAvatar">
+														<a href="/user/$user_id/profile">
+															<img src="/thumbs/$profileurl?id=$user_id">
+														</a>
+													</div>
+													<div id="CommentPartArea">
+														<div id="CommentInfoArea">
+															<a href="/user/$user_id/profile">$user_name</a>&nbsp;<span>Posted on dd/mm/yyyy HH:MM</span>
+														</div>
+														<code>$contents</code>
+													</div>
+													<div style="float: none; clear: both;"></div>
+												</div>
+												EOT;
+											}
+										else:
+									?>
+									<div id="CommentsDisabled">It's pretty empty in here... :<</div>
+									<?php endif ?>
 									<?php else: ?>
 									<div id="CommentsDisabled">Comments have been disabled for this item.</div>
 									<?php endif ?>

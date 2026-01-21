@@ -15,13 +15,16 @@
 		$user != null
 	) {
 		if(isset($_SESSION['ANORRL$Comment$Post$AssetID'])) {
-			Comment::Post(Asset::FromID(intval($_SESSION['ANORRL$Comment$Post$AssetID']));
+			Comment::Post(Asset::FromID(intval($_SESSION['ANORRL$Comment$Post$AssetID'])), $_POST['ANORRL$Comment$Post$Contents']);
 		}
 		else if(isset($_SESSION['ANORRL$Comment$Post$ProfileID'])) {
-
+			Comment::Post(User::FromID(intval($_SESSION['ANORRL$Comment$Post$ProfileID'])), $_POST['ANORRL$Comment$Post$Contents']);
 		} 
 		else {
-
+			die(json_encode([
+				"error" => true,
+				"reason" => "Invalid request!"
+			]));
 		}
 	}
 	else {
