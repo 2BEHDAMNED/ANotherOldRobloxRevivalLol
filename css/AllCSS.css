@@ -1373,6 +1373,22 @@ h1, h2, h3, h4 {
 	margin-left: 5px;
 }
 
+#CommentsContainer {
+	margin-top: 10px;
+}
+
+#CommentsContainer #CommentSection {
+	padding: 5px;
+	background: #222;
+	border: 2px solid black;
+}
+
+#CommentsContainer #CommentSection #CommentsDisabled {
+	text-align: center;
+	padding: 20px;
+	font-size: 14px;
+}
+
 .Comment {
 	padding: 5px;
 	border: 2px solid black;

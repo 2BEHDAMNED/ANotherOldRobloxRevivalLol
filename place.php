@@ -118,12 +118,6 @@ $header_data = $asset;
 				background-image: url("/images/favourite_hover_star.gif");
 			}
 
-			#CommentsContainer #CommentSection #CommentsDisabled {
-				text-align: center;
-				padding: 20px;
-				font-size: 14px;
-			}
-
 			#ItemContainer #PlaceDetails {
 				background: #2c2c2c;
 				border: 2px solid black;
@@ -259,16 +253,6 @@ $header_data = $asset;
 
 			#PlaceInfoArea #InfoBox {
 				padding: 10px;
-			}
-
-			#CommentsContainer {
-				margin-top: 10px;
-			}
-
-			#CommentsContainer #CommentSection {
-				padding: 5px;
-				background: #222;
-				border: 2px solid black;
 			}
 
 			#BigNumbersArea {

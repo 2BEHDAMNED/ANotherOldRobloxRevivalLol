@@ -243,27 +243,6 @@ $com_count = count($comments);
 				width: 210px;
 			}
 
-			#CommentsContainer {
-				margin-top: 10px;
-			}
-
-			#CommentsContainer #CommentSection {
-				padding: 5px;
-				background: #222;
-				border: 2px solid black;
-			}
-
-			#ItemContainer .FavouriteButton {
-				width: 32px;
-				height: 32px;
-				margin-bottom: -7px;
-				margin-left: -16px;
-				margin-right: 10px;
-				background-image: url("/images/favourite_star.gif");
-				background-size: 32px;
-				display: inline-block;
-			}
-
 			#ItemContainer .FavouriteButton[favourited=true]{
 				background-image: url("/images/favourited_star.gif");
 			}
@@ -274,12 +253,6 @@ $com_count = count($comments);
 
 			#ItemContainer .FavouriteButton:hover {
 				background-image: url("/images/favourite_hover_star.gif");
-			}
-
-			#CommentsContainer #CommentSection #CommentsDisabled {
-				text-align: center;
-				padding: 20px;
-				font-size: 14px;
 			}
 
 			#PurchasePanel {
