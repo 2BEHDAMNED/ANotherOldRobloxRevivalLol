@@ -573,7 +573,7 @@
 					</div>
 					<div id="CommentsContainer">
 						<h3>Comments (<?= $com_count ?>)</h3>
-						<?php if($user != null && $asset->comments_enabled): ?>
+						<?php if($user != null): ?>
 						<div id="CommentPostArea">
 							<?php if($comment_post_error): ?>
 								<div class="Error"><?= $result['reason'] ?></div>
@@ -591,7 +591,6 @@
 							<?php if($user == null): ?>
 								<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
 							<?php else: ?>
-								<?php if($asset->comments_enabled): ?>
 								<?php
 									if($com_count != 0):
 										foreach($comments as $comment) {
@@ -623,9 +622,6 @@
 									else:
 								?>
 								<div id="CommentsDisabled">It's pretty empty in here... :<</div>
-								<?php endif ?>
-								<?php else: ?>
-								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
 								<?php endif ?>
 							<?php endif ?>
 						</div>
