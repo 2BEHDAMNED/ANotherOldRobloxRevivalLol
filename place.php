@@ -636,7 +636,7 @@ $header_data = $asset;
 
 												$profileurl = $comment->poster->setprofilepicture ? "profile" : "player";
 
-												$formatted_datetime = $comment->postdate->format("d/M/Y H:i");
+												$formatted_datetime = $comment->postdate->format("d/m/Y H:i a");
 
 												echo <<<EOT
 												<div class="Comment">
