@@ -970,7 +970,7 @@ EOT;
 			$stmt_result = $result ? 1 : 0;
 
 			$stmt_user_status_check = $con->prepare('UPDATE `users` SET `user_online` = ? WHERE `user_id` = ?');
-			$stmt_user_status_check->bind_param('i', $stmt_result, $this->id);
+			$stmt_user_status_check->bind_param('ii', $stmt_result, $this->id);
 			$stmt_user_status_check->execute();
 			return $result;
 		}
