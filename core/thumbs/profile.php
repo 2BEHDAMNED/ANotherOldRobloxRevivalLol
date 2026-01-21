@@ -42,7 +42,7 @@
 				$height = imagesy($image);
 
 				$resizedimage = imagecreatetruecolor($size, $size);
-				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $width, $height, $size, $size);
+				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $size, $size, $width, $height);
 				
 
 				header("Content-Type: image/png");
