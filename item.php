@@ -473,6 +473,9 @@ $header_data = $asset;
 							<h3>Comments (<?= $com_count ?>)</h3>
 							<?php if($user != null): ?>
 							<div id="CommentPostArea">
+								<?php if($comment_post_error): ?>
+									<div style="border: 1px solid white;padding: 2px 5px;background: #c30000;font-weight: bold;"><?= $result['reason'] ?></div>
+								<?php endif ?>
 								<form method="POST">
 									<h4 style="margin: 0; letter-spacing: 5px;">Post a comment or something</h4>
 									<textarea placeholder="Write a wonderful comment about this place!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
@@ -488,28 +491,33 @@ $header_data = $asset;
 									<?php
 										if($com_count != 0):
 											foreach($comments as $comment) {
-												$contents = str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $comment->contents));
-												$user_id = $comment->poster->id;
-												$user_name = $comment->poster->name;
+												if($comment instanceof Comment) {
+													$contents = str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $comment->contents));
+													$user_id = $comment->poster->id;
+													$user_name = $comment->poster->name;
 
-												$profileurl = $comment->poster->setprofilepicture ? "profile" : "player";
+													$profileurl = $comment->poster->setprofilepicture ? "profile" : "player";
 
-												echo <<<EOT
-												<div class="Comment">
-													<div id="CommenterAvatar">
-														<a href="/user/$user_id/profile">
-															<img src="/thumbs/$profileurl?id=$user_id">
-														</a>
-													</div>
-													<div id="CommentPartArea">
-														<div id="CommentInfoArea">
-															<a href="/user/$user_id/profile">$user_name</a>&nbsp;<span>Posted on dd/mm/yyyy HH:MM</span>
+													$formatted_datetime = $comment->postdate->format("d/M/Y H:i");
+
+													echo <<<EOT
+													<div class="Comment">
+														<div id="CommenterAvatar">
+															<a href="/user/$user_id/profile">
+																<img src="/thumbs/$profileurl?id=$user_id">
+															</a>
 														</div>
-														<code>$contents</code>
+														<div id="CommentPartArea">
+															<div id="CommentInfoArea">
+																<a href="/user/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
+															</div>
+															<code>$contents</code>
+														</div>
+														<div style="float: none; clear: both;"></div>
 													</div>
-													<div style="float: none; clear: both;"></div>
-												</div>
-												EOT;
+													EOT;
+												}
+												
 											}
 										else:
 									?>
