@@ -1017,7 +1017,7 @@ EOT;
 						$place_id = $place->id;
 
 						return <<<EOT
-						Playing: <a href="/$place_stubname-place?id=$place_id">$place_name</a>
+						[ In Game: <a href="/$place_stubname-place?id=$place_id">$place_name</a> ]
 						EOT;
 					}
 				}

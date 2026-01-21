@@ -430,14 +430,9 @@
 										</a>
 									</div>
 									<div id="OnlineStatusArea">
-										<?php 
-											//<a href="">[In Game: Game]</a>
-										if($get_user->IsOnline()): ?>
-										
-										<span class="Online"><b>Online</b> - <?= $get_user->GetOnlineActivity() ?></span>
-										<?php else: ?>
-										<span class="Offline"><b>Offline</b> - Last seen... IDK</span>
-										<?php endif ?>
+										<?php $profile_status = $get_user->IsOnline() ? "Online" : "Offline"; ?>										
+										<span class="<?= $profile_status ?>"><b><?= $profile_status ?></b> - <?= $get_user->GetOnlineActivity() ?></span>
+
 									</div>
 									<div id="OnlineStatusArea" style="padding-top:0px; margin-top:-5px;">
 										<span><b>Joined</b>: <?= $get_user->join_date->format('F dS, Y') ?></span>
