@@ -79,11 +79,19 @@
 					$image = ImageUtils::cropAlign($image,$cropSize, $cropSize);
 				}
 
-				$image = imagescale($image, $size, $size);
-				imagesavealpha($image, true);
+				$width = imagesx($image);
+				$height = imagesy($image);
+
+				$resizedimage = imagecreatetruecolor($size, $size);
+				imagesavealpha($resizedimage, true);
+				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
+				imagefill($resizedimage, 0, 0, $trans_colour);
+				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $size, $size, $width, $height);
+
+				imagesavealpha($resizedimage, true);
 				header("Content-Type: image/png");
 				ob_clean();
-				imagepng($image);
+				imagepng($resizedimage);
 				
 			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
 				$sizex = intval($_GET['sx']);

@@ -36,14 +36,20 @@
 				}
 
 				$image = imagecreatefromstring($contents);
+				imagesavealpha($image, true);
 				$width = imagesx($image);
 				$height = imagesy($image);
 
-				$image = imagescale($image, $size, $size);
-				imagesavealpha($image, true);
+				$resizedimage = imagecreatetruecolor($size, $size);
+				imagesavealpha($resizedimage, true);
+				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
+				imagefill($resizedimage, 0, 0, $trans_colour);
+				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $size, $size, $width, $height);
+
+				imagesavealpha($resizedimage, true);
 				header("Content-Type: image/png");
 				ob_clean();
-				imagepng($image);
+				imagepng($resizedimage);
 				
 			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
 				$sizex = intval($_GET['sx']);
@@ -57,12 +63,19 @@
 				}
 
 				$image = imagecreatefromstring($contents);
-				$image = imagescale($image, $sizex, $sizey);
 				imagesavealpha($image, true);
-				
+				$width = imagesx($image);
+				$height = imagesy($image);
+
+				$resizedimage = imagecreatetruecolor($sizex, $sizey);
+				imagesavealpha($resizedimage, true);
+				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
+				imagefill($resizedimage, 0, 0, $trans_colour);
+				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $sizex, $sizey, $width, $height);
+
 				header("Content-Type: image/png");
 				ob_clean();
-				imagepng($image);
+				imagepng($resizedimage);
 			} else {
 				$file_info = new finfo(FILEINFO_MIME_TYPE);
 				$mime = $file_info->buffer($contents);

@@ -43,7 +43,6 @@
 
 				$resizedimage = imagecreatetruecolor($size, $size);
 				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $size, $size, $width, $height);
-				
 
 				header("Content-Type: image/png");
 				ob_clean();
@@ -61,12 +60,12 @@
 				}
 
 				$image = imagecreatefromstring($contents);
-				$image = imagescale($image, $sizex, $sizey);
-				imagesavealpha($image, true);
+				$resizedimage = imagecreatetruecolor($sizex, $sizey);
+				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $sizex, $sizey, $width, $height);
 				
 				header("Content-Type: image/png");
 				ob_clean();
-				imagepng($image);
+				imagepng($resizedimage);
 			} else {
 				$file_info = new finfo(FILEINFO_MIME_TYPE);
 				$mime = $file_info->buffer($contents);
