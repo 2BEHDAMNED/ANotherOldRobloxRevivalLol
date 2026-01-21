@@ -2,6 +2,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/user.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/slurutils.php";
 
 	class Comment  {
 		public string $id;
@@ -113,6 +114,8 @@
 					$error_check = true;
 					$error_msg = "Comment was too long! (256 characters maximum)";
 				}
+
+				$comment = SlurUtils::ProcessText($comment);
 
 				if(!$error_check) {
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
