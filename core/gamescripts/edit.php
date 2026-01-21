@@ -9,6 +9,8 @@ local message = Instance.new("Message")
 message.Parent = workspace
 message.archivable = false
 
+game:SetUniverseId({placeid})
+
 game:GetService("ContentProvider"):SetThreadPool(16)
 pcall(function() game:GetService("InsertService"):SetFreeModelUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fm&q=%s&pg=%d&rs=%d") end) -- Used for free model search (insert tool)
 pcall(function() game:GetService("InsertService"):SetFreeDecalUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fd&q=%s&pg=%d&rs=%d") end) -- Used for free decal search (insert tool)
@@ -36,12 +38,14 @@ pcall(function() game:SetCreatorID({creatorid}, Enum.CreatorType.User) end)
 pcall(function() game:SetScreenshotInfo("") end)
 pcall(function() game:SetVideoInfo("") end)
 
+
+
 message.Text = "Loading Place. Please wait..." 
 coroutine.yield() 
 game:Load("http://arl.lambda.cam/Asset/?id={placeid}") 
 visit:SetUploadUrl("http://arl.lambda.cam/Data/Upload.ashx?assetid={placeid}")
 
-game:SetUniverseId({placeid})
+
 
 message.Parent = nil
 
