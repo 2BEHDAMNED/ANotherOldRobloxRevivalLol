@@ -1,5 +1,6 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/classes/comment.php';
 
 	function IsRewrite() {
 		if(!empty($_SERVER['IIS_WasUrlRewritten']))
