@@ -580,7 +580,7 @@
 							<?php endif ?>
 							<form method="POST">
 								<h4 style="margin: 0; letter-spacing: 5px;">Post a comment or something</h4>
-								<textarea placeholder="Write a wonderful comment about this place!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
+								<textarea placeholder="Write a wonderful comment about this user!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
 								<input type="submit" value="Submit!" name="ANORRL$Comment$Post$Submit">
 							</form>
 						</div>
