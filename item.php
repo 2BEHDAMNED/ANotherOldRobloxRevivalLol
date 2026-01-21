@@ -90,6 +90,9 @@ $rendering_types = [
 ];
 
 $header_data = $asset;
+
+$comments = Comment::GetCommentsOn($asset);
+$com_count = count($comments);
 ?>
 <!DOCTYPE html>
 <html>
@@ -466,11 +469,6 @@ $header_data = $asset;
 								<?php endif ?>
 							</div>
 						</div>
-
-						<?php
-							$comments = Comment::GetCommentsOn($asset);
-							$com_count = count($comments);
-						?>
 						<div id="CommentsContainer">
 							<h3>Comments (<?= $com_count ?>)</h3>
 							<?php if($user != null && $asset->comments_enabled): ?>

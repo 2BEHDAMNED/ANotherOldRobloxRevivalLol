@@ -40,9 +40,17 @@
 
 	$games = $get_user->GetAllOwnedAssetsOfType(AssetType::PLACE);
 
+	$comments = Comment::GetCommentsOn($get_user);
+	$com_count = count($comments);
+
 	if($user != null) {
-		unset($_SESSION['ANORRL$Comment$Post$AssetID']);
-		$_SESSION['ANORRL$Comment$Post$ProfileID'] = $get_user->id;
+		if(
+			isset($_POST['ANORRL$Comment$Post$Contents']) &&
+			isset($_POST['ANORRL$Comment$Post$Submit'])
+		) {
+			$result = Comment::Post($get_user, $_POST['ANORRL$Comment$Post$Contents']);
+			$comment_post_error = $result['error'];
+		}
 	}
 
 ?>
@@ -561,6 +569,65 @@
 							</div>
 						</div>
 						<br clear="all">
+					</div>
+					<div id="CommentsContainer">
+						<h3>Comments (<?= $com_count ?>)</h3>
+						<?php if($user != null && $asset->comments_enabled): ?>
+						<div id="CommentPostArea">
+							<?php if($comment_post_error): ?>
+								<div class="Error"><?= $result['reason'] ?></div>
+							<?php endif ?>
+							<form method="POST">
+								<h4 style="margin: 0; letter-spacing: 5px;">Post a comment or something</h4>
+								<textarea placeholder="Write a wonderful comment about this place!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
+								<input type="submit" value="Submit!" name="ANORRL$Comment$Post$Submit">
+							</form>
+						</div>
+						<?php endif ?>
+						<div id="CommentSection">
+							
+
+							<?php if($user == null): ?>
+								<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
+							<?php else: ?>
+								<?php if($asset->comments_enabled): ?>
+								<?php
+									if($com_count != 0):
+										foreach($comments as $comment) {
+											$contents = str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $comment->contents));
+											$user_id = $comment->poster->id;
+											$user_name = $comment->poster->name;
+
+											$profileurl = $comment->poster->setprofilepicture ? "profile" : "player";
+
+											$formatted_datetime = $comment->postdate->format("d/m/Y H:i a");
+
+											echo <<<EOT
+											<div class="Comment">
+												<div id="CommenterAvatar">
+													<a href="/user/$user_id/profile">
+														<img src="/thumbs/$profileurl?id=$user_id">
+													</a>
+												</div>
+												<div id="CommentPartArea">
+													<div id="CommentInfoArea">
+														<a href="/user/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
+													</div>
+													<code>$contents</code>
+												</div>
+												<div style="float: none; clear: both;"></div>
+											</div>
+											EOT;
+										}
+									else:
+								?>
+								<div id="CommentsDisabled">It's pretty empty in here... :<</div>
+								<?php endif ?>
+								<?php else: ?>
+								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
+								<?php endif ?>
+							<?php endif ?>
+						</div>
 					</div>
 					<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 				</div>
