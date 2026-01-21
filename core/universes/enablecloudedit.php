@@ -9,6 +9,6 @@
 	$user = UserUtils::RetrieveUser();
 
 	if($place != null && $user != null && ($user->id == $place->creator->id || $user->IsAdmin())) {
-		//$place->EnableTeamCreate();
+		$place->EnableTeamCreate();
 	}
 ?>
