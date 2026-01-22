@@ -7,6 +7,7 @@ const regex = /[^A-Za-z0-9 ]/g;
 ANORRL.Games = {
 	CurrentPage: 1,
 	CurrentQuery: "",
+	MobileEnabled: false,
 	LoadNoQueryGames: function(page) {
 		if(page === undefined) {
 			page = 1;
@@ -94,11 +95,21 @@ ANORRL.Games = {
 					});
 
 					template.on("click", function() {
-						window.location.href = "/game/"+$(this).attr("data-placeid"); 
+						if(ANORRL.Games.MobileEnabled) {
+							window.location.href = "/games/start?placeid="+$(this).attr("data-placeid"); 
+						} else {
+							window.location.href = "/game/"+$(this).attr("data-placeid"); 
+						}
+						
 					});
 
 					template.find("#ImageContainer > img").attr("src", "/thumbs/?id="+asset['id']+"&sx=189&sy=106");
-					template.find("#GameName").attr("href", urlname+"-place?id="+asset['id']);
+					if(ANORRL.Games.MobileEnabled) {
+						template.find("#GameName").attr("href", "/games/start?placeid="+asset['id']);
+					} else {
+						template.find("#GameName").attr("href", urlname+"-place?id="+asset['id']);
+					}
+					
 					template.find("#GameName").html(asset['name']);
 
 					template.find("#GameCreator").html(asset['creator']['name']);

@@ -3,6 +3,8 @@
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
 	$user = UserUtils::RetrieveUser();
+
+	//<a href="/games/start?placeid=25">Load Game</a>
 ?>
 <!DOCTYPE html>
 <html> 
@@ -13,6 +15,9 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/games.js?t=<?= time() ?>"></script>
+		<script>
+			ANORRL.Games.MobileEnabled = true;
+		</script>
 		<style>
 			.Game[template] {
 				display: none;
@@ -24,13 +29,14 @@
 				padding: 10px;
 				background: #2a2a2a;
 				margin: 5px;
+				color: white;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="Game" template>
 			<div id="ImageContainer">
-				<div id="FavouritesArea"><img src="/images/favourite_star.gif" style="width:16px; margin-bottom: -2px;"> <span>0</span></div>
+				<!--<div id="FavouritesArea"><img src="/images/favourite_star.gif" style="width:16px; margin-bottom: -2px;"> <span>0</span></div>-->
 				<img src="" style="width: 100%">
 			</div>
 			<div id="Info">
@@ -47,8 +53,8 @@
 		</div>
 		<div id="Container" style="width:unset;margin:10px">
 			<div id="Games">
-				<div method="GET" id="FormPanel" style="margin: 5px auto;">
-					<input id="SearchBox" name="query" type="text" placeholder="Look for awesome games!!!" style="width: 460px;">
+				<div method="GET" id="FormPanel" style="margin: 5px auto;width: 100%;padding: 5px 0px;">
+					<input id="SearchBox" name="query" type="text" placeholder="Look for awesome games!!!" style="width: 70%;">
 					<input id="Submit" type="submit" value="Search" onclick="ANORRL.Games.Submit(); return false;">
 				</div>
 				<div id="StatusText">
