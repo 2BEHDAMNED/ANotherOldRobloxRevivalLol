@@ -41,8 +41,7 @@
 
 	$games = $get_user->GetAllOwnedAssetsOfType(AssetType::PLACE, false);
 
-	$comments = Comment::GetCommentsOn($get_user);
-	$com_count = count($comments);
+	
 
 	if($user != null) {
 		if(
@@ -50,9 +49,16 @@
 			isset($_POST['ANORRL$Comment$Post$Submit'])
 		) {
 			$result = Comment::Post($get_user, $_POST['ANORRL$Comment$Post$Contents']);
-			$comment_post_error = $result['error'];
+			$id = $get_user->id;
+
+			//$comment_post_error = $result['error'];
+			//die(header("Location: /user/$id/profile"));
+			
 		}
 	}
+
+	$comments = Comment::GetCommentsOn($get_user);
+	$com_count = count($comments);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
