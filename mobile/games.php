@@ -45,7 +45,7 @@
 				
 			</div>
 		</div>
-		<div id="Container">
+		<div id="Container" style="width:unset;margin:10px">
 			<div id="Games">
 				<div method="GET" id="FormPanel" style="margin: 5px auto;">
 					<input id="SearchBox" name="query" type="text" placeholder="Look for awesome games!!!" style="width: 460px;">
