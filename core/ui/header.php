@@ -16,7 +16,8 @@
 			"twinfantasy",
 			"soretrojak",
 			"deimos",
-			"xendiscord"
+			"xendiscord",
+			"sanford"
 		];
 		shuffle($array);
 
@@ -32,9 +33,8 @@
 		}
 		
 		if(count($pictures) != 1) {
-			$rand_pic = round(rand(0, count($pictures)-1));
-        	$rand_pic_name = $pictures[$rand_pic];
-			array_splice($_SESSION['ANORRL$UserPage$RandomImages'], $rand_pic, $rand_pic);
+			$rand_pic_name = $pictures[0];
+			array_splice($_SESSION['ANORRL$UserPage$RandomImages'], 0, length: 1);
 		} else {
 			$rand_pic_name = end($pictures);
 			$_SESSION['ANORRL$UserPage$RandomImages'] = getImagesList();
