@@ -59,8 +59,8 @@
 							"name" => $status->poster->name
 						],
 						"content" => $status->content,
-						"time_posted" => $status->time_posted->getTimestamp() - 3600,
-						"time_posted_label" => time_elapsed_string('@'.($status->time_posted->getTimestamp() - 3600))
+						"time_posted" => $status->time_posted->getTimestamp(),
+						"time_posted_label" => time_elapsed_string('@'.($status->time_posted->getTimestamp()))
 					]);
 				}
 			}
