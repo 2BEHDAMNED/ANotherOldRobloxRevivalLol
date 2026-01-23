@@ -6,21 +6,47 @@
 	$header_check_user = UserUtils::RetrieveUser($header_data);
 	// 99999999 max
 	
+	function getImagesList() {
+		return [
+			"2behdamned",
+			"chokinghamster",
+			"horse",
+			"mario",
+			"satoru",
+			"twinfantasy"
+		];
+	}
+
 	function rollImage() {
-		$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/randoms/"), array("..", "."));
+		$pictures = $_SESSION['ANORRL$UserPage$RandomImages'];
+		if(count($pictures) == 0) {
+			$_SESSION['ANORRL$UserPage$RandomImages'] = getImagesList();
+			$pictures = $_SESSION['ANORRL$UserPage$RandomImages'];
+		}
+
 		$rand_pic = 1+rand(0, count($pictures) - 1);
         	$rand_pic_name = $pictures[$rand_pic];
 
 		if($rand_pic_name == "") {
 			return rollImage();
-        	}
+        }
+
+		unset($_SESSION['ANORRL$UserPage$RandomImages'][$rand_pic]);
 
 		return $rand_pic_name;
 	}
 
+	if(session_status() != PHP_SESSION_ACTIVE) {
+		session_start();
+	}
+
+	if(!isset($_SESSION['ANORRL$UserPage$RandomImages'])) {
+		$_SESSION['ANORRL$UserPage$RandomImages'] = getImagesList();
+	}
+
 	$rand_pic = rollImage();
 ?>
-<img src="/images/randoms/<?= $rand_pic ?>" style="position: fixed;bottom: 0px;left: 0px;width: 250px;z-index: 9999;">
+<img src="/images/randoms/<?= $rand_pic ?>.png" style="position: fixed;bottom: 0px;left: 0px;width: 250px;z-index: 9999;">
 <div id="Header">
 	<?php if($header_check_user != null): 
 		$pendingreqscount = $header_check_user->GetPendingFriendRequestsCount();	
