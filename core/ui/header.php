@@ -5,7 +5,14 @@
 	}
 	$header_check_user = UserUtils::RetrieveUser($header_data);
 	// 99999999 max
+
+	$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/randoms/"), array("..", "."));
+		
+	$rand_pic = 1+rand(0, count($pictures) - 1);
+
+	die(print_r($pictures));
 ?>
+<img src="/images/randoms/satoru.png?" style="display:none;position: fixed;bottom: 0px;left: 0px;width: 250px;z-index: 9999;">
 <div id="Header">
 	<?php if($header_check_user != null): 
 		$pendingreqscount = $header_check_user->GetPendingFriendRequestsCount();	
