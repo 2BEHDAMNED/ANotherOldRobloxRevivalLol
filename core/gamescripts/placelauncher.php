@@ -406,7 +406,6 @@
 
 					} catch(SoapFault $e) {
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						die(print_r($e));
 						$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ?;");
 						$stmt_createnewserver->bind_param("s", $sessionToken);
 						$stmt_createnewserver->execute();
