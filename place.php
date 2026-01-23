@@ -262,8 +262,8 @@ $header_data = $asset;
 			#BigNumbersArea #Detail {
 				display: inline-block;
 				text-align: center;
-				padding: 5px 15px;
-				width: 108px;
+				padding: 5px 10px;
+				width: 98px;
 			}
 
 			#BigNumbersArea #Detail * {
@@ -473,6 +473,10 @@ $header_data = $asset;
 									<div id="Detail">
 										<b>Copylocked</b>
 										<span><?= $asset->copylocked ? "Yes" : "No" ?></span>
+									</div>
+									<div id="Detail">
+										<b>Year</b>
+										<span><?= $asset->year->ordinal() ?></span>
 									</div>
 								</div>
 							</div>
