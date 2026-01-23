@@ -37,7 +37,7 @@
 		public static function RegisterUser(string $username, string $password, string $confirm_password, string $accesskey): string|array {
 			$errors = [];
 
-			if(preg_match("/^[a-zA-Z0-9]{3,20}$/", $username)) {
+			if(self::IsUsernameValid($username)) {
 				if(!self::IsUsernameAvailable($username)) {
 					$errors["username"] = "Username has already been taken!";
 				}
@@ -171,13 +171,17 @@
 		 * @param string $username
 		 * @return bool True if it's not being used
 		 */
-		static function IsUsernameAvailable(string $username): bool {
+		public static function IsUsernameAvailable(string $username): bool {
 			include $_SERVER['DOCUMENT_ROOT'].'/core/connection.php';
 			$stmt_checkusername = $con->prepare('SELECT `user_name` FROM `users` WHERE `user_name` LIKE ?;');
 			$stmt_checkusername->bind_param('s', $username);
 			$stmt_checkusername->execute();
 			$result_checkusername = $stmt_checkusername->get_result();
 			return $result_checkusername->num_rows == 0;
+		}
+
+		public static function IsUsernameValid(string $username): bool {
+			return preg_match("/^[a-zA-Z0-9]{3,20}$/", $username);
 		}
 
 		private static function StringContainsFromArray(array $array, string $string) {

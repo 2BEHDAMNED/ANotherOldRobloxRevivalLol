@@ -108,6 +108,8 @@
 	RewriteRule ^mobile-app-upgrades/native-ios/robux$ /mobile/nocurrencylol.php							  [END]
 	RewriteRule ^mobile/games$ /mobile/games.php							  [END]
 	RewriteRule ^mobile/games/$ /mobile/games.php							  [END]
+
+	RewriteRule ^signup/is-username-valid$ /core/api/mobile/is-username-valid.php [END]
 	
 	RewriteRule ^mobileapi/(.*)/$ /core/api/mobile/$1.php							  [END]
 	RewriteRule ^mobileapi/(.*)$ /core/api/mobile/$1.php							  [END]
