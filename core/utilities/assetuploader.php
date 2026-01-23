@@ -352,9 +352,9 @@
 			if(!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://arl.lambda.cam/roblox.xsd\" version=\"4\">")) {
 				return ["error" => true, "reason" => "Not a valid model file!"];
 			} else {
-				if(str_contains($place_data, "class=\"Script\"")) {
+				/*if(str_contains($place_data, "class=\"Script\"")) {
 					return ["error" => true, "reason" => "Hat cannot contain scripts!"];
-				}
+				}*/
 
 				if(str_contains($place_data, "class=\"CharacterMesh\"")) {
 					return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
@@ -1013,9 +1013,9 @@
 			) {
 				return ["error" => true, "reason" => "Not a valid model file!"];
 			} else {
-				if(str_contains($place_data, "class=\"Script\"")) {
+				/*if(str_contains($place_data, "class=\"Script\"")) {
 					return ["error" => true, "reason" => "Hat cannot contain scripts!"];
-				}
+				}*/
 
 				if(str_contains($place_data, "class=\"CharacterMesh\"")) {
 					return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
