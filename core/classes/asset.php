@@ -652,6 +652,7 @@
 		}
 
 		function EnableTeamCreate() {
+			return;
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			
 			$stmt_checkvisit = $con->prepare('UPDATE `asset_places` SET `place_teamcreate_enabled` = 1 WHERE `place_id` = ?');

@@ -25,9 +25,8 @@ var categoryFileTypes = {
 	10:".rbxm,.rbxmx",
 	4:"*",
 	5:".txt,.lua",
-	9: ".rbxl",
 	8: ".rbxm,.rbxmx",
-	24: ".rbxm",
+	24: ".rbxm,.rbxmx",
 }
 
 const regex = /[^A-Za-z0-9 ]/g;
@@ -85,13 +84,19 @@ ANORRL.Create  = {
 		ChangeUrl("", "/create/"+$("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", ""));
 
 		var categorylabel = $("li[data_category="+category+"]").find("a").html();
-		if(categorylabel.endsWith("s") && categorylabel != "Pants") {
+		if(categorylabel.endsWith("s") && categorylabel != "Pants" && categorylabel != "Meshes") {
 			categorylabel = categorylabel.substring(0, categorylabel.length-1);
 		}
+
+		if(categorylabel.endsWith("es")) {
+			categorylabel = categorylabel.substring(0, categorylabel.length-2);
+		}
+
 		$("#TypaLabel").html(categorylabel);
 		if(categorylabel == "Pants" || categorylabel == "Shirt") {
 			$("#TypaLabel").html(categorylabel + " (<a target='_blank' href='/images/"+categorylabel+"Template.png'>Template</a>)");
 		}
+		
 		$("#files").attr("accept", categoryFileTypes[category]);
 
 		var warning = $("#InfoWarning");
@@ -214,8 +219,7 @@ $(function(){
 		"audio": 3,
 		"decals": 13,
 		"models": 10,
-		"places": 9,
-
+		
 		"gears": 19,
 		"images": 1,
 		"packages": 32,

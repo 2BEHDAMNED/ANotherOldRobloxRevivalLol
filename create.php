@@ -182,22 +182,25 @@
 			}
 
 			#UploadPanel input[type=submit],
-			#UploadPanel label[for=files] {
+			#UploadPanel label[for=files],
+			#UploadPanel select {
 				border: 2px solid black;
 				background: black;
 				color: white;
 				padding: 4px 8px;
 				font-weight: bold;
 				font-family: punk;
+				font-size: 12px
 			}
 
 			#UploadPanel input[type=submit]:hover,
-			#UploadPanel label[for=files]:hover {
+			#UploadPanel label[for=files]:hover,
+			#UploadPanel select:hover {
 				text-decoration: underline;
 				background: #161616;
 				cursor: pointer;
+				font-size: 12px;
 			}
-
 
 			#UploadPanel input[type=text] {
 				width: 574px;
@@ -276,7 +279,6 @@
 								<li data_category="3" ><a>Audio</a></li>
 								<li data_category="13"><a>Decals</a></li>
 								<li data_category="10"><a>Models</a></li>
-								<li data_category="9" ><a>Places</a></li>
 								<li data_category="4"><a>Meshes</a></li>
 								<?php if($user->IsAdmin()): ?>
 								<hr>
