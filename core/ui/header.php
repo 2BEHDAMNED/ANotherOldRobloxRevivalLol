@@ -15,7 +15,8 @@
 			"satoru",
 			"twinfantasy",
 			"soretrojak",
-			"deimos"
+			"deimos",
+			"xendiscord"
 		];
 		shuffle($array);
 
