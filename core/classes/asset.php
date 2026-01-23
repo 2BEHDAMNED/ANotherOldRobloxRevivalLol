@@ -500,8 +500,32 @@
 		}
 	}
 
+	enum PlaceYear {
+		case Y2010;
+		case Y2012;
+		case Y2016;
+
+		public static function index(string $ordinal): PlaceYear {
+			return match($ordinal) {
+				"2010" => PlaceYear::Y2010,
+				"2012" => PlaceYear::Y2012,
+				"2016" => PlaceYear::Y2016,
+				default => PlaceYear::Y2016
+			};
+		}
+
+		public function ordinal(): string {
+			return match($this) {
+				PlaceYear::Y2010 	=> 1,
+				PlaceYear::Y2012 	=> 2,
+				PlaceYear::Y2016	=> 3,
+			};
+		}
+	}
+
 	class Place extends Asset {
 		/** is the same as Asset::public */
+		public PlaceYear $year;
 		public bool $friends_only;
 		public bool $copylocked;
 		public int $server_size;
@@ -620,6 +644,7 @@
 
 			$this->friends_only = $this->public;
 			$this->copylocked = boolval($rowdata['place_copylocked']);
+			$this->year = PlaceYear::index($rowdata['place_year']);
 			$this->server_size = intval($rowdata['place_serversize']);
 			$this->visit_count = intval($rowdata['place_visit_count']);
 			$this->current_playing_count = intval($rowdata['place_currently_playing']);
