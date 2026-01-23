@@ -84,8 +84,13 @@ ANORRL.Stuff  = {
 
 		$("li[data_category="+category+"]").attr("selected", "");
 		if(shouldnotbeallowedatallcategories[categorylabel] == undefined && (allowedcategories[categorylabel] != undefined || this.IsAdmin)) {
+			if(categorylabel == "places") {
+				$($("#CreateArea").find("a")[0]).attr("href","javascript:alert('Use ANORRL Studio for this!')");
+			} else {
+				$($("#CreateArea").find("a")[0]).attr("href","/create/"+categorylabel);
+			}
 			$($("#CreateArea").find("a")[0]).removeAttr("disabled");
-			$($("#CreateArea").find("a")[0]).attr("href","/create/"+categorylabel);
+			
 		} else {
 			$($("#CreateArea").find("a")[0]).removeAttr("href");
 			$($("#CreateArea").find("a")[0]).attr("disabled", "true");

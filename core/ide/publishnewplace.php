@@ -164,6 +164,18 @@
 											<td>Description</td>
 											<td><textarea style="height: 50px;" name="ANORRL$IDE$Publish$Place$Description"></textarea></td>
 										</tr>
+										<tr id="PlaceYear" style="display: none;">
+											<td style="vertical-align: middle;">Year</td>
+											<td>
+												<select name="ANORRL$CreateAsset$Place$Year">
+													<option value="2016">2016 (ANORRL)</option>
+													<!--<option value="2008">2008 (Gamma)</option>-->
+													<option value="2010">2010</option>
+													<!--<option value="2012">2012</option>-->
+													
+												</select>
+											</td>
+										</tr>
 										<tr>
 											<td>Public</td>
 											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$PublicBox" checked></td>
