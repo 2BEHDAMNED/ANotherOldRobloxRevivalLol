@@ -164,7 +164,7 @@
 											<td>Description</td>
 											<td><textarea style="height: 50px;" name="ANORRL$IDE$Publish$Place$Description"></textarea></td>
 										</tr>
-										<tr id="PlaceYear" style="display: none;">
+										<tr id="PlaceYear">
 											<td style="vertical-align: middle;">Year</td>
 											<td>
 												<select name="ANORRL$CreateAsset$Place$Year">

@@ -16,7 +16,7 @@
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/stuff.js"></script>
+		<script src="/js/stuff.js?t=<?= time() ?>"></script>
 	</head>
 	<body>
 		<div class="Asset" template>

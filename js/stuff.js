@@ -22,6 +22,8 @@ var allowedcategories = {
 	"decals": 13,
 	"models": 10,
 	"places": 9,
+	"hats": 8,
+	"faces": 18,
 }
 
 var shouldnotbeallowedatallcategories = {
