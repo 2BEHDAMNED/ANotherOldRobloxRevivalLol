@@ -27,11 +27,20 @@
 
 		$name = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Name']);
 		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Description']);
+		$year = PlaceYear::index(trim($_POST['ANORRL$IDE$Publish$Place$Year']));
 
 		$server_size = intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']) <= 0 ? 12 : intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
+
+		$allUsersCount = count(UserUtils::GetAllUsers());
+
+		if($server_size > $allUsersCount) {
+			$server_size = $allUsersCount;
+		}
+
 		$isPublic = isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 		$commentsEnabled = isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 		$isCopylocked = isset($_POST['ANORRL$IDE$Publish$Place$Copylocked']);
+		
 
 		if(strlen($name) < 4) {
 			die("Name must not be less than 4 characters!");
@@ -167,7 +176,7 @@
 										<tr id="PlaceYear">
 											<td style="vertical-align: middle;">Year</td>
 											<td>
-												<select name="ANORRL$CreateAsset$Place$Year">
+												<select name="ANORRL$IDE$Publish$Place$Year">
 													<option value="2016">2016 (ANORRL)</option>
 													<!--<option value="2008">2008 (Gamma)</option>-->
 													<option value="2010">2010</option>

@@ -84,6 +84,12 @@
 				if($server_size < 0) {
 					$server_size = $asset->server_size;
 				}
+				
+				$allUsersCount = count(UserUtils::GetAllUsers());
+
+				if($server_size > $allUsersCount) {
+					$server_size = $allUsersCount;
+				}
 
 				$stmt = $con->prepare('UPDATE `asset_places` SET `place_copylocked` = ?, `place_serversize` = ?  WHERE `place_id` = ?;');
 				$stmt->bind_param('iii', $copylocked, $server_size, $id);
