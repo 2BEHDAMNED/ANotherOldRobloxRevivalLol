@@ -95,7 +95,7 @@
 
 			if(self::$cantuserenderer) {
 				echo "renderer was disabled?";
-				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+				return null;
 			}
 			try {
 				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
@@ -123,7 +123,7 @@
 				//$rcc->RenewLease($JobId, 1);
 			} catch(SoapFault $e) {
 				echo "some fault happened ig";
-				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+				$base64data = null;
 			}
 
 			return $base64data;

@@ -277,21 +277,40 @@
 				$characterinfo = $user->GetCharacterAppearanceVerbose();
 				$charactermd5 = md5($characterinfo);
 
-				if(!file_exists("$mediadir/$charactermd5.png")) {
-					$render = TheFuckingRenderer::RenderUser($user->id);
-					if($render != null) {
-						$data = "data:image/png;base64,$render";
-						list($type, $data) = explode(';', $data);
-						list(, $data)      = explode(',', $data);
-						$data = base64_decode($data);
+				$render = TheFuckingRenderer::RenderUser($user->id);
+				if($render != null) {
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
 
-						$render_image = imagecreatefromstring($data);
-						imagesavealpha($render_image, true);
-						imagepng($render_image, "$mediadir/$charactermd5.png");
+					$render_image = imagecreatefromstring($data);
+					imagesavealpha($render_image, true);
+					imagepng($render_image, "$mediadir/$charactermd5.png");
 
-						$user->UpdateOutfitHash();
-					}
-					
+					$user->UpdateOutfitHash();
+				}
+
+				
+				die(json_encode(["error" => false, "reason" => "Wow we rendered!"]));
+			} else if($request == "rerendercharacter") {
+				$mediadir = $_SERVER['DOCUMENT_ROOT']."/../renders/";
+
+				$characterinfo = $user->GetCharacterAppearanceVerbose();
+				$charactermd5 = md5($characterinfo);
+
+				$render = TheFuckingRenderer::RenderUser($user->id);
+				if($render != null) {
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
+
+					$render_image = imagecreatefromstring($data);
+					imagesavealpha($render_image, true);
+					imagepng($render_image, "$mediadir/$charactermd5.png");
+
+					$user->UpdateOutfitHash();
 				}
 
 				
