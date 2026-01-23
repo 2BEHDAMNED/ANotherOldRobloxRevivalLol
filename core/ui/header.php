@@ -5,14 +5,22 @@
 	}
 	$header_check_user = UserUtils::RetrieveUser($header_data);
 	// 99999999 max
+	
+	function rollImage() {
+		$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/randoms/"), array("..", "."));
+		$rand_pic = 1+rand(0, count($pictures) - 1);
+        	$rand_pic_name = $pictures[$rand_pic];
 
-	$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/randoms/"), array("..", "."));
-		
-	$rand_pic = 1+rand(0, count($pictures) - 1);
+		if($rand_pic_name == "") {
+			return rollImage();
+        	}
 
-	die(print_r($pictures));
+		return $rand_pic_name;
+	}
+
+	$rand_pic = rollImage();
 ?>
-<img src="/images/randoms/satoru.png?" style="display:none;position: fixed;bottom: 0px;left: 0px;width: 250px;z-index: 9999;">
+<img src="/images/randoms/<?= $rand_pic ?>" style="position: fixed;bottom: 0px;left: 0px;width: 250px;z-index: 9999;">
 <div id="Header">
 	<?php if($header_check_user != null): 
 		$pendingreqscount = $header_check_user->GetPendingFriendRequestsCount();	
