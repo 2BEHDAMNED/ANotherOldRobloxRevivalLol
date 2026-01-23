@@ -1,3 +1,4 @@
+<?php die(include($_SERVER['DOCUMENT_ROOT']."/my/places.php")); ?>
 <!DOCTYPE html>
 <html>
     <head>

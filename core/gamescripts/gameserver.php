@@ -170,7 +170,7 @@ if not isCloudEdit then
 	Game:GetService("RunService"):Run()
 end
 <?php
-	 function get_signature($script)
+	function get_signature($script)
     {
         $signature = "";
         openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);

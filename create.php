@@ -67,24 +67,29 @@
 							} else {
 								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
 							}
-							
-						} else if($type == "decals") {
+						}
+						else if($type == "decals") {
 							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else if($type == "audio") {
+						}
+						else if($type == "audio") {
 							$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else if($type == "tshirts") {
+						}
+						else if($type == "tshirts") {
 							$result = AssetUploader::UploadTShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else if($type == "faces") {
+						}
+						else if($type == "faces") {
 							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true);
-						} else if($type == "shirts") {
+						}
+						else if($type == "shirts") {
 							$result = AssetUploader::UploadShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else if($type == "pants") {
+						}
+						else if($type == "pants") {
 							$result = AssetUploader::UploadPants($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else if($type == "meshes") {
+						}
+						else if($type == "meshes") {
 							$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else if($type == "places") {
-							$result = AssetUploader::UploadPlace($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else if($type == "models") {
+						}
+						else if($type == "models") {
 							$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File']);
 						} else if($type == "hats") {
 							/*if($user->IsAdmin()) {
@@ -94,9 +99,9 @@
 							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
 							
 						} else if($type == "animations") {
-							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-							
-						} else {
+							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
+						}
+						else {
 							die("type found but not handled...");
 						}
 					}

@@ -81,12 +81,14 @@
 
 					if(strtolower($type) == "place")  {
 						if(isset($_GET['serversize']) &&
-							isset($_GET['iscopylocked'])
+							isset($_GET['iscopylocked']) &&
+							isset($_GET['year'])
 						) {
 							$server_size = intval($_GET['serversize']);
 							$copylocked = FunnyStrToBool($_GET['iscopylocked']);
+							$year = PlaceYear::index(trim($_GET['year']));
 
-							AssetUploader::UploadPlace($name, $description, $recieveddata, $public, $copylocked, $comments_enabled, $server_size, $user);
+							AssetUploader::UploadPlace($name, $description, $recieveddata, $public, $copylocked, $comments_enabled, $server_size, $year, $user);
 							
 							http_response_code(200);
 							die("Uploaded successfully!");

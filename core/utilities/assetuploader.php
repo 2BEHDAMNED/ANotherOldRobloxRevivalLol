@@ -884,6 +884,7 @@
 			bool $copylocked = true,
 			bool $comments_enabled = true,
 			int $server_size = 12,
+			PlaceYear $year = PlaceYear::Y2016,
 			User|null $user = null
 		) {
 			if($user == null) {
@@ -926,11 +927,11 @@
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
 
-				$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`, `place_copylocked`, `place_serversize`) VALUES (?, ?, ?)");
+				$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`, `place_year`, `place_copylocked`, `place_serversize`) VALUES (?, ?, ?, ?)");
 				
 				$place_copylocked = $copylocked ? 1 : 0;
-				
-				$stmt_addplace->bind_param('iii', $place_id, $place_copylocked, $server_size);
+				$place_year = $year->ordinal();
+				$stmt_addplace->bind_param('isii', $place_id, $place_year, $place_copylocked, $server_size);
 				$stmt_addplace->execute();
 
 				if(!file_exists($assetsdir)) {

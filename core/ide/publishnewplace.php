@@ -27,7 +27,7 @@
 
 		$name = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Name']);
 		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Description']);
-		$year = PlaceYear::index(trim($_POST['ANORRL$IDE$Publish$Place$Year']));
+		$year = PlaceYear::index(trim($_POST['ANORRL$IDE$Publish$Place$Year']))->value;
 
 		$server_size = intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']) <= 0 ? 12 : intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 
@@ -173,18 +173,6 @@
 											<td>Description</td>
 											<td><textarea style="height: 50px;" name="ANORRL$IDE$Publish$Place$Description"></textarea></td>
 										</tr>
-										<tr id="PlaceYear">
-											<td style="vertical-align: middle;">Year</td>
-											<td>
-												<select name="ANORRL$IDE$Publish$Place$Year">
-													<option value="2016">2016 (ANORRL)</option>
-													<!--<option value="2008">2008 (Gamma)</option>-->
-													<option value="2010">2010</option>
-													<!--<option value="2012">2012</option>-->
-													
-												</select>
-											</td>
-										</tr>
 										<tr>
 											<td>Public</td>
 											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$PublicBox" checked></td>
@@ -198,6 +186,18 @@
 								<div id="DetailStack">
 									<h4 style="margin-top: 10px">Place Settings</h4>
 									<table>
+										<tr id="PlaceYear">
+											<td style="vertical-align: middle;">Year</td>
+											<td>
+												<select name="ANORRL$IDE$Publish$Place$Year">
+													<option value="2016">2016 (ANORRL)</option>
+													<!--<option value="2008">2008 (Gamma)</option>-->
+													<option value="2010">2010</option>
+													<!--<option value="2012">2012</option>-->
+													
+												</select>
+											</td>
+										</tr>
 										<tr>
 											<td>Server Size</td>
 											<td><input type="number" name="ANORRL$IDE$Publish$Place$ServerSize" value="12"></td>
@@ -263,7 +263,7 @@
 				{
 					try
 					{
-						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>');
+						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year ?>');
 						document.getElementById("Uploading").style.display='none';
 						document.getElementById("Confirmation").style.display='block';
 					}
@@ -271,7 +271,7 @@
 					{
 						try
 						{
-							window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>');
+							window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year ?>');
 							document.getElementById("Uploading").style.display='none';
 							document.getElementById("Confirmation").style.display='block';
 						}

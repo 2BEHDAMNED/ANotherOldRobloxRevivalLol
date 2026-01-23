@@ -508,7 +508,7 @@
 		public static function index(string $ordinal): PlaceYear {
 			return match($ordinal) {
 				"2010" => PlaceYear::Y2010,
-				"2012" => PlaceYear::Y2012,
+				//"2012" => PlaceYear::Y2012,
 				"2016" => PlaceYear::Y2016,
 				default => PlaceYear::Y2016
 			};
@@ -516,9 +516,9 @@
 
 		public function ordinal(): string {
 			return match($this) {
-				PlaceYear::Y2010 	=> 1,
-				PlaceYear::Y2012 	=> 2,
-				PlaceYear::Y2016	=> 3,
+				PlaceYear::Y2010 	=> "2010",
+				PlaceYear::Y2012 	=> "2012",
+				PlaceYear::Y2016	=> "2016",
 			};
 		}
 	}

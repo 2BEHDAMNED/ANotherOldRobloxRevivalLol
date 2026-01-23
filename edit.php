@@ -76,7 +76,8 @@
 			$_SESSION['ANORRL$EditItem$Success'] = true;
 
 			if($asset->type == AssetType::PLACE &&
-			   isset($_POST['ANORRL$EditItem$Place$ServerSize'])) {
+			   isset($_POST['ANORRL$EditItem$Place$ServerSize']) &&
+			   isset($_POST['ANORRL$EditItem$Place$Year'])) {
 
 				$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
 				$server_size = intval($_POST['ANORRL$EditItem$Place$ServerSize']);
@@ -84,15 +85,17 @@
 				if($server_size < 0) {
 					$server_size = $asset->server_size;
 				}
-				
+
 				$allUsersCount = count(UserUtils::GetAllUsers());
 
 				if($server_size > $allUsersCount) {
 					$server_size = $allUsersCount;
 				}
 
-				$stmt = $con->prepare('UPDATE `asset_places` SET `place_copylocked` = ?, `place_serversize` = ?  WHERE `place_id` = ?;');
-				$stmt->bind_param('iii', $copylocked, $server_size, $id);
+				$year = PlaceYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
+
+				$stmt = $con->prepare('UPDATE `asset_places` SET `place_year` = ?, `place_copylocked` = ?, `place_serversize` = ?  WHERE `place_id` = ?;');
+				$stmt->bind_param('siii', $year, $copylocked, $server_size, $id);
 				$stmt->execute();
 
 				if(isset($_FILES['ANORRL$EditItem$Place$ThumbnailFile'])) {
@@ -282,7 +285,18 @@
 								<div id="DetailStack">
 									<h4 style="margin-top: 10px">Place Settings</h4>
 									<table>
-										
+										<tr id="PlaceYear">
+											<td style="vertical-align: middle;">Year</td>
+											<td>
+												<select name="ANORRL$EditItem$Place$Year">
+													<option value="2016">2016 (ANORRL)</option>
+													<!--<option value="2008">2008 (Gamma)</option>-->
+													<option value="2010">2010</option>
+													<!--<option value="2012">2012</option>-->
+													
+												</select>
+											</td>
+										</tr>
 										<tr>
 											<td>Server Size</td>
 											<td><input type="number" name="ANORRL$EditItem$Place$ServerSize" value="<?= $asset->server_size ?>"></td>
