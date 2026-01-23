@@ -19,19 +19,20 @@
 
 	function rollImage() {
 		$pictures = $_SESSION['ANORRL$UserPage$RandomImages'];
+		
 		if(count($pictures) == 0) {
 			$_SESSION['ANORRL$UserPage$RandomImages'] = getImagesList();
 			$pictures = $_SESSION['ANORRL$UserPage$RandomImages'];
 		}
-
-		$rand_pic = 1+rand(0, count($pictures) - 1);
-        	$rand_pic_name = $pictures[$rand_pic];
-
-		if($rand_pic_name == "") {
-			return rollImage();
-        }
-
-		unset($_SESSION['ANORRL$UserPage$RandomImages'][$rand_pic]);
+		
+		if(count($pictures) != 1) {
+			$rand_pic = round(rand(0, count($pictures)-1));
+        		$rand_pic_name = $pictures[$rand_pic];
+			array_splice($_SESSION['ANORRL$UserPage$RandomImages'], $rand_pic, $rand_pic);
+		} else {
+			$rand_pic_name = end($pictures);
+			$_SESSION['ANORRL$UserPage$RandomImages'] = getImagesList();
+		}
 
 		return $rand_pic_name;
 	}
