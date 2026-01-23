@@ -7,7 +7,7 @@
 	// 99999999 max
 	
 	function getImagesList() {
-		return [
+		$array = [
 			"2behdamned",
 			"chokinghamster",
 			"horse",
@@ -16,6 +16,9 @@
 			"twinfantasy",
 			"soretrojak"
 		];
+		shuffle($array);
+
+		return $array;
 	}
 
 	function rollImage() {
