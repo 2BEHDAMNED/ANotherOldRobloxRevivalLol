@@ -111,6 +111,7 @@
 
 	RewriteRule ^signup/is-username-valid$ /core/api/mobile/is-username-valid.php [END]
 	RewriteRule ^signup/is-password-valid$ /core/api/mobile/is-password-valid.php [END]
+	RewriteRule ^UserCheck/getrecommendedusername$ /core/api/mobile/getrecommendedusername.php [END]
 	
 	RewriteRule ^mobileapi/(.*)/$ /core/api/mobile/$1.php							  [END]
 	RewriteRule ^mobileapi/(.*)$ /core/api/mobile/$1.php							  [END]
