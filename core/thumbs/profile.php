@@ -42,7 +42,7 @@
 				$height = imagesy($image);
 
 				$resizedimage = imagecreatetruecolor($size, $size);
-				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $size, $size, $width, $height);
+				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
 
 				header("Content-Type: image/png");
 				ob_clean();
@@ -61,7 +61,7 @@
 
 				$image = imagecreatefromstring($contents);
 				$resizedimage = imagecreatetruecolor($sizex, $sizey);
-				imagecopyresampled($resizedimage, $image, $dst_x, 0, 0, 0, $sizex, $sizey, $width, $height);
+				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
 				
 				header("Content-Type: image/png");
 				ob_clean();

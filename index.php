@@ -73,7 +73,7 @@
 												<td>
 													<div class="User" title="$user_name">
 														<a href="/users/$user_id/profile">
-															<img src="/thumbs/$profile?id=$user_id">
+															<img src="/thumbs/$profile?id=$user_id&sxy=100">
 															<span>$user_name</span>
 														</a>
 													</div>
@@ -103,7 +103,7 @@
 												<td>
 													<div class="User" title="$user_name">
 														<a href="/users/$user_id/profile">
-															<img src="/thumbs/$profile?id=$user_id">
+															<img src="/thumbs/$profile?id=$user_id&sxy=100">
 															<span>$user_name</span>
 														</a>
 													</div>
