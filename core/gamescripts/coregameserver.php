@@ -103,6 +103,12 @@ local countdownTimer = 60
 
 local commands = {";ec", ";cock", ";raymonf", ";gage", ";minecraft", ";suicide", ";energycell", ";cancer", ";bleach", ";sex", ";kms", ";death", ";robloxsuckingpenis"}
 
+local ecSounds = {
+	1991,
+	1993,
+	1995
+}
+
 function onChatted(msg, speaker)
     source = string.lower(speaker.Name)
     msg = string.lower(msg)
@@ -111,7 +117,7 @@ function onChatted(msg, speaker)
             speaker.Character.Humanoid.Health = 0
             local sound = Instance.new("Sound")
             sound.Parent = game.Workspace:FindFirstChild(speaker.Name).Head
-            sound.SoundId = "http://arl.lambda.cam/asset/?id=" .. math.random(math.random(1991,1993),1995)
+            sound.SoundId = "http://arl.lambda.cam/asset/?id=" .. ecSounds[math.random(1, #ecSounds)]
             wait(0.2)
             sound:Play()
         end
