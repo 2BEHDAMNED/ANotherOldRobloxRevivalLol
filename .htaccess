@@ -84,6 +84,7 @@
 	RewriteRule ^my/profile$ /my/profile.php							  [END]
 	RewriteRule ^my/places$ /my/places.php							  [END]
 	RewriteRule ^my/character$ /my/character.php							  [END]
+	RewriteRule ^my/friends$ /my/friends.php							  [END]
 	RewriteRule ^my/settings/json /core/authentication/settings.php [END]
 
 	RewriteRule ^universes/get-universe-containing-place /core/universes/get-universe-containing-place.php [END]

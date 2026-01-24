@@ -950,6 +950,54 @@
 			}
 		}
 
+		public static function CreatePlace(string $name, string $description,
+			bool $public = true,
+			bool $copylocked = true,
+			bool $comments_enabled = true,
+			int $server_size = 12,
+			PlaceYear $year = PlaceYear::Y2016,
+			User|null $user = null
+		) {
+			if($user == null) {
+				$user = UserUtils::RetrieveUser();
+			}
+			
+
+			// process singular asset
+			$place_result = self::UploadAsset($user, AssetType::PLACE, $name, $description, $public, false, "");
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				$place_id = $place_result['id'];
+
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
+
+				$ta_id = TransactionUtils::GenerateID();
+				$ta_assettype = AssetType::PLACE->ordinal();
+				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
+				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
+				$stmt_processtransaction->execute();
+
+				$directory = $_SERVER['DOCUMENT_ROOT'];
+				$md5hashfile = md5($place_data);
+				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+				
+				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+				$stmt->bind_param('si', $md5hashfile, $place_id);
+				$stmt->execute();
+
+				$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`, `place_year`, `place_copylocked`, `place_serversize`) VALUES (?, ?, ?, ?)");
+				
+				$place_copylocked = $copylocked ? 1 : 0;
+				$place_year = $year->ordinal();
+				$stmt_addplace->bind_param('isii', $place_id, $place_year, $place_copylocked, $server_size);
+				$stmt_addplace->execute();
+
+				return ["error" => false, "id" => $place_result['id']];
+			}
+		}
+
 		public static function UploadModel(string $name, string $description, array|string $file) {
 			$user = UserUtils::RetrieveUser();
 

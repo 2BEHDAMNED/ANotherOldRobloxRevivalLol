@@ -224,7 +224,8 @@
 				"In Studio"						    => "/my/places.php",
 				"Downloaded ANORRL!"			    => "/download/thankyou.php",
 				"Thinking of downloading ANORRL..." => "/download/index.php",
-				"Browsing games on mobile"		    => "/mobile/games.php"
+				"Browsing games on mobile"		    => "/mobile/games.php",
+				"Looking at their friends"			=> "/my/friends.php"
 			];
 
 			$dont_catalog_ever = [

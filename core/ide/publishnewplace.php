@@ -1,6 +1,7 @@
 <?php 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetuploader.php";
 
 	$user = UserUtils::RetrieveUser();
 	if($user == null) {
@@ -56,7 +57,16 @@
 			die("You are uploading too many assets! Wait a bit!");
 		}
 	
-		$verifiedcrap = true;
+		$result = AssetUploader::CreatePlace($name, $description, $isPublic, $isCopylocked, $commentsEnabled, $server_size, $year, $user);
+		
+		if($result['error'] == false) {
+			$place_verified_id = $result['id'];
+			$verifiedcrap = true;
+		} else {
+			$errorReason = $result['reason'];
+			die("<script>window.alert(\"$errorReason\")</script>");
+		}
+		
 	}
 
 	
@@ -228,6 +238,8 @@
 		$_SESSION['HasUploaded'] = false;
 		die("<script>window.close()</script>");
 	}
+
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -263,7 +275,7 @@
 				{
 					try
 					{
-						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year ?>');
+						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=<?= $place_verified_id ?>&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year ?>');
 						document.getElementById("Uploading").style.display='none';
 						document.getElementById("Confirmation").style.display='block';
 					}
@@ -271,7 +283,7 @@
 					{
 						try
 						{
-							window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=0&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year ?>');
+							window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=<?= $place_verified_id ?>&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year ?>');
 							document.getElementById("Uploading").style.display='none';
 							document.getElementById("Confirmation").style.display='block';
 						}

@@ -77,24 +77,8 @@
 					if(strlen(gzdecode($recieveddata)) != 0) {
 						$recieveddata = gzdecode($recieveddata);
 						echo "decoding using gz\n";
-					}					
-
-					if(strtolower($type) == "place")  {
-						if(isset($_GET['serversize']) &&
-							isset($_GET['iscopylocked']) &&
-							isset($_GET['year'])
-						) {
-							$server_size = intval($_GET['serversize']);
-							$copylocked = FunnyStrToBool($_GET['iscopylocked']);
-							$year = PlaceYear::index(trim($_GET['year']));
-
-							AssetUploader::UploadPlace($name, $description, $recieveddata, $public, $copylocked, $comments_enabled, $server_size, $year, $user);
-							
-							http_response_code(200);
-							die("Uploaded successfully!");
-						}
 					}
-
+					die(http_response_code(502));
 					
 				} else {
 					die(http_response_code(502));

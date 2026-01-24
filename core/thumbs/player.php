@@ -17,14 +17,14 @@
 		if($user != null) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			
-			//base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			//base64_encode(
 
 			$md5hash = $user->GetCharacterAppearanceHash();
 
 			if(file_exists($_SERVER['DOCUMENT_ROOT']."/../renders/$md5hash.png")) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../renders/$md5hash.png");
 			} else {
-				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/avatar.png");
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
 			}
 
 			ob_clean();
