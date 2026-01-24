@@ -94,9 +94,7 @@
 
 				if($founduser != null) {
 					if($founduser->id != $user->id) {
-						if($founduser->IsFriendsWith($user)) {
-							$founduser->Unfriend($user);
-						}
+						$founduser->Unfriend($user);
 						
 						die(json_encode(['error' => false]));
 					}
