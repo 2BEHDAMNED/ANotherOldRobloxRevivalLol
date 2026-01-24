@@ -32,11 +32,11 @@ if($asset != null) {
 		"Remaining" => null,
 		"MinimumMembershipLevel" => 0,
 		"ContentRatingTypeId" => 0,
-		"GameId" => $place->id,
-		"UniverseId" => $place->id,
-		"PlaceId" => $place->id,
-		"openGameFromPlaceId" => $place->id,
-		"updateFromPlaceId" => $place->id,
+		"GameId" => $asset->id,
+		"UniverseId" => $asset->id,
+		"PlaceId" => $asset->id,
+		"openGameFromPlaceId" => $asset->id,
+		"updateFromPlaceId" => $asset->id,
 	]);
 
 } else {
