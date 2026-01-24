@@ -23,7 +23,8 @@
 			"jermafwoomp",
 			"jermathe",
 			"sanfordhappy",
-			"sanfordthumbsup"
+			"sanfordthumbsup",
+			"weeeeh"
 		];
 		shuffle($array);
 
