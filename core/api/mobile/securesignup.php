@@ -25,7 +25,7 @@
 
 		if(!str_ends_with($email, "@lambda.cam")) {
 			die(json_encode([
-				"Status" => "Invalid token."
+				"Status" => "Invalid Characters Used"
 			]));
 		} else {
 			if(UserUtils::IsUsernameValid($username)) {
@@ -42,7 +42,7 @@
 						]));
 					} else if(isset($result['token'])) {
 						die(json_encode([
-							"Status" => "Invalid token."
+							"Status" => "Invalid Characters Used"
 						]));
 					}
 				}

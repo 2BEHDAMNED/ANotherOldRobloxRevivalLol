@@ -51,8 +51,19 @@
 		$_SESSION['ANORRL$UserPage$RandomImages'] = getImagesList();
 	}
 
+	$randomNumber = rand(0, 10000);
+
+	$badAppled = $randomNumber < 7000 && $randomNumber > 7500;
+
 	$rand_pic = rollImage();
 ?>
+<?php if($badAppled): ?>
+<style>
+	body {
+		background: url('/images/badapple.gif') !important;
+	}
+</style>
+<?php endif ?>
 <img src="/images/randoms/<?= $rand_pic ?>.png" style="position: fixed;bottom: 0px;left: 0px;width: 250px;z-index: 9999;">
 <div id="Header">
 	<?php if($header_check_user != null): 
