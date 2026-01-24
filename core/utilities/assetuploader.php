@@ -978,10 +978,6 @@
 				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
 				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
 				$stmt_processtransaction->execute();
-				
-				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
-				$stmt->bind_param('si', $md5hashfile, $place_id);
-				$stmt->execute();
 
 				$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`, `place_year`, `place_copylocked`, `place_serversize`) VALUES (?, ?, ?, ?)");
 				
