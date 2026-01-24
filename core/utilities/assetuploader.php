@@ -504,7 +504,7 @@
 					self::CheckMimeType($data) != "audio/mpeg" &&
 					self::CheckMimeType($data) != "audio/ogg" &&
 					self::CheckMimeType($data) != "audio/vorbis" &&
-					self::CheckMimeType($data) != "audio/vnd.wav"
+					self::CheckMimeType($data) != "audio/x-wav"
 				) {
 					return ["error" => true, "reason" => "Audio file was not a valid format!"];
 				}
