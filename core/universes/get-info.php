@@ -31,7 +31,12 @@ if($asset != null) {
 		"IsLimitedUnique" => false,
 		"Remaining" => null,
 		"MinimumMembershipLevel" => 0,
-		"ContentRatingTypeId" => 0
+		"ContentRatingTypeId" => 0,
+		"GameId" => $place->id,
+		"UniverseId" => $place->id,
+		"PlaceId" => $place->id,
+		"openGameFromPlaceId" => $place->id,
+		"updateFromPlaceId" => $place->id,
 	]);
 
 } else {
