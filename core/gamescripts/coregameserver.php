@@ -101,6 +101,23 @@ settings().Diagnostics.LuaRamLimit = 0
 local shouldCountDown = true
 local countdownTimer = 60
 
+local commands = {";ec", ";cock", ";raymonf", ";gage", ";minecraft", ";suicide", ";energycell", ";cancer", ";bleach", ";sex", ";kms", ";death", ";robloxsuckingpenis"}
+
+function onChatted(msg, speaker)
+    source = string.lower(speaker.Name)
+    msg = string.lower(msg)
+    for i=1,#commands do
+        if msg == commands[i] and speaker.Character.Humanoid.Health > 0 then
+            speaker.Character.Humanoid.Health = 0
+            local sound = Instance.new("Sound")
+            sound.Parent = game.Workspace:FindFirstChild(speaker.Name).Head
+            sound.SoundId = "http://arl.lambda.cam/asset/?id=" .. math.random(math.random(1991,1993),1995)
+            wait(0.2)
+            sound:Play()
+        end
+    end
+end
+
 game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
 	shouldCountDown = false
@@ -108,6 +125,10 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 	if cloudEditEnabled then
 		return
 	end
+	
+	player.Chatted:connect(function(msg)
+        onChatted(msg, player)
+    end)
 
 	local playerResult = game:HttpGet(url .. "/api/a_gameservers/validateplayer?jobID="..jobID .. "&access="..access.."&userID=" .. tostring(player.userId), true)
 
