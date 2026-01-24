@@ -969,9 +969,14 @@ EOT;
 			$activity_result = $stmt_user_status_check->get_result();
 			
 			$result = $activity_result->num_rows != 0;
+			
+			$userGameDetails = $this->getUserGameDetails();
+			
+			if($userGameDetails != null)
+				$result = true;
 
 			$stmt_result = $result ? 1 : 0;
-
+	
 			$stmt_user_status_check = $con->prepare('UPDATE `users` SET `user_online` = ? WHERE `user_id` = ?');
 			$stmt_user_status_check->bind_param('ii', $stmt_result, $this->id);
 			$stmt_user_status_check->execute();
