@@ -30,6 +30,10 @@
 		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Description']);
 		$year = PlaceYear::index(trim($_POST['ANORRL$IDE$Publish$Place$Year']));
 
+		if($year == null) {
+			$year = PlaceYear::Y2016;
+		}
+
 		$server_size = intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']) <= 0 ? 12 : intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 
 		$allUsersCount = count(UserUtils::GetAllUsers());
