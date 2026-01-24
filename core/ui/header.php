@@ -17,7 +17,13 @@
 			"soretrojak",
 			"deimos",
 			"xendiscord",
-			"sanford"
+			"sanford",
+			"flclcanti",
+			"hankblender",
+			"jermafwoomp",
+			"jermathe",
+			"sanfordhappy",
+			"sanfordthumbsup"
 		];
 		shuffle($array);
 
@@ -62,7 +68,7 @@
 	body {
 		background: url('/images/badapple.gif') !important;
 	}
-</style>
+</style>1
 <?php endif ?>
 <img src="/images/randoms/<?= $rand_pic ?>.png" style="position: fixed;bottom: 0px;left: 0px;width: 250px;z-index: 9999;">
 <div id="Header">
