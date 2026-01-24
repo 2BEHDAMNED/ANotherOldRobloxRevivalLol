@@ -100,11 +100,13 @@
 									continue;
 								}
 
+								$fid = $friendo->id;
+
 								if($row['status'] == 1) {
 									$controlPanel = <<<EOT
 									<hr>
 									<div id="ControlPanel" style="font-size: 11px">
-										<a href="javascript:ANORRL.Friends.Remove($id)">Remove</a>
+										<a href="javascript:ANORRL.Friends.Remove($fid)">Remove</a>
 									</div>
 									EOT;
 								} else {
@@ -112,16 +114,16 @@
 										$controlPanel = <<<EOT
 										<hr>
 										<div id="ControlPanel" style="font-weight: bold;font-size: 13px">
-											<a href="javascript:ANORRL.Friends.Accept($id)">Accept</a>
+											<a href="javascript:ANORRL.Friends.Accept($fid)">Accept</a>
 											<span>|</span>
-											<a href="javascript:ANORRL.Friends.Reject($id)">Reject</a>
+											<a href="javascript:ANORRL.Friends.Reject($fid)">Reject</a>
 										</div>
 										EOT;
 									} else {
 										$controlPanel = <<<EOT
 										<hr>
 										<div id="ControlPanel" style="font-weight: bold;font-size: 13px">
-											<a href="javascript:ANORRL.Friends.Cancel($id)">Cancel</a>
+											<a href="javascript:ANORRL.Friends.Cancel($fid)">Cancel</a>
 										</div>
 										EOT;
 									}
@@ -129,7 +131,7 @@
 								}
 								
 								$profile = $friendo->setprofilepicture ? "profile" : "player";
-								$fid = $friendo->id;
+								
 								$fname = $friendo->name;
 								echo <<<EOT
 								<td>
