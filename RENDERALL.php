@@ -1,5 +1,5 @@
 <?php
-	die("Nice try but this is no longer needed...");
+//	die("Nice try but this is no longer needed...");
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 
@@ -18,7 +18,7 @@
 		$characterinfo = $user->GetCharacterAppearanceVerbose();
 		$charactermd5 = md5($characterinfo);
 
-		if(!file_exists("$mediadir/$charactermd5.png")) {
+		if(true || !file_exists("$mediadir/$charactermd5.png")) {
 			$render = TheFuckingRenderer::RenderUser($user->id);
 			if($render != null) {
 				$data = "data:image/png;base64,$render";
