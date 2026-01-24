@@ -28,7 +28,7 @@
 
 		$name = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Name']);
 		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Description']);
-		$year = PlaceYear::index(trim($_POST['ANORRL$IDE$Publish$Place$Year']))->value;
+		$year = PlaceYear::index(trim($_POST['ANORRL$IDE$Publish$Place$Year']));
 
 		$server_size = intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']) <= 0 ? 12 : intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 
@@ -275,7 +275,7 @@
 				{
 					try
 					{
-						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=<?= $place_verified_id ?>&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year ?>');
+						window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=<?= $place_verified_id ?>&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year->value ?>');
 						document.getElementById("Uploading").style.display='none';
 						document.getElementById("Confirmation").style.display='block';
 					}
@@ -283,7 +283,7 @@
 					{
 						try
 						{
-							window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=<?= $place_verified_id ?>&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year ?>');
+							window.external.SaveUrl('http://<?= $_SERVER['SERVER_NAME'] ?>/Data/Upload.ashx?assetid=<?= $place_verified_id ?>&type=Place&name=<?= urlencode($name) ?>&description=<?= urlencode($description) ?>&ispublic=<?= FunnyBoolToStr($isPublic) ?>&commentsenabled=<?= FunnyBoolToStr($commentsEnabled) ?>&serversize=<?= $server_size ?>&iscopylocked=<?= FunnyBoolToStr($isCopylocked) ?>&year=<?= $year->value ?>');
 							document.getElementById("Uploading").style.display='none';
 							document.getElementById("Confirmation").style.display='block';
 						}
