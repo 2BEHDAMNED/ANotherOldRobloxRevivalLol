@@ -2,6 +2,7 @@
 header("Content-Type: application/json");
 ?>
 {
+"FFlagTeamCreateCheckInvalidUniverse": "False",
 "FFlagRCCSupportCloudEdit": "True",
 "FFlagDebugLocalRccServerConnection":"False",
 "AllowVideoPreRoll": "True",

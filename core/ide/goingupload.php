@@ -7,7 +7,7 @@
 		die("Hey have you tried logging in before doing this? <br><a href='javascript:window.close()'>No...</a>");
 	}
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>Upload</title>

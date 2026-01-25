@@ -1,9 +1,0 @@
-Array
-(
-    [followedUserId] => 1
-)
-Array
-(
-    [ANORRLSECURITY] => Zjkg=6aK#mBzVIYCggUg7WgHzVCGJkm6vood1XeyK1Lr4gq!F1RpY2wLXBIzUB1?Cag6RERLMnE3A=e_TB4VB-f?kUELCQKkuRO-sSj70iQQ68SJheZmVO1UxTCVHbFQm-p1VdDCMtN/NaO7x!_MzNHE0HMVwYe7Uu5mwSrTSTHE/i;FtNkEKs7D35KSbzJ-!VeZ3vmLe=bczwdZYXP#4USDbA/tp=L3BZF!fBjtMVOqM!Gl563DTqn4i8Flxb!
-    [PHPSESSID] => 4157m6ih0siks23kn9270ft0la
-)
