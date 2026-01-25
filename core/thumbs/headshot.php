@@ -12,9 +12,33 @@
 	}
 
 	if($user->setprofilepicture) {
-		die(header("Location: /thumbs/profile?id=".$user->id));
+		$id = $user->id;
+		if(file_exists($_SERVER['DOCUMENT_ROOT']."/../users/profile_$id.png")) {
+			$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../users/profile_$id.png");
+		} else {
+			$pictures = array_diff(scandir($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/"), array("..", "."));
+				
+			$rand_pic = 1+rand(0, count($pictures) - 1);
+			
+			$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/profile_pictures/pfp_$rand_pic.png");
+		}
 	} else {
-		die(header("Location: /thumbs/players?id=".$user->id));
+		$md5hash = $user->GetCharacterAppearanceHash();
+
+		if(file_exists($_SERVER['DOCUMENT_ROOT']."/../renders/$md5hash.png")) {
+			$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../renders/$md5hash.png");
+		} else {
+			$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
+		}	
 	}
+
+	ob_clean();
+
+	$file_info = new finfo(FILEINFO_MIME_TYPE);
+	$mime = $file_info->buffer($contents);
+
+	header("Content-Type: $mime");
+	ob_clean();
+	echo $contents;
 
 ?>
