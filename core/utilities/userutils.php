@@ -311,12 +311,12 @@
 
 		static function SetCookies(string $security): void {
 			unset($_COOKIE['ANORRLSECURITY']);
-			setcookie("ANORRLSECURITY", $security, time() + (460800* 30), "/", $_SERVER['SERVER_NAME']);
+			setcookie("ANORRLSECURITY", $security, time() + (460800* 30), "/", ".lambda.cam");
 		}
 
 		public static function RemoveCookies(): void {
 			unset($_COOKIE['ANORRLSECURITY']);
-			setcookie("ANORRLSECURITY", "", -1, "/", $_SERVER['SERVER_NAME']);
+			setcookie("ANORRLSECURITY", "", -1, "/", ".lambda.cam");
 		}
 
 		public static function GetLatestUsers(int $count): array {

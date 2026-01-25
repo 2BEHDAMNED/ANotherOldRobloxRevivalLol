@@ -138,7 +138,7 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 
 	local playerResult = game:HttpGet(url .. "/api/a_gameservers/validateplayer?jobID="..jobID .. "&access="..access.."&userID=" .. tostring(player.userId), true)
 
-	if not cloudEditEnabled and playerResult ~= "OK" then
+	if playerResult ~= "OK" then
 		player:Kick("Hey wait something ain't right here...")
 	end
 
