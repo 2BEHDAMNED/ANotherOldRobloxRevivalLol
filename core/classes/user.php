@@ -62,6 +62,26 @@
 		}
 
 		/**
+		 * Attempts to grab userdata from given id.<br>
+		 * Returns null if user of id was not found.
+		 * @param string $name
+		 * @return User|null
+		 */
+		public static function FromName(string $name) {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `users` WHERE `user_name` LIKE ?");
+			$stmt_getuser->bind_param('s', $name);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			if($result->num_rows == 1) {
+				return new self($result->fetch_assoc());
+			} else {
+				return null;
+			}
+		}
+
+		/**
 		 * Attempts to grab userdata from given security key.<br>
 		 * Returns null if user of security key was not found.
 		 * @param int $security
