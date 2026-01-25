@@ -23,7 +23,7 @@ if($asset != null) {
 	}
 
 	if($user != null) {
-		$is_creator = ($user != null && $user->id == $asset->creator->id) || ($user != null && $user->IsAdmin());
+		$is_creator = ($user != null && ($user->id == $asset->creator->id || $user->IsAdmin()));
 		$is_favourited = $user != null && $asset->HasUserFavourited($user);
 
 		$user_bought = $user != null && $user->Owns($asset);
