@@ -221,3 +221,4 @@
 
 DirectoryIndex index.php index.html Default.aspx Default.aspx.php
 ErrorDocument 404 /core/error/404.php
+ErrorDocument 500 /core/error/500.php

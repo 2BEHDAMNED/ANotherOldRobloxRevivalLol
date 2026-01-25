@@ -1,4 +1,10 @@
 <?php 
+    header("Content-Type: text/plain"); 
+    // dont cache this shit!
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+
     if(isset($_GET['assetId']) && isset($_GET['access'])): ?>
 http://arl.lambda.cam/Asset/BodyColors.ashx?clothing;http://arl.lambda.cam/asset/?id=<?= $_GET['assetId'] ?>&access=<?= $_GET['access'] ?>
 <?php else: 
