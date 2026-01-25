@@ -97,6 +97,8 @@
 	RewriteRule ^universes/get-universe-places$ /core/universes/get-universe-places.php [END]
 	RewriteRule ^universes/get-aliases$ /core/universes/get-aliases.php [END]
 	
+	RewriteRule ^developerproducts/list$ /core/universes/list.php [END]
+	
 	RewriteRule ^game/logout.aspx$ /core/api/logout.php							  [END]
 	RewriteRule ^Game/logout.aspx$ /core/api/logout.php							  [END]
 	RewriteRule ^api/(.*)$ /core/api/$1.php							  [END]
