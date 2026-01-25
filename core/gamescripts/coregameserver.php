@@ -261,6 +261,8 @@ if game:GetService("Players").EmoteSoundsEnabled then
 					emoteSounder.SoundId = "rbxassetid://1383"
 				elseif emoteName == "gangnam" then
 					emoteSounder.SoundId = "rbxassetid://2136"
+				elseif emoteName == "gmod" then
+					emoteSounder.SoundId = "rbxassetid://2140"
 				else
 					shouldPlay = false
 				end
