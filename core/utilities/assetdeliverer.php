@@ -83,6 +83,10 @@
 			}
 		}
 
+
+
+		
+
 		
 		if(file_exists($filename)) {
 			$handle = fopen($filename, "r"); 
@@ -94,11 +98,22 @@
 
 			$contents = str_replace("arl.lambda.cam", $_SERVER['SERVER_NAME'], $contents);
 
-			if(in_array($id, $sign_ids)) {
-				$contents = "%$id%\r\n" . $contents;
-				openssl_sign($contents, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
-				$signature = base64_encode($signature);
-				echo "%$signature%";
+			if (isset($_GET['serverplaceid'])) {
+				$serverplace = Place::FromID(intval($_GET['serverplaceid']));
+				
+				if ($serverplace == null && intval($_GET['serverplaceid']) != 0) {
+					http_response_code(400);
+					die("Bad Request");
+				}
+
+				$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];
+				
+				foreach ($blacklist as $scripts) {
+					if (strpos($contents, $scripts) !== false) {
+						http_response_code(405);
+						die("Method Not Allowed");
+					}
+				}
 			}
 			
 			echo $contents;
