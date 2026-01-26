@@ -77,6 +77,11 @@
 			});
 		</script>
 		<style>
+			hr {
+				margin: 15px;
+				border-color: #b0b0b0;
+				border-style: solid;
+			}
 			#UserStatsContainer, #UserInfoContainer {
 				margin: 0 auto;
 				width: 900px;
@@ -202,7 +207,7 @@
 				width: 100%;
 				padding: 5px 0px;
 				padding-left: 5px;
-				margin-bottom: 0px;
+				margin: 0px;
 			}
 
 			.Badge {
@@ -371,6 +376,25 @@
 			#PopularGames > div > a:hover > img {
 				background: #333;
 			}
+
+			#UserAvatarContainer h3 {
+				margin: 0px;
+				width: 830px;
+			}
+
+			#UserAvatarContainer {
+				margin: 0 auto;
+				width: 870px;
+			}
+
+			#UserAvatarContainer #UserAvatarPane {
+				border: 2px solid #090909;
+				margin: 0 auto;
+				background: #171717;
+				padding: 10px;
+				padding-left: 10px;
+				padding-left: 15px;
+			}
 		</style>
 		<?php if($get_user->setprofilepicture): ?>
 		<script>
@@ -474,8 +498,26 @@
 							<br clear="all">
 						</div>
 					</div>
+					<?php if(false): ?>
+					<hr>
+					<div id="UserAvatarContainer">
+						<h3>Player Badges</h3>
+						<div id="UserAvatarPane">
+							<table id="AvatarItems">
+								<tbody>
+									<tr>
+										<td class="Loading">Loading badges...</td>
+									</tr>
+								</tbody>
+							</table>
+							<div>
+								<img src="/thumbs/player?id=<?= $get_user->id ?>">
+							</div>
+						</div>
+					</div>
+					<?php endif ?>
 					<?php if(count($games) != 0): ?>
-					<hr style="margin: 5px 10px;border-color:#b0b0b0;border-style: solid;">
+					<hr>
 					<div id="UserGamesContainer">
 						<h3><?= $get_user->name ?>'s Games</h3>
 						<table id="PopularGamesBox">
@@ -513,7 +555,7 @@
 						</table>
 					</div>
 					<?php endif ?>
-					<hr style="margin: 5px 10px;border-color:#b0b0b0;border-style: solid;">
+					<hr>
 					<div id="UserStatsContainer">
 						<div id="LeftContainer">
 							<div id="ProfileBadgesContainer">

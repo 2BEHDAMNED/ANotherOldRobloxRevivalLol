@@ -1,7 +1,12 @@
 <?php
-//	die("Nice try but this is no longer needed...");
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
+
+	$user = UserUtils::RetrieveUser();
+
+	if($user == null || ($user != null && !$user->IsAdmin())) {
+		die("Nice try but this is no longer needed...");
+	}
 
 	$mediadir = $_SERVER['DOCUMENT_ROOT']."/../renders/";
 
