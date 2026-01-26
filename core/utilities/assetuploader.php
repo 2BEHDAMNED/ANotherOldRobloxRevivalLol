@@ -1057,6 +1057,15 @@
 					return ["error" => true, "reason" => "Hat cannot contain scripts!"];
 				}*/
 
+				$blacklist = ["Remote", "Service", "Model"];
+				$invalid = false;
+				
+				foreach ($blacklist as $scripts) {
+					if (strpos($place_data, $scripts) !== false) {
+						return ["error" => true, "reason" => "This thing... contains invalid JUNK!"];
+					}
+				}
+
 				if(str_contains($place_data, "class=\"CharacterMesh\"")) {
 					return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
 				}

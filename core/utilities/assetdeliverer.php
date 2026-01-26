@@ -109,7 +109,7 @@
 				$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];
 				
 				foreach ($blacklist as $scripts) {
-					if (strpos($contents, $scripts) !== false) {
+					if (strpos($contents, $scripts) !== false && intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT) {
 						http_response_code(405);
 						die("Method Not Allowed");
 					}
