@@ -210,6 +210,9 @@
 			$pages = [
 				"Home"                              => "/my/home.php",
 				"Looking at {username}'s profile"   => "/users/profile.php",
+				"Looking at {username}'s friends"   => "/users/friends.php",
+				"Looking at {username}'s followers" => "/users/following.php",
+				"Looking at {username}'s following" => "/users/followers.php",
 				"Stuff"                             => "/my/stuff.php",
 				"Create Panel"                      => "/create.php",
 				"Changing their profile info"       => "/my/profile.php",
@@ -241,7 +244,7 @@
 				} else {
 					if(!self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
 						$page = array_search($_SERVER['SCRIPT_NAME'], $pages);
-						if($_SERVER['SCRIPT_NAME'] == "/users/profile.php" && $data instanceof User) {
+						if($data instanceof User) {
 							if($data->id != $user->id) {
 								$user_id = $data->id;
 								$user_name = $data->name;
@@ -251,7 +254,7 @@
 							}
 						}
 
-						if($_SERVER['SCRIPT_NAME'] == "/item.php" && $data instanceof Asset) {
+						if($data instanceof Asset) {
 							$asset_id = $data->id;
 							$asset_name = $data->name;
 							$asset_urlname = $data->GetURLTitle();
@@ -261,7 +264,7 @@
 							
 						}
 
-						if($_SERVER['SCRIPT_NAME'] == "/place.php" && $data instanceof Place) {
+						if($data instanceof Place) {
 							$asset_id = $data->id;
 							$asset_name = $data->name;
 							$asset_urlname = $data->GetURLTitle();

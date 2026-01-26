@@ -19,7 +19,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Your Character - ANORRL</title>
+		<title>Your Friends - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
@@ -32,46 +32,6 @@
 
 			h4 {
 				margin-top: 5px;
-			}
-
-			#FriendsContainer {
-				border: 2px solid black;
-				background: #222;
-				padding: 10px;
-			}
-
-			#FriendsContainer > table {
-				width: 100%;
-			}
-
-			#FriendsContainer > table td {
-				vertical-align: top;
-			}
-
-			#FriendsContainer .Friend {
-				border: 2px solid black;
-				background: #1a1a1a;
-				width: 100px;
-				text-align: center;
-				padding: 10px;
-				margin: 0 auto;
-			}
-
-			#FriendsContainer .Friend a > * {
-				display: block;
-				margin: 0 auto;
-				font-weight: bold;
-				text-overflow: ellipsis;
-				overflow: hidden;
-			}
-
-			#FriendsContainer .Friend a > span {
-				margin-top: 5px;
-			}
-
-			#FriendsContainer .Friend #ControlPanel > * {
-				*display: block;
-				margin: 2px auto;
 			}
 		</style>
 	</head>
@@ -131,6 +91,8 @@
 								}
 								
 								$profile = $friendo->setprofilepicture ? "profile" : "player";
+
+								$status = $friendo->IsOnline() ? "Online" : "Offline";
 								
 								$fname = $friendo->name;
 								echo <<<EOT
@@ -138,7 +100,7 @@
 									<div class="Friend">
 										<a href="/users/$fid/profile" title="$fname" target="_blank">
 											<img src="/thumbs/$profile?id=$fid&sxy=100">
-											<span>$fname</span>
+											<span><img src="/images/OnlineStatusIndicator_Is$status.png"> $fname</span>
 										</a>
 										$controlPanel
 									</div>
@@ -147,6 +109,12 @@
 								EOT;
 
 								$count++;
+
+								if($count == $result_stmt->num_rows && $count%6 < 6) {
+									for($i = 0; $i < 6-($count%6); $i++) {
+										echo "<td style=\"width:142px;\"></td>";
+									}
+								}
 
 								if($count%6 == 0) {
 									echo "</tr>";

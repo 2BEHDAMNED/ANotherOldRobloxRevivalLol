@@ -34,8 +34,8 @@
 
 	include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-	$stmt = $con->prepare("SELECT * FROM `friends` WHERE (`sender` = ? OR `reciever` = ?) ORDER BY `status` ASC");
-	$stmt->bind_param("ii", $get_user->id, $get_user->id);
+	$stmt = $con->prepare("SELECT * FROM `follows` WHERE `follower` = ? ORDER BY `followed_at` ASC");
+	$stmt->bind_param("i", $get_user->id);
 	$stmt->execute();
 
 	$result_stmt = $stmt->get_result();
@@ -43,7 +43,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?= $get_user->name ?>'s Friends - ANORRL</title>
+		<title><?= $get_user->name ?>'s Following - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
@@ -63,7 +63,7 @@
 			<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-					<h2><?= $get_user->name ?>'s Friends</h2>
+					<h2><?= $get_user->name ?>'s Following</h2>
 					<div id="FriendsContainer">
 						<?php if($result_stmt->num_rows != 0): ?>
 						<table>
@@ -76,7 +76,7 @@
 
 								$controlPanel = "";
 
-								$friendo = $row['reciever'] == $get_user->id ? User::FromID($row['sender']) : User::FromID($row['reciever']);
+								$friendo = User::FromID($row['followed']);
 								
 								if($friendo == null) {
 									// There's a person that's non existent somehow!
