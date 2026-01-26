@@ -112,7 +112,7 @@
 				foreach($whitelist as $white) {
 					if(strpos($contents, $white) !== false) {
 						foreach($blacklist as $black) {
-							if(strpos($contents, $black) !== false && intval($_GET['serverplaceid']) != 0) {
+							if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT)) {
 								http_response_code(405);
 								die("Method Not Allowed");
 							}
