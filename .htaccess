@@ -15,7 +15,7 @@
 	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)$ /users/canmanage.php?userId=$1&placeId=$2  [END]
 	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)/$ /users/canmanage.php?userId=$1&placeId=$2  [END]
 
-	RewriteRule ^users/get-by-username$ /users/get-by-username  [END]
+	RewriteRule ^users/get-by-username$ /users/get-by-username.php  [END]
 	
 	RewriteRule ^Game/players/([0-9]+)$ /users/players.php?userId=$1  [END]
 	RewriteRule ^game/players/([0-9]+)$ /users/players.php?userId=$1  [END]
