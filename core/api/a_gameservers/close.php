@@ -17,7 +17,7 @@
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			
 			$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_jobid` = ?");
-			$stmt_getactiveservers->bind_param("i", $this->id);
+			$stmt_getactiveservers->bind_param("s", $_GET['jobID']);
 			$stmt_getactiveservers->execute();
 
 			$result_getactiveservers = $stmt_getactiveservers->get_result();
