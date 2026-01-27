@@ -9,20 +9,36 @@
 
 	$access = $settings['asset']['ACCESSKEY'];
 	$rcc_ip = $rcc_settings['RCCGAMEIP'];
-	$rcc_port = 64898;
+	$rcc_gameserver_port = 64898;
+	$rcc_teamcreate_port = 64888;
 
 	if(isset($_GET['access']) && isset($_GET['jobID'])) {
 		if($_GET['access'] == $access) {
-			$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
-			$rcc->CloseJob(trim($_GET['jobID']));
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			
+			$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_jobid` = ?");
+			$stmt_getactiveservers->bind_param("i", $this->id);
+			$stmt_getactiveservers->execute();
 
-			$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
-			$rcc2->closeJob(trim($_GET['jobID']));
+			$result_getactiveservers = $stmt_getactiveservers->get_result();
 
-			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-			$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
-			$stmt_createnewserver->bind_param("s", $_GET['jobID']);
-			$stmt_createnewserver->execute();
+			if($result_getactiveservers->num_rows != 0) {
+				$row = $result_getactiveservers->fetch_assoc();
+
+				$rcc_port = $row['server_teamcreate'] == 1 ? $rcc_teamcreate_port : $rcc_gameserver_port;
+
+				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+				$rcc->CloseJob(trim($_GET['jobID']));
+
+				$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
+				$rcc2->closeJob(trim($_GET['jobID']));
+
+				$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
+				$stmt_createnewserver->bind_param("s", $_GET['jobID']);
+				$stmt_createnewserver->execute();
+			}
+
+
 		}
 		
 	}

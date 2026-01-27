@@ -672,6 +672,39 @@
 				$stmt_checkiseditor = $con->prepare('DELETE FROM `cloudeditors` WHERE `cloudeditor_userid` != ? AND `cloudeditor_placeid` = ?;');
 				$stmt_checkiseditor->bind_param('ii', $this->creator->id, $this->id);
 				$stmt_checkiseditor->execute();
+
+				$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_teamcreate` = 1");
+				$stmt_getactiveservers->bind_param("i", $this->id);
+				$stmt_getactiveservers->execute();
+
+				$result_getactiveservers = $stmt_getactiveservers->get_result();
+
+				if($result_getactiveservers->num_rows != 0) {
+					$row = $result_getactiveservers->fetch_assoc();
+
+					$jobID = $row['server_jobid'];
+
+					$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+	
+					$rcc_settings = $settings['renderer'];
+					$rcc_ip = $rcc_settings['RCCGAMEIP'];
+					$rcc_port = 64888;
+
+					require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
+
+					$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+					$rcc->CloseJob(trim($jobID));
+
+					$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
+					$rcc2->closeJob(trim($jobID));
+
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
+					$stmt_createnewserver->bind_param("s", $jobID);
+					$stmt_createnewserver->execute();
+				}
+
+				
 			}
 		}
 
