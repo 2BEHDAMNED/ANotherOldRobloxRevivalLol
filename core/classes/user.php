@@ -224,6 +224,27 @@
 		function GetPlaces(bool $teamcreate = false): array {
 			$grabbedplaces = $this->GetAllOwnedAssetsOfType(AssetType::PLACE, true);
 			$result = [];
+
+			$teamcreatedplaces = [];
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_checkiseditor = $con->prepare('SELECT * FROM `cloudeditors` WHERE `cloudeditor_userid` = ?;');
+			$stmt_checkiseditor->bind_param('i', $this->id);
+			$stmt_checkiseditor->execute();
+
+			$result_checkiseditor = $stmt_checkiseditor->get_result();
+
+			if($result_checkiseditor->num_rows != 0) {
+				while($row = $result_checkiseditor->fetch_assoc()) {
+					$place = Place::FromID(intval($row['cloudeditor_placeid']));
+
+					if($place != null && $place->creator->id != $this->id) {
+						array_push($teamcreatedplaces, $place);
+					}
+				}
+			}
+
+
 			
 			foreach($grabbedplaces as $asset) {
 				$place = Place::FromID($asset->id);
@@ -233,13 +254,15 @@
 					}
 
 					if(!$teamcreate && !$place->teamcreate_enabled) {
+						
 						array_push($result, $place);
 					}
 				}
 			}
-				
+
 			
-			return $result;
+			
+			return array_merge($result, $teamcreatedplaces);
 		}
 
 		function GiveProfileBadge(ANORRLBadges $badge): void {
