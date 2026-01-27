@@ -14,14 +14,14 @@
 	if($user->setprofilepicture) {
 		die(json_encode([
 			"Final" => true,
-			"Url" => "/thumbs/profile?id=".$user->id,
-			"RetryUrl" => "/thumbs/profile?id=".$user->id,
+			"Url" => "http://arl.lambda.cam/thumbs/profile?id=".$user->id,
+			"RetryUrl" => "http://arl.lambda.cam/thumbs/profile?id=".$user->id,
 		]));
 	} else {
 		die(json_encode([
 			"Final" => true,
-			"Url" => "/thumbs/player?id=".$user->id,
-			"RetryUrl" => "/thumbs/player?id=".$user->id,
+			"Url" => "http://arl.lambda.cam/thumbs/player?id=".$user->id,
+			"RetryUrl" => "http://arl.lambda.cam/thumbs/player?id=".$user->id,
 		]));
 	}
 
