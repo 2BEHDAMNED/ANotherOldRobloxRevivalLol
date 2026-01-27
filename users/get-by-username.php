@@ -1,4 +1,6 @@
 <?php
+	require_once $_SERVER['DOCUMENT_ROOT'] . "/core/utilities/userutils.php";
+
 	if(isset($_GET['username'])) {
 		$user = User::FromName($_GET['username']);
 		if($user != null) {
