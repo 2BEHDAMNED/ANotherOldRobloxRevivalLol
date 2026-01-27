@@ -723,6 +723,8 @@
 						array_push($result, $user);
 					}
 				}
+
+				return $result;
 			}
 			return [];
 		}
