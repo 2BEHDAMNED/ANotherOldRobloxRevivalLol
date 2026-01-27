@@ -692,8 +692,20 @@
 
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 
+					$scriptText = <<<EOT
+					for _, v in pairs(game.Players:GetPlayers()) do
+						v:Kick("Team Create Session Closed.")
+					end
+					EOT;
+
+					
+
 					$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+					$script = new Roblox\Grid\Rcc\ScriptExecution("kicker", $scriptText);
+					$rcc->Execute($jobID, $script);
 					$rcc->CloseJob(trim($jobID));
+
+					
 
 					$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
 					$rcc2->closeJob(trim($jobID));
