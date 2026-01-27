@@ -52,6 +52,11 @@
 					<li id="MyProjects" class="lastnav">
 						<p>My Projects</p>
 					</li>
+					<?php if(count($teamplaces) != 0): ?>
+					<li id="TeamProjectsView" class="lastnav">
+						<p>Collaborative Projects</p>
+					</li>
+					<?php endif ?>
 					<!--li class="lastnav"><p>Recent News</p></li-->
 				</ul>
 			</div>

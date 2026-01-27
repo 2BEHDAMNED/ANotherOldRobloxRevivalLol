@@ -225,7 +225,8 @@
 			$grabbedplaces = $this->GetAllOwnedAssetsOfType(AssetType::PLACE, true);
 			$result = [];
 			
-			foreach($grabbedplaces as $place) {
+			foreach($grabbedplaces as $asset) {
+				$place = Place::FromID($asset->id);
 				if($place instanceof Place) {
 					if($teamcreate && $place->teamcreate_enabled && $place->IsCloudEditor($this)) {
 						array_push($result, $place);
