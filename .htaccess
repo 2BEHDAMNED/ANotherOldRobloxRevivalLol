@@ -100,8 +100,8 @@
 	RewriteRule ^universes/([0-9]+)/disablecloudedit /core/universes/disablecloudedit.php?universeId=$1 [END]
 	RewriteRule ^universes/([0-9]+)/listcloudeditors /core/universes/listcloudeditors.php?universeId=$1 [END]
 
-	RewriteRule ^universes/([0-9]+)/addcloudeditor /core/universes/addcloudeditor.php?universeId=$1 [END]
-	RewriteRule ^universes/([0-9]+)/removecloudeditor /core/universes/removecloudeditor.php?universeId=$1 [END]
+	RewriteRule ^universes/([0-9]+)/addcloudeditor?(.*) /core/universes/addcloudeditor.php?universeId=$1&$2 [QSA,END]
+	RewriteRule ^universes/([0-9]+)/removecloudeditor?(.*) /core/universes/removecloudeditor.php?universeId=$1&$2 [END]
 
 	RewriteRule ^places/([0-9]+)/settings /core/places/settings.php?placeId=$1 [END]
 	RewriteRule ^universes/get-info$ /core/universes/get-info.php [END]
