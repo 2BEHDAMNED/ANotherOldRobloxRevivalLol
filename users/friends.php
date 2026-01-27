@@ -29,7 +29,8 @@
 	}
 
 	if(isset($_GET['page'])) {
-		die(include($_SERVER['DOCUMENT_ROOT']."/users/friendsapiver.php"));
+		if(intval($_GET['page']) == 1)
+			die(include($_SERVER['DOCUMENT_ROOT']."/users/friendsapiver.php"));
 	}
 	
 	$user = UserUtils::RetrieveUser($get_user);
