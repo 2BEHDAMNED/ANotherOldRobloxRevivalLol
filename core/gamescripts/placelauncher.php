@@ -18,6 +18,7 @@
 	$access = $settings['asset']['ACCESSKEY'];
 	$rcc_ip = $rcc_settings['RCCGAMEIP'];
 	$rcc_port = 64898;
+	$rcc_teamcreate_port = 64888;
 
 	header("Content-Type: application/json");
 
@@ -206,6 +207,7 @@
 						$stmt_createnewserver->bind_param("s", $sessionID);
 						$stmt_createnewserver->execute();
 						die(json_encode([
+							"status" => 0,
 							"error" => "Wow so much errors!"
 						]));
 					}
@@ -266,21 +268,19 @@
 				$stmt_createnewsession->execute();
 
 				$dont_load = false;
-//				echo strval(getActiveServersCount($place->id, true));
 				if(getActiveServersCount($place->id, true) == 0) {
-//					echo "creating new server i hope";
 					try {
 						$serverid = getRandomString();
 						$placeId = $place->id;
 						$port = rand(50000, 60000);
 						$strPort = strval($port);
 
-						$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+						$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_teamcreate_port);
 						$jobId = md5(rand());
 						$job = new Roblox\Grid\Rcc\Job($jobId);
 						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
 						<<<EOT
-						loadfile("http://arl.lambda.cam/game/teamcreate.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId", true)
+						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId", true)
 						EOT);
 						$base64data = $rcc->OpenJob($job, $script);
 						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
@@ -345,14 +345,14 @@
 									"CreatorTypeEnum" => "User",
 									"MembershipType" => "None",
 									"AccountAge" => 256,
-									"SessionId" => "{sessionid}",
+									"SessionId" => "blehhh".rand(),
 									"UniverseId" => $place->id,
 							]
 						]
 					);
 					$json = str_replace("\\\\", "",$json);
-                                        $json = str_replace("\\", "", $json); 
-                                        die($json);
+					$json = str_replace("\\", "", $json); 
+					die($json);
 
 				}
 			}
@@ -410,6 +410,7 @@
 						$stmt_createnewserver->bind_param("s", $sessionToken);
 						$stmt_createnewserver->execute();
 						die(json_encode([
+							"status" => 0,
 							"error" => "Wow so much errors!"
 						]));
 					}
@@ -441,11 +442,10 @@
 		}
 	}
 
-	die(json_encode(
-	[
-			"error" => "Wow so much errors!"
-		]
-	));
+	die(json_encode([
+		"status" => 0,
+		"error" => "Wow so much errors!"
+	]));
 	
 
 ?>
