@@ -94,12 +94,20 @@
 					echo "decoding using gz\n";
 				}
 
-				if($asset != null && $asset->creator->id == $user->id) {
-					// If the user owns this asset, then allow publishing.
+				if($asset != null) {
+					if($asset->type == AssetType::PLACE) {
+						$place = Place::FromID(intval($assetid));
+
+						if($asset->creator->id == $user->id || ($place->teamcreate_enabled && $place->IsCloudEditor($user))) {
+							// If the user owns this asset, then allow publishing.
 					
-					print_r(AssetUploader::UpdatePlace($assetid, $recieveddata));
-					http_response_code(200);
-					die("Uploaded successfully!");
+							print_r(AssetUploader::UpdatePlace($assetid, $recieveddata));
+							http_response_code(200);
+							die("Uploaded successfully!");
+						}
+						
+					}
+					
 				}
 			}
 		}

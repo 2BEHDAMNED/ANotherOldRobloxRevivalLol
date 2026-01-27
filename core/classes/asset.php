@@ -706,8 +706,6 @@
 					end
 					EOT;
 
-					
-
 					$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
 					$script = new Roblox\Grid\Rcc\ScriptExecution("kicker", $scriptText);
 					$rcc->Execute($jobID, $script);
