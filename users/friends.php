@@ -27,6 +27,10 @@
 	if($get_user == null) {
 		die(header("Location: /my/home"));
 	}
+
+	if(isset($_GET['page'])) {
+		die(include($_SERVER['DOCUMENT_ROOT']."/users/friendsapiver.php"));
+	}
 	
 	$user = UserUtils::RetrieveUser($get_user);
 
