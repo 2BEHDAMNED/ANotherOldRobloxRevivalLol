@@ -29,8 +29,12 @@
 	}
 
 	if(isset($_GET['page'])) {
-		if(intval($_GET['page']) == 1)
+		if(intval($_GET['page']) == 1) {
 			die(include($_SERVER['DOCUMENT_ROOT']."/users/friendsapiver.php"));
+		} else {
+			header("Content-Type: application/json");
+			die("{}");
+		}
 	}
 	
 	$user = UserUtils::RetrieveUser($get_user);
