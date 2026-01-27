@@ -2,6 +2,7 @@
 header("Content-Type: application/json");
 ?>
 {
+	"FFlagKickUsersWhenTheyLoseAccessToCloudEdit": "True",
 	"FFlagTeamCreateCheckInvalidUniverse": "False",
 	"FFlagRCCSupportCloudEdit": "True",
 	"DFFlagAvatarFetchBuildUrlChange": "True",
