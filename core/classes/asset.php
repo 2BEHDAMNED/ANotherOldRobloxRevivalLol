@@ -690,7 +690,15 @@
 					$rcc_ip = $rcc_settings['RCCGAMEIP'];
 					$rcc_port = 64888;
 
-					require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
+					$directory = $_SERVER['DOCUMENT_ROOT']."/core/Assemblies/Roblox/Grid/Rcc/";
+					$scanned_directory = array_diff(scandir($directory), array('..', '.'));
+
+					foreach($scanned_directory as $file) {
+						if(str_contains($file, "wsdl")) {
+							continue;
+						}
+						require $directory.$file;
+					}
 
 					$scriptText = <<<EOT
 					for _, v in pairs(game.Players:GetPlayers()) do
@@ -704,11 +712,6 @@
 					$script = new Roblox\Grid\Rcc\ScriptExecution("kicker", $scriptText);
 					$rcc->Execute($jobID, $script);
 					$rcc->CloseJob(trim($jobID));
-
-					
-
-					$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
-					$rcc2->closeJob(trim($jobID));
 
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 					$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
