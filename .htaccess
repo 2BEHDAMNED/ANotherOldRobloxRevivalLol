@@ -97,6 +97,9 @@
 	RewriteRule ^universes/([0-9]+)/enablecloudedit /core/universes/enablecloudedit.php?universeId=$1 [END]
 	RewriteRule ^universes/([0-9]+)/listcloudeditors /core/universes/listcloudeditors.php?universeId=$1 [END]
 
+	RewriteRule ^universes/([0-9]+)/addcloudeditor /core/universes/addcloudeditor.php?universeId=$1 [END]
+	RewriteRule ^universes/([0-9]+)/removecloudeditor /core/universes/removecloudeditor.php?universeId=$1 [END]
+
 	RewriteRule ^places/([0-9]+)/settings /core/places/settings.php?placeId=$1 [END]
 	RewriteRule ^universes/get-info$ /core/universes/get-info.php [END]
 	RewriteRule ^universes/validate-place-join$ /core/universes/validate-place-join.php [END]
