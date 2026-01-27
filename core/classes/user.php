@@ -221,8 +221,24 @@
 		 * Returns paged list of the user's created games
 		 * @return void
 		 */
-		function GetOwnedGames(): array {
-			return $this->GetAllOwnedAssetsOfType(AssetType::PLACE);
+		function GetPlaces(bool $teamcreate = false): array {
+			$grabbedplaces = $this->GetAllOwnedAssetsOfType(AssetType::PLACE, true);
+			$result = [];
+			
+			foreach($grabbedplaces as $place) {
+				if($place instanceof Place) {
+					if($teamcreate && $place->teamcreate_enabled && $place->IsCloudEditor($this)) {
+						array_push($result, $place);
+					}
+
+					if(!$teamcreate && !$place->teamcreate_enabled) {
+						array_push($result, $place);
+					}
+				}
+			}
+				
+			
+			return $result;
 		}
 
 		function GiveProfileBadge(ANORRLBadges $badge): void {

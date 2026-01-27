@@ -82,11 +82,6 @@
 				die(http_response_code(503));
 			}
 		}
-
-
-
-		
-
 		
 		if(file_exists($filename)) {
 			$handle = fopen($filename, "r"); 

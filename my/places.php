@@ -7,6 +7,9 @@
 	if($user == null) {
 		die(header("Location: /login"));
 	}
+
+	$places = $user->GetPlaces(false);
+	$teamplaces = $user->GetPlaces(true);
 ?>
 <!DOCTYPE html>
 <html>
@@ -116,7 +119,7 @@
 					<h2>My Published Projects</h2>
 					<div class="templates" style="display: block;">
 						<?php
-							$places = $user->GetAllOwnedAssetsOfType(AssetType::PLACE);
+							
 							if(count($places) != 0) {
 								foreach($places as $place) {
 									if($place instanceof Asset) {
@@ -139,6 +142,35 @@
 						
 					</div>
 				</div>
+				<?php if(count($teamplaces) != 0): ?>
+				<div id="TeamProjectsView" class="welcome-content-area" style="display: none;">
+					<h2>Collaborative Places</h2>
+					<div class="templates" style="display: block;">
+						<?php
+							
+							if(count($teamplaces) != 0) {
+								foreach($teamplaces as $place) {
+									if($place instanceof Asset) {
+										$place_id = $place->id;
+										$place_name = $place->name;
+										echo <<<EOT
+										<div class="template" placeid="$place_id">
+											<a class="game-image">
+												<img width="197" src="/thumbs/?id=$place_id&sx=197&sy=111">
+											</a>
+											<p>$place_name</p>
+										</div>
+										EOT;
+									}
+								}
+							} else {
+								echo "<div><span>You have no published projects!</span></div>";
+							}
+						?>
+						
+					</div>
+				</div>
+				<?php endif ?>
 				<div id="ButtonRow" class="divider-top divider-left divider-bottom">
 					<a class="btn-medium btn-primary" id="EditButton">Edit <span class="btn-text">Edit</span>
 					</a>

@@ -502,13 +502,13 @@
 
 	enum PlaceYear {
 		case Y2010;
-		case Y2012;
+		case Y2013;
 		case Y2016;
 
 		public static function index(string $ordinal): PlaceYear {
 			return match($ordinal) {
 				"2010" => PlaceYear::Y2010,
-				//"2012" => PlaceYear::Y2012,
+				"2012" => PlaceYear::Y2013,
 				"2016" => PlaceYear::Y2016,
 				default => PlaceYear::Y2016
 			};
@@ -517,7 +517,7 @@
 		public function ordinal(): string {
 			return match($this) {
 				PlaceYear::Y2010 	=> "2010",
-				PlaceYear::Y2012 	=> "2012",
+				PlaceYear::Y2013 	=> "2013",
 				PlaceYear::Y2016	=> "2016",
 			};
 		}
@@ -652,12 +652,79 @@
 		}
 
 		function EnableTeamCreate() {
-			return;
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			
-			$stmt_checkvisit = $con->prepare('UPDATE `asset_places` SET `place_teamcreate_enabled` = 1 WHERE `place_id` = ?');
-			$stmt_checkvisit->bind_param('i', $this->id);
-			$stmt_checkvisit->execute();
+			$stmt_enableteamcreate = $con->prepare('UPDATE `asset_places` SET `place_teamcreate_enabled` = 1 WHERE `place_id` = ?');
+			$stmt_enableteamcreate->bind_param('i', $this->id);
+			$stmt_enableteamcreate->execute();
+
+			if(!$this->IsCloudEditor($this->creator)) {
+				$this->AddCloudEditor($this->creator);
+			}
+		}
+
+		function DisableTeamCreate() {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_disableteamcreate = $con->prepare('UPDATE `asset_places` SET `place_teamcreate_enabled` = 0 WHERE `place_id` = ?');
+			$stmt_disableteamcreate->bind_param('i', $this->id);
+			$stmt_disableteamcreate->execute();
+
+			if($this->teamcreate_enabled) {
+				$stmt_checkiseditor = $con->prepare('DELETE FROM `cloudeditors` WHERE `cloudeditor_userid` != ? AND `cloudeditor_placeid` = ?;');
+				$stmt_checkiseditor->bind_param('ii', $this->creator->id, $this->id);
+				$stmt_checkiseditor->execute();
+			}
+		}
+
+		function IsCloudEditor(User $user) {
+			if($this->teamcreate_enabled) {
+				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+				$stmt_checkiseditor = $con->prepare('SELECT * FROM `cloudeditors` WHERE `cloudeditor_userid` = ?;');
+				$stmt_checkiseditor->bind_param('i', $user->id);
+				$stmt_checkiseditor->execute();
+
+				return $stmt_checkiseditor->get_result()->num_rows != 0;
+			}
+			return false;
+		}
+
+		function AddCloudEditor(User $user) {
+			if(!$this->IsCloudEditor($user)) {
+				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+				$stmt_addeditor = $con->prepare('INSERT INTO `cloudeditors`(`cloudeditor_userid`, `cloudeditor_placeid`) VALUES (?, ?)');
+				$stmt_addeditor->bind_param('ii', $user->id, $this->id);
+				$stmt_addeditor->execute();
+			}	
+		}
+
+		function RemoveCloudEditor(User $user) {
+			if($this->IsCloudEditor($user) && $user->id != $this->creator->id) {
+				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+				$stmt_addeditor = $con->prepare('DELETE FROM `cloudeditors` WHERE `cloudeditor_userid` = ? AND `cloudeditor_placeid` = ?;');
+				$stmt_addeditor->bind_param('ii', $user->id, $this->id);
+				$stmt_addeditor->execute();
+			}	
+		}
+
+		function GetCloudEditors() {
+			if($this->teamcreate_enabled) {
+				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+				$stmt_geteditors = $con->prepare('SELECT * FROM `cloudeditors` WHERE `cloudeditor_placeid` = ?;');
+				$stmt_geteditors->bind_param('i', $this->id);
+				$stmt_geteditors->execute();
+
+				$result_geteditors = $stmt_geteditors->get_result();
+
+				$result = [];
+
+				while($row = $result_geteditors->fetch_assoc()) {
+					$user = User::FromID(intval($row['cloudeditor_userid']));
+
+					if($user != null && !$user->IsBanned()) {
+						array_push($result, $user);
+					}
+				}
+			}
+			return [];
 		}
 
 		function Visit(User|int $user) {
