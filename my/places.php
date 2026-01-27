@@ -52,11 +52,6 @@
 					<li id="MyProjects" class="lastnav">
 						<p>My Projects</p>
 					</li>
-					<?php if(count($teamplaces) != 0): ?>
-					<li id="TeamProjectsView" class="lastnav">
-						<p>Collaborative Projects</p>
-					</li>
-					<?php endif ?>
 					<!--li class="lastnav"><p>Recent News</p></li-->
 				</ul>
 			</div>
@@ -123,6 +118,27 @@
 				<div id="MyProjectsView" class="welcome-content-area" style="display: none;">
 					<h2>My Published Projects</h2>
 					<div class="templates" style="display: block;">
+						<?php if(count($teamplaces) != 0): ?>
+						<div><h3>Collaborative Projects</h3></div>
+						<?php
+							foreach($teamplaces as $place) {
+								if($place instanceof Asset) {
+									$place_id = $place->id;
+									$place_name = $place->name;
+									echo <<<EOT
+									<div class="template" placeid="$place_id">
+										<a class="game-image">
+											<img width="197" src="/thumbs/?id=$place_id&sx=197&sy=111">
+										</a>
+										<p>$place_name</p>
+									</div>
+									EOT;
+								}
+							}
+							
+						?>
+						<div><h3>Your Projects</h3></div>
+						<?php endif ?>
 						<?php
 							
 							if(count($places) != 0) {
@@ -147,35 +163,6 @@
 						
 					</div>
 				</div>
-				<?php if(count($teamplaces) != 0): ?>
-				<div id="TeamProjectsView" class="welcome-content-area" style="display: none;">
-					<h2>Collaborative Places</h2>
-					<div class="templates" style="display: block;">
-						<?php
-							
-							if(count($teamplaces) != 0) {
-								foreach($teamplaces as $place) {
-									if($place instanceof Asset) {
-										$place_id = $place->id;
-										$place_name = $place->name;
-										echo <<<EOT
-										<div class="template" placeid="$place_id">
-											<a class="game-image">
-												<img width="197" src="/thumbs/?id=$place_id&sx=197&sy=111">
-											</a>
-											<p>$place_name</p>
-										</div>
-										EOT;
-									}
-								}
-							} else {
-								echo "<div><span>You have no published projects!</span></div>";
-							}
-						?>
-						
-					</div>
-				</div>
-				<?php endif ?>
 				<div id="ButtonRow" class="divider-top divider-left divider-bottom">
 					<a class="btn-medium btn-primary" id="EditButton">Edit <span class="btn-text">Edit</span>
 					</a>
