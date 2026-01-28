@@ -291,6 +291,7 @@
 												<select name="ANORRL$EditItem$Place$Year">
 													<option value="2016">2016 (ANORRL)</option>
 													<!--<option value="2008">2008 (Gamma)</option>-->
+													<option value="2013">2013</option>
 													<option value="2010">2010</option>
 													<!--<option value="2012">2012</option>-->
 													
