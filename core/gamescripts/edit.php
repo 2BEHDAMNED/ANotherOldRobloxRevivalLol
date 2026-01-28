@@ -9,7 +9,7 @@ local message = Instance.new("Message")
 message.Parent = workspace
 message.archivable = false
 
-game:SetUniverseId({placeid})
+pcall(function() game:SetUniverseId({placeid}) end)
 
 game:GetService("ContentProvider"):SetThreadPool(16)
 pcall(function() game:GetService("InsertService"):SetFreeModelUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fm&q=%s&pg=%d&rs=%d") end) -- Used for free model search (insert tool)

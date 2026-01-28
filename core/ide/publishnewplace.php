@@ -28,10 +28,10 @@
 
 		$name = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Name']);
 		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Description']);
-		$year = PlaceYear::index(trim($_POST['ANORRL$IDE$Publish$Place$Year']));
-
-		if($year == null) {
-			$year = PlaceYear::Y2016;
+		
+		$year = PlaceYear::Y2016;
+		if(strpos($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013, 8, 13, 2") !== false) {
+			$year = PlaceYear::Y2013;
 		}
 
 		$server_size = intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']) <= 0 ? 12 : intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
@@ -200,18 +200,6 @@
 								<div id="DetailStack">
 									<h4 style="margin-top: 10px">Place Settings</h4>
 									<table>
-										<tr id="PlaceYear">
-											<td style="vertical-align: middle;">Year</td>
-											<td>
-												<select name="ANORRL$IDE$Publish$Place$Year">
-													<option value="2016">2016 (ANORRL)</option>
-													<!--<option value="2008">2008 (Gamma)</option>-->
-													<option value="2010">2010</option>
-													<!--<option value="2012">2012</option>-->
-													
-												</select>
-											</td>
-										</tr>
 										<tr>
 											<td>Server Size</td>
 											<td><input type="number" name="ANORRL$IDE$Publish$Place$ServerSize" value="12"></td>
