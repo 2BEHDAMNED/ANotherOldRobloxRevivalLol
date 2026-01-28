@@ -167,7 +167,7 @@
 							}
 							
 						?>
-						<div><h3>Your Projects | <span>Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle"></h3></div>
+						<div><h3>Your Projects | <span>Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle" type="checkbox"></h3></div>
 						<?php endif ?>
 						<?php
 							
