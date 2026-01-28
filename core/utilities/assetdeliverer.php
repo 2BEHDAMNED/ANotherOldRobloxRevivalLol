@@ -84,6 +84,7 @@
 		}
 		
 		if(file_exists($filename)) {
+//			die(strval(filesize($filename)));
 			$handle = fopen($filename, "r"); 
 			$contents = fread($handle, filesize($filename)); 
 			fclose($handle);
