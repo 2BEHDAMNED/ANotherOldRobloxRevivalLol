@@ -61,9 +61,7 @@
 						$(".template").each(function() {
 							var attr = $(this).attr("js-data-templatetype");
 							if(typeof attr !== 'undefined' && attr !== false) {
-								var attr2 = $(this).attr("<?= $year->ordinal() ?>");
-
-								if(typeof attr2 === 'undefined' && attr2 === false) {
+								if($(this).attr("placeyear") != "<?= $year->ordinal() ?>") {
 									$(this).css("display", "none");
 								}
 								
@@ -166,7 +164,7 @@
 					</div>
 				</div>
 				<div id="MyProjectsView" class="welcome-content-area" style="display: none;">
-					<h2>My Published Projects | <span>Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle" type="checkbox"></h2>
+					<h2>My Published Projects | <span style="font-size: 12px">Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle" type="checkbox"></h2>
 					<div class="templates" style="display: block;">
 						<?php if(count($teamplaces) != 0): ?>
 						<div><h3>Collaborative Projects</h3></div>
@@ -201,7 +199,7 @@
 										$place_year = $place->year->ordinal();
 
 										echo <<<EOT
-										<div class="template" placeid="$place_id" $place_year>
+										<div class="template" placeid="$place_id" placeyear="$place_year">
 											<a class="game-image">
 												<img width="197" src="/thumbs/?id=$place_id&sx=197&sy=111">
 											</a>
