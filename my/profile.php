@@ -52,6 +52,8 @@
 		$settings->SetTetoEnabled($teto_enabled);
 		$settings->SetEmoteSoundsEnabled($emotesounds_enabled);
 		$settings->SetAccessibilityEnabled($accessibility_enabled);
+
+		die(header("Location: /my/profile"));
 	}
 ?>
 <!DOCTYPE html>
