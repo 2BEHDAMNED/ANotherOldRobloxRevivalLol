@@ -114,7 +114,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td>Emote Sounds</td>
+										<td>Emote Sounds (W.I.P/T.B.A)</td>
 										<td>
 											<input name="ANORRL$Update$Settings$EmoteSoundsEnabled" type="checkbox" <?php if($settings->emotesounds_enabled): ?>checked<?php endif ?>>
 										</td>
