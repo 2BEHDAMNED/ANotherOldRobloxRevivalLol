@@ -5,11 +5,6 @@
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/clientdetect.php';
 	$user = UserUtils::RetrieveUser();
 
-	// dont cache this shit!
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-
 
 	if($user == null) {
 		die(header("Location: /login"));
@@ -66,7 +61,7 @@ header("Pragma: no-cache");
 					if($("#YearToggle").is(':checked')) {
 						$(".template").each(function() {
 							var attr = $(this).attr("js-data-templatetype");
-							if(typeof attr !== 'undefined' && attr !== false) {
+							if(typeof attr === 'undefined') {
 								if($(this).attr("placeyear") != "<?= $year->ordinal() ?>") {
 									$(this).css("display", "none");
 								}
