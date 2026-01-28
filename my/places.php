@@ -166,7 +166,7 @@
 					</div>
 				</div>
 				<div id="MyProjectsView" class="welcome-content-area" style="display: none;">
-					<h2>My Published Projects</h2>
+					<h2>My Published Projects | <span>Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle" type="checkbox"></h2>
 					<div class="templates" style="display: block;">
 						<?php if(count($teamplaces) != 0): ?>
 						<div><h3>Collaborative Projects</h3></div>
@@ -187,7 +187,7 @@
 							}
 							
 						?>
-						<div><h3>Your Projects | <span>Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle" type="checkbox"></h3></div>
+						<div><h3>Your Projects</h3></div>
 						<?php endif ?>
 						<?php
 							
