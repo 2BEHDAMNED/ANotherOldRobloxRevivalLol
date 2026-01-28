@@ -12,7 +12,7 @@
 			if(strpos($_SERVER['HTTP_USER_AGENT'], "ANORRLStudio/0.235.0.2025") !== false) {
 				return Client::C2016;
 			}
-			else if(strpos($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013, 8, 13, 2") !== false) {
+			else if(strpos($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013. 8. 13. 2") !== false) {
 				return Client::C2013;
 			}
 
