@@ -57,8 +57,13 @@
 
 			$(function() {
 				$("#YearToggle").on("change", function() {
-					alert("test");
-					alert($("#YearToggle").is(':checked'));
+					if($("#YearToggle").is(':checked')) {
+						$(".template").each(function() {
+							if($(this).attr("js-data-templatetype") !== true) {
+								$(this).css("display", "none");
+							}
+						})
+					}
 				})
 			})
 
