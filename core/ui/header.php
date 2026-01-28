@@ -4,6 +4,9 @@
 		$header_data = null;
 	}
 	$header_check_user = UserUtils::RetrieveUser($header_data);
+
+	$header_user_settings = UserSettings::Get($header_check_user);
+
 	// 99999999 max
 	
 	function getImagesList() {
@@ -76,13 +79,26 @@
 	}
 </style>
 <?php endif ?>
+<?php if($header_user_settings->randoms_enabled): ?>
 <img src="/images/randoms/<?= $rand_pic ?>.png" style="position: fixed;bottom: 0px;left: 0px;width: 250px;z-index: 9999;">
+<?php endif ?>
+<?php if($header_user_settings->teto_enabled): ?>
 <div style="position: fixed;bottom: 0px;right: 10px;width: 250px;z-index: 9999;">
 	<div style="width: 210px;background: white;padding: 10px;height: 100px;margin: 0 auto;margin-bottom: -93px;border: 6px solid black;">
 		<p style="text-align: center;display: table-cell;vertical-align: middle;width: 210px;height: 100px;"><?= GetRandomSplash() ?></p>
 	</div>
 	<img style="position: relative;width: 250px;" src="/images/tetospeech.png">
 </div>
+<?php endif ?>
+<?php if($header_user_settings->accessibility_enabled): ?>
+<style>
+	@font-face {
+		font-family: 'punk';
+		src: url('/css/SplendidB.ttf');
+		*src: url('/css/TransportMedium.eot')\9;
+	}
+</style>
+<?php endif ?>
 <div id="Header">
 	<?php if($header_check_user != null): 
 		$pendingreqscount = $header_check_user->GetPendingFriendRequestsCount();	

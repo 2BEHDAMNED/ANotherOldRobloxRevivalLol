@@ -8,6 +8,7 @@
 		die(header("Location: /login"));
 	}
 
+	$settings = UserSettings::Get($user);
 
 	if(isset($_POST['ANORRL$Update$Profile$Bio']) &&
 	   isset($_POST['ANORRL$Update$Profile$Submit'])) {
@@ -21,12 +22,9 @@
 		} else {
 			die(header("Location: /users/".$user->id."/profile"));
 		}
-
-		
 	}
 
 	if(isset($_FILES['ANORRL$Update$Profile$Picture'])) {
-		
 		$file = $_FILES['ANORRL$Update$Profile$Picture'];
 
 		$result = $user->SetProfilePicture($file);
@@ -42,6 +40,18 @@
 
 	if(isset($_POST['action']) && $_POST['action'] == 'ANORRL$Update$Profile$ResetProfilePicture') {
 		$user->ResetProfilePicture();
+	}
+
+	if(isset($_POST['ANORRL$Update$Settings$Submit'])) {
+		$randoms_enabled = isset($_POST['ANORRL$Update$Settings$RandomsEnabled']);
+		$teto_enabled = isset($_POST['ANORRL$Update$Settings$TetoEnabled']);
+		$emotesounds_enabled = isset($_POST['ANORRL$Update$Settings$EmoteSoundsEnabled']);
+		$accessibility_enabled = isset($_POST['ANORRL$Update$Settings$AccessibilityEnabled']);
+
+		$settings->SetRandomsEnabled($randoms_enabled);
+		$settings->SetTetoEnabled($teto_enabled);
+		$settings->SetEmoteSoundsEnabled($emotesounds_enabled);
+		$settings->SetAccessibilityEnabled($accessibility_enabled);
 	}
 ?>
 <!DOCTYPE html>
@@ -86,6 +96,41 @@
 							</div>
 						</div>
 					</form>
+					<form method="POST" class="FormBox">
+						<div id="DetailsBox" style="margin-top: 5px;">
+							<h3>Your Settings</h3>
+							<div id="FormStuff">
+								<table width="200" style="margin: 10px auto;">
+									<tr>
+										<td>Random Images</td>
+										<td>
+											<input name="ANORRL$Update$Settings$RandomsEnabled" type="checkbox" <?php if($settings->randoms_enabled): ?>checked<?php endif ?>>
+										</td>
+									</tr>
+									<tr>
+										<td>Fatass Teto</td>
+										<td>
+											<input name="ANORRL$Update$Settings$TetoEnabled" type="checkbox" <?php if($settings->teto_enabled): ?>checked<?php endif ?>>
+										</td>
+									</tr>
+									<tr>
+										<td>Emote Sounds</td>
+										<td>
+											<input name="ANORRL$Update$Settings$EmoteSoundsEnabled" type="checkbox" <?php if($settings->emotesounds_enabled): ?>checked<?php endif ?>>
+										</td>
+									</tr>
+									<tr>
+										<td>Accessibility</td>
+										<td>
+											<input name="ANORRL$Update$Settings$AccessibilityEnabled" type="checkbox" <?php if($settings->accessibility_enabled): ?>checked<?php endif ?>>
+										</td>
+									</tr>
+								</table>
+
+								<input type="submit" value="Update" name="ANORRL$Update$Settings$Submit">
+							</div>
+						</div>
+					</form>
 					<form method="POST" class="FormBox" id="PictureForm" enctype="multipart/form-data">
 						<div id="DetailsBox" style="margin-top: 5px;">
 							<h3>Get a look!</h3>
@@ -104,6 +149,7 @@
 							</div>
 						</div>
 					</form>
+					
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 			</div>
