@@ -175,7 +175,7 @@
 									$place_id = $place->id;
 									$place_name = $place->name;
 									echo <<<EOT
-									<div class="template" placeid="$place_id">
+									<div class="template" placeid="$place_id" placeyear="2016">
 										<a class="game-image">
 											<img width="197" src="/thumbs/?id=$place_id&sx=197&sy=111">
 										</a>
