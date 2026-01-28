@@ -55,10 +55,15 @@
 				window.external.StartGame("","", recentpath);	
 			}
 
-			function hideYear() {
+			$(function() {
 				$("#YearToggle").on("change", function() {
+					alert("test");
 					alert($("#YearToggle").val());
 				})
+			})
+
+			function hideYear() {
+				
 			}
 		</script>
 	</head>
