@@ -89,6 +89,13 @@ $rendering_types = [
 	AssetType::RIGHTLEG,
 ];
 
+$get_related_assets = $asset->GetRelatedAssets();
+$get_related_id = $asset->id;
+if(count($get_related_assets) != 0) {
+	$get_related_id = $get_related_assets[0]->id;
+}
+
+
 $header_data = $asset;
 
 $comments = Comment::GetCommentsOn($asset);
@@ -316,6 +323,36 @@ $com_count = count($comments);
 			}
 		</script>
 		<?php endif ?>
+		<script>
+			function copyToClipboard(assetID) {
+				// https://stackoverflow.com/a/65996386
+				var textToCopy = assetID;
+
+				if (navigator.clipboard && window.isSecureContext) {
+					navigator.clipboard.writeText(textToCopy);
+				} else {
+					// Use the 'out of viewport hidden text area' trick
+					const textArea = document.createElement("textarea");
+					textArea.value = textToCopy;
+						
+					// Move textarea out of the viewport so it's not visible
+					textArea.style.position = "absolute";
+					textArea.style.left = "-999999px";
+						
+					document.body.prepend(textArea);
+					textArea.select();
+
+					try {
+						document.execCommand('copy');
+					} catch (error) {
+						console.error(error);
+					} finally {
+						textArea.remove();
+					}
+				}
+				window.alert("Link has been copied!");
+			}
+		</script>
 	</head>
 	<body>
 		<?php if($asset->onsale): ?>
@@ -382,7 +419,7 @@ $com_count = count($comments);
 				<div id="BodyContainer">
 					<div id="ItemContainer">
 						<h4>ANORRL <?= $asset->type->label(); ?></h4>
-						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?></h2>
+						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?> <a href="javascript:copyToClipboard('<?= $get_related_id ?>')">(Copy Asset ID)</a></h2>
 						<div id="ItemDetails">
 							<div id="Content">
 								<?php if($asset->type == AssetType::AUDIO): ?>

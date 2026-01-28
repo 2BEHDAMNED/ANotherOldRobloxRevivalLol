@@ -41,7 +41,7 @@
 	if(isset($_POST['action']) && $_POST['action'] == 'ANORRL$Update$Profile$ResetProfilePicture') {
 		$user->ResetProfilePicture();
 	}
-
+	
 	if(isset($_POST['ANORRL$Update$Settings$Submit'])) {
 		$randoms_enabled = isset($_POST['ANORRL$Update$Settings$RandomsEnabled']);
 		$teto_enabled = isset($_POST['ANORRL$Update$Settings$TetoEnabled']);
