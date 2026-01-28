@@ -18,7 +18,7 @@
 			$year = PlaceYear::Y2010;
 			break;
 		case Client::C2013:
-			$year = PlaceYear::Y2016;
+			$year = PlaceYear::Y2013;
 			break;
 		case Client::C2016:
 			$year = PlaceYear::Y2016;
