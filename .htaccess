@@ -227,10 +227,12 @@
 	RewriteRule ^GetAllowedSecurityVersions/$ /core/authentication/getallowedsecurityversions.php [END]
 
 	RewriteRule ^core/error/404.php /core/error/404.php [END]
+	RewriteRule ^core/error/500.php /core/error/500.php [END]
 	
 	RewriteRule ^Admin/components/(.*)$ Admin/components/$1.php [END]
 
 	RewriteRule ^core(/.*)?$ /core/error/404.php [END]
+	RewriteRule ^users(/.*)?$ /core/error/404.php [END]
 	RewriteRule ^api(/.*)?$ /core/error/404.php  [END]
 </IfModule>
 
