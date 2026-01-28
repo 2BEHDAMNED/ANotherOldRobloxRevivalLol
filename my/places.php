@@ -2,14 +2,38 @@
 	session_start();
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/clientdetect.php';
 	$user = UserUtils::RetrieveUser();
 
 	if($user == null) {
 		die(header("Location: /login"));
 	}
 
+	$client = ClientDetector::DetectClient();
+
+	$year = PlaceYear::Y2016;
+
+	switch($client) {
+		case Client::C2010:
+			$year = PlaceYear::Y2010;
+			break;
+		case Client::C2013:
+			$year = PlaceYear::Y2016;
+			break;
+		case Client::C2016:
+			$year = PlaceYear::Y2016;
+			break;
+		case Client::Unknown:
+			die("Hey something isn't right here... You sure you're using the right studio?");
+	}
+
 	$places = $user->GetPlaces(false);
-	$teamplaces = $user->GetPlaces(true);
+
+	$teamplaces = [];
+	if($year == PlaceYear::Y2016) {
+		$teamplaces = $user->GetPlaces(true);
+	}
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,6 +54,12 @@
 			function editrecentfile(recentpath) {
 				window.external.StartGame("","", recentpath);	
 			}
+
+			function hideYear() {
+				$("#YearToggle").on("change", function() {
+					alert($("#YearToggle").val());
+				})
+			}
 		</script>
 	</head>
 	<body id="StudioWelcomeBody">
@@ -38,7 +68,7 @@
 				<p>So... you're <b><?= $user->name ?></b>?</p>
 			</div>
 			<!-- This is only after the login stuff because IE7 demands floated elements be before non-floated -->
-			<img src="/images/ide/studio_title.png" alt="Roblox Studio Title">
+			<img src="/images/ide/studio_title.png" alt="ANORRL Studio Title">
 			<!-- <p id="HomeLink">
 				<a class="text-link" href="https://web.archive.org/web/20130715023235/http://roblox.com/Build/Default.aspx">Switch to Classic View</a>
 			</p> -->
@@ -137,17 +167,21 @@
 							}
 							
 						?>
-						<div><h3>Your Projects</h3></div>
+						<div><h3>Your Projects | <span>Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle"></h3></div>
 						<?php endif ?>
 						<?php
 							
 							if(count($places) != 0) {
 								foreach($places as $place) {
-									if($place instanceof Asset) {
+									if($place instanceof Place) {
+
 										$place_id = $place->id;
 										$place_name = $place->name;
+
+										$place_year = $place->year->ordinal();
+
 										echo <<<EOT
-										<div class="template" placeid="$place_id">
+										<div class="template" placeid="$place_id" $place_year>
 											<a class="game-image">
 												<img width="197" src="/thumbs/?id=$place_id&sx=197&sy=111">
 											</a>

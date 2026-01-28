@@ -2,6 +2,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetuploader.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/clientdetect.php";
 
 	$user = UserUtils::RetrieveUser();
 	if($user == null) {
@@ -29,9 +30,22 @@
 		$name = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Name']);
 		$description = ReturnNotUnicodedString($_POST['ANORRL$IDE$Publish$Place$Description']);
 		
+		$client = ClientDetector::DetectClient();
+
 		$year = PlaceYear::Y2016;
-		if(strpos($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013, 8, 13, 2") !== false) {
-			$year = PlaceYear::Y2013;
+
+		switch($client) {
+			case Client::C2010:
+				$year = PlaceYear::Y2010;
+				break;
+			case Client::C2013:
+				$year = PlaceYear::Y2016;
+				break;
+			case Client::C2016:
+				$year = PlaceYear::Y2016;
+				break;
+			case Client::Unknown:
+				die("Hey something isn't right here... You sure you're using the right studio?");
 		}
 
 		$server_size = intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']) <= 0 ? 12 : intval($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
