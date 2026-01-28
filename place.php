@@ -231,22 +231,23 @@ $header_data = $asset;
 			}
 
 			#PlaceInfoArea #InfoHeaders {
+				table-layout: fixed;
 				background: #000;
 				font-size: 16px;
 				font-family: punk;
 				border-bottom: 2px solid black;
+				width:100%;
 			}
 
-			#PlaceInfoArea #InfoHeaders a {
+			#PlaceInfoArea #InfoHeaders td {
 				color: white;
-				width: 193px;
-				display: inline-block;
 				text-align: center;
 				padding: 10px;
+				cursor: pointer;
 			}
 
-			#PlaceInfoArea #InfoHeaders a:hover,
-			#PlaceInfoArea #InfoHeaders a[selected] {
+			#PlaceInfoArea #InfoHeaders td:hover,
+			#PlaceInfoArea #InfoHeaders td[selected] {
 				background: #2b2b2b;
 				text-decoration: underline;
 			}
@@ -257,13 +258,12 @@ $header_data = $asset;
 
 			#BigNumbersArea {
 				width: 100%;
+				table-layout: fixed;
 			}
 		
 			#BigNumbersArea #Detail {
-				display: inline-block;
 				text-align: center;
 				padding: 5px 10px;
-				width: 98px;
 			}
 
 			#BigNumbersArea #Detail * {
@@ -337,7 +337,7 @@ $header_data = $asset;
 		<script>
 			function ChangeTab(tabName) {
 				var tabToGoTo = tabName.toLowerCase();
-				$("#InfoHeaders a").each(function() {
+				$("#InfoHeaders td").each(function() {
 					if($(this).html().toLowerCase() != tabToGoTo) {
 						$(this).removeAttr("selected");
 					} else {
@@ -367,7 +367,7 @@ $header_data = $asset;
 				//alert(tab);
 				ChangeTab(tab);
 
-				$("#InfoHeaders a").click(function() {
+				$("#InfoHeaders td").click(function() {
 					ChangeTab($(this).html());
 					return false;
 				});
@@ -436,12 +436,12 @@ $header_data = $asset;
 						</div>
 
 						<div id="PlaceInfoArea">
-							<div id="InfoHeaders">
-								<a>Info</a>
-								<a>Badges</a>
-								<a>Gamepasses</a>
-								<a>Servers</a>
-							</div>
+							<table id="InfoHeaders">
+								<td>Info</td>
+								<td>Badges</td>
+								<td>Gamepasses</td>
+								<td>Servers</td>
+							</table>
 							<div id="InfoBox" content="Info" style="display:none">
 								<b>Description</b>
 								<hr>
@@ -449,36 +449,36 @@ $header_data = $asset;
 									<?= $asset_description ?>
 								</div>
 								<hr>
-								<div id="BigNumbersArea">
-									<div id="Detail">
+								<table id="BigNumbersArea">
+									<td id="Detail">
 										<b>Created</b>
 										<span><?= $asset->created_at->format('d/m/Y H:i'); ?></span>
-									</div>
-									<div id="Detail">
+									</td>
+									<td id="Detail">
 										<b>Updated</b>
 										<span><?= $asset->last_updatetime->format('d/m/Y H:i'); ?></span>
-									</div>
-									<div id="Detail">
+									</td>
+									<td id="Detail">
 										<b>Visits</b>
 										<span><?= $asset->visit_count ?></span>
-									</div>
-									<div id="Detail">
+									</td>
+									<td id="Detail">
 										<b>Active</b>
 										<span><?= $asset->current_playing_count ?></span>
-									</div>
-									<div id="Detail">
+									</td>
+									<td id="Detail">
 										<b>Server Size</b>
 										<span><?= $asset->server_size ?></span>
-									</div>
-									<div id="Detail">
+									</td>
+									<td id="Detail">
 										<b>Copylocked</b>
 										<span><?= $asset->copylocked ? "Yes" : "No" ?></span>
-									</div>
-									<div id="Detail">
+									</td>
+									<td id="Detail">
 										<b>Year</b>
 										<span><?= $asset->year->ordinal() ?></span>
-									</div>
-								</div>
+									</td>
+								</table>
 							</div>
 							<div id="InfoBox" content="Badges" style="display:none">
 								<b>Badges</b><br>
