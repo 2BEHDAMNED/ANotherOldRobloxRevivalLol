@@ -9,10 +9,10 @@
 	class ClientDetector {
 
 		public static function DetectClient() {
-			if(strpos($_SERVER['HTTP_USER_AGENT'], "ANORRLStudio/0.235.0.2025") !== false) {
+			if(str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRLStudio/0.235.0.2025")) {
 				return Client::C2016;
 			}
-			else if(strpos($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013. 8. 13. 2") !== false) {
+			else if(str_contains($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013. 8. 13. 2")) {
 				return Client::C2013;
 			}
 

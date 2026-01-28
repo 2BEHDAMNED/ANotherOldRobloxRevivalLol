@@ -59,9 +59,19 @@
 				$("#YearToggle").on("change", function() {
 					if($("#YearToggle").is(':checked')) {
 						$(".template").each(function() {
-							if($(this).attr("js-data-templatetype") !== true) {
-								$(this).css("display", "none");
+							var attr = $(this).attr("js-data-templatetype");
+							if(typeof attr !== 'undefined' && attr !== false) {
+								var attr2 = $(this).attr("<?= $year->ordinal() ?>");
+
+								if(typeof attr2 === 'undefined' && attr2 === false) {
+									$(this).css("display", "none");
+								}
+								
 							}
+						})
+					} else {
+						$(".template").each(function() {
+							$(this).removeAttr("style");
 						})
 					}
 				})
