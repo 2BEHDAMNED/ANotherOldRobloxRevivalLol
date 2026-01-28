@@ -58,7 +58,7 @@
 			$(function() {
 				$("#YearToggle").on("change", function() {
 					alert("test");
-					alert($("#YearToggle").val());
+					alert($("#YearToggle").is(':checked'));
 				})
 			})
 
