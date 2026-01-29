@@ -30,7 +30,14 @@
 		return $file_info->buffer($contents);
 	}
 
-	$sign_ids = [];
+	$sign_ids = [
+		2610,
+		2611,
+		2612,
+		2613,
+		2614,
+		2615,
+	];
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 
@@ -115,6 +122,13 @@
 						}
 					}
 				}
+			}
+
+			if(in_array($id, $sign_ids)) {
+				$contents = "%$id%\r\n" . $contents;
+				openssl_sign($contents, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
+				$signature = base64_encode($signature);
+				echo "%$signature%";
 			}
 			
 			echo $contents;

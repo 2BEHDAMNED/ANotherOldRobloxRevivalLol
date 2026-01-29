@@ -24,6 +24,8 @@ pcall(function() game:GetService("MarketplaceService"):SetProductInfoUrl("https:
 pcall(function() game:GetService("MarketplaceService"):SetDevProductInfoUrl("http://arl.lambda.cam/marketplace/productDetails?productId=%d") end)
 pcall(function() game:GetService("MarketplaceService"):SetPlayerOwnsAssetUrl("http://arl.lambda.cam/ownership/hasasset?userId=%d&assetId=%d") end)
 
+pcall(function() game:GetService("ScriptContext"):AddCoreScript(2610), game:GetService("ScriptContext"), "StarterScript") end)
+
 <?php
     function get_signature($script)
     {
