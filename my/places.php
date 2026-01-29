@@ -60,8 +60,8 @@
 				$("#YearToggle").on("change", function() {
 					if($("#YearToggle").is(':checked')) {
 						$(".template").each(function() {
-							var attr = $(this).attr("js-data-templatetype");
-							if(typeof attr == undefined) {
+							var attr = $(this).attr("placeyear");
+							if(attr != undefined) {
 								if($(this).attr("placeyear") != "<?= $year->ordinal() ?>") {
 									$(this).css("display", "none");
 								}
