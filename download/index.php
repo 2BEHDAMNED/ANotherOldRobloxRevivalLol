@@ -7,6 +7,18 @@
 	if($user == null) {
 		die(header("Location: /login"));
 	}
+
+	$randomclientsplashes = [
+		"Now with 100% viruses!",
+		"Ohhh you gotta install my clients...",
+		"Colle t my 8 cliens...",
+		"Smells like malware in here...",
+		"Will be detected by all antiviruses (I'm coming for you.)",
+		"Download RIGHT NOW!",
+		"Now with 100% the fun or something"
+	];
+
+	$randomclientsplash = $randomclientsplashes[array_rand($randomclientsplashes)];
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,6 +34,30 @@
 				background: #222;
 				padding: 10px;
 			}
+
+			#DownloadContainer table div {
+				margin: 15px auto;
+				text-align: center;
+			}
+
+			#DownloadContainer table div > a {
+				font-size: 14px;
+			}
+
+			#DownloadContainer table div > a > span {
+				display: block;
+				margin-top: 5px;
+			}
+
+			#DownloadContainer table div > a > img {
+				margin: 0 auto;
+				display: block;
+				width: 150px;
+			}
+
+			h2, h3 {
+				margin: 0px;
+			}
 		</style>
 	</head>
 	<body>
@@ -29,12 +65,12 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-					<h2 style="margin: 0">Ohhh you gotta install my client...</h2>
+					<h2><?= $randomclientsplash ?></h2>
 					<div id="DownloadContainer">
-						<p style="font-size: 16px;text-transform: uppercase;font-weight: bold;letter-spacing: 5px;font-style: italic;">So much malware!!!!!!!!!!</p>
-
+						<p style="font-size: 16px;text-transform: uppercase;font-weight: bold;letter-spacing: 5px;font-style: italic;margin-bottom: 5px;">So much malware!!!!!!!!!!</p>
+						<span style="font-size: 11px; color: #999; font-style: italic">(Unfortunately, it is windows only. But wine works fine on linux! Mac builds may come soon...)</span>
 						<hr>
-						<h4 style="margin:0px">2016</h4>
+						<h3>2016</h3>
 						<div id="DownloadContainer" style="background: #161616;">
 							<table style="width: 100%">
 								<tr>
@@ -51,6 +87,47 @@
 											<a href="2016/ANORRLStudioLauncher.exe">
 												<img src="/images/placeholder.png">
 												<span>Studio</span>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<hr>
+						<h3>2013</h3>
+						<div id="DownloadContainer" style="background: #161616;">
+							<table style="width: 100%">
+								<tr>
+									<td>
+										<div>
+											<a href="javascript:alert('2013 Client Soon!')">
+												<img src="/images/placeholder.png">
+												<span>Client (soon)</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div>
+											<a href="javascript:alert('2013 Studio Soon!')">
+												<img src="/images/placeholder.png">
+												<span>Studio (soon)</span>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<hr>
+						<h3>2010</h3>
+						<div id="DownloadContainer" style="background: #161616;">
+							<table style="width: 100%">
+								<tr>
+									<td>
+										<div>
+											<a href="javascript:alert('2010 Client Soon!')">
+												<img src="/images/placeholder.png">
+												<span>Client (soon)</span>
 											</a>
 										</div>
 									</td>
