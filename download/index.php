@@ -70,7 +70,7 @@
 						<p style="font-size: 16px;text-transform: uppercase;font-weight: bold;letter-spacing: 5px;font-style: italic;margin-bottom: 5px;">So much malware!!!!!!!!!!</p>
 						<span style="font-size: 11px; color: #999; font-style: italic">(Unfortunately, it is windows only. But wine works fine on linux! Mac builds may come soon...)</span>
 						<hr>
-						<h3>2016</h3>
+						<h3>Clients</h3>
 						<div id="DownloadContainer" style="background: #161616;">
 							<table style="width: 100%">
 								<tr>
@@ -78,15 +78,25 @@
 										<div>
 											<a href="2016/ANORRLPlayerLauncher.exe">
 												<img src="/images/placeholder.png">
-												<span>Client</span>
+												<span>2016</span>
 											</a>
 										</div>
 									</td>
+									
 									<td>
 										<div>
-											<a href="2016/ANORRLStudioLauncher.exe">
+											<a href="javascript:alert('2013 Soon!')">
 												<img src="/images/placeholder.png">
-												<span>Studio</span>
+												<span>2013 (soon)</span>
+											</a>
+										</div>
+									</td>
+
+									<td>
+										<div>
+											<a href="javascript:alert('2010 Client Soon!')">
+												<img src="/images/placeholder.png">
+												<span>Client (soon)</span>
 											</a>
 										</div>
 									</td>
@@ -94,15 +104,15 @@
 							</table>
 						</div>
 						<hr>
-						<h3>2013</h3>
+						<h3>Studio</h3>
 						<div id="DownloadContainer" style="background: #161616;">
 							<table style="width: 100%">
 								<tr>
 									<td>
 										<div>
-											<a href="javascript:alert('2013 Client Soon!')">
+											<a href="2016/ANORRLStudioLauncher.exe">
 												<img src="/images/placeholder.png">
-												<span>Client (soon)</span>
+												<span>2016</span>
 											</a>
 										</div>
 									</td>
@@ -110,24 +120,7 @@
 										<div>
 											<a href="javascript:alert('2013 Studio Soon!')">
 												<img src="/images/placeholder.png">
-												<span>Studio (soon)</span>
-											</a>
-										</div>
-									</td>
-								</tr>
-							</table>
-						</div>
-
-						<hr>
-						<h3>2010</h3>
-						<div id="DownloadContainer" style="background: #161616;">
-							<table style="width: 100%">
-								<tr>
-									<td>
-										<div>
-											<a href="javascript:alert('2010 Client Soon!')">
-												<img src="/images/placeholder.png">
-												<span>Client (soon)</span>
+												<span>2013 (soon)</span>
 											</a>
 										</div>
 									</td>
