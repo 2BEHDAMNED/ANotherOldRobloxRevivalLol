@@ -24,7 +24,7 @@ pcall(function() game:GetService("MarketplaceService"):SetProductInfoUrl("https:
 pcall(function() game:GetService("MarketplaceService"):SetDevProductInfoUrl("http://arl.lambda.cam/marketplace/productDetails?productId=%d") end)
 pcall(function() game:GetService("MarketplaceService"):SetPlayerOwnsAssetUrl("http://arl.lambda.cam/ownership/hasasset?userId=%d&assetId=%d") end)
 
-pcall(function() game:GetService("ScriptContext"):AddCoreScript(2610), game:GetService("ScriptContext"), "StarterScript") end)
+pcall(function() game:GetService("ScriptContext"):AddCoreScript(2610, game:GetService("ScriptContext"), "StarterScript") end)
 
 <?php
     function get_signature($script)
@@ -39,5 +39,5 @@ pcall(function() game:GetService("ScriptContext"):AddCoreScript(2610), game:GetS
     $script = "\r\n" . ob_get_clean();
     $signature = get_signature($script);
 
-    echo "%". $signature . "%" . $script;
+    echo "--rbxsig%". $signature . "%" . $script;
 ?>
