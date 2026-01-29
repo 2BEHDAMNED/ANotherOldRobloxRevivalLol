@@ -4,6 +4,8 @@
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 
+	RewriteRule ^info/credits /info/credits.php [END]
+
 	RewriteRule ^users/([0-9]+)/profile$ /users/profile.php?id=$1		  [END]
 
 	RewriteRule ^users/([0-9]+)$  /users/profile.php?id=$1&redirect=true  [END]
@@ -221,6 +223,7 @@
 	RewriteRule ^item.php$ /core/error/404.php [END]
 	RewriteRule ^place.php$ /core/error/404.php [END]
 	RewriteRule ^README.md$ /core/error/404.php [END]
+	RewriteRule ^info/credits.php$ /core/error/404.php [END]
 
 	RewriteRule ^GetAllowedMD5Hashes/$ /core/authentication/getallowedmd5hashes.php [END]
 	RewriteRule ^GetAllowedSecurityKeys/$ /core/authentication/getallowedsecuritykeys.php [END]

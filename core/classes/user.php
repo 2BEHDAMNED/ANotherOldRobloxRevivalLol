@@ -1199,6 +1199,10 @@ EOT;
 				$stmt_updateuser->execute();
 			}
 		}
+
+		function GetAutoThumbsUrl() {
+			return "/thumbs/" . ($this->setprofilepicture ? "profile" : "player"). "?id=".$this->id;
+		}
 	}
 
 	class UserSettings {
