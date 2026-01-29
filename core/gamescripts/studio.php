@@ -6,12 +6,12 @@
 pcall(function() game:GetService("InsertService"):SetFreeModelUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fm&q=%s&pg=%d&rs=%d") end)
 pcall(function() game:GetService("InsertService"):SetFreeDecalUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?type=fd&q=%s&pg=%d&rs=%d") end)
 
-game:GetService("ScriptInformationProvider"):SetAssetUrl("http://arl.lambda.cam/Asset/")
-game:GetService("InsertService"):SetBaseSetsUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
-game:GetService("InsertService"):SetUserSetsUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d")
-game:GetService("InsertService"):SetCollectionUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?sid=%d")
-game:GetService("InsertService"):SetAssetUrl("http://arl.lambda.cam/Asset/?id=%d")
-game:GetService("InsertService"):SetAssetVersionUrl("http://arl.lambda.cam/Asset/?assetversionid=%d")
+pcall(function() game:GetService("ScriptInformationProvider"):SetAssetUrl("http://arl.lambda.cam/Asset/") end)
+pcall(function() game:GetService("InsertService"):SetBaseSetsUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=10&type=base") end)
+pcall(function() game:GetService("InsertService"):SetUserSetsUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d") end)
+pcall(function() game:GetService("InsertService"):SetCollectionUrl("http://arl.lambda.cam/Game/Tools/InsertAsset.ashx?sid=%d") end)
+pcall(function() game:GetService("InsertService"):SetAssetUrl("http://arl.lambda.cam/Asset/?id=%d") end)
+pcall(function() game:GetService("InsertService"):SetAssetVersionUrl("http://arl.lambda.cam/Asset/?assetversionid=%d") end)
 
 pcall(function() game:GetService("SocialService"):SetFriendUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsFriendsWith&playerid=%d&userid=%d") end)
 pcall(function() game:GetService("SocialService"):SetBestFriendUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=IsBestFriendsWith&playerid=%d&userid=%d") end)
@@ -39,5 +39,5 @@ pcall(function() game:GetService("ScriptContext"):AddCoreScript(2610, game:GetSe
     $script = "\r\n" . ob_get_clean();
     $signature = get_signature($script);
 
-    echo "--rbxsig%". $signature . "%" . $script;
+    echo "%". $signature . "%" . $script;
 ?>

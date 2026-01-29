@@ -125,10 +125,10 @@
 			}
 
 			if(in_array($id, $sign_ids)) {
-				$contents = "--rbxassetid%$id%\r\n" . $contents;
+				$contents = "%$id%\r\n" . $contents;
 				openssl_sign($contents, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
 				$signature = base64_encode($signature);
-				echo "--rbxsig%$signature%";
+				echo "%$signature%";
 			}
 			
 			echo $contents;
