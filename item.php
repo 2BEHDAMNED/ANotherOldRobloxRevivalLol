@@ -117,6 +117,12 @@ $com_count = count($comments);
 		<meta property="og:url" content="https://arl.lambda.cam/<?= $asset->GetURLTitle()?>-item?id=<?= $asset->id ?>">
 		<meta property="og:site_name" content="ANORRL">
 		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>">
+
+		<?php
+		if($user == null) {
+			die(header("Location: /login"));
+		}
+		?>
 		
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
