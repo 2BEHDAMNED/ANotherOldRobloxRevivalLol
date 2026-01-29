@@ -33,7 +33,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Page - ANORRL</title>
+		<title>The Contributors! - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
 		<script src="/js/jquery.js"></script>
@@ -99,7 +99,17 @@
 
 								<?php CreateProfile(
 									2,
-									"Helped me sanity check this when I was first testing this lol"
+									"Helped me sanity check this when I was first testing this and also created most of the splash screens with me!"
+								); ?>
+							</tr>
+							<tr>
+								<?php CreateProfile(
+									22,
+									"Created splash screen #19 for the studio!"
+								); ?>
+								<?php CreateProfile(
+									32,
+									"Created splash screen #18 for the studio!"
 								); ?>
 							</tr>
 						</table>
