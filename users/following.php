@@ -30,6 +30,10 @@
 	
 	$user = UserUtils::RetrieveUser($get_user);
 
+	if($user == null) {
+		die(header("Location: /login"));
+	}
+
 	$header_data = $get_user;
 
 	include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";

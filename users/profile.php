@@ -37,6 +37,10 @@
 	
 	$user = UserUtils::RetrieveUser($get_user);
 
+	if($user == null) {
+		die(header("Location: /login"));
+	}
+
 	$header_data = $get_user;
 
 	$games = $get_user->GetAllOwnedAssetsOfType(AssetType::PLACE, false);
