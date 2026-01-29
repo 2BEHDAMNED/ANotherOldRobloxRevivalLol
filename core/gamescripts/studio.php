@@ -39,5 +39,5 @@ pcall(function() game:GetService("ScriptContext"):AddCoreScript(2610), game:GetS
     $script = "\r\n" . ob_get_clean();
     $signature = get_signature($script);
 
-    echo "--rbxsig%". $signature . "%" . $script;
+    echo "%". $signature . "%" . $script;
 ?>
