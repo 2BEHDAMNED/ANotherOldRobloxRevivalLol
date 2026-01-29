@@ -20,8 +20,11 @@
 			if(str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRLStudio/0.235.0.2025")) {
 				return Client::C2016;
 			}
-			else if(str_contains($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013. 8. 13. 2")) {
+			else if(str_contains($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013. 8. 13. 2") || str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRL/13nInet")) {
 				return Client::C2013;
+			}
+			else if(str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRL/10nInet")) {
+				return Client::C2010;
 			}
 
 			return Client::Unknown;
