@@ -29,10 +29,12 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-					<h2>Ohhh you gotta install my client...</h2>
+					<h2 style="margin: 0">Ohhh you gotta install my client...</h2>
 					<div id="DownloadContainer">
-						<p>So much malware!!!!!!!!!!</p>
+						<p style="font-size: 16px;text-transform: uppercase;font-weight: bold;letter-spacing: 5px;font-style: italic;">So much malware!!!!!!!!!!</p>
 
+						<hr>
+						<h4 style="margin:0px">2016</h4>
 						<p>Anyways here's the client here: <a href="2016/ANORRLPlayerLauncher.exe">Download</a></p>
 						<p>Here's the studio here: <a href="2016/ANORRLStudioLauncher.exe">Download</a></p>
 					</div>
