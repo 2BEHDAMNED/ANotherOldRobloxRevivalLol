@@ -61,7 +61,7 @@
 					if($("#YearToggle").is(':checked')) {
 						$(".template").each(function() {
 							var attr = $(this).attr("js-data-templatetype");
-							if(typeof attr === 'undefined') {
+							if(typeof attr == undefined) {
 								if($(this).attr("placeyear") != "<?= $year->ordinal() ?>") {
 									$(this).css("display", "none");
 								}
