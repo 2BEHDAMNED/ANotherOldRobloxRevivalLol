@@ -6,6 +6,10 @@
 
 	$header_check_user = $user;
 
+	$excludelist = [
+		1
+	];
+
 	function CreateProfile(int $id, string $description) {
 		$profileUser = User::FromID($id);
 		
@@ -14,6 +18,8 @@
 		$thumbs = $profileUser->GetAutoThumbsUrl();
 
 		if($profileUser != null) {
+			global $excludelist;
+			array_push($excludelist, $id);
 			echo <<<EOT
 			<td>
 				<div>
@@ -41,38 +47,6 @@
 		<style>
 			h1, h2, h3, h4 {
 				margin: 0px;
-			}
-			#CreditsContainer {
-				border: 2px solid black;
-				background: #222;
-				padding: 10px;
-			}
-
-			#CreditsContainer .Note {
-				font-style:italic;
-				color: #AAA;
-			}
-
-			#CreditsContainer table {
-				width: 100%;
-				table-layout: fixed
-			}
-
-			#CreditsContainer table a {
-				text-align: center;
-			}
-
-			#CreditsContainer table a > * {
-				display: block;
-			}
-
-			#CreditsContainer table a > img {
-				margin: 0 auto;
-				border: 2px solid black;
-			}
-
-			#CreditsContainer table a > span {
-				margin-top: 5px;
 			}
 		</style>
 	</head>
@@ -108,7 +82,7 @@
 									"Created splash screen #19 for the studio!"
 								); ?>
 								<?php CreateProfile(
-									32,
+									17,
 									"Created splash screen #18 for the studio!"
 								); ?>
 							</tr>
@@ -118,9 +92,6 @@
 						<p>Thank you everyone (in this list below) for playing on/participating in the community for this project!</p>
 						<div style="text-align: center">
 						<?php
-							$excludelist = [
-								1, 2, 41, 43
-							];
 							foreach(UserUtils::GetAllUsers() as $user) {
 								if(in_array($user->id, $excludelist)) {
 									continue;

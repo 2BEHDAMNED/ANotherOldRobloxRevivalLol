@@ -10,11 +10,6 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/showcase.js"></script>
-		<style>
-			h2, h3 {
-				font-style:italic;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="Container">

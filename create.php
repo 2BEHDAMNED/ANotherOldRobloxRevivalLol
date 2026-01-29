@@ -142,119 +142,6 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/create.js?t=<?= time() ?>"></script>
-		<style>
-			#StuffContainer #StuffNavigation {
-				border-right: none;
-			}
-			#AssetsContainer {
-				border: 2px solid black;
-			}
-
-			#CreationPanel {
-				display:inline-block;
-				width: 688px;
-			}
-
-			#CreationPanel #UploadPanel {
-				display: inline-block;
-				border: 2px solid black;
-				min-height: 180px;
-				width: 676px;
-				background: #222;
-				vertical-align: middle;
-
-				white-space: nowrap;
-				border-top: 0;
-				position: relative;
-				margin-bottom: 15px;
-			}
-
-
-			#UploadPanel form {
-				padding: 10px;
-			}
-
-			#UploadPanel td {
-				vertical-align: top;
-			}
-
-			#UploadPanel input[type=text],
-			#UploadPanel textarea {
-				border: 2px solid black;
-				background: #444;
-				padding: 2px 4px;
-				color: white;
-			}
-
-			#UploadPanel input[type=submit],
-			#UploadPanel label[for=files],
-			#UploadPanel select {
-				border: 2px solid black;
-				background: black;
-				color: white;
-				padding: 4px 8px;
-				font-weight: bold;
-				font-family: punk;
-				font-size: 12px
-			}
-
-			#UploadPanel input[type=submit]:hover,
-			#UploadPanel label[for=files]:hover,
-			#UploadPanel select:hover {
-				text-decoration: underline;
-				background: #161616;
-				cursor: pointer;
-				font-size: 12px;
-			}
-
-			#UploadPanel input[type=text] {
-				width: 574px;
-			}
-
-			#UploadPanel textarea {
-				width: 574px;
-				height: 58px;
-				resize: vertical;
-			}
-
-			#UploadPanel label#filename {
-				margin-left: 5px;
-			}
-
-			#UploadPanel #ErrorTime,
-			#UploadPanel #InfoWarning {
-				padding: 5px 9px;
-				border-bottom: 2px solid black;
-				background: #9d0000;
-				font-weight: bold;
-			}
-
-			#UploadPanel #ErrorTime,
-			#UploadPanel #SuccessTime,
-			#UploadPanel #InfoWarning {
-				padding: 5px 9px;
-				border-bottom: 2px solid black;
-				background: #9d0000;
-				font-weight: bold;
-			}
-
-			#UploadPanel #InfoWarning {
-				background: #b58b05;
-			}
-
-			#UploadPanel #SuccessTime {
-				background: #080;
-			}
-
-			#CreationPanel h3 {
-				margin: 0;
-				padding-right: 0px;
-				width: 656px;
-				background: #151515;
-				border-bottom: 2px solid black;
-				border-right: 2px solid black;
-			}
-		</style>
 	</head>
 	<body>
 		<div class="Asset" template>
@@ -329,7 +216,7 @@
 									</table>
 								</form>
 							</div>
-							<div id="AssetsContainer">
+							<div id="AssetsContainer" style="border-top: 2px solid black">
 								<div id="StatusText">
 									<b id="Loading" style="display: none">Loading assets...</b>
 									<b id="NoAssets" style="display: none"><img src="/images/noassets.png" style="width: 110px;display: block;margin: 0 auto;margin-bottom: -92px;margin-top: 23px;">You have no <span id="AssetType"></span>!</b>

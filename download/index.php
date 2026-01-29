@@ -29,32 +29,6 @@
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<style>
-			#DownloadContainer {
-				border: 2px solid black;
-				background: #222;
-				padding: 10px;
-			}
-
-			#DownloadContainer table div {
-				margin: 15px auto;
-				text-align: center;
-			}
-
-			#DownloadContainer table div > a {
-				font-size: 14px;
-			}
-
-			#DownloadContainer table div > a > span {
-				display: block;
-				margin-top: 5px;
-			}
-
-			#DownloadContainer table div > a > img {
-				margin: 0 auto;
-				display: block;
-				width: 150px;
-			}
-
 			h2, h3 {
 				margin: 0px;
 			}

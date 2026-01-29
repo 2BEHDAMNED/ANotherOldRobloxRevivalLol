@@ -128,200 +128,18 @@ $com_count = count($comments);
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js?t=<?= time() ?>"></script>
 		<style>
-			h1, h2, h3, h4 {
+			h2, h3, h4 {
 				margin: 0;
 			}
-
-			h2 {
-				padding: 5px 30px;
-			}
-
-			#ItemContainer {
-				padding: 10px;
-			}
-
-			#ItemContainer #ItemDetails {
-				background: #2c2c2c;
-				border: 2px solid black;
-				padding: 10px;
-				display: table;
-			}
-
-			#ItemDetails > div {
-				display: table-cell;
-				vertical-align: top;
-			}
-
-
-			#ItemDetails #Content {
-				padding: 5px;
-				border: 2px solid black;
-				background: #212121;
-				text-align: center;
-			}
-
-			#ItemDetails #Content audio {
-				width: 229px;border:2px solid black;
-			}
-
-			#ItemDetails #Information {
-				width: 338px;
-			}
-
-			#ItemDetails #Information #UserCard {
-				display: table;
-				border: 2px solid black;
-				background: #222;
-				margin-left: 10px;
-				padding: 10px;
-				width: 309px;
-			}
-
-			#ItemDetails #Information #UserCard #AssetInfoStuff {
-				display: inline-block;
-				vertical-align: top;
-				margin-top: 15px;
-				
-			}
-
-			#ItemDetails #Information #UserCard span{
-				display: block;
-				vertical-align: top;
-				
-			}
-
-			#ItemDetails #Information #ItemDescription {
-				border: 2px solid black;
-				background: #212121;
-				padding: 10px;
-				margin-top: 10px;
-				margin-left: 10px;
-				height: 96px;
-				overflow: auto;
-			}
-
-			#ItemDetails #Purchasing {
-				display: inline-block;
-				border: 2px solid black;
-				background: #212121;
-				padding: 10px;
-				margin-left: 10px;
-				text-align: center;
-			}
-
-			#ItemDetails #Purchasing #NotOnSale {
-				border: 2px solid gray;
-				font-weight: bold;
-				font-style: italic;
-				color: lightgray;
-				padding: 15px;
-			}
-
-			.PurchaseButton {
-				display:block;
-				font-size: 14px;
-				padding: 7px 50px;
-				text-align: center;
-				margin-bottom: 5px;
-				color: white;
-				background: #e5962eff;
-				border: 2px solid #666;
-				width: 220px;
-				
-			}
-
-			hr {
-				border-color: #aaa;
-			}
-			
-
-			.PurchaseButton:hover {
-				background: #e4b139ff;
-				cursor: pointer;
-			}
-
-			.PurchaseButton img {
-				width: 20px;
-				image-rendering: pixelated;
-				margin-bottom: -5px;
-			}
-
-			#ManageOptions {
-
-			}
-
-			#ManageOptions a {
-				display: block;
-				padding: 5px;
-				width: 210px;
-			}
-
-			#ItemContainer .FavouriteButton[favourited=true]{
-				background-image: url("/images/favourited_star.gif");
-			}
-
-			#ItemContainer .FavouriteButton[favourited=true]:hover {
-				background-image: url("/images/favourited_hover_star.gif");
-			}
-
-			#ItemContainer .FavouriteButton:hover {
-				background-image: url("/images/favourite_hover_star.gif");
-			}
-
-			#PurchasePanel {
-				position: absolute;
-				width: 100vw;
-				height: 100vh;
-				background: #000a;
-				z-index: 999;
-				margin-top: -55px;
-			}
-
-			#PurchasePanel #ModalPopup {
-				width: 360px;
-				height: fit-content;
-				border: 3px gray solid;
-				background: #333;
-				inset: 0;
-				position: absolute;
-				margin: auto;
-				padding: 10px;
-				color: white;
-			}
-
-			#PurchasePanel #ModalPopup h3 {
-				font-family:Arial, Helvetica, sans-serif;
-				background: none;
-				padding: 0;
-				margin: 10px 0px;
-				margin-top: 2px;
-				font-weight: bold;
-			}
-
-			#PurchasePanel #ModalPopup .MediumButton {
-				background: #777;
-				border: 2px solid black;
-				padding: 5px 0px;
-				color: white;
-			}
-
-			#PurchasePanel #ModalPopup .MediumButton:hover {
-				background: #999;
-				border-color: white;
-				cursor: pointer;
-			}
 		</style>
-		<?php if($user != null && $user->IsAdmin()): ?>
+		<?php if($user != null && $user->IsAdmin()  || $is_creator): ?>
 		<script>
 			function Render() {
 				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "render" }).done(function( data ) {
 					window.location.reload();
 				});
 			}
-		</script>
-		<?php endif ?>
-		<?php if($user != null && $user->IsAdmin() || $is_creator): ?>
-		<script>
+			
 			function Delete() {
 				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
 					window.location.reload();
@@ -425,7 +243,7 @@ $com_count = count($comments);
 				<div id="BodyContainer">
 					<div id="ItemContainer">
 						<h4>ANORRL <?= $asset->type->label(); ?></h4>
-						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?> <a href="javascript:copyToClipboard('<?= $get_related_id ?>')">(Copy Asset ID)</a></h2>
+						<h2 style="padding: 5px 30px;"><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?= $asset->name ?> <a href="javascript:copyToClipboard('<?= $get_related_id ?>')">(Copy Asset ID)</a></h2>
 						<div id="ItemDetails">
 							<div id="Content">
 								<?php if($asset->type == AssetType::AUDIO): ?>

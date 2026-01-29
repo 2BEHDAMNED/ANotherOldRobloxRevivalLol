@@ -167,74 +167,12 @@
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/edit.js?t=<?= time() ?>"></script>
 		<style>
-
 			h1, h2, h3, h4 {
 				margin: 0;
 			}
 
 			h2 {
 				margin-top: 10px;
-			}
-
-			#EditContainer #ItemDetails {
-				background: #2c2c2c;
-				border: 2px solid black;
-				padding: 10px;
-				width: 866px;
-			}
-
-			#EditContainer #ItemDetails table {
-				border: 2px solid black;
-				padding: 10px;
-				background: #222;
-				width:512px;
-				
-			}
-			
-			#ItemDetails input[type=text],
-			#ItemDetails input[type=number],
-			#ItemDetails select,
-			#ItemDetails textarea {
-				border: 2px solid black;
-				background: #444;
-				padding: 2px 4px;
-				color: white;
-				resize: vertical;
-			}
-
-			#ItemDetails input[type=text],
-			#ItemDetails textarea {
-				width: 320px;
-			}
-
-			#ItemDetails input[type=submit],
-			#ItemDetails a[type=submit] {
-				border: 2px solid black;
-				background: black;
-				color: white;
-				padding: 4px 8px;
-				font-weight: bold;
-				font-family: punk;
-				margin: 10px auto;
-				margin-bottom: 0px;
-				display: block;
-			}
-
-			#ItemDetails input[type=submit]:hover {
-				text-decoration: underline;
-				background: #161616;
-				cursor: pointer;
-			}
-
-			#EditContainer #ItemDetails table td {
-				width: 140px;
-				min-width: 140px;
-				vertical-align: top;
-			}
-
-			#EditContainer #ItemDetails #DetailStack {
-				margin: 0 auto;
-				width: 510px;
 			}
 		</style>
 		<script>
@@ -351,7 +289,7 @@
 									</tr>
 									
 								</table>
-								<input type="submit" value="Publish" style="margin-top:-33px" name="ANORRL$PublishAsset$Submit">
+								<input type="submit" value="Publish" style="margin-top:-33px;margin-bottom: 18px;" name="ANORRL$PublishAsset$Submit">
 							</form>
 							<div id="DetailStack">
 								<h4 style="margin-top: 10px">Version History</h4>
