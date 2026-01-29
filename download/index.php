@@ -96,7 +96,7 @@
 										<div>
 											<a href="javascript:alert('2010 Client Soon!')">
 												<img src="/images/placeholder.png">
-												<span>Client (soon)</span>
+												<span>2010 (soon)</span>
 											</a>
 										</div>
 									</td>
