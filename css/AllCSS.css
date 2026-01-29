@@ -1726,6 +1726,14 @@ hr {
 	width: 210px;
 }
 
+#PlaceDetails #ManageOptions a {
+	width: 185px;
+}
+
+#PlaceDetails .PurchaseButton {
+	width: 185px;
+}
+
 #ItemContainer .FavouriteButton {
 	width: 32px;
 	height: 32px;
