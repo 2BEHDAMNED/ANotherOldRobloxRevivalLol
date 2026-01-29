@@ -61,6 +61,7 @@
 	RewriteRule ^game/gameserver.ashx$ /core/gamescripts/gameserver.php	  [END]
 	RewriteRule ^game/host.ashx$ /core/gamescripts/host.php	  [END]
 	RewriteRule ^game/join.ashx$ /core/gamescripts/join.php				  [END]
+	RewriteRule ^game/2013join.ashx$ /core/gamescripts/2013/join.php				  [END]
 	RewriteRule ^game/studio.ashx$ /core/gamescripts/studio.php			  [END]
 	RewriteRule ^game/visit.ashx$ /core/gamescripts/visit.php 			  [END]
 	RewriteRule ^game/edit.ashx$ /core/gamescripts/edit.php			  [END]

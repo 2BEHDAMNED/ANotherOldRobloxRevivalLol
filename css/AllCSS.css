@@ -237,8 +237,14 @@ a:hover {
 
 #Header #Links a {
 	color: white;
-	padding: 2px 1.5em;
-	background: rgb(0,0,0)
+	padding: 0px 1.5em;
+	background: rgb(0,0,0);
+	border: 2px solid black;
+}
+
+#Header #Links a:hover {
+	text-decoration: underline;
+	background: #222;
 }
 
 #Header #UserLinks {

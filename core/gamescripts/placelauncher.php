@@ -207,8 +207,8 @@
 						$stmt_createnewserver->bind_param("s", $sessionID);
 						$stmt_createnewserver->execute();
 						die(json_encode([
-							"status" => 0,
-							"error" => "Wow so much errors!"
+							"status" => 1,
+							"message" => "Wow so much errors!"
 						]));
 					}
 				} else {
