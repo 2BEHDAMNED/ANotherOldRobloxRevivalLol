@@ -402,7 +402,7 @@
 		</style>
 		<?php if($get_user->setprofilepicture): ?>
 		<script>
-			var render = true;
+			var render = false;
 			function flipRenders(element) {
 				render = !render;
 
