@@ -23,7 +23,7 @@
 			else if(str_contains($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013. 8. 13. 2") || str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRL/13nInet")) {
 				return Client::C2013;
 			}
-			else if(str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRL/10nInet")) {
+			else if(str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRL/10nInet") || str_contains($_SERVER['HTTP_USER_AGENT'], "MSIE 7.0;")) {
 				return Client::C2010;
 			}
 
