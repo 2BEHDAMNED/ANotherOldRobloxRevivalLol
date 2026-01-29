@@ -35,8 +35,29 @@
 
 						<hr>
 						<h4 style="margin:0px">2016</h4>
-						<p>Anyways here's the client here: <a href="2016/ANORRLPlayerLauncher.exe">Download</a></p>
-						<p>Here's the studio here: <a href="2016/ANORRLStudioLauncher.exe">Download</a></p>
+						<div id="DownloadContainer" style="background: #161616;">
+							<table style="width: 100%">
+								<tr>
+									<td>
+										<div>
+											<a href="2016/ANORRLPlayerLauncher.exe">
+												<img src="/images/placeholder.png">
+												<span>Client</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div>
+											<a href="2016/ANORRLStudioLauncher.exe">
+												<img src="/images/placeholder.png">
+												<span>Studio</span>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+						
 					</div>
 					
 				</div>
