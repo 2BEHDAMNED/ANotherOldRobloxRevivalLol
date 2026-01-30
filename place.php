@@ -193,10 +193,13 @@ $header_data = $asset;
 									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
 									<hr>
 									<div id="ManageOptions">
-										<?php if($is_creator || !$asset->copylocked): ?>
+										<?php if($is_creator): ?>
 										<a href="/edit?id=<?= $asset->id ?>">Edit</a>
+										<?php endif ?>
+										<?php if($is_creator || !$asset->copylocked): ?>
 										<a href="">Open in Studio</a>
 										<?php endif ?>
+										
 										<?php if($user != null && $user->IsAdmin()): ?>
 										<a href="javascript:Render()">Render this asset</a>
 										<?php endif ?>
