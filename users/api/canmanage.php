@@ -1,6 +1,7 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	header("Content-Type: application/json");
 
 	if(isset($_GET['userId']) && isset($_GET['placeId'])) {
 		$user = User::FromID(intval($_GET['userId']));

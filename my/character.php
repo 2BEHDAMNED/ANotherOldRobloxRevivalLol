@@ -13,15 +13,14 @@
 	<head>
 		<title>Your Character - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/stuff.css">
+		<link rel="stylesheet" href="/css/new/my/character.css">
+		
 		<script src="/js/jquery.js"></script>
 		<script src="/js/jquery-modal.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/character.js?t=<?= time() ?>"></script>
-		<style>
-			h2, h4 { margin: 0; }
-			h4 { margin-top: 5px; }
-		</style>
 	</head>
 	<body>
 		<div id="Colours">

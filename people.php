@@ -11,7 +11,9 @@
 	<head>
 		<title>People - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/forms.css">
+		<link rel="stylesheet" href="/css/new/people.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/people.js?t=<?= time() ?>"></script>

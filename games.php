@@ -7,13 +7,28 @@
 	if($user == null) {
 		die(header("Location: /login"));
 	}
+
+	$randomclientsplashes = [
+		"Games",
+		"Games!",
+		"RETRO GAMES RAHHH!!!!!",
+		"VIDEO GAMES!!!!",
+		"i wonder if there's some good games today...",
+		"mmm time for sum of dat goooood shit"
+	];
+
+	$randomclientsplash = $randomclientsplashes[array_rand($randomclientsplashes)];
 ?>
 <!DOCTYPE html>
 <html> 
 	<head>
 		<title>Games - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/forms.css">
+		<link rel="stylesheet" href="/css/new/item.css">
+		<link rel="stylesheet" href="/css/new/games.css">
+		
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/games.js?t=<?= time() ?>"></script>
@@ -21,17 +36,16 @@
 	<body>
 		<div class="Game" template>
 			<div id="ImageContainer">
-				<div id="FavouritesArea"><img src="/images/favourite_star.gif" style="width:16px; margin-bottom: -2px;"> <span>0</span></div>
+				<div id="FavouritesArea"><img src="/images/favourite_star.gif"> <span>0</span></div>
 				<img src="">
 			</div>
 			<div id="Info">
 				<a href="" id="GameName">Game Name</a>
-				<hr style="border: none; margin: 2px">
-				
+				<hr>
 				<span>By <a href="" id="GameCreator">creator</a></span>
-				<div style="font-weight: bold;letter-spacing: 1px;font-size:10px;">
-					<span id="ActivePlayerCountLabel" style="color: #a93cac;"><b id="ActivePlayerCount" style="letter-spacing: 0;">0</b> Player<span id="Plural">s</span> online...</span><br>
-					<span id="VisitCountLabel" style="color:#8a8a8a;font-style:italic;"><b id="VisitCount" style="letter-spacing: 0;">0</b> Visit<span id="Plural">s</span></span>
+				<div id="Stats">
+					<span id="ActivePlayerCountLabel" style="color: #a93cac;"><b id="ActivePlayerCount">0</b> Player<span id="Plural">s</span> online...</span><br>
+					<span id="VisitCountLabel" style="color:#8a8a8a;font-style:italic;"><b id="VisitCount">0</b> Visit<span id="Plural">s</span></span>
 				</div>
 				
 			</div>
@@ -40,7 +54,7 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-					<h2 style="margin: 0px">Games</h2>
+					<h2 style="margin: 0px;width: 850px;"><marquee behavior="alternate" scrollamount="10"><?= $randomclientsplash ?></marquee></h2>
 					<div id="GamesContainer">
 						<div id="GamesFilterPanel">
 							<h4>Filters</h4>

@@ -127,20 +127,20 @@ end
 game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
 	shouldCountDown = false
-	
-	if cloudEditEnabled then
-		return
-	end
-	
-	player.Chatted:connect(function(msg)
-        onChatted(msg, player)
-    end)
 
 	local playerResult = game:HttpGet(url .. "/api/a_gameservers/validateplayer?jobID="..jobID .. "&access="..access.."&userID=" .. tostring(player.userId), true)
 
 	if playerResult ~= "OK" then
 		player:Kick("Hey wait something ain't right here...")
 	end
+
+	if cloudEditEnabled then
+		return
+	end
+
+	player.Chatted:connect(function(msg)
+        onChatted(msg, player)
+    end)
 
 	if game:GetService("Players").EmoteSoundsEnabled then
 		player.CharacterAdded:connect(function(character)
@@ -225,9 +225,12 @@ if placeId~=nil and url~=nil then
 	game:Load(url .. "/asset/?id=" .. placeId .. "&access=" .. access .. "&t=<?= time() ?>")
 end
 
-if game:GetService("Players").EmoteSoundsEnabled then
-	local emoteEvent = Instance.new("RemoteEvent", game:GetService("ReplicatedStorage"))
-	emoteEvent.Name = "ANORRLEMOTEEVENTERTHING"
+if game:GetService("Players").EmoteSoundsEnabled and not cloudEditEnabled then
+	local emoteEvent = game:GetService("ReplicatedStorage"):FindFirstChild("ANORRLEMOTEEVENTERTHING")
+	if not emoteEvent then
+		emoteEvent = Instance.new("RemoteEvent", game:GetService("ReplicatedStorage"))
+		emoteEvent.Name = "ANORRLEMOTEEVENTERTHING"
+	end
 
 	emoteEvent.OnServerEvent:connect(function(player, emoteName, state)
 		if player.Character then

@@ -25,14 +25,10 @@
 	<head>
 		<title>Download - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/download.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<style>
-			h2, h3 {
-				margin: 0px;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="Container">
@@ -41,8 +37,8 @@
 				<div id="BodyContainer">
 					<h2><?= $randomclientsplash ?></h2>
 					<div id="DownloadContainer">
-						<p style="font-size: 16px;text-transform: uppercase;font-weight: bold;letter-spacing: 5px;font-style: italic;margin-bottom: 5px;">So much malware!!!!!!!!!!</p>
-						<span style="font-size: 11px; color: #999; font-style: italic">(Unfortunately, it is windows only. But wine works fine on linux! Mac builds may come soon...)</span>
+						<p id="Splasher">So much malware!!!!!!!!!!</p>
+						<span id="Note">(Unfortunately, it is windows only. But wine works fine on linux! Mac builds may come soon...)</span>
 						<hr>
 						<h3>Clients</h3>
 						<div id="DownloadContainer" style="background: #161616;">
@@ -51,7 +47,7 @@
 									<td>
 										<div>
 											<a href="2016/ANORRLPlayerLauncher.exe">
-												<img src="/images/placeholder.png">
+												<img src="/images/download/2016client.png">
 												<span>2016</span>
 											</a>
 										</div>
@@ -59,8 +55,17 @@
 									
 									<td>
 										<div>
-											<a href="javascript:alert('2013 Soon!')">
+											<a href="javascript:alert('2018 idk bro')">
 												<img src="/images/placeholder.png">
+												<span>2018 (later)</span>
+											</a>
+										</div>
+									</td>
+									
+									<td>
+										<div title="Icon created by Wiz!">
+											<a href="javascript:alert('2013 Soon!')">
+												<img src="/images/download/2013client.png">
 												<span>2013 (soon)</span>
 											</a>
 										</div>
@@ -85,15 +90,25 @@
 									<td>
 										<div>
 											<a href="2016/ANORRLStudioLauncher.exe">
-												<img src="/images/placeholder.png">
+												<img src="/images/download/2016studio.png">
 												<span>2016</span>
 											</a>
 										</div>
 									</td>
+
 									<td>
 										<div>
-											<a href="javascript:alert('2013 Studio Soon!')">
+											<a href="javascript:alert('2018 Studio idk bro')">
 												<img src="/images/placeholder.png">
+												<span>2018 (later)</span>
+											</a>
+										</div>
+									</td>
+
+									<td>
+										<div title="Icon created by Cu-bp!">
+											<a href="javascript:alert('2013 Studio Soon!')">
+												<img src="/images/download/2013studio.png">
 												<span>2013 (soon)</span>
 											</a>
 										</div>

@@ -95,92 +95,10 @@
 	<head>
 		<title>Publish Place - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/publish.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<style>
-
-			h1, h2, h3, h4 {
-				margin: 0;
-			}
-
-			h2 {
-				margin-top: 10px;
-			}
-
-			#PublishContainer #ItemDetails {
-				background: #2c2c2c;
-				border: 2px solid black;
-				padding: 10px;
-				width: 866px;
-			}
-
-			#PublishContainer #ItemDetails table {
-				border: 2px solid black;
-				padding: 10px;
-				background: #222;
-				width:512px;
-				
-			}
-
-			#ItemDetails input[type=text],
-			#ItemDetails input[type=number],
-			#ItemDetails select,
-			#ItemDetails textarea {
-				border: 2px solid black;
-				background: #444;
-				padding: 2px 4px;
-				color: white;
-				resize: vertical;
-			}
-
-			#ItemDetails input[type=text],
-			#ItemDetails textarea {
-				width: 320px;
-			}
-
-			#ItemDetails input[type=submit],
-			#ItemDetails a[type=submit],
-			#ItemDetails label[for=files] {
-				border: 2px solid black;
-				background: black;
-				color: white;
-				padding: 4px 8px;
-				font-weight: bold;
-				font-family: punk;
-				margin: 10px auto;
-				margin-bottom: 0px;
-				display: block;
-			}
-
-			#ItemDetails input[type=submit]:hover,
-			#ItemDetails input[type=submit]:hover,
-			#ItemDetails label[for=files]:hover {
-				text-decoration: underline;
-				background: #161616;
-				cursor: pointer;
-			}
-
-			#ItemDetails label#filename {
-				margin-left: 5px;
-			}
-
-			#PublishContainer #ItemDetails table td {
-				width: 140px;
-				min-width: 140px;
-				vertical-align: top;
-			}
-
-			#PublishContainer #ItemDetails #DetailStack {
-				margin: 0 auto;
-				width: 510px;
-			}
-
-			#Body {
-				background: none;
-				border: none;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="Container">
@@ -188,7 +106,7 @@
 				<div id="BodyContainer">
 					<div id="PublishContainer">
 						<h2>Publish your lovely little place...</h2>
-						<div id="ItemDetails">
+						<div id="ItemDetails" style="background: #222">
 							<form method="POST">
 								<div id="DetailStack">
 									<h4>Information</h4>

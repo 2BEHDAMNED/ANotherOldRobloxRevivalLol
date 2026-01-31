@@ -13,7 +13,10 @@
 	<head>
 		<title>Catalog - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/forms.css">
+		<link rel="stylesheet" href="/css/new/stuff.css">
+		<link rel="stylesheet" href="/css/new/catalog.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/catalog.js?t=<?= time() ?>"></script>

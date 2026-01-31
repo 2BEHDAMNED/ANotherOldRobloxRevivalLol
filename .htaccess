@@ -15,17 +15,14 @@
 	RewriteRule ^users/([0-9]+)/friends$ /users/friends.php?id=$1  [END]
 	RewriteRule ^users/([0-9]+)/followers$ /users/followers.php?id=$1  [END]
 	RewriteRule ^users/([0-9]+)/following$ /users/following.php?id=$1  [END]
-	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)$ /users/canmanage.php?userId=$1&placeId=$2  [END]
-	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)/$ /users/canmanage.php?userId=$1&placeId=$2  [END]
 
-	RewriteRule ^Users/([0-9]+)$ /users/data.php?id=$1  [END]
 
-	RewriteRule ^users/get-by-username$ /users/get-by-username.php  [END]
-	
-	RewriteRule ^Game/players/([0-9]+)$ /users/players.php?userId=$1  [END]
-	RewriteRule ^game/players/([0-9]+)$ /users/players.php?userId=$1  [END]
-	RewriteRule ^Game/players/([0-9]+)/$ /users/players.php?userId=$1  [END]
-	RewriteRule ^game/players/([0-9]+)/$ /users/players.php?userId=$1  [END]
+	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)$ /users/api/canmanage.php?userId=$1&placeId=$2  [END]
+	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)/$ /users/apicanmanage.php?userId=$1&placeId=$2  [END]
+	RewriteRule ^Users/([0-9]+)$ /users/api/data.php?id=$1  [END]
+	RewriteRule ^users/get-by-username$ /users/api/get-by-username.php  [END]
+	RewriteRule ^game/players/([0-9]+)$ /users/api/players.php?userId=$1  [END]
+	RewriteRule ^game/players/([0-9]+)/$ /users/api/players.php?userId=$1  [END]
 
 	RewriteRule ^asset/?$ /core/utilities/assetdeliverer.php			  [END]
 	RewriteRule ^Asset/?$ /core/utilities/assetdeliverer.php 			  [END]

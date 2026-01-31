@@ -4,37 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>ANORRL</title>
-		<link rel="stylesheet" type="text/css" href="/css/AllCSS.css?t=<?= time() ?>"></link>
-		<style>
-			body {
-				color: white;
-			}
-
-			.InGamePopup {
-				height: 100vh;
-				margin: 12px;
-			}
-
-
-			#Wrapper {
-				margin: 12px;
-				width: 550px;
-				display:block;
-				margin: auto;
-				margin-top:200px;
-			}
-
-			.StandardBoxWhite {
-				background: #232323;
-				border: 2px solid black;
-				padding: 15px;
-			}
-
-			.InGamePopup h2 {
-				margin: 0;
-				width: 220px;
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="/css/new/main.css"></link>
+		<link rel="stylesheet" type="text/css" href="/css/new/uploadmedia.css"></link>
 	</head>
 	<body class="InGamePopup">
 		<div id="Wrapper">

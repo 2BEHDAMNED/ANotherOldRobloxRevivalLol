@@ -30,7 +30,7 @@
 
 	if(isset($_GET['page'])) {
 		if(intval($_GET['page']) == 1) {
-			die(include($_SERVER['DOCUMENT_ROOT']."/users/friendsapiver.php"));
+			die(include($_SERVER['DOCUMENT_ROOT']."/users/api/friends.php"));
 		} else {
 			header("Content-Type: application/json");
 			die("{}");
@@ -58,18 +58,10 @@
 	<head>
 		<title><?= $get_user->name ?>'s Friends - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/my/friends.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<style>
-			h2, h4 {
-				margin: 0;
-			}
-
-			h4 {
-				margin-top: 5px;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="Container">

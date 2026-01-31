@@ -162,19 +162,12 @@
 	<head>
 		<title>Editing: <?= htmlspecialchars($asset->name, ENT_QUOTES) ?> - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/forms.css">
+		<link rel="stylesheet" href="/css/new/edit.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/edit.js?t=<?= time() ?>"></script>
-		<style>
-			h1, h2, h3, h4 {
-				margin: 0;
-			}
-
-			h2 {
-				margin-top: 10px;
-			}
-		</style>
 		<script>
 			$(function() {
 				$(".VersionPicker").each(function() {

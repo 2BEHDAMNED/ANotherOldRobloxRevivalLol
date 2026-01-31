@@ -6,7 +6,8 @@
 	<head>
 		<title>Welcome to ANORRL!</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/frontpage.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/showcase.js"></script>
@@ -119,6 +120,7 @@
 							</tr>
 						</table>
 					</div>
+					<div style="margin: 10px auto;width: 60%;"><img src="/images/epicbazookaquote.png" style="width: 100%;border: 2px solid black;"></div>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 			</div>

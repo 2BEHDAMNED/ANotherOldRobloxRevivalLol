@@ -4,12 +4,16 @@
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
 	$user = UserUtils::RetrieveUser();
 
-	//<a href="/games/start?placeid=25">Load Game</a>
+	if($user == null) {
+		die(header("Location: /login"));
+	}
 ?>
 <!DOCTYPE html>
 <html> 
 	<head>
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/forms.css">
+		<link rel="stylesheet" href="/css/new/stuff.css">
 		<title>Games - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<script src="/js/jquery.js"></script>
@@ -19,6 +23,10 @@
 			ANORRL.Games.MobileEnabled = true;
 		</script>
 		<style>
+			body {
+				color: white;
+			}
+
 			.Game[template] {
 				display: none;
 			}

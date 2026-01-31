@@ -25,7 +25,8 @@
 			$year = PlaceYear::Y2016;
 			break;
 		case Client::Unknown:
-			die("Hey something isn't right here... You sure you're using the right studio?");
+			break;
+			//die("Hey something isn't right here... You sure you're using the right studio?");
 	}
 
 	$places = $user->GetPlaces(false);
@@ -56,6 +57,7 @@
 				window.external.StartGame("","", recentpath);	
 			}
 
+			<?php if($client != Client::Unknown): ?>
 			$(function() {
 				$("#YearToggle").on("change", function() {
 					if($("#YearToggle").is(':checked')) {
@@ -75,10 +77,7 @@
 					}
 				})
 			})
-
-			function hideYear() {
-				
-			}
+			<?php endif ?>
 		</script>
 	</head>
 	<body id="StudioWelcomeBody">
@@ -165,7 +164,7 @@
 					</div>
 				</div>
 				<div id="MyProjectsView" class="welcome-content-area" style="display: none;">
-					<h2>My Published Projects | <span style="font-size: 12px">Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle" type="checkbox"></h2>
+					<h2>My Published Projects<?php if($client != Client::Unknown): ?> | <span style="font-size: 12px">Show only <?= $year->ordinal() ?> games</span> <input id="YearToggle" type="checkbox"><?php endif ?></h2>
 					<div class="templates" style="display: block;">
 						<?php if(count($teamplaces) != 0): ?>
 						<div><h3>Collaborative Projects</h3></div>

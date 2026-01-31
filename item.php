@@ -106,7 +106,9 @@ $com_count = count($comments);
 	<head>
 		<title><?= htmlspecialchars($asset->name, ENT_QUOTES) ?> - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/AllCSS.css?t=<?= time() ?>">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/item.css">
+		<link rel="stylesheet" href="/css/new/comments.css">
 
 		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->

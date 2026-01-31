@@ -231,6 +231,7 @@
 				"Looking at their friends"			=> "/my/friends.php",
 				"Admin stuff possibly"				=> "/RENDERALL.php",
 				"Looking at <b>THE</b> contributors"=> "/info/credits.php",
+				"Home (on mobile)"					=> "/mobile/home.php",
 			];
 
 			$dont_catalog_ever = [
@@ -321,6 +322,7 @@
 
 		public static function RemoveCookies(): void {
 			unset($_COOKIE['ANORRLSECURITY']);
+			setcookie("ANORRLSECURITY", "", -1, "/", $_SERVER['SERVER_NAME']);
 			setcookie("ANORRLSECURITY", "", -1, "/", ".lambda.cam");
 		}
 
