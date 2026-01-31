@@ -93,6 +93,7 @@ h4 {
 
 #CharacterContainer .Asset {
 	width: 117px;
+	background: #111;
 }
 
 #CharacterContainer .Asset #NameAndThumbs > img {
