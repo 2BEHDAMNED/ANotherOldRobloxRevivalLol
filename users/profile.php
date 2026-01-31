@@ -70,6 +70,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/comments.css">
+		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<link rel="stylesheet" href="/css/new/my/profile.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
@@ -185,12 +186,21 @@
 					<?php if(false): ?>
 					<hr>
 					<div id="UserAvatarContainer">
-						<h3>Player Badges</h3>
+						<h3>Wearing Items</h3>
 						<div id="UserAvatarPane">
 							<table id="AvatarItems">
 								<tbody>
 									<tr>
-										<td class="Loading">Loading badges...</td>
+										<td>
+											<div class="Asset">
+											<a id="NameAndThumbs">
+												<img src="">
+												<div id="Pricing" oneprice="true"><span id="FreeTag">Sold: 0 times</span></div>
+												<span>AssetName</span>
+											</a>
+											<a id="Creator"><span>AssetCreator</span></a>
+										</div>
+										</td>
 									</tr>
 								</tbody>
 							</table>

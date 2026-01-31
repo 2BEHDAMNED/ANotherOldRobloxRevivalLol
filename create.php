@@ -140,7 +140,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/create.css">
-		<link rel="stylesheet" href="/css/new/stuff.css">
+		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/create.js?t=<?= time() ?>"></script>

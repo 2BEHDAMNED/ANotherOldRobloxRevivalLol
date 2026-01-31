@@ -26,7 +26,6 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
-		<link rel="stylesheet" href="/css/new/item.css">
 		<link rel="stylesheet" href="/css/new/games.css">
 		
 		<script src="/js/jquery.js"></script>

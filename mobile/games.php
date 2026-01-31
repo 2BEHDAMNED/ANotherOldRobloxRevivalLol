@@ -13,7 +13,7 @@
 	<head>
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
-		<link rel="stylesheet" href="/css/new/stuff.css">
+		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<title>Games - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<script src="/js/jquery.js"></script>

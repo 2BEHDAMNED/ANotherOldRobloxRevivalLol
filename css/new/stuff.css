@@ -88,7 +88,7 @@
 	cursor:not-allowed;
 }
 
-#AssetsContainer .Asset {
+.Asset {
 	border: 2px solid black;
 	width: 135px;
 	padding: 10px;
@@ -97,15 +97,15 @@
 }
 
 
-#AssetsContainer .Asset[nopricing] #Pricing {
+.Asset[nopricing] #Pricing {
 	opacity: 0;
 }
 
-#AssetsContainer .Asset #NameAndThumbs {
+.Asset #NameAndThumbs {
 	display: block;
 }
 
-#AssetsContainer .Asset #NameAndThumbs > img {
+.Asset #NameAndThumbs > img {
 	border: 2px solid black;
 	display: block;
 	width: 130px;
@@ -113,33 +113,33 @@
 	background: #222;
 }
 
-#AssetsContainer .Asset #NameAndThumbs > span {
+.Asset #NameAndThumbs > span {
 	display: block;
 	font-weight: bold;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-#AssetsContainer .Asset > a > span {
+.Asset > a > span {
 	margin: 6px 5px;
 	margin-bottom: 0px;
 	display:block;
 	font-size: 12px;
 }
 
-#AssetsContainer .Asset > a:hover {
+.Asset > a:hover {
 	text-decoration: none;
 }
-#AssetsContainer .Asset > a:hover > span {
+.Asset > a:hover > span {
 	text-decoration: underline;
 }
 
-#AssetsContainer .Asset #Creator,
-#AssetsContainer .Asset #Creator span {
+.Asset #Creator,
+.Asset #Creator span {
 	margin-top: 0px;
 }
 
-#AssetsContainer .Asset #Pricing {
+.Asset #Pricing {
 	background: #313131;
 	border: 2px solid black;
 	border-top: 0px;
@@ -150,7 +150,7 @@
 	white-space: none;
 }
 
-#AssetsContainer .Asset #Pricing > span > img {
+.Asset #Pricing > span > img {
 	border: 0;
 	width: 16px;
 	height: 16px;
@@ -160,20 +160,20 @@
 	display: unset;
 }
 
-#AssetsContainer .Asset #Pricing > span {
+.Asset #Pricing > span {
 	display:inline-block;
 	width: 50%;
 	padding-left: 4px;
 	font-size: 12px;
 }
 
-#AssetsContainer .Asset #Pricing[oneprice] > span {
+.Asset #Pricing[oneprice] > span {
 	text-align: center;
 	width: 100%;
 	padding-left: 0px;
 }
 
-#AssetsContainer .Asset #Pricing > span#FreeTag {
+.Asset #Pricing > span#FreeTag {
 	text-align: center;
 	color: #00ae00;
 	font-weight: bold;
@@ -181,7 +181,7 @@
 	padding-left: 0px;
 }
 
-#AssetsContainer .Asset #Pricing > span#NotOnSaleTag {
+.Asset #Pricing > span#NotOnSaleTag {
 	text-align: center;
 	color: #bbb;
 	font-weight: bold;
