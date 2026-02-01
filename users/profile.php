@@ -71,7 +71,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/comments.css">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
-		<link rel="stylesheet" href="/css/new/my/profile.css">
+		<link rel="stylesheet" href="/css/new/my/profile.css?v=1">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
@@ -114,11 +114,6 @@
 								</div>
 								
 								<div id="Controls">
-									<style>
-										#Controls button {
-											margin-top: 4px;
-										}
-									</style>
 									<?php if($user != null): ?>
 										<?php if($user->id != $get_user->id): ?>
 											
@@ -183,33 +178,52 @@
 							<br clear="all">
 						</div>
 					</div>
-					<?php if(false): ?>
 					<hr>
 					<div id="UserAvatarContainer">
-						<h3>Wearing Items</h3>
+						<h3><?= $get_user->name ?>'s Character</h3>
 						<div id="UserAvatarPane">
-							<table id="AvatarItems">
-								<tbody>
-									<tr>
-										<td>
-											<div class="Asset">
-											<a id="NameAndThumbs">
-												<img src="">
-												<div id="Pricing" oneprice="true"><span id="FreeTag">Sold: 0 times</span></div>
-												<span>AssetName</span>
-											</a>
-											<a id="Creator"><span>AssetCreator</span></a>
-										</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div>
+							<ul id="AvatarItems">
+								<?php if(count($get_user->GetWearingArray()) == 0): ?>
+								<li>
+									<div id="NoItemsOn">
+										<?= $get_user->name ?> does not have any items on!
+									</div>
+								</li>
+								<?php else: ?>
+								<?php 
+									$items = $get_user->GetWearingArray();
+									foreach($items as $item) {
+										$asset = Asset::FromID($item);
+
+										if($asset instanceof Asset) {
+											$asset_id = $asset->id;
+											$asset_urlname = $asset->GetURLTitle();
+											$asset_name = $asset->name;
+											$asset_creator_id = $asset->creator->id;
+											$asset_creator_name = $asset->creator->name;
+											echo <<<EOT
+											<li>
+												<div class="Asset">
+													<a id="NameAndThumbs" href="/$asset_urlname-item?id=$asset_id">
+														<img src="/thumbs/?id=$asset_id">
+														<span>$asset_name</span>
+													</a>
+													<a id="Creator" href="/users/$asset_creator_id/profile"><span>$asset_creator_name</span></a>
+												</div>
+											</li>
+											EOT;
+										}
+									}
+								?>
+								
+								<?php endif ?>
+							</ul>
+							<div id="AvatarRender">
 								<img src="/thumbs/player?id=<?= $get_user->id ?>">
 							</div>
+							<br id="Clearer">
 						</div>
 					</div>
-					<?php endif ?>
 					<?php if(count($games) != 0): ?>
 					<hr>
 					<div id="UserGamesContainer">
@@ -334,7 +348,7 @@
 							
 
 							<?php if($user == null): ?>
-								<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
+								<div id="CommentsDisabled">You need to be logged in to comment on this users profile!</div>
 							<?php else: ?>
 								<?php
 									if($com_count != 0):

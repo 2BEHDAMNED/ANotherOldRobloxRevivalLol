@@ -312,3 +312,41 @@ hr {
 	padding-left: 10px;
 	padding-left: 15px;
 }
+
+#AvatarItems {
+	padding: 5px;
+	width: 600px;
+	vertical-align: middle;
+	overflow: hidden;
+	overflow-x: scroll;
+	list-style: none;
+	white-space: nowrap;
+	margin: 5px;
+	float: left;
+}
+
+#AvatarItems > li {
+	text-align: center;
+	margin-right: 5px;
+	display: inline-block;
+}
+
+#AvatarRender {
+	float: left;
+	margin: 10px;
+	margin-left: 6px;
+	margin-top: 6px;
+}
+
+#AvatarRender > img {
+	border: 2px solid black;
+}
+
+#NoItemsOn {
+	margin: 95px 170px;
+	font-size: 16px;
+}
+
+#Controls button {
+	margin-top: 4px;
+}
