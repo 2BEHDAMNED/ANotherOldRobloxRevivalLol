@@ -340,6 +340,8 @@ hr {
 
 #AvatarRender > img {
 	border: 2px solid black;
+	width: 204px;
+	height: 204px;
 }
 
 #NoItemsOn {
