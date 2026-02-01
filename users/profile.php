@@ -71,7 +71,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/comments.css">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
-		<link rel="stylesheet" href="/css/new/my/profile.css?v=2">
+		<link rel="stylesheet" href="/css/new/my/profile.css?v=3">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
@@ -219,7 +219,7 @@
 								<?php endif ?>
 							</ul>
 							<div id="AvatarRender">
-								<img src="/thumbs/player?id=<?= $get_user->id ?>&sxy=204">
+								<img src="/thumbs/player?id=<?= $get_user->id ?>&sxy=200">
 							</div>
 							<br id="Clearer">
 						</div>
