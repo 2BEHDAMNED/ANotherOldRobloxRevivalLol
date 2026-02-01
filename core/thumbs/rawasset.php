@@ -6,7 +6,7 @@
 
 	if(isset($_GET['format']) && $_GET['format'] == "png") {
 		
-		die(header("Location: /thumbs/?id="/$_GET['assetId']));
+		die(header("Location: /thumbs/?id=".$_GET['assetId']));
 
 	} else {
 		$width = $_GET['Width'];
