@@ -263,6 +263,18 @@
 				return
 				EOT;
 
+				$scriptText = <<<EOT
+				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
+				game:GetService("ScriptContext").ScriptsDisabled = true
+				game:GetService("Lighting").Outlines = false
+
+				game:GetObjects("http://arl.lambda.cam/asset?id=$id")[1].Parent = workspace
+
+				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
+				EOT;
+
+				
+
 				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
 				$rcc->OpenJob($job, $script);
 			} catch(SoapFault $e) {
