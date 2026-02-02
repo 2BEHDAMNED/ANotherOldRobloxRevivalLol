@@ -87,6 +87,7 @@ $rendering_types = [
 	AssetType::RIGHTARM,
 	AssetType::LEFTLEG,
 	AssetType::RIGHTLEG,
+	AssetType::GEAR,
 ];
 
 $get_related_assets = $asset->GetRelatedAssets();
