@@ -235,33 +235,6 @@
 				$time = time();
 
 				$job = new Roblox\Grid\Rcc\Job($JobId);
-				$scriptText = <<<EOT
-				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
-				game:GetService("ScriptContext").ScriptsDisabled = true
-				game:GetService("Lighting").Outlines = false
-
-				game:GetService("InsertService"):LoadAsset($id).Parent = workspace
-
-				local b64 = (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
-				local HttpService = game:GetService("HttpService")
-
-				HttpService.HttpEnabled = true
-
-				local dataFields = {
-					["data"] = b64,
-					["access"] = "$access",
-					["coolassetid"] = $id
-				}
-
-				local data = ""
-				for k, v in pairs(dataFields) do
-					data = data .. ("&%s=%s"):format(HttpService:UrlEncode(k), HttpService:UrlEncode(v))
-				end
-				data = data:sub(2) -- Remove the first &
-				
-				print(HttpService:PostAsync("http://192.168.0.104:8282/api/upload", data, Enum.HttpContentType.ApplicationUrlEncoded, false))
-				return
-				EOT;
 
 				$scriptText = <<<EOT
 				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")

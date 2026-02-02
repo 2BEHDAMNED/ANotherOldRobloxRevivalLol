@@ -110,7 +110,7 @@
 					die("Bad Request");
 				}
 				
-				if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR) {
+				if($serverplace != null && !$serverplace->gears_enabled && $asset->type == AssetType::GEAR) {
 					die();
 				}
 				
