@@ -18,6 +18,10 @@
 		private static function UploadAsset(User $user, AssetType $type, string $name, string $description, bool $public, bool $hidden_ahh, mixed $file): array {
 			
 			if($user != null && !$user->IsBanned()) {
+				if(strlen($file) > 62914560) {
+					return ["error" => true, "reason" => "Asset was wayyyy too big!! (60mb max)"]; 
+				}
+
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 				$md5 = self::GetMD5OfData($file);
 				$directory = $_SERVER['DOCUMENT_ROOT'];
