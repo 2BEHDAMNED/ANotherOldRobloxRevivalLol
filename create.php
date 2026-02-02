@@ -21,6 +21,8 @@
 		"models",
 		"places",
 
+		"gears",
+
 		"meshes",
 		"images",
 		"lua",
