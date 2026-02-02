@@ -183,7 +183,7 @@ $header_data = $asset;
 						<div id="PlaceDetails">
 							<div id="Content">
 								<div style="width:623px;height:350px;position: relative;">
-									<img src="/thumbs/?id=350&sx=623&sy=350">
+									<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
 									<?php if($asset->is_original): ?>
 									<div style="position: absolute;left: 0px;bottom: 0px;font-size: 20px;border: 2px solid black;padding: 4px 15px;background: #6b0388;font-family: punk;font-weight: bold;">Original</div>
 									<?php endif ?>
