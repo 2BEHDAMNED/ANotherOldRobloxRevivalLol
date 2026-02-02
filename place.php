@@ -83,7 +83,8 @@ $header_data = $asset;
 		<meta property="og:image" content="https://arl.lambda.cam/thumbs/?id=<?= $asset->id ?>">
 
 		<?php if($user == null) {
-			die(header("Location: /login"));
+			die();
+			//die(header("Location: /login"));
 		}?>
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>

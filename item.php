@@ -123,7 +123,8 @@ $com_count = count($comments);
 
 		<?php
 		if($user == null) {
-			die(header("Location: /login"));
+			die();
+			//die(header("Location: /login"));
 		}
 		?>
 		
