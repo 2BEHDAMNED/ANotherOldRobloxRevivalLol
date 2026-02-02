@@ -91,15 +91,25 @@
 						}
 						else if($type == "models") {
 							$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-						} else if($type == "hats") {
+						}
+						else if($type == "hats") {
 							/*if($user->IsAdmin()) {
 							} else {
 								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
 							}*/
 							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
 							
-						} else if($type == "animations") {
+						}
+						else if($type == "animations") {
 							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
+						}
+						else if($type == "gears") {
+							/*if($user->IsAdmin()) {
+							} else {
+								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
+							}*/
+							$result = AssetUploader::UploadGear($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
+							
 						}
 						else {
 							die("type found but not handled...");
@@ -174,9 +184,10 @@
 								<li data_category="13"><a>Decals</a></li>
 								<li data_category="10"><a>Models</a></li>
 								<li data_category="4"><a>Meshes</a></li>
-								<?php if($user->IsAdmin()): ?>
+								
 								<hr>
 								<li data_category="19"><a>Gears</a></li>
+								<?php if($user->IsAdmin()): ?>
 								<li data_category="32"><a>Packages</a></li>
 								<hr>
 								<li data_category="1"><a>Images</a></li>

@@ -44,7 +44,8 @@
 		AssetType::MESH,
 		AssetType::MODEL,
 		AssetType::LUA,
-		AssetType::HAT
+		AssetType::HAT,
+		AssetType::GEAR
 	];
 
 	function CheckMimeType($contents) {
@@ -80,6 +81,9 @@
 			   isset($_POST['ANORRL$EditItem$Place$Year'])) {
 
 				$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
+
+				$original = isset($_POST['ANORRL$EditItem$Place$Original']) ? 1 : 0;
+				$gears = isset($_POST['ANORRL$EditItem$Place$Gears']) ? 1 : 0;
 				$server_size = intval($_POST['ANORRL$EditItem$Place$ServerSize']);
 				
 				if($server_size < 0) {
@@ -94,8 +98,8 @@
 
 				$year = PlaceYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
 
-				$stmt = $con->prepare('UPDATE `asset_places` SET `place_year` = ?, `place_copylocked` = ?, `place_serversize` = ?  WHERE `place_id` = ?;');
-				$stmt->bind_param('siii', $year, $copylocked, $server_size, $id);
+				$stmt = $con->prepare('UPDATE `asset_places` SET `place_year` = ?, `place_copylocked` = ?, `place_serversize` = ?, `place_original` = ?, `place_gears_enabled` = ? WHERE `place_id` = ?;');
+				$stmt->bind_param('siiiii', $year, $copylocked, $server_size, $original, $gears, $id);
 				$stmt->execute();
 
 				if(isset($_FILES['ANORRL$EditItem$Place$ThumbnailFile'])) {
@@ -137,6 +141,8 @@
 				$result = AssetUploader::UpdatePlace($asset->id, $_FILES['ANORRL$PublishAsset$File']);
 			} else if($asset->type == AssetType::HAT) {
 				$result = AssetUploader::UpdateHat($asset->id, $_FILES['ANORRL$PublishAsset$File']);
+			} else if($asset->type == AssetType::GEAR) {
+				$result = AssetUploader::UpdateGear($asset->id, $_FILES['ANORRL$PublishAsset$File']);
 			} else {
 				die("Type was recognised but not implemented...");
 			}
@@ -236,6 +242,14 @@
 										<tr>
 											<td>Copylocked</td>
 											<td><input type="checkbox" name="ANORRL$EditItem$Place$Copylocked" <?php if($asset->copylocked): ?>checked<?php endif ?>></td>
+										</tr>
+										<tr>
+											<td>Original</td>
+											<td><input type="checkbox" name="ANORRL$EditItem$Place$Original" <?php if($asset->is_original): ?>checked<?php endif ?>></td>
+										</tr>
+										<tr>
+											<td>Gears</td>
+											<td><input type="checkbox" name="ANORRL$EditItem$Place$Gears" <?php if($asset->gears_enabled): ?>checked<?php endif ?>></td>
 										</tr>
 										<tr>
 											<td>Thumbnail!</td>

@@ -17,6 +17,7 @@
 				}
 			}
 
+			$original_words = explode(" ", $input);
 			$words = explode(" ", $processed);
 			
 			$processed = "";
@@ -37,10 +38,13 @@
 						}
 					}
 				}
-
-				if(str_contains($words[$i], "#") && count(count_chars($words[$i], 1)) <= 2) {
-					$words[$i] = str_repeat("#", strlen($words[$i]));
+				
+				if(strlen($original_words[$i]) > 2) {
+					if(str_contains($words[$i], "#") && count(count_chars($words[$i], 1)) <= 2) {
+						$words[$i] = str_repeat("#", strlen($words[$i]));
+					}
 				}
+				
 			}
 
 			foreach($words as $word) {

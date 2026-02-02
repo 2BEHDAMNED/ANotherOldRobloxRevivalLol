@@ -101,6 +101,7 @@
 
 			$contents = str_replace("arl.lambda.cam", $_SERVER['SERVER_NAME'], $contents);
 
+			// whitelist code by aria (modified heavily by me)
 			if (isset($_GET['serverplaceid'])) {
 				$serverplace = Place::FromID(intval($_GET['serverplaceid']));
 				
@@ -108,14 +109,18 @@
 					http_response_code(400);
 					die("Bad Request");
 				}
-
+				
+				if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR) {
+					die();
+				}
+				
 				$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];
 				$whitelist = ["Keyframe", "Animation"];
 				
 				foreach($whitelist as $white) {
 					if(strpos($contents, $white) !== false) {
 						foreach($blacklist as $black) {
-							if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT)) {
+							if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT && $asset->type != AssetType::MODEL)) { // hope that model whitelist aint gonna bite my ass
 								http_response_code(405);
 								die("Method Not Allowed");
 							}

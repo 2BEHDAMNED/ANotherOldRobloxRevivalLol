@@ -187,15 +187,25 @@
 		}
 
 
-		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count) {
+		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count, User|null $input_user = null) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 ORDER BY `asset_lastedited` DESC LIMIT ?, ?");
-			
+
 			$page = (($pagenum-1)*$count);
 			$q = "%$query%";
 			$ordinal = $type->ordinal();
-			$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $count);
-			$stmt_getuser->execute();
+
+			if($input_user == null) {
+				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 ORDER BY `asset_lastedited` DESC LIMIT ?, ?");
+				$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $count);
+				$stmt_getuser->execute();	
+			} else {
+				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 AND `asset_creator` = ? ORDER BY `asset_lastedited` DESC LIMIT ?, ?");
+				$stmt_getuser->bind_param('siiii', $q, $ordinal, $input_user->id, $page, $count);
+				$stmt_getuser->execute();
+			}
+			
+			
+			
 
 			$result = $stmt_getuser->get_result();
 
@@ -221,14 +231,21 @@
 			return [];
 		}
 
-		public static function GetAssetsOfType(string $query, AssetType $type) {
+		public static function GetAssetsOfType(string $query, AssetType $type, User|null $input_user = null) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1");
-			
+
 			$q = "%$query%";
 			$ordinal = $type->ordinal();
-			$stmt_getuser->bind_param('si', $q, $ordinal);
-			$stmt_getuser->execute();
+
+			if($input_user == null) {
+				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1");
+				$stmt_getuser->bind_param('si', $q, $ordinal);
+				$stmt_getuser->execute();
+			} else {
+				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_creator` = ? AND `asset_public` = 1");
+				$stmt_getuser->bind_param('sii', $q, $ordinal, $input_user->id);
+				$stmt_getuser->execute();
+			}
 
 			$result = $stmt_getuser->get_result();
 
@@ -531,6 +548,8 @@
 		public int $server_size;
 		public int  $visit_count;
 		public int  $current_playing_count;
+		public bool $is_original;
+		public bool $gears_enabled;
 		public bool $teamcreate_enabled;
 
 		public static function UpdatePlaceStats(int $placeID) {
@@ -583,7 +602,6 @@
 				return null;
 			}
 		}
-
 		
 		public static function GetAllPaged(string $query, int $pagenum, int $count) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
@@ -638,7 +656,6 @@
 			return [];
 		}
 
-
 		function __construct($rowdata) {
 			parent::__construct(intval($rowdata['place_id']));
 
@@ -649,6 +666,9 @@
 			$this->visit_count = intval($rowdata['place_visit_count']);
 			$this->current_playing_count = intval($rowdata['place_currently_playing']);
 			$this->teamcreate_enabled = boolval($rowdata['place_teamcreate_enabled']);
+
+			$this->is_original = boolval($rowdata['place_original']);
+			$this->gears_enabled = boolval($rowdata['place_gears_enabled']);
 		}
 
 		function EnableTeamCreate() {

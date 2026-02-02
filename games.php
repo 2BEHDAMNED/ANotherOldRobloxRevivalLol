@@ -26,7 +26,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
-		<link rel="stylesheet" href="/css/new/games.css">
+		<link rel="stylesheet" href="/css/new/games.css?v=1">
 		
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
@@ -36,6 +36,7 @@
 		<div class="Game" template>
 			<div id="ImageContainer">
 				<div id="FavouritesArea"><img src="/images/favourite_star.gif"> <span>0</span></div>
+				<div id="OriginalArea"><span>Original</span></div>
 				<img src="">
 			</div>
 			<div id="Info">

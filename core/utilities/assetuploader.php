@@ -388,6 +388,41 @@
 			}
 		}
 
+		public static function UpdateGear(int $id, array|string $file) {
+			$user = UserUtils::RetrieveUser();
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+			
+			// process singular asset
+			$place_result = self::UpdateAsset($id, $user, $place_data);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				$directory = $_SERVER['DOCUMENT_ROOT'];
+				$md5hashfile = md5($place_data);
+				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+				
+				if(!file_exists($assetsdir)) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
+					$stmt->bind_param('si', $md5hashfile, $place_result['versionid']);
+					$stmt->execute();
+				
+					$render = TheFuckingRenderer::RenderModel($id);
+				}
+
+				return ["error" => false, "vid" => $place_result['versionid']];
+			}
+		}
+
 		public static function UploadDecal(string $name, string $description, array $file, bool $face = false) {
 			$user = UserUtils::RetrieveUser();
 
@@ -683,6 +718,10 @@
 					$stmt->bind_param('si', $md5hashfile, $decal_result['id']);
 					$stmt->execute();
 
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
+					$stmt->bind_param('i', $decal_result['id']);
+					$stmt->execute();
+
 					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
 					$stmt->bind_param('ii', $decal_result['id'], $image_id);
 					$stmt->execute();
@@ -760,6 +799,10 @@
 
 					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
 					$stmt->bind_param('si', $md5hashfile, $shirt_result['id']);
+					$stmt->execute();
+
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
+					$stmt->bind_param('i', $shirt_result['id']);
 					$stmt->execute();
 
 					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
@@ -855,6 +898,11 @@
 					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
 					$stmt->bind_param('si', $md5hashfile, $pants_result['id']);
 					$stmt->execute();
+
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
+					$stmt->bind_param('i', $pants_result['id']);
+					$stmt->execute();
+					
 
 					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
 					$stmt->bind_param('ii', $pants_result['id'], $image_id);
@@ -1094,6 +1142,10 @@
 				$directory = $_SERVER['DOCUMENT_ROOT'];
 				$md5hashfile = md5($place_data);
 				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+
+				$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
+				$stmt->bind_param('i', $place_id);
+				$stmt->execute();
 				
 				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
 				$stmt->bind_param('si', $md5hashfile, $place_id);
@@ -1139,6 +1191,55 @@
 				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = 'animation' WHERE `version_assetid` = ?");
 				$stmt->bind_param('i', $place_id);
 				$stmt->execute();
+
+				return ["error" => false, "id" => $place_result['id']];
+			}
+		}
+
+		public static function UploadGear(string $name, string $description, array|string $file) {
+			$user = UserUtils::RetrieveUser();
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+			
+
+			// process singular asset
+			$place_result = self::UploadAsset($user, AssetType::GEAR, $name, $description, true, false, $place_data);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				$place_id = $place_result['id'];
+
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+				require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
+
+				$ta_id = TransactionUtils::GenerateID();
+				$ta_assettype = AssetType::GEAR->ordinal();
+				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
+				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
+				$stmt_processtransaction->execute();
+
+				$directory = $_SERVER['DOCUMENT_ROOT'];
+				$md5hashfile = md5($place_data);
+				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+
+				$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
+				$stmt->bind_param('i', $place_id);
+				$stmt->execute();
+				
+				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+				$stmt->bind_param('si', $md5hashfile, $place_id);
+				$stmt->execute();
+
+				if(!file_exists($assetsdir)) {
+					$render = TheFuckingRenderer::RenderModel($place_id);
+				}
 
 				return ["error" => false, "id" => $place_result['id']];
 			}

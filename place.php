@@ -182,7 +182,13 @@ $header_data = $asset;
 						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?></h2>
 						<div id="PlaceDetails">
 							<div id="Content">
-								<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
+								<div style="width:623px;height:350px;position: relative;">
+									<img src="/thumbs/?id=350&sx=623&sy=350">
+									<?php if($asset->is_original): ?>
+									<div style="position: absolute;left: 0px;bottom: 0px;font-size: 20px;border: 2px solid black;padding: 4px 15px;background: #6b0388;font-family: punk;font-weight: bold;">Original</div>
+									<?php endif ?>
+								</div>
+								
 							</div>
 							<div id="Information">
 								<div id="UserCard">
@@ -190,6 +196,9 @@ $header_data = $asset;
 									<div id="AssetInfoStuff" style="margin: 3px 0px;">
 										<span>Created by <a href="/users/<?= $asset->creator->id ?>/profile"><?= $asset_creator_name ?></a></span>
 										<span><b>Favourited</b>: <?= $favourites_count ?></span>
+										<?php if($asset->gears_enabled): ?>
+										<span style="font-size: 13px;margin:5px;"><b>Gears enabled!</b></span>
+										<?php endif ?>
 									</div>
 									<hr>
 									<button class="PurchaseButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)">Play</button>

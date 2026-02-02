@@ -39,7 +39,7 @@
 
 	RewriteRule ^Data/Upload.ashx	/core/ide/upload.php			  [END]
 
-	RewriteRule ^IDE/Toolbox/GetTotalNumberOfResults /core/ide/toolbox/gettotalnumberofresults.php			  [END]
+	RewriteRule ^ide/toolbox/items /core/ide/toolbox/items.php			  [END]
 	RewriteRule ^IDE/Toolbox/Search /core/ide/toolbox/search.php			  [END]
 
 	RewriteRule ^Game/Upload.aspx /core/ide/goingupload.php			  [END]
@@ -151,6 +151,8 @@
 
 	RewriteRule ^Sets/SetHandler.ashx /core/sets/setshandler.php [END]
 	RewriteRule ^sets/SetsHandler.ashx /core/sets/setshandler.php [END]
+
+	RewriteRule ^sets/get-roblox-sets /core/sets/get-roblox-sets.php [END]
 	RewriteRule ^UploadMedia/UploadVideo.aspx /core/uploadmedia/uploadvideo.php [END]
 
 	RewriteRule ^Game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
