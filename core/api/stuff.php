@@ -21,13 +21,19 @@
 			die(header("Location: /api/stuff?c=$type&p=1"));
 		}
 
-		$total_pages = floor(count($user->GetAllOwnedAssetsOfType(AssetType::index($type)))/12)+1;
+		$showcreatoronly = false;
+
+		if(isset($_GET['showcreatoronly'])) {
+			$showcreatoronly = true;
+		}
+
+		$total_pages = floor(count($user->GetAllOwnedAssetsOfType(AssetType::index($type), true, $showcreatoronly))/12)+1;
 
 		if($total_pages < $page) {
 			die(header("Location: /api/stuff?c=$type&p=1"));
 		}
 
-		$assets = $user->GetAllOwnedAssetsOfTypePaged(AssetType::index($type), $page, 12);
+		$assets = $user->GetAllOwnedAssetsOfTypePaged(AssetType::index($type), $page, 12, $showcreatoronly);
 
 		$assets_raw = [];
 

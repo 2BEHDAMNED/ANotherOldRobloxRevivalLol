@@ -15,6 +15,12 @@
 		else if($type == "getsetitems") {
 			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-set-items.php"));
 		}
+		else if($type == "getmydecals") {
+			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-my-decals.php"));
+		}
+		else if($type == "getmymodels") {
+			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-my-decals.php"));
+		}
 	}
 
 	die("{}");

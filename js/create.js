@@ -107,7 +107,7 @@ ANORRL.Create  = {
 			warning.css("display", "none");
 		}
 
-		$.get("/api/stuff", {c: category, p : page}, function(data) {
+		$.get("/api/stuff", {c: category, p : page, showcreatoronly: true}, function(data) {
 			
 			var assets = data['assets'];
 			ANORRL.Create.CurrentPage = data['page'];
@@ -225,6 +225,7 @@ $(function(){
 		"packages": 32,
 		"meshes": 4,
 		"lua": 5,
+		"animations": 24,
 	}
 
 	ANORRL.Create.GrabAssets(categories[url]);

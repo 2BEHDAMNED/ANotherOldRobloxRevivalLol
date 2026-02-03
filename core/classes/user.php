@@ -413,13 +413,22 @@
 			return $result_array;
 		}
 
-		function GetAllOwnedAssetsOfTypePaged(AssetType $type, int $pagenum, int $count): array {
+		function GetAllOwnedAssetsOfTypePaged(AssetType $type, int $pagenum, int $count, bool $owned = false): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? ORDER BY `ta_date` DESC LIMIT ?, ?");
-			$page = (($pagenum-1)*$count);
-			$ordinal = $type->ordinal();
+
+			if($owned) {
+				$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? AND `ta_assetcreator` = ? ORDER BY `ta_date` DESC LIMIT ?, ?");
+				$page = (($pagenum-1)*$count);
+				$ordinal = $type->ordinal();
+				$stmt_getuser->bind_param('iiiii', $ordinal, $this->id, $this->id, $page, $count);
+			} else {
+				$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? ORDER BY `ta_date` DESC LIMIT ?, ?");
+				$page = (($pagenum-1)*$count);
+				$ordinal = $type->ordinal();
+				$stmt_getuser->bind_param('iiii', $ordinal, $this->id, $page, $count);
+			}
+
 			
-			$stmt_getuser->bind_param('iiii', $ordinal, $this->id, $page, $count);
 			$stmt_getuser->execute();
 
 			$result = $stmt_getuser->get_result();
@@ -444,11 +453,19 @@
 			return $result_array;
 		}
 
-		function GetAllOwnedAssetsOfType(AssetType $type, bool $showAll = true): array {
+		function GetAllOwnedAssetsOfType(AssetType $type, bool $showAll = true, bool $owned = false): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? ORDER BY `ta_date` DESC");
-			$ordinal = $type->ordinal();
-			$stmt_getuser->bind_param('ii', $ordinal, $this->id);
+			
+			if($owned) {
+				$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? AND `ta_assetcreator` = ? ORDER BY `ta_date` DESC");
+				$ordinal = $type->ordinal();
+				$stmt_getuser->bind_param('iii', $ordinal, $this->id, $this->id);
+			} else {
+				$stmt_getuser = $con->prepare("SELECT * FROM `transactions` WHERE `ta_assettype` = ? AND `ta_userid` = ? ORDER BY `ta_date` DESC");
+				$ordinal = $type->ordinal();
+				$stmt_getuser->bind_param('ii', $ordinal, $this->id);
+			}
+			
 			$stmt_getuser->execute();
 
 			$result = $stmt_getuser->get_result();
