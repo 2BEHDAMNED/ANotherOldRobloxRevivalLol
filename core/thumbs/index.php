@@ -106,7 +106,7 @@
 				$width = imagesx($image);
 				$height = imagesy($image);
 
-				if($width != $height) {
+				if($width != $height && $asset->type != AssetType::PLACE) {
 					if($width > $height) {
 						$cropSize = $height;
 					}
