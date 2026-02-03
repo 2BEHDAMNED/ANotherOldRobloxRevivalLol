@@ -103,9 +103,24 @@
 				}
 
 				$image = imagecreatefromstring($contents);
-				imagesavealpha($image, true);
 				$width = imagesx($image);
 				$height = imagesy($image);
+
+				if($width != $height) {
+					if($width > $height) {
+						$cropSize = $height;
+					}
+
+					if($width < $height) {
+						$cropSize = $width;
+					}
+
+					$image = ImageUtils::cropAlign($image,$cropSize, $cropSize);
+					$width = $cropSize;
+					$height = $cropSize;
+				}
+
+				imagesavealpha($image, true);
 
 				$resizedimage = imagecreatetruecolor($sizex, $sizey);
 				imagesavealpha($resizedimage, true);

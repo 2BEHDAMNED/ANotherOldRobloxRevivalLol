@@ -43,6 +43,7 @@
 
 				$resizedimage = imagecreatetruecolor($size, $size);
 				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
+				imagesavealpha($resizedimage, true);
 
 				header("Content-Type: image/png");
 				ob_clean();
@@ -60,9 +61,28 @@
 				}
 
 				$image = imagecreatefromstring($contents);
+				$width = imagesx($image);
+				$height = imagesy($image);
+
+				if($width != $height) {
+					if($width > $height) {
+						$cropSize = $height;
+					}
+
+					if($width < $height) {
+						$cropSize = $width;
+					}
+
+					$image = ImageUtils::cropAlign($image,$cropSize, $cropSize);
+					$width = $cropSize;
+					$height = $cropSize;
+				}
+
+				imagesavealpha($image, true);
 				$resizedimage = imagecreatetruecolor($sizex, $sizey);
 				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
-				
+				imagesavealpha($resizedimage, true);
+
 				header("Content-Type: image/png");
 				ob_clean();
 				imagepng($resizedimage);
