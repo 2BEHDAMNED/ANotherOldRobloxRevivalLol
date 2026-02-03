@@ -330,7 +330,8 @@ $com_count = count($comments);
 										if($com_count != 0):
 											foreach($comments as $comment) {
 												if($comment instanceof Comment) {
-													$contents = str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $comment->contents));
+													//$contents = str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $comment->contents));
+													$contents = str_replace(PHP_EOL, "<br>", $comment->contents);
 													$user_id = $comment->poster->id;
 													$user_name = $comment->poster->name;
 

@@ -1595,6 +1595,6 @@ header("Content-Type: application/json");
 	"SFFlagUseLuaChat": "True",
 	"SFFlagUseNewBlockFunction": "True",
 	"SFFlagUseNewSetFMOD3D": "True",
-	"StartPageUrl": "/ide/welcome",
+	"StartPageUrl": "/my/places",
 	"VideoPreRollWaitTimeSeconds": "45"
 }

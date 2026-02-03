@@ -300,7 +300,7 @@ $header_data = $asset;
 							<h3>Comments (<?= $com_count ?>)</h3>
 							<?php if($user != null && $asset->comments_enabled): ?>
 							<div id="CommentPostArea">
-								<?php if($comment_post_error): ?>
+								<?php if(isset($comment_post_error) && $comment_post_error): ?>
 									<div class="Error"><?= $result['reason'] ?></div>
 								<?php endif ?>
 								<form method="POST">
@@ -320,7 +320,7 @@ $header_data = $asset;
 									<?php
 										if($com_count != 0):
 											foreach($comments as $comment) {
-												$contents = str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $comment->contents));
+												$contents = str_replace(PHP_EOL, "<br>", $comment->contents);
 												$user_id = $comment->poster->id;
 												$user_name = $comment->poster->name;
 

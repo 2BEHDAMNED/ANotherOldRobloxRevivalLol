@@ -33,7 +33,7 @@ header("Content-Type: application/json");
 	"FLogFullRenderObjects": "0",
 	"PublishedProjectsPageHeight": "535",
 	"PublishedProjectsPageUrl": "/ide/publish",
-	"StartPageUrl": "/ide/welcome",
+	"StartPageUrl": "/my/places",
 	"FFlagOpenNewWindowsInDefaultBrowser": "True",
 	"FFlagOnScreenProfiler": "True",
 	"FFlagInitializeNewPlace": "True",
