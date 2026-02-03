@@ -1,0 +1,21 @@
+<?php
+	header("Content-Type: application/json");
+
+	//?maxsets=10&rqtype=getrobloxsets
+
+	if(isset($_GET['rqtype'])) {
+		$type = $_GET['rqtype'];
+
+		if($type == "getrobloxsets") {
+			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-roblox-sets.php"));
+		}
+		else if($type == "getsetinfo") {
+			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-set-info.php"));
+		}
+		else if($type == "getsetitems") {
+			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-set-items.php"));
+		}
+	}
+
+	die("{}");
+?>
