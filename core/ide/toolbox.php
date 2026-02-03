@@ -1,4 +1,8 @@
+<?php 
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
+	$user = UserUtils::RetrieveUser();
+?>
 <!DOCTYPE html>
 <html>
 	<head>
