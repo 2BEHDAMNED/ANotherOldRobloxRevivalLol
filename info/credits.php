@@ -86,6 +86,12 @@
 									"Created splash screen #18 for the studio!"
 								); ?>
 							</tr>
+							<tr>
+								<?php CreateProfile(
+									5,
+									"Created the emote music for dywec, californiagurls and caramelldansen!!!"
+								); ?>
+							</tr>
 						</table>
 						<hr>
 						<p>But these aren't the only ones, no.</p>
