@@ -19,7 +19,7 @@
 			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-my-decals.php"));
 		}
 		else if($type == "getmymodels") {
-			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-my-decals.php"));
+			die(include($_SERVER['DOCUMENT_ROOT']."/core/sets/get-my-models.php"));
 		}
 	}
 
