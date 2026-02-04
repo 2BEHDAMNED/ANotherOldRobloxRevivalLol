@@ -1081,6 +1081,14 @@
 
 				if(!file_exists($assetsdir)) {
 					$render = TheFuckingRenderer::RenderModel($place_id);
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
+
+					$render_image = imagecreatefromstring($data);
+					imagesavealpha($render_image, true);
+					imagepng($render_image, $assetsdir);
 				}
 
 				return ["error" => false, "id" => $place_result['id']];
@@ -1099,32 +1107,29 @@
 				$place_data = $file;
 			}
 			
-			if(
-				!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://arl.lambda.cam/roblox.xsd\" version=\"4\">") &&
-				!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://www.roblox.com/roblox.xsd\" version=\"4\">")
-			) {
-				return ["error" => true, "reason" => "Not a valid model file!"];
-			} else {
-				/*if(str_contains($place_data, "class=\"Script\"")) {
+			/*if(str_contains($place_data, "class=\"Script\"")) {
 					return ["error" => true, "reason" => "Hat cannot contain scripts!"];
 				}*/
 
-				$blacklist = ["Remote", "Service", "Model"];
-				$invalid = false;
-				
-				foreach ($blacklist as $scripts) {
-					if (strpos($place_data, $scripts) !== false) {
-						return ["error" => true, "reason" => "This thing... contains invalid JUNK!"];
-					}
+			$blacklist = ["Remote", "Service", "Model"];
+			$invalid = false;
+			
+			foreach ($blacklist as $scripts) {
+				if (strpos($place_data, $scripts) !== false) {
+					return ["error" => true, "reason" => "This thing... contains invalid JUNK!"];
 				}
+			}
 
-				if(str_contains($place_data, "class=\"CharacterMesh\"")) {
-					return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
-				}
+			if(strpos($place_data, "CharacterMesh") !== false) {
+				return ["error" => true, "reason" => "That is not a hat... That is a character mesh!"];
+			}
 
-				if(str_contains($place_data, needle: "class=\"Tool\"")) {
-					return ["error" => true, "reason" => "That is not a hat... That is a gear!"];
-				}
+			if(strpos($place_data, needle: "Tool") !== false) {
+				return ["error" => true, "reason" => "That is not a hat... That is a gear!"];
+			}
+
+			if(strpos($place_data, needle: "Accessory") === false && strpos($place_data, needle: "Hat") === false) {
+				return ["error" => true, "reason" => "Where's the hat huh..."];
 			}
 
 			// process singular asset
@@ -1157,6 +1162,14 @@
 
 				if(!file_exists($assetsdir)) {
 					$render = TheFuckingRenderer::RenderModel($place_id);
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
+
+					$render_image = imagecreatefromstring($data);
+					imagesavealpha($render_image, true);
+					imagepng($render_image, $assetsdir);
 				}
 
 				return ["error" => false, "id" => $place_result['id']];
@@ -1243,6 +1256,14 @@
 
 				if(!file_exists($assetsdir)) {
 					$render = TheFuckingRenderer::RenderModel($place_id);
+					$data = "data:image/png;base64,$render";
+					list($type, $data) = explode(';', $data);
+					list(, $data)      = explode(',', $data);
+					$data = base64_decode($data);
+
+					$render_image = imagecreatefromstring($data);
+					imagesavealpha($render_image, true);
+					imagepng($render_image, $assetsdir);
 				}
 
 				return ["error" => false, "id" => $place_result['id']];
