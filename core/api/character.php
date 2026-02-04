@@ -276,7 +276,7 @@
 
 				$characterinfo = $user->GetCharacterAppearanceVerbose();
 				$charactermd5 = md5($characterinfo);
-				if(file_exists("$mediadir/$charactermd5.png"))
+				if(file_exists("$mediadir/$charactermd5.png") && false)
 					die(json_encode(["error" => false]));
 
 				$render = TheFuckingRenderer::RenderUser($user->id);

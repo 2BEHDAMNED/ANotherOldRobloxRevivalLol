@@ -117,6 +117,9 @@
 				player:LoadCharacter(false)
 
 				if player.Character then
+					for _, child in pairs(player.Backpack:GetChildren()) do
+						child.Parent = player.Character
+					end
 					for _, child in pairs(player.Character:GetChildren()) do
 						if child:IsA("Tool") then
 							player.Character.Torso["Right Shoulder"].CurrentAngle = math.rad(90)
