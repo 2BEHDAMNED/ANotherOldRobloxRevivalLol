@@ -109,6 +109,7 @@
 				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
 				game:GetService("ScriptContext").ScriptsDisabled = true
 				game:GetService("Lighting").Outlines = false
+				game:SetPlaceID(25)
 
 				local player = game.Players:CreateLocalPlayer(0)
 
