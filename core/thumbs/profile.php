@@ -2,6 +2,7 @@
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/imageutils.php";
 
 	$user = UserUtils::RetrieveUser();
 
@@ -30,62 +31,62 @@
 			}
 
 			ob_clean();
+			
+			if(!str_contains(ImageUtils::checkMimeType($contents), "image/gif")) {
+				if(isset($_GET['sxy'])) {
+					$size = intval($_GET['sxy']);
+					if($size < 16 || $size > 420) {
+						$size = 420;
+					}
+					
+					$image = imagecreatefromstring($contents);
+					$width = imagesx($image);
+					$height = imagesy($image);
+					$resizedimage = imagecreatetruecolor($size, $size);
+					imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
+					imagesavealpha($resizedimage, true);
 
-			if(isset($_GET['sxy'])) {
-				$size = intval($_GET['sxy']);
-				if($size < 16 || $size > 420) {
-					$size = 420;
-				}
-
-				$image = imagecreatefromstring($contents);
-				$width = imagesx($image);
-				$height = imagesy($image);
-
-				$resizedimage = imagecreatetruecolor($size, $size);
-				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
-				imagesavealpha($resizedimage, true);
-
-				header("Content-Type: image/png");
-				ob_clean();
-				imagepng($resizedimage);
-				
-			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
-				$sizex = intval($_GET['sx']);
-				if($sizex < 16 || $sizex > 420) {
-					$sizex = 420;
-				}
-
-				$sizey = intval($_GET['sy']);
-				if($sizey < 16 || $sizey > 420) {
-					$sizey = 420;
-				}
-
-				$image = imagecreatefromstring($contents);
-				$width = imagesx($image);
-				$height = imagesy($image);
-
-				if($width != $height) {
-					if($width > $height) {
-						$cropSize = $height;
+					header("Content-Type: image/png");
+					ob_clean();
+					imagepng($image);
+				} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
+					$sizex = intval($_GET['sx']);
+					if($sizex < 16 || $sizex > 420) {
+						$sizex = 420;
 					}
 
-					if($width < $height) {
-						$cropSize = $width;
+					$sizey = intval($_GET['sy']);
+					if($sizey < 16 || $sizey > 420) {
+						$sizey = 420;
 					}
 
-					$image = ImageUtils::cropAlign($image,$cropSize, $cropSize);
-					$width = $cropSize;
-					$height = $cropSize;
+					$image = imagecreatefromstring($contents);
+					$width = imagesx($image);
+					$height = imagesy($image);
+
+					if($width != $height) {
+						if($width > $height) {
+							$cropSize = $height;
+						}
+
+						if($width < $height) {
+							$cropSize = $width;
+						}
+
+						$image = ImageUtils::cropAlign($image,$cropSize, $cropSize);
+						$width = $cropSize;
+						$height = $cropSize;
+					}
+
+					imagesavealpha($image, true);
+					$resizedimage = imagecreatetruecolor($sizex, $sizey);
+					imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
+					imagesavealpha($resizedimage, true);
+
+					header("Content-Type: image/png");
+					ob_clean();
+					imagepng($resizedimage);
 				}
-
-				imagesavealpha($image, true);
-				$resizedimage = imagecreatetruecolor($sizex, $sizey);
-				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
-				imagesavealpha($resizedimage, true);
-
-				header("Content-Type: image/png");
-				ob_clean();
-				imagepng($resizedimage);
 			} else {
 				$file_info = new finfo(FILEINFO_MIME_TYPE);
 				$mime = $file_info->buffer($contents);

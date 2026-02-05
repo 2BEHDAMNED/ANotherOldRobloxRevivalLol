@@ -536,7 +536,7 @@
 						</Item>
 					</roblox>
 					EOT;
-					$decal_result = self::UploadAsset($user, $face ? AssetType::FACE : AssetType::DECAL, $name, $description, false, false, $decal_data);
+					$decal_result = self::UploadAsset($user, $face ? AssetType::FACE : AssetType::DECAL, $name, $description, true, false, $decal_data);
 					if($decal_result['error']) {
 						return $decal_result;
 					}
@@ -574,7 +574,7 @@
 					$stmt->execute();
 
 					if($face) {
-						$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1, `asset_public` = 1 WHERE `asset_id` = ?");
+						$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
 						$stmt->bind_param('i', $decal_result['id']);
 						$stmt->execute();
 					}

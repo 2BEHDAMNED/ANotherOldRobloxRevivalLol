@@ -87,7 +87,7 @@
 			<div id="Body">
 				<div id="BodyContainer">
 					<?php if(isset($_SESSION['ANORRL$Update$ProfileError']) && $_SESSION['ANORRL$Update$ProfileError']): ?>
-					<div id="ErrorTime">Error: <?= $_SESSION['ANORRL$Update$ProfileResult'] ?></div>
+					<div class="ErrorTime" style="margin: 5px; border: 2px solid black;">Error: <?= $_SESSION['ANORRL$Update$ProfileResult'] ?></div>
 					<?php endif ?>
 					<form method="POST" class="FormBox">
 						<div id="DetailsBox">
@@ -160,6 +160,5 @@
 	</body>
 </html>
 <?php
-	unset($_SESSION['ANORRL$Home$StatusError']);
-	unset($_SESSION['ANORRL$Home$StatusResult']);
+	unset($_SESSION['ANORRL$Update$ProfileError']);
 ?>

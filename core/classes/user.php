@@ -1162,45 +1162,78 @@ EOT;
 
 		function SetProfilePicture(array $file): array {
 			require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/imageutils.php";
-			if($file['error'] == 0 && $file['size'] > 0 && $file['size'] <= 1048576) { // 1mb cap
+			if($file['error'] == 0 && $file['size'] > 0 && $file['size'] <= 524288) { // 512kb cap
 				$file_contents = file_get_contents($file['tmp_name']);
-				if(str_starts_with(ImageUtils::checkMimeType($file_contents),"image/")) {
-					$pre_image = imagecreatefromstring($file_contents);
-					
-					$width = imagesx($pre_image);
-					$height = imagesy($pre_image);
-
-					if($width > 16 && $height > 16) {
-						$size = $width;
-
-						if($width == $height) {
-							$size = $width;
-						} else if($height < $width) {
-							$size = $height;
-						}
-
-						$image = imagescale(ImageUtils::cropAlign($pre_image, $size, $size), 420, 420);
+				$file_type = ImageUtils::checkMimeType($file_contents);
+				if(str_starts_with($file_type,"image/")) {
+					if(!str_contains($file_type, "gif")) {
+						$pre_image = imagecreatefromstring($file_contents);
 						
-						imagepng($image, $_SERVER['DOCUMENT_ROOT']."/../users/profile_".$this->id.".png");
+						$width = imagesx($pre_image);
+						$height = imagesy($pre_image);
 
-						if(!$this->setprofilepicture) {
-							include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+						if($width > 16 && $height > 16) {
+							$size = $width;
 
-							$stmt_updateuser = $con->prepare("UPDATE `users` SET `user_setprofilepicture` = 1 WHERE `user_id` = ?;");
-							$stmt_updateuser->bind_param("i", $this->id);
-							$stmt_updateuser->execute();
+							if($width == $height) {
+								$size = $width;
+							} else if($height < $width) {
+								$size = $height;
+							}
+
+							$image = imagescale(ImageUtils::cropAlign($pre_image, $size, $size), 420, 420);
+							
+							imagepng($image, $_SERVER['DOCUMENT_ROOT']."/../users/profile_".$this->id.".png", 9);
+
+							if(!$this->setprofilepicture) {
+								include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+								$stmt_updateuser = $con->prepare("UPDATE `users` SET `user_setprofilepicture` = 1 WHERE `user_id` = ?;");
+								$stmt_updateuser->bind_param("i", $this->id);
+								$stmt_updateuser->execute();
+							}
+
+							return ["error" => false];
 						}
 
-						return ["error" => false];
+						return ["error" => true, "reason" => "Image was wayyy too small! (16x16 minimum)"];
 					}
+					else {
+						list($width, $height, $type, $attr) = getimagesize($file['tmp_name']);
 
-					return ["error" => true, "reason" => "Image was wayyy too small!"];
+						if($width > 16 && $height > 16 && $width < 420 && $height < 420) {
+							move_uploaded_file($file['tmp_name'], $_SERVER['DOCUMENT_ROOT']."/../users/profile_".$this->id.".png");
 
+							if(!$this->setprofilepicture) {
+								include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+								$stmt_updateuser = $con->prepare("UPDATE `users` SET `user_setprofilepicture` = 1 WHERE `user_id` = ?;");
+								$stmt_updateuser->bind_param("i", $this->id);
+								$stmt_updateuser->execute();
+							}
+
+							return ["error" => false];
+						} else {
+							if($width < 16 && $height < 16) {
+								return ["error" => true, "reason" => "GIF was wayyy too small! (16x16 minimum)"];
+							} else if($width > 256 && $height > 256) {
+								return ["error" => true, "reason" => "GIF was wayyy too big! (256x256 maximum)"];
+							} else {
+								return ["error" => true, "reason" => "I hate your image. (what the fuck is this resolution)"];
+							}
+							
+						}
+					}
 				}
+				return ["error" => true, "reason" => "Something went wrong when uploading! ($file_type)"];
+			}
+			
+			if($file['size'] > 524288) {
+				return ["error" => true, "reason" => "Image too large! 512kb max!"];
+			} else {
 				return ["error" => true, "reason" => "Something went wrong when uploading!"];
 			}
-
-			return ["error" => true, "reason" => "Something went wrong when uploading!"];
+			
 		}
 
 		function ResetProfilePicture() {
