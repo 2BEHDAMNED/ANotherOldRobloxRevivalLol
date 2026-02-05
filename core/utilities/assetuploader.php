@@ -13,7 +13,41 @@
 		}
 
 
-		private static function GrabVersionOfAsset(int $id) {}
+		private static function PushWebhook(Asset $asset) {
+			$webhook_url = 'https://discord.com/api/webhooks/1435232939301535885/axF1MCxE_E6cG538m7YCTUWgLmhzz9c8bdq3iMt6GicnWW_G9LTO_BTULvqdr02wSrMq';
+
+			$msg = [
+				"username" => "Catalog Hotline",
+				"content" => "New Catalog Item Dropped!",
+				"embeds" => [
+					[
+						"title" => $asset->name,
+						"description" => "Uploaded by: ".$asset->creator->name,
+						"url" => "https://arl.lambda.cam/".$asset->GetURLTitle()."-item?id=".$asset->id,
+						"author" => [
+							"name" => "ANORRL",
+							"url" => "https://arl.lambda.cam/",
+							"icon_url" => "https://arl.lambda.cam/favicon.ico"
+						],
+						"thumbnail" => [
+							"url" => "https://arl.lambda.cam/thumbs/?id=".$asset->id
+						],
+					]
+				]
+			];
+
+			$headers = array('Content-Type: application/json'); 
+
+			$ch = curl_init();
+			curl_setopt( $ch,CURLOPT_URL, $webhook_url );
+			curl_setopt( $ch,CURLOPT_POST, true );
+			curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+			curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+			curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $msg ) );
+			curl_exec($ch);
+			curl_close($ch);
+		}
 
 		private static function UploadAsset(User $user, AssetType $type, string $name, string $description, bool $public, bool $hidden_ahh, mixed $file): array {
 			
@@ -45,6 +79,20 @@
 				$stmt = $con->prepare('INSERT INTO `assetversions`(`version_assetid`, `version_md5sig`, `version_assettype`) VALUES (?, ?, ?)');
 				$stmt->bind_param('isi', $id, $md5, $parsed_type);
 				$stmt->execute();
+
+				$types = [
+					AssetType::HAT,
+					AssetType::TSHIRT,
+					AssetType::SHIRT,
+					AssetType::PANTS,
+					AssetType::GEAR,
+					AssetType::FACE
+				];
+
+				if(in_array($type, $types)) {
+					self::PushWebhook(Asset::FromID($id));
+				}
+				
 			
 				return ["error" => false, "id" => $id];
 			} else {
@@ -524,6 +572,12 @@
 					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
 					$stmt->bind_param('ii', $decal_result['id'], $image_id);
 					$stmt->execute();
+
+					if($face) {
+						$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1, `asset_public` = 1 WHERE `asset_id` = ?");
+						$stmt->bind_param('i', $decal_result['id']);
+						$stmt->execute();
+					}
 
 					return ["error" => false, "id" => $decal_result['id']];
 				}
