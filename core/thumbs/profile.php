@@ -32,7 +32,7 @@
 
 			ob_clean();
 			
-			if(!str_contains(ImageUtils::checkMimeType($contents), "image/gif") || (isset($_GET['sxy']) && isset($_GET['sx']) && isset($_GET['sy']))) {
+			if(!str_contains(ImageUtils::checkMimeType($contents), "image/gif") && (isset($_GET['sxy']) || (isset($_GET['sx']) && isset($_GET['sy'])))) {
 				if(isset($_GET['sxy'])) {
 					$size = intval($_GET['sxy']);
 					if($size < 16 || $size > 420) {
@@ -48,7 +48,7 @@
 
 					header("Content-Type: image/png");
 					ob_clean();
-					imagepng($image);
+					imagepng($resizedimage);
 				} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
 					$sizex = intval($_GET['sx']);
 					if($sizex < 16 || $sizex > 420) {
