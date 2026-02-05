@@ -47,7 +47,7 @@
 
 	include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-	$stmt = $con->prepare("SELECT * FROM `friends` WHERE (`sender` = ? OR `reciever` = ?) ORDER BY `status` ASC");
+	$stmt = $con->prepare("SELECT * FROM `friends` WHERE (`sender` = ? OR `reciever` = ?) AND `status` = 1");
 	$stmt->bind_param("ii", $get_user->id, $get_user->id);
 	$stmt->execute();
 
