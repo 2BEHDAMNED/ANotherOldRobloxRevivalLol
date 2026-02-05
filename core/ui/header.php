@@ -61,9 +61,9 @@
 		$_SESSION['ANORRL$UserPage$RandomImages'] = getImagesList();
 	}
 
-	$randomNumber = rand(0, 10000);
+	$randomNumber = rand(0, 100000);
 
-	$badAppled = $randomNumber > 6500 && $randomNumber < 6600;
+	$badAppled = $randomNumber > 6500 && $randomNumber < 6515;
 
 	$rand_pic = rollImage();
 
@@ -134,10 +134,12 @@
 	</div>
 	
 	<div id="Links" >
-		<?php if($header_check_user != null): ?><a href="/users/<?= $header_check_user->id ?>/profile">Profile</a><?php endif ?>
+		<?php if($header_check_user != null): ?>
+		<a href="/users/<?= $header_check_user->id ?>/profile">Profile</a>
 		<a href="/games">Games</a>
 		<a href="/catalog">Catalog</a>
 		<a href="/people">People</a>
+		<?php endif ?>
 	</div>
 	
 	<?php if($header_check_user != null): ?>
