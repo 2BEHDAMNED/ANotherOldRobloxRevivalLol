@@ -14,7 +14,7 @@
 
 
 		private static function PushWebhook(Asset $asset) {
-			$webhook_url = 'https://discord.com/api/webhooks/1435232939301535885/axF1MCxE_E6cG538m7YCTUWgLmhzz9c8bdq3iMt6GicnWW_G9LTO_BTULvqdr02wSrMq';
+			$webhook_url = 'https://discord.com/api/webhooks/1468915694648168505/To9H8VZggtTS9_tba0L27XlHld6uUYzb67VpBt6s7d-NvwCpiplh9m3OicPgnWsTCIWY';
 
 			$msg = [
 				"username" => "Catalog Hotline",
