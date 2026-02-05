@@ -29,8 +29,8 @@
 	<head>
 		<title>Home - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/new/main.css?v=1">
-		<link rel="stylesheet" href="/css/new/my/home.css">
+		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/my/home.css?v=1">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/home.js"></script>
