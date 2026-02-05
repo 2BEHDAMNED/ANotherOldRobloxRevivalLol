@@ -101,6 +101,7 @@ h1, h2, h3, h4 {
 
 #HomePage #FriendsContainer #Friends .Friend img {
 	width: 100px;
+	height: 100px;
 	border: 2px solid #090909;
 	background: #1a1919;
 }
@@ -226,6 +227,7 @@ h1, h2, h3, h4 {
 
 #Feeds #FeedItem .User img {
 	width:90px;
+	height:90px;
 	border: none;
 }
 

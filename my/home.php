@@ -29,7 +29,7 @@
 	<head>
 		<title>Home - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/main.css?v=1">
 		<link rel="stylesheet" href="/css/new/my/home.css">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
@@ -92,7 +92,7 @@
 											echo <<<EOT
 											<li class="Friend">
 												<a id="ProfileLink" href="/users/$fID/profile">
-													<img id="Profile" src="/thumbs/player?id=$fID">
+													<img id="Profile" src="/thumbs/player?id=$fID&sxy=100">
 													<div id="Name">$fName</div>
 												</a>
 											</li>
