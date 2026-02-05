@@ -173,6 +173,7 @@
 			}
 		} else {
 			$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id.(isset($_GET['version']) ?  "_".$version : ""));
+			header("Content-Type: ".checkMimeType($contents));
 		}
 		
 		echo $contents;	
