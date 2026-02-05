@@ -38,6 +38,11 @@ h4 {
 	white-space: nowrap;
 }
 
+#FriendsContainer .Friend a > img {
+	width: 100px;
+	height: 100px;
+}
+
 #FriendsContainer .Friend a > span {
 	margin-top: 5px;
 }

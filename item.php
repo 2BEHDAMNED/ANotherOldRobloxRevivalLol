@@ -109,7 +109,7 @@ $com_count = count($comments);
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/item/item.css">
-		<link rel="stylesheet" href="/css/new/comments.css">
+		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 
 		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->

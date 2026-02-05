@@ -30,6 +30,7 @@
 
 .Comment #CommenterAvatar > a > img {
 	width: 115px;
+	height: 115px;
 	border: 2px solid black;
 	margin-right: 5px;
 	background: #333;
