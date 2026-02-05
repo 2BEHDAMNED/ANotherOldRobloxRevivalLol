@@ -63,7 +63,7 @@
 
 	$randomNumber = rand(0, 10000);
 
-	$badAppled = $randomNumber > 6500 && $randomNumber < 7500;
+	$badAppled = $randomNumber > 6500 && $randomNumber < 6600;
 
 	$rand_pic = rollImage();
 
