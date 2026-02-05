@@ -32,13 +32,13 @@
 
 			ob_clean();
 			
-			if(!str_contains(ImageUtils::checkMimeType($contents), "image/gif")) {
+			if(!str_contains(ImageUtils::checkMimeType($contents), "image/gif") || (isset($_GET['sxy']) && isset($_GET['sx']) && isset($_GET['sy']))) {
 				if(isset($_GET['sxy'])) {
 					$size = intval($_GET['sxy']);
 					if($size < 16 || $size > 420) {
 						$size = 420;
 					}
-					
+
 					$image = imagecreatefromstring($contents);
 					$width = imagesx($image);
 					$height = imagesy($image);
