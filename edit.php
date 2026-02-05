@@ -45,7 +45,8 @@
 		AssetType::MODEL,
 		AssetType::LUA,
 		AssetType::HAT,
-		AssetType::GEAR
+		AssetType::GEAR,
+		AssetType::ANIMATION
 	];
 
 	function CheckMimeType($contents) {
@@ -143,6 +144,8 @@
 				$result = AssetUploader::UpdateHat($asset->id, $_FILES['ANORRL$PublishAsset$File']);
 			} else if($asset->type == AssetType::GEAR) {
 				$result = AssetUploader::UpdateGear($asset->id, $_FILES['ANORRL$PublishAsset$File']);
+			} else if($asset->type == AssetType::ANIMATION) {
+				$result = AssetUploader::UpdateAnimation($asset->id, $_FILES['ANORRL$PublishAsset$File']);
 			} else {
 				die("Type was recognised but not implemented...");
 			}

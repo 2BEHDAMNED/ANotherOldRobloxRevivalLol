@@ -475,6 +475,27 @@
 			}
 		}
 
+		public static function UpdateAnimation(int $id, array|string $file) {
+			$user = UserUtils::RetrieveUser();
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+			
+			// process singular asset
+			$place_result = self::UpdateAsset($id, $user, $place_data);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				return ["error" => false, "vid" => $place_result['versionid']];
+			}
+		}
+
 		public static function UploadDecal(string $name, string $description, array $file, bool $face = false) {
 			$user = UserUtils::RetrieveUser();
 
