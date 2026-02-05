@@ -148,7 +148,7 @@
 		}
 
 		if(!file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id.(isset($_GET['version']) ?  "_".$version : ""))) {
-			$url = 'https://assetdelivery.roblox.com/v1/asset/?id='.$id.(isset($_GET['version']) ? '&version='.$version : "");
+			$url = "https://assetdelivery.roblox.com/v1/asset/?id=".$id.(isset($_GET['version']) ? '&version='.$version : "");
 			$ch = curl_init ($url);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cookie: .ROBLOSECURITY=_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_CAEaAhADIhwKBGR1aWQSFDEzMDE4NzM0Nzk4MTY5MzI2NzM3KAM.96IxbhII0plfO0-sutwtWcZ6VGtGpUkrb_qA4-7erYDzkobQOxhyPmagepO2qf-k7Cg4JcYtwS2md-cb-5578IPsFclIzQNPNaGMxMKrXokv5IB-bI_3RWKg-sgMw69GWpr51wdf5K9Kya07CbiXAMome47HcAoUUvfdTzvobPLluzxstvCQ2JLryJH3diLQBQMpn8aslB4z4jHcOfHCBReitSz2ognLYJ2ytVFwVKAY-BALtRnbblwSAIX2b6UDVtizP3HRSh0vLhpIYuY3X4RoR0wtI8bdXpFkrj3oRZlSMLfuBobC3fB4Ou8Y92uroPguQSAVxx3SMDFSYzhcokztPirv_vL7ToiLsxYb_5M5InFA1NpM65_PxowFBbAFWWhsiMz2t62t0_TcUqD6lPyypxEN9auJgVdARFv0wtof_9KbuOjhK23pMPuwKuDTMSpDo0jgdhe10b2yN3TYVcnaq2itXzikJh04kjKAl6cJ7oWWh90NaEBUtEdUnk-zpA4T7hM3e8Qg1XR-mMccz63kN509NO2yb2-8zRZ1WzDuWDrYZPrhQKcZ1qQtHs9Jy3S2fa-hsvvo-aw2n034UPchOc6VlroAVU-2e8C2Wgu1eLE_dRgnKr4v0MmjSSvaC5NK-DMKHrlSFaD5deWhLhI7bU0YdwH2DG-J4L-g2QSH9rrh24WBWPyAZgsk0ei0b8VJ5vCUU0OcPlrggx9KMKqTkjjHzCXYftp3wwwgKLsIPbxW07dz2NUqsH59gyDRiUpOwITvm3u6AvGVSG4R2VmIlkyLnmH4h38NZ2QAagWyz0EY"));
 			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
@@ -174,6 +174,9 @@
 		} else {
 			$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id.(isset($_GET['version']) ?  "_".$version : ""));
 			header("Content-Type: ".checkMimeType($contents));
+			if(str_contains(checkMimeType($contents), "json")) {
+				die(http_response_code(503));
+			}
 		}
 		
 		echo $contents;	
