@@ -30,7 +30,7 @@
 		<title>Home - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
-		<link rel="stylesheet" href="/css/new/my/home.css?v=1">
+		<link rel="stylesheet" href="/css/new/my/home.css?v=2">
 		<script src="/js/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/home.js"></script>
@@ -59,7 +59,7 @@
 								<marquee scrollamount="15" behavior="alternate" style="display: block;margin-top: -33px;z-index: 9;" direction="left"><?= $user->name ?></marquee>
 							</h1>
 							<div id="UserProfile">
-								<a href="/users/<?= $user->id ?>/profile"><img id="ProfilePicture" src="/thumbs/player?id=<?= $user->id ?>"></a>
+								<a href="/users/<?= $user->id ?>/profile"><img id="ProfilePicture" src="/thumbs/player?id=<?= $user->id ?>&sxy=200"></a>
 								<div id="StatusContainer">
 								<?php 
 									if($user->GetLatestStatus() != null) {
