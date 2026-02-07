@@ -329,7 +329,7 @@
 						</div>
 						<br clear="all">
 					</div>
-					<div id="CommentsContainer" style="margin: 10px;">
+					<div id="CommentsContainer" style="margin: 10px">
 						<?php if($user == null): ?>
 						<h3>Comments</h3>
 						<div id="CommentSection">
@@ -359,7 +359,6 @@
 							<?php endif ?>
 						</div>
 						<?php endif ?>
-						</div>
 					</div>
 					<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 				</div>
