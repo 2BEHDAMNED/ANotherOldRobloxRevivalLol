@@ -58,7 +58,7 @@
 		die(header("Location: /users/".$get_user->id."/profile"));
 	}
 
-	$comments = Comment::GetCommentsOn($asset);
+	$comments = Comment::GetCommentsOn($get_user);
 	$comments_count = count($comments);
 
 ?>
