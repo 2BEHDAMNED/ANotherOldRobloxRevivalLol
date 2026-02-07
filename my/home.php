@@ -31,7 +31,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/my/home.css?v=2">
-		<script src="/js/jquery.js"></script>
+		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/home.js?t=<?= time() ?>"></script>
 	</head>

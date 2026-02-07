@@ -8,8 +8,8 @@
 	<head>
 		<title>Toolbox</title>
 		<link rel="stylesheet" href="/css/toolbox.css"/>
-		<script type="text/javascript" src="/js/jquery.js"></script>
-		<script type="text/javascript" src="/js/jquery-migrate.js"></script>
+		<script type="text/javascript" src="/js/core/jquery.js"></script>
+		<script type="text/javascript" src="/js/core/jquery-migrate.js"></script>
 		<script type="text/javascript" src="/js/toolbox.js"></script>
 	</head>
 	<body class="Page" style="margin: 0;">

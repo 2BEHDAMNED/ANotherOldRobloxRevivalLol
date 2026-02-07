@@ -1,7 +1,7 @@
 <?php
 	header("Content-Type: application/json");
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 
 	//?category=FreeModels&keyword=&num=30&page=1&sort=Relevance
 
@@ -23,23 +23,23 @@
 		}
 
 		if($_GET['category'] == "FreeModels") {
-			$paged_assets = Asset::GetAssetsOfTypePaged($_GET['keyword'], AssetType::MODEL, intval($_GET['page']), intval($_GET['num']), $user);
-			$assets = Asset::GetAssetsOfType($_GET['keyword'], AssetType::MODEL, $user);
+			$paged_assets = AssetUtils::GetPaged($_GET['keyword'], AssetType::MODEL, intval($_GET['page']), intval($_GET['num']), $user);
+			$assets = AssetUtils::Get($_GET['keyword'], AssetType::MODEL, $user);
 			$validresponse = true;
 		} 
 		else if($_GET['category'] == "FreeDecals") {
-			$paged_assets = Asset::GetAssetsOfTypePaged($_GET['keyword'], AssetType::DECAL, intval($_GET['page']), intval($_GET['num']), $user);
-			$assets = Asset::GetAssetsOfType($_GET['keyword'], AssetType::DECAL, $user);
+			$paged_assets = AssetUtils::GetPaged($_GET['keyword'], AssetType::DECAL, intval($_GET['page']), intval($_GET['num']), $user);
+			$assets = AssetUtils::Get($_GET['keyword'], AssetType::DECAL, $user);
 			$validresponse = true;
 		}
 		else if($_GET['category'] == "FreeMeshes") {
-			$paged_assets = Asset::GetAssetsOfTypePaged($_GET['keyword'], AssetType::MESH, intval($_GET['page']), intval($_GET['num']), $user);
-			$assets = Asset::GetAssetsOfType($_GET['keyword'], AssetType::MESH, $user);
+			$paged_assets = AssetUtils::GetPaged($_GET['keyword'], AssetType::MESH, intval($_GET['page']), intval($_GET['num']), $user);
+			$assets = AssetUtils::Get($_GET['keyword'], AssetType::MESH, $user);
 			$validresponse = true;
 		}
 		else if($_GET['category'] == "FreeAudio") {
-			$paged_assets = Asset::GetAssetsOfTypePaged($_GET['keyword'], AssetType::AUDIO, intval($_GET['page']), intval($_GET['num']), $user);
-			$assets = Asset::GetAssetsOfType($_GET['keyword'], AssetType::AUDIO, $user);
+			$paged_assets = AssetUtils::GetPaged($_GET['keyword'], AssetType::AUDIO, intval($_GET['page']), intval($_GET['num']), $user);
+			$assets = AssetUtils::Get($_GET['keyword'], AssetType::AUDIO, $user);
 			$validresponse = true;
 		}
 

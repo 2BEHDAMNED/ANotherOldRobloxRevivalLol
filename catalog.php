@@ -17,7 +17,7 @@
 		<link rel="stylesheet" href="/css/new/forms.css">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<link rel="stylesheet" href="/css/new/catalog.css">
-		<script src="/js/jquery.js"></script>
+		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/catalog.js?t=<?= time() ?>"></script>
 	</head>

@@ -32,9 +32,31 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
-		<script src="/js/jquery.js"></script>
-		<script src="/js/loginchecker.js"></script>
+		<script src="/js/core/jquery.js"></script>
+		<script src="/js/forms.js"></script>
 		<!-- TODO: Add images on left and right when you get the right images -->
+		<script>
+			$(function(){
+				$("#ANORRL_Login_Username").on("input change", function() {
+					ANORRL.Login.CheckUsername(this, $(this).val());
+				});
+				$("#ANORRL_Login_Password").on("input change", function() {
+					ANORRL.Login.CheckPassword(this, $(this).val());
+				});
+
+				$("form").submit(function (e) {
+					// Basically, IE literally doesn't want to check if anything has been changed to an input unless directly by keys
+					// This just runs all the checks before submission.
+					ANORRL.Login.CheckUsername(document.getElementById("ANORRL_Login_Username"), $("#ANORRL_Login_Username").val());
+					ANORRL.Login.CheckPassword(document.getElementById("ANORRL_Login_Password"), $("#ANORRL_Login_Password").val());
+					if(!($(".Invalid").length == 0 && $(".Valid").length == 2)) {
+						e.preventDefault();
+						alert("Holy shit you have so much wrong");
+					}
+				});
+
+			});
+		</script>
 	</head>
 	<body>
 		<div id="Container">

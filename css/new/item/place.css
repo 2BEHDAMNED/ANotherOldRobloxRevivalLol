@@ -1,3 +1,19 @@
+h1, h2, h3, h4 {
+	margin: 0;
+}
+
+h2 {
+	padding: 5px 30px;
+}
+
+hr {
+	border-color: #aaa;
+}
+
+#ItemContainer {
+	padding: 10px;
+}
+
 #ItemContainer #PlaceDetails {
 	background: #2c2c2c;
 	border: 2px solid black;
@@ -19,9 +35,22 @@
 	text-align: left;
 }
 
-#PlaceDetails #Content audio {
-	width: 229px;
-	border:2px solid black;
+#PlaceDetails #Content #PlaceImageContainer {
+	width:623px;
+	height:350px;
+	position: relative;
+}
+
+#PlaceDetails #Content #PlaceImageContainer #OriginalLabel {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-size: 20px;
+	border: 2px solid black;
+	padding: 4px 15px;
+	background: #6b0388;
+	font-family: punk;
+	font-weight: bold;
 }
 
 #PlaceDetails #Information {
@@ -29,11 +58,11 @@
 }
 
 #PlaceDetails #Information #UserCard {
-	display: table;
 	border: 2px solid black;
 	background: #222;
 	margin-left: 10px;
 	padding: 10px;
+	width: 175px;
 	height: 348px;
 	padding-top: 15px;
 	padding-bottom: 0px;
@@ -44,6 +73,7 @@
 	vertical-align: top;
 	margin-bottom: 15px;
 	width: 100%;
+	margin: 3px 0px;
 }
 
 #PlaceDetails #Information #UserCard span{
@@ -52,11 +82,9 @@
 }
 
 #PlaceDetails #ManageOptions a {
-	width: 185px;
-}
-
-#PlaceDetails .PurchaseButton {
-	width: 185px;
+	font-size: 11px;
+	width: 175px;
+	padding: 3px 0px;
 }
 
 #PlaceInfoArea #NoDescription {
@@ -182,4 +210,49 @@
 .Server #JoinBox {
 	text-align: center;
 	border-left: 2px solid #555;
+}
+
+.PlaceButton {
+	display: block;
+	font-size: 14px;
+	padding: 7px 50px;
+	text-align: center;
+	margin-bottom: 5px;
+	color: white;
+	background: #e5962eff;
+	border: 2px solid #666;
+	width: 175px;
+  	padding: 0px;
+
+	cursor: pointer;
+}
+
+.PlaceButton[Play] {
+	height: 43px;
+	background: url("/images/buttons/play.png");
+	background-size: 175px;
+	border: 0px;
+}
+
+.PlaceButton[Edit] {
+	height: 47px;
+	background: url("/images/buttons/edit.png");
+	border: 0px;
+	width: 143px;
+	margin: 0 auto;
+}
+
+.PlaceButton[Edit]:hover {
+	filter: brightness(125%);
+}
+
+.PlaceButton[Play]:hover {
+	background-position: 0 45px;
+}
+
+#GearsEnabled {
+	font-size: 13px;
+	font-weight: bold;
+	margin: 2px;
+	letter-spacing: 2px;
 }

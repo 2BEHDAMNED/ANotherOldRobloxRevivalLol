@@ -190,6 +190,12 @@ $(function(){
 	
 	ANORRL.Catalog.GrabAssets();
 
+	$("#SearchBox").on("keypress", function(e) {
+		if(e.keyCode == 13) {
+			ANORRL.Catalog.Submit();
+		}
+	});
+
 	$("#Paginator").find("input").on("change", function() {
 		ANORRL.Catalog.GrabAssets(ANORRL.Catalog.CurrentCategory, Number($(this).val()));
 	});

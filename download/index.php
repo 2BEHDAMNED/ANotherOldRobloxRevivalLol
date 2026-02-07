@@ -27,7 +27,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/download.css">
-		<script src="/js/jquery.js"></script>
+		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 	</head>
 	<body>

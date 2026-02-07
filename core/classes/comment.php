@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/user.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/slurutils.php";
@@ -24,6 +24,33 @@
 			$this->contents = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['comment_content']));
 			$this->postdate = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['comment_postdate']);
 		
+		}
+
+		function PrintComment() {
+			$contents = str_replace(PHP_EOL, "<br>", $this->contents);
+			$user_id = $this->poster->id;
+			$user_name = $this->poster->name;
+			$profileurl = $this->poster->setprofilepicture ? "profile" : "player";
+			$formatted_datetime = $this->postdate->format("d/m/Y");
+
+			// add time ago
+
+			echo <<<EOT
+			<div class="Comment">
+				<div id="CommenterAvatar">
+					<a href="/users/$user_id/profile">
+						<img src="/thumbs/$profileurl?id=$user_id">
+					</a>
+				</div>
+				<div id="CommentPartArea">
+					<div id="CommentInfoArea">
+						<a href="/users/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
+					</div>
+					<code>$contents</code>
+				</div>
+				<div style="float: none; clear: both;"></div>
+			</div>
+			EOT;
 		}
 
 		static function GetRandomString(): string {

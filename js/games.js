@@ -165,6 +165,12 @@ ANORRL.Games = {
 $(function() {
 	ANORRL.Games.LoadNoQueryGames();
 
+	$("#SearchBox").on("keypress", function(e) {
+		if(e.keyCode == 13) {
+			ANORRL.Games.Submit();
+		}
+	});
+
 	$("#Games #Paginator").find("input").on("change", function() {
 		ANORRL.Games.LoadGames(this.CurrentQuery, Number($(this).val()));
 	});

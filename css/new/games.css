@@ -86,7 +86,7 @@
 }
 
 .Game #ImageContainer #FavouritesArea {
-	border: 1px solid black;
+	border: 2px solid black;
 	background: #222;
 	position:absolute;
 	z-index: 2;
@@ -104,14 +104,14 @@
 	position:absolute;
 	z-index: 2;
 	padding: 2px 5px;
-	left: 0px;
-	bottom: 0px;
+	right: 0px;
+	top: 0px;
 	display: none;
 }
+
 .Game #ImageContainer #OriginalArea > span {
 	letter-spacing: 1px;
 }
-
 
 .Game #Info > hr {
 	border: none;

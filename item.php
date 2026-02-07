@@ -1,106 +1,111 @@
 <?php 
 
-$name = $_GET['name'];
-$id = intval($_GET['id']);
+	$name = $_GET['name'];
+	$id = intval($_GET['id']);
 
-require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/comment.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/comment.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
-$asset = Asset::FromID($id);
-$user = UserUtils::RetrieveUser();
+	$asset = Asset::FromID($id);
+	$user = UserUtils::RetrieveUser();
 
 
 
-if($asset != null) {
+	if($asset != null) {
 
-	if($asset->notcatalogueable && $asset->type == AssetType::AUDIO) {
-		$urlname = $asset->relatedasset->GetURLTitle();
-		$id = $asset->relatedasset->id;
-		die(header("Location: /$urlname-item?id=$id"));
-	}
-
-	$urlname = $asset->GetURLTitle();
-	if($asset->GetURLTitle() != $name) {
-		if($asset->type == AssetType::PLACE) {
-			die(header("Location: /$urlname-place?id=$id"));
+		if($asset->notcatalogueable && $asset->type == AssetType::AUDIO) {
+			$urlname = $asset->relatedasset->GetURLTitle();
+			$id = $asset->relatedasset->id;
+			die(header("Location: /$urlname-item?id=$id"));
 		}
-		die(header("Location: /$urlname-item?id=$id"));
+
+		$urlname = $asset->GetURLTitle();
+		if($asset->GetURLTitle() != $name) {
+			if($asset->type == AssetType::PLACE) {
+				die(header("Location: /$urlname-place?id=$id"));
+			}
+			die(header("Location: /$urlname-item?id=$id"));
+		} else {
+			if($asset->type == AssetType::PLACE) {
+				die(header("Location: /$urlname-place?id=$id"));
+			}
+		}
+
+		if($asset->type == AssetType::AUDIO) {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt = $con->prepare('SELECT * FROM `assets` WHERE `asset_relatedid` = ? AND `asset_type` = ?;');
+			$type = AssetType::AUDIO->ordinal();
+			$stmt->bind_param("ii", $id, $type);
+			$stmt->execute();
+			$audio_asset_id = $stmt->get_result()->fetch_assoc()['asset_id'];
+		}
+
+		if($user != null) {
+			$is_creator = $user->id == $asset->creator->id || $user->IsAdmin();
+			$is_favourited = $asset->HasUserFavourited($user);
+			$is_bought = $user->Owns($asset);
+			
+			if(
+				isset($_POST['ANORRL$Comment$Post$Contents']) &&
+				isset($_POST['ANORRL$Comment$Post$Submit']) &&
+				$asset->comments_enabled
+			) {
+				$result = Comment::Post($asset, $_POST['ANORRL$Comment$Post$Contents']);
+				
+				if($result['error']) {
+					$_SESSION['ANORRL$Comment$Post$Error'] = $result['reason'];
+				}
+
+				die(header("Location: /$urlname-item?id=$id"));
+			}
+
+			$comments = Comment::GetCommentsOn($asset);
+			$comments_count = count($comments);
+		}
+
+		$favourites_count = $asset->favourites_count . " times";
+		if($asset->favourites_count == 1) {
+			$favourites_count = $asset->favourites_count . " time";
+		}
+		$asset_creator_name = $asset->creator->name;
+
+		$asset_description = $asset->description;
+		if(trim($asset_description) == "") {
+			$asset_description = "<b>Seems like $asset_creator_name hasn't put anything here...</b>";
+		} else {
+			$asset_description = str_replace(PHP_EOL, "<br>", $asset_description);
+		}
 	} else {
-		if($asset->type == AssetType::PLACE) {
-			die(header("Location: /$urlname-place?id=$id"));
-		}
+		die(header("Location: /my/stuff"));
 	}
 
-	if($asset->type == AssetType::AUDIO) {
-		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-		$stmt = $con->prepare('SELECT * FROM `assets` WHERE `asset_relatedid` = ? AND `asset_type` = ?;');
-		$type = AssetType::AUDIO->ordinal();
-		$stmt->bind_param("ii", $id, $type);
-		$stmt->execute();
-		$audio_asset_id = $stmt->get_result()->fetch_assoc()['asset_id'];
+	$rendering_types = [
+		AssetType::PLACE,
+		AssetType::SHIRT,
+		AssetType::PANTS,
+		AssetType::MODEL,
+		AssetType::HAT,
+		AssetType::MESH,
+		AssetType::HEAD,
+		AssetType::PACKAGE,
+		AssetType::TORSO,
+		AssetType::LEFTARM,
+		AssetType::RIGHTARM,
+		AssetType::LEFTLEG,
+		AssetType::RIGHTLEG,
+		AssetType::GEAR,
+	];
+
+	$get_related_assets = $asset->GetRelatedAssets();
+	$get_related_id = $asset->id;
+	if(count($get_related_assets) != 0) {
+		$get_related_id = $get_related_assets[0]->id;
 	}
 
-	if($user != null){
-		$is_creator = ($user != null && ($user->id == $asset->creator->id || $user->IsAdmin()));
-		$is_favourited = $user != null && $asset->HasUserFavourited($user);
 
-		$user_bought = $user != null && $user->Owns($asset);
+	$header_data = $asset;
 
-		if(
-			isset($_POST['ANORRL$Comment$Post$Contents']) &&
-			isset($_POST['ANORRL$Comment$Post$Submit']) &&
-			$asset->comments_enabled
-		) {
-			$result = Comment::Post($asset, $_POST['ANORRL$Comment$Post$Contents']);
-			$comment_post_error = $result['error'];
-		}
-	}
-
-	$favourites_count = $asset->favourites_count . " times";
-	if($asset->favourites_count == 1) {
-		$favourites_count = $asset->favourites_count . " time";
-	}
-	$asset_creator_name = $asset->creator->name;
-
-	$asset_description = $asset->description;
-	if(trim($asset_description) == "") {
-		$asset_description = "<b>Seems like $asset_creator_name hasn't put anything here...</b>";
-	} else {
-		$asset_description = str_replace(PHP_EOL, "<br>", $asset_description);
-	}
-} else {
-	die(header("Location: /my/stuff"));
-}
-
-$rendering_types = [
-	AssetType::PLACE,
-	AssetType::SHIRT,
-	AssetType::PANTS,
-	AssetType::MODEL,
-	AssetType::HAT,
-	AssetType::MESH,
-	AssetType::HEAD,
-	AssetType::PACKAGE,
-	AssetType::TORSO,
-	AssetType::LEFTARM,
-	AssetType::RIGHTARM,
-	AssetType::LEFTLEG,
-	AssetType::RIGHTLEG,
-	AssetType::GEAR,
-];
-
-$get_related_assets = $asset->GetRelatedAssets();
-$get_related_id = $asset->id;
-if(count($get_related_assets) != 0) {
-	$get_related_id = $get_related_assets[0]->id;
-}
-
-
-$header_data = $asset;
-
-$comments = Comment::GetCommentsOn($asset);
-$com_count = count($comments);
 ?>
 <!DOCTYPE html>
 <html>
@@ -128,7 +133,7 @@ $com_count = count($comments);
 		}
 		?>
 		
-		<script src="/js/jquery.js"></script>
+		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js?t=<?= time() ?>"></script>
 		<style>
@@ -308,65 +313,39 @@ $com_count = count($comments);
 							</div>
 						</div>
 						<div id="CommentsContainer">
-							<h3>Comments (<?= $com_count ?>)</h3>
-							<?php if($user != null && $asset->comments_enabled): ?>
+							<?php if($user == null || !$asset->comments_enabled): ?>
+							<h3>Comments</h3>
+							<div id="CommentSection">
+								<?php if($user == null): ?>
+								<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
+								<?php else: ?>
+								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
+								<?php endif ?>
+							</div>
+							<?php else: ?>
+							<h3>Comments (<?= $comments_count ?>)</h3>
 							<div id="CommentPostArea">
-								<?php if($comment_post_error): ?>
-									<div style="border: 1px solid white;padding: 2px 5px;background: #c30000;font-weight: bold;"><?= $result['reason'] ?></div>
+								<?php if(isset($_SESSION['ANORRL$Comment$Post$Error'])): ?>
+								<div class="Error">Error: <?= $_SESSION['ANORRL$Comment$Post$Error'] ?></div>
 								<?php endif ?>
 								<form method="POST">
 									<h4 style="margin: 0; letter-spacing: 5px;">Post a comment or something</h4>
-									<textarea placeholder="Write a wonderful comment about this <?= strtolower($asset->type->label()) ?>!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
+									<textarea placeholder="Write a wonderful comment about this place!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
 									<input type="submit" value="Submit!" name="ANORRL$Comment$Post$Submit">
 								</form>
 							</div>
-							<?php endif ?>
 							<div id="CommentSection">
-								<?php if($user == null): ?>
-									<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
-								<?php else: ?>
-									<?php if($asset->comments_enabled): ?>
-									<?php
-										if($com_count != 0):
-											foreach($comments as $comment) {
-												if($comment instanceof Comment) {
-													//$contents = str_replace(" ","&nbsp;",str_replace(PHP_EOL, "<br>", $comment->contents));
-													$contents = str_replace(PHP_EOL, "<br>", $comment->contents);
-													$user_id = $comment->poster->id;
-													$user_name = $comment->poster->name;
-
-													$profileurl = $comment->poster->setprofilepicture ? "profile" : "player";
-
-													$formatted_datetime = $comment->postdate->format("d/m/Y H:i a");
-
-													echo <<<EOT
-													<div class="Comment">
-														<div id="CommenterAvatar">
-															<a href="/users/$user_id/profile">
-																<img src="/thumbs/$profileurl?id=$user_id">
-															</a>
-														</div>
-														<div id="CommentPartArea">
-															<div id="CommentInfoArea">
-																<a href="/users/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
-															</div>
-															<code>$contents</code>
-														</div>
-														<div style="float: none; clear: both;"></div>
-													</div>
-													EOT;
-												}
-												
-											}
-										else:
-									?>
-									<div id="CommentsDisabled">It's pretty empty in here... :<</div>
-									<?php endif ?>
-									<?php else: ?>
-									<div id="CommentsDisabled">Comments have been disabled for this item.</div>
-									<?php endif ?>
+								<?php if($comments_count != 0):
+									foreach($comments as $comment) {
+										if($comment instanceof Comment) {
+											$comment->PrintComment();
+										}
+									}
+								else: ?>
+								<div id="CommentsDisabled">It's pretty empty in here... :<</div>
 								<?php endif ?>
 							</div>
+							<?php endif ?>
 						</div>
 					</div>
 				</div>
@@ -375,3 +354,4 @@ $com_count = count($comments);
 		</div>
 	</body>
 </html>
+<?php unset($_SESSION['ANORRL$Comment$Post$Error']); ?>

@@ -1,7 +1,7 @@
 <?php
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/classes/user.php';
-	require_once $_SERVER['DOCUMENT_ROOT'].'/core/classes/asset.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/assetutils.php';
 
 	enum BlobValueTypes {
 		case STRING;

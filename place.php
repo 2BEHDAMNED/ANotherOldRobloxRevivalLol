@@ -1,66 +1,72 @@
 <?php 
 
-$name = $_GET['name'];
-$id = intval($_GET['id']);
+	$name = $_GET['name'];
+	$id = intval($_GET['id']);
 
-require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/comment.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/comment.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
-$user = UserUtils::RetrieveUser();
+	$user = UserUtils::RetrieveUser();
 
-$asset = Place::FromID($id);
+	$asset = Place::FromID($id);
 
-if(session_start() != PHP_SESSION_ACTIVE) {
-	session_start();
-}
-
-if($asset != null) {
-	$urlname = $asset->GetURLTitle();
-	
-	if($urlname != $name) {
-		die(header("Location: /$urlname-place?id=$id"));
+	if(session_start() != PHP_SESSION_ACTIVE) {
+		session_start();
 	}
 
-	if($user != null) {
-		$is_creator = ($user != null && ($user->id == $asset->creator->id || $user->IsAdmin()));
-		$is_favourited = $user != null && $asset->HasUserFavourited($user);
-
-		$user_bought = $user != null && $user->Owns($asset);
-
-		if(
-			isset($_POST['ANORRL$Comment$Post$Contents']) &&
-			isset($_POST['ANORRL$Comment$Post$Submit']) &&
-			$asset->comments_enabled
-		) {
-			$result = Comment::Post($asset, $_POST['ANORRL$Comment$Post$Contents']);
-			$comment_post_error = $result['error'];
-		}
+	if($asset != null) {
+		$urlname = $asset->GetURLTitle();
 		
-	}
-	$favourites_count = $asset->favourites_count . " times";
-	if($asset->favourites_count == 1) {
-		$favourites_count = $asset->favourites_count . " time";
-	}
-	$asset_creator_name = $asset->creator->name;
+		if($urlname != $name) {
+			die(header("Location: /$urlname-place?id=$id"));
+		}
 
-	$asset_description = $asset->description;
-	if(trim($asset_description) == "") {
-		$asset_description = "<span id='NoDescription'>Seems like $asset_creator_name hasn't put anything here...</span>";
+		if($user != null) {
+			$is_creator = $user->id == $asset->creator->id || $user->IsAdmin();
+			$is_favourited = $asset->HasUserFavourited($user);
+			$is_bought = $user->Owns($asset);
+			
+			if(
+				isset($_POST['ANORRL$Comment$Post$Contents']) &&
+				isset($_POST['ANORRL$Comment$Post$Submit']) &&
+				$asset->comments_enabled
+			) {
+				$result = Comment::Post($asset, $_POST['ANORRL$Comment$Post$Contents']);
+				
+				if($result['error']) {
+					$_SESSION['ANORRL$Comment$Post$Error'] = $result['reason'];
+				}
+
+				die(header("Location: /$urlname-item?id=$id"));
+			}
+
+			$comments = Comment::GetCommentsOn($asset);
+			$comments_count = count($comments);
+		}
+
+		$favourites_label = $asset->favourites_count . " time". ($asset->favourites_count != 1 ? "s" : "");
+		
+		$asset_creator_name = $asset->creator->name;
+		$asset_description = $asset->description;
+		if(strlen(trim($asset_description)) == 0) {
+			$asset_description = <<<EOT
+			<span id="NoDescription">Seems like $asset_creator_name hasn't put anything here...</span>
+			EOT;
+		} else {
+			$asset_description = str_replace(PHP_EOL, "<br>", $asset_description);
+		}
 	} else {
-		$asset_description = str_replace(PHP_EOL, "<br>", $asset_description);
+
+		$new_asset = Asset::FromID($id);
+		if($new_asset == null) {
+			die(header("Location: /my/stuff"));
+		} else {
+			$urlname = $new_asset->GetURLTitle();
+			die(header("Location: /$urlname-item?id=$id"));
+		}
 	}
-} else {
-	$new_asset = Asset::FromID($id);
-	if($new_asset == null) {
-		die(header("Location: /my/stuff"));
-	} else {
-		$urlname = $new_asset->GetURLTitle();
-		die(header("Location: /$urlname-item?id=$id"));
-	}
-	
-}
-$header_data = $asset;
+	$header_data = $asset;
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,7 +76,7 @@ $header_data = $asset;
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/item/item.css">
-		<link rel="stylesheet" href="/css/new/item/place.css">
+		<link rel="stylesheet" href="/css/new/item/place.css?v=1">
 
 		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
@@ -86,31 +92,10 @@ $header_data = $asset;
 			die();
 			//die(header("Location: /login"));
 		}?>
-		<script src="/js/jquery.js"></script>
+		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/item.js?t=<?= time() ?>"></script>
 		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
-		<style>
-			h1, h2, h3, h4 {
-				margin: 0;
-			}
-
-			h2 {
-				padding: 5px 30px;
-			}
-
-			#ItemContainer {
-				padding: 10px;
-			}
-			
-
-			hr {
-				border-color: #aaa;
-			}
-
-
-
-		</style>
 		<script>
 			function ChangeTab(tabName) {
 				var tabToGoTo = tabName.toLowerCase();
@@ -149,29 +134,29 @@ $header_data = $asset;
 					return false;
 				});
 			})
-		</script>
-		<?php if($user != null && ($user->id == $asset->creator->id || $user->IsAdmin())): ?>
-		<script>
-			var rendering = false;
-			function Render() {
-				if(rendering) {
-					return;
+			
+			<?php if($is_creator): ?>
+				var rendering = false;
+				function Render() {
+					if(rendering) {
+						return;
+					}
+
+					rendering = true;
+					window.alert("Committing render! (Press ok to continue)");
+					$("#RenderButton").html("Rendering...");
+					$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "render" }).done(function( data ) {
+						window.location.reload();
+					});
 				}
 
-				rendering = true;
-				$("#RenderButton").html("Rendering...");
-				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "render" }).done(function( data ) {
-					window.location.reload();
-				});
-			}
-
-			function Delete() {
-				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
-					window.location.reload();
-				});
-			}
+				function Delete() {
+					$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
+						window.location.reload();
+					});
+				}
+			<?php endif ?>
 		</script>
-		<?php endif ?>
 	</head>
 	<body>
 		<div id="Container">
@@ -180,43 +165,33 @@ $header_data = $asset;
 				<div id="BodyContainer">
 					<div id="ItemContainer">
 						<h4>ANORRL <?= $asset->type->label(); ?></h4>
-						<h2><?php if($user != null): ?><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?php endif ?><?= $asset->name ?></h2>
+						<h2><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?= $asset->name ?></h2>
 						<div id="PlaceDetails">
 							<div id="Content">
-								<div style="width:623px;height:350px;position: relative;">
+								<div id="PlaceImageContainer">
 									<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
-									<?php if($asset->is_original): ?>
-									<div style="position: absolute;left: 0px;bottom: 0px;font-size: 20px;border: 2px solid black;padding: 4px 15px;background: #6b0388;font-family: punk;font-weight: bold;">Original</div>
-									<?php endif ?>
+									<div id="OriginalLabel">Original</div>
 								</div>
-								
 							</div>
 							<div id="Information">
 								<div id="UserCard">
 									<a href="/users/<?= $asset->creator->id ?>/profile"><img src="/thumbs/player?id=<?= $asset->creator->id ?>" style="width: 110px;display:block;margin:0 auto;"></a>
-									<div id="AssetInfoStuff" style="margin: 3px 0px;">
+									<div id="AssetInfoStuff">
 										<span>Created by <a href="/users/<?= $asset->creator->id ?>/profile"><?= $asset_creator_name ?></a></span>
-										<span><b>Favourited</b>: <?= $favourites_count ?></span>
-										<?php if($asset->gears_enabled): ?>
-										<span style="font-size: 13px;margin:5px;"><b>Gears enabled!</b></span>
-										<?php endif ?>
+										<span><b>Favourited</b>: <?= $favourites_label ?></span>
+										<span id="GearsEnabled">Gears enabled!</span>
 									</div>
 									<hr>
-									<button class="PurchaseButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)">Play</button>
+									<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)" Play></button>
+									<?php if($is_creator || $asset->copylocked): ?>
+									<button class="PlaceButton" onclick="alert('erm not yet!')" Edit></button>
+									<?php endif ?>
 									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
 									<hr>
 									<div id="ManageOptions">
 										<?php if($is_creator): ?>
-										<a href="/edit?id=<?= $asset->id ?>">Edit</a>
-										<?php endif ?>
-										<?php if($is_creator || !$asset->copylocked): ?>
-										<a href="">Open in Studio</a>
-										<?php endif ?>
-										
-										<?php if($user != null && $user->IsAdmin()): ?>
+										<a href="/edit?id=<?= $asset->id ?>">Configure</a>
 										<a href="javascript:Render()">Render this asset</a>
-										<?php endif ?>
-										<?php if($is_creator): ?>
 										<a href="javascript:Delete()">Delete this asset</a>
 										<?php endif ?>
 									</div>
@@ -278,30 +253,24 @@ $header_data = $asset;
 								Gamepasses content in here
 							</div>
 							<div id="InfoBox" content="Servers" style="display:none">
+
+							</div>
+						</div>
+						<div id="CommentsContainer">
+							<?php if($user == null || !$asset->comments_enabled): ?>
+							<h3>Comments</h3>
+							<div id="CommentSection">
 								<?php if($user == null): ?>
-								<div id="ServersBox">
-									<p id="NoGamesWarning">You need to be logged in to see the servers for this game!</p>
-								</div>
+								<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
 								<?php else: ?>
-								<h3>Servers <button onclick="ANORRL.PlaceLauncher.GrabGameservers(<?= $id ?>);">Refresh</button></h3>
-								<div id="ServersBox">
-									<p id="NoGamesWarning">There are no servers for this game!</p>
-								</div>
+								<div id="CommentsDisabled">Comments have been disabled for this item.</div>
 								<?php endif ?>
 							</div>
-
-						</div>
-
-						<?php
-							$comments = Comment::GetCommentsOn($asset);
-							$com_count = count($comments);
-						?>
-						<div id="CommentsContainer">
-							<h3>Comments (<?= $com_count ?>)</h3>
-							<?php if($user != null && $asset->comments_enabled): ?>
+							<?php else: ?>
+							<h3>Comments (<?= $comments_count ?>)</h3>
 							<div id="CommentPostArea">
-								<?php if(isset($comment_post_error) && $comment_post_error): ?>
-									<div class="Error"><?= $result['reason'] ?></div>
+								<?php if(isset($_SESSION['ANORRL$Comment$Post$Error'])): ?>
+								<div class="Error">Error: <?= $_SESSION['ANORRL$Comment$Post$Error'] ?></div>
 								<?php endif ?>
 								<form method="POST">
 									<h4 style="margin: 0; letter-spacing: 5px;">Post a comment or something</h4>
@@ -309,51 +278,18 @@ $header_data = $asset;
 									<input type="submit" value="Submit!" name="ANORRL$Comment$Post$Submit">
 								</form>
 							</div>
-							<?php endif ?>
 							<div id="CommentSection">
-								
-
-								<?php if($user == null): ?>
-									<div id="CommentsDisabled">You need to be logged in to comment on this item!</div>
-								<?php else: ?>
-									<?php if($asset->comments_enabled): ?>
-									<?php
-										if($com_count != 0):
-											foreach($comments as $comment) {
-												$contents = str_replace(PHP_EOL, "<br>", $comment->contents);
-												$user_id = $comment->poster->id;
-												$user_name = $comment->poster->name;
-
-												$profileurl = $comment->poster->setprofilepicture ? "profile" : "player";
-
-												$formatted_datetime = $comment->postdate->format("d/m/Y H:i a");
-
-												echo <<<EOT
-												<div class="Comment">
-													<div id="CommenterAvatar">
-														<a href="/users/$user_id/profile">
-															<img src="/thumbs/$profileurl?id=$user_id">
-														</a>
-													</div>
-													<div id="CommentPartArea">
-														<div id="CommentInfoArea">
-															<a href="/users/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
-														</div>
-														<code>$contents</code>
-													</div>
-													<div style="float: none; clear: both;"></div>
-												</div>
-												EOT;
-											}
-										else:
-									?>
-									<div id="CommentsDisabled">It's pretty empty in here... :<</div>
-									<?php endif ?>
-									<?php else: ?>
-									<div id="CommentsDisabled">Comments have been disabled for this item.</div>
-									<?php endif ?>
+								<?php if($comments_count != 0):
+									foreach($comments as $comment) {
+										if($comment instanceof Comment) {
+											$comment->PrintComment();
+										}
+									}
+								else: ?>
+								<div id="CommentsDisabled">It's pretty empty in here... :<</div>
 								<?php endif ?>
 							</div>
+							<?php endif ?>
 						</div>
 					</div>
 				</div>
@@ -362,3 +298,4 @@ $header_data = $asset;
 		</div>
 	</body>
 </html>
+<?php unset($_SESSION['ANORRL$Comment$Post$Error']); ?>

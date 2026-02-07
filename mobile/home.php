@@ -14,7 +14,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<title>Home - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
-		<script src="/js/jquery.js"></script>
+		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 	</head>
 	<body>

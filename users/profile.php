@@ -45,22 +45,21 @@
 
 	
 
-	if($user != null) {
-		if(
-			isset($_POST['ANORRL$Comment$Post$Contents']) &&
-			isset($_POST['ANORRL$Comment$Post$Submit'])
-		) {
-			$result = Comment::Post($get_user, $_POST['ANORRL$Comment$Post$Contents']);
-			$id = $get_user->id;
-
-			//$comment_post_error = $result['error'];
-			//die(header("Location: /user/$id/profile"));
-			
+	if(
+		isset($_POST['ANORRL$Comment$Post$Contents']) &&
+		isset($_POST['ANORRL$Comment$Post$Submit'])
+	) {
+		$result = Comment::Post($get_user, $_POST['ANORRL$Comment$Post$Contents']);
+		
+		if($result['error']) {
+			$_SESSION['ANORRL$Comment$Post$Error'] = $result['reason'];
 		}
+
+		die(header("Location: /users/".$get_user->id."/profile"));
 	}
 
-	$comments = Comment::GetCommentsOn($get_user);
-	$com_count = count($comments);
+	$comments = Comment::GetCommentsOn($asset);
+	$comments_count = count($comments);
 
 ?>
 <!DOCTYPE html>
@@ -71,8 +70,8 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
-		<link rel="stylesheet" href="/css/new/my/profile.css?v=3">
-		<script src="/js/jquery.js"></script>
+		<link rel="stylesheet" href="/css/new/my/profile.css?v=4">
+		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
 		<script src="/js/user.js?t=<?= time() ?>"></script>
@@ -205,7 +204,7 @@
 											<li>
 												<div class="Asset">
 													<a id="NameAndThumbs" href="/$asset_urlname-item?id=$asset_id">
-														<img src="/thumbs/?id=$asset_id">
+														<img src="/thumbs/?id=$asset_id&sxy=130">
 														<span>$asset_name</span>
 													</a>
 													<a id="Creator" href="/users/$asset_creator_id/profile"><span>$asset_creator_name</span></a>
@@ -323,7 +322,7 @@
 								<h3>Player Badges</h3>
 								<table id="BadgesPane">
 									<tr>
-										<td class="Loading">Loading badges...</td>
+										<td class="Loading">No badges yet...</td>
 									</tr>
 								</table>
 							</div>
@@ -331,58 +330,35 @@
 						<br clear="all">
 					</div>
 					<div id="CommentsContainer" style="margin: 10px;">
-						<h3 style="margin: 0px">Comments (<?= $com_count ?>)</h3>
-						<?php if($user != null): ?>
+						<?php if($user == null): ?>
+						<h3>Comments</h3>
+						<div id="CommentSection">
+							<div id="CommentsDisabled">You need to be logged in to comment on this profile!</div>
+						</div>
+						<?php else: ?>
+						<h3>Comments (<?= $comments_count ?>)</h3>
 						<div id="CommentPostArea">
-							<?php if($comment_post_error): ?>
-								<div class="Error"><?= $result['reason'] ?></div>
+							<?php if(isset($_SESSION['ANORRL$Comment$Post$Error'])): ?>
+							<div class="Error">Error: <?= $_SESSION['ANORRL$Comment$Post$Error'] ?></div>
 							<?php endif ?>
 							<form method="POST">
 								<h4 style="margin: 0; letter-spacing: 5px;">Post a comment or something</h4>
-								<textarea placeholder="Write a wonderful comment about this user!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
+								<textarea placeholder="Write a wonderful comment about this place!" name="ANORRL$Comment$Post$Contents" maxlength="256" minlength="4"></textarea>
 								<input type="submit" value="Submit!" name="ANORRL$Comment$Post$Submit">
 							</form>
 						</div>
-						<?php endif ?>
 						<div id="CommentSection">
-							
-
-							<?php if($user == null): ?>
-								<div id="CommentsDisabled">You need to be logged in to comment on this users profile!</div>
-							<?php else: ?>
-								<?php
-									if($com_count != 0):
-										foreach($comments as $comment) {
-											$contents = str_replace(PHP_EOL, "<br>", $comment->contents);
-											$user_id = $comment->poster->id;
-											$user_name = $comment->poster->name;
-
-											$profileurl = $comment->poster->setprofilepicture ? "profile" : "player";
-
-											$formatted_datetime = $comment->postdate->format("d/m/Y H:i a");
-
-											echo <<<EOT
-											<div class="Comment">
-												<div id="CommenterAvatar">
-													<a href="/users/$user_id/profile">
-														<img src="/thumbs/$profileurl?id=$user_id">
-													</a>
-												</div>
-												<div id="CommentPartArea">
-													<div id="CommentInfoArea">
-														<a href="/users/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
-													</div>
-													<code>$contents</code>
-												</div>
-												<div style="float: none; clear: both;"></div>
-											</div>
-											EOT;
-										}
-									else:
-								?>
-								<div id="CommentsDisabled">It's pretty empty in here... :<</div>
-								<?php endif ?>
+							<?php if($comments_count != 0):
+								foreach($comments as $comment) {
+									if($comment instanceof Comment) {
+										$comment->PrintComment();
+									}
+								}
+							else: ?>
+							<div id="CommentsDisabled">It's pretty empty in here... :<</div>
 							<?php endif ?>
+						</div>
+						<?php endif ?>
 						</div>
 					</div>
 					<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>

@@ -1,4 +1,4 @@
-# User pages :)
+# This is terrible!
 <IfModule mod_rewrite.c>
     RewriteEngine on 
 	RewriteCond %{REQUEST_FILENAME} !-f
@@ -41,6 +41,7 @@
 
 	RewriteRule ^ide/toolbox/items /core/ide/toolbox/items.php			  [END]
 	RewriteRule ^IDE/Toolbox/Search /core/ide/toolbox/search.php			  [END]
+	RewriteRule ^IDE/Toolbox/GetTotalNumberOfResults /core/ide/toolbox/gettotalnumber.php			  [END]
 
 	RewriteRule ^Game/Upload.aspx /core/ide/goingupload.php			  [END]
 
@@ -167,6 +168,7 @@
 	RewriteRule ^thumbs/?$ /core/thumbs/index.php [END]
 	RewriteRule ^thumbs/player?$ /core/thumbs/player.php [END]
 	RewriteRule ^thumbs/profile?$ /core/thumbs/profile.php [END]
+	RewriteRule ^thumbs/unavailable.jpg?$ /images/unavailable-75.png [END]
 
 	RewriteRule ^thumbnail/avatar-headshot?$ /core/thumbs/headshot.php [END]
 
@@ -237,6 +239,7 @@
 	RewriteRule ^core(/.*)?$ /core/error/404.php [END]
 	RewriteRule ^users(/.*)?$ /core/error/404.php [END]
 	RewriteRule ^api(/.*)?$ /core/error/404.php  [END]
+	RewriteRule ^.git(/.*)?$ /core/error/404.php  [END]
 </IfModule>
 
 DirectoryIndex index.php index.html Default.aspx Default.aspx.php

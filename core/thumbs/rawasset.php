@@ -1,7 +1,7 @@
 <?php
 
 	// Width=60&Height=62&ImageFormat=png&AssetID=8
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/imageutils.php";
 	

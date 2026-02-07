@@ -42,8 +42,8 @@
 	<head>
 		<title>Welcome</title>
 		<link rel="stylesheet" href="/js/ide/welcome/FetchCSS.css">
-		<script type="text/javascript" src="/js/jquery.js"></script>
-		<script type="text/javascript" src="/js/json2.min.js"></script>
+		<script type="text/javascript" src="/js/core/jquery.js"></script>
+		<script type="text/javascript" src="/js/core/json2.min.js"></script>
 		<script type="text/javascript" src="/js/ide/welcome/MicrosoftAjax.js"></script>
 		<script type="text/javascript" src="/js/ide/welcome/240ed1621e8429eeafce9b709e38ab5b.js"></script>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">

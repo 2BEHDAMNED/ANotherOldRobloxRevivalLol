@@ -1,7 +1,7 @@
 <?php 
 	$id = intval($_GET['id']);
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetuploader.php";
 
@@ -173,16 +173,23 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
-		<link rel="stylesheet" href="/css/new/item/edit.css">
-		<script src="/js/jquery.js"></script>
+		<link rel="stylesheet" href="/css/new/item/edit.css?v=1">
+		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/edit.js?t=<?= time() ?>"></script>
 		<script>
 			$(function() {
 				$(".VersionPicker").each(function() {
 					$(this).attr("title", "click to make this the current version");
+					$(this).on("click", function() {
+						alert("later...");
+					})
 				})
 			})
+
+			function RemoveThumbnail() {
+				alert("Later...");
+			}
 		</script>
 		<?php if(isset($_SESSION['ANORRL$EditItem$Success']) && !$_SESSION['ANORRL$EditItem$Success']): ?>
 		<script>
@@ -202,29 +209,43 @@
 							<form method="POST" enctype="multipart/form-data">
 								<div id="DetailStack">
 									<h4>Information</h4>
-									<table>
-										<tr>
-											<td>Name</td>
-											<td><input type="text" name="ANORRL$EditItem$Name" value="<?= $asset->name ?>" minlength="3" maxlength="128"></td>
-										</tr>
-										<tr>
-											<td>Description</td>
-											<td><textarea style="height: 50px;" name="ANORRL$EditItem$Description"><?= $asset->description ?></textarea></td>
-										</tr>
-										<tr>
-											<td>Public</td>
-											<td><input type="checkbox" name="ANORRL$EditItem$PublicBox" <?php if($asset->public): ?>checked<?php endif ?>></td>
-										</tr>
-										<tr>
-											<td>Enable Comments</td>
-											<td><input type="checkbox" name="ANORRL$EditItem$CommentsBox" <?php if($asset->comments_enabled): ?>checked<?php endif ?>></td>
-										</tr>
-									</table>
+									<div id="Table">
+										<table>
+											<tr>
+												<td>Name</td>
+												<td><input type="text" name="ANORRL$EditItem$Name" value="<?= $asset->name ?>" minlength="3" maxlength="128"></td>
+											</tr>
+											<tr>
+												<td>Description</td>
+												<td><textarea style="height: 50px;" name="ANORRL$EditItem$Description"><?= $asset->description ?></textarea></td>
+											</tr>
+											<tr>
+												<td>Public</td>
+												<td><input type="checkbox" name="ANORRL$EditItem$PublicBox" <?php if($asset->public): ?>checked<?php endif ?>></td>
+											</tr>
+											<?php if(!in_array($asset->type, $not_selling_types)): ?>
+											<tr>
+												<td><label for="OnSaleCheckbox">On Sale</label></td>
+												<td><input id="OnSaleCheckbox" name="ANORRL$EditItem$OnSaleBox" type="checkbox" <?php if($asset->onsale): ?>checked<?php endif ?>></td>
+											</tr>
+											<?php endif ?>
+											<tr>
+												<td>Enable Comments</td>
+												<td><input type="checkbox" name="ANORRL$EditItem$CommentsBox" <?php if($asset->comments_enabled): ?>checked<?php endif ?>></td>
+											</tr>
+											
+										</table>
+									</div>
+									
 								</div>
+								
 								<?php if($asset->type == AssetType::PLACE): ?>
 								<div id="DetailStack">
 									<h4 style="margin-top: 10px">Place Settings</h4>
-									<table>
+									<table id="Table">
+										<?php 
+										// later cuz barely any work has been done on the clients (KINDA)
+										if(false): ?>
 										<tr id="PlaceYear">
 											<td style="vertical-align: middle;">Year</td>
 											<td>
@@ -238,6 +259,7 @@
 												</select>
 											</td>
 										</tr>
+										<?php endif ?>
 										<tr>
 											<td>Server Size</td>
 											<td><input type="number" name="ANORRL$EditItem$Place$ServerSize" value="<?= $asset->server_size ?>"></td>
@@ -255,7 +277,7 @@
 											<td><input type="checkbox" name="ANORRL$EditItem$Place$Gears" <?php if($asset->gears_enabled): ?>checked<?php endif ?>></td>
 										</tr>
 										<tr>
-											<td>Thumbnail!</td>
+											<td>Thumbnail! (<a href="javascript:RemoveThumbnail()">Remove</a>)</td>
 											<td class="FilePicker">
 												<label for="thumbfiles">Choose file</label>
 												<input id="thumbfiles" type="file" name="ANORRL$EditItem$Place$ThumbnailFile" accept="image/*">
@@ -265,19 +287,7 @@
 									</table>
 								</div>
 								<?php endif ?>
-								<?php if(!in_array($asset->type, $not_selling_types)): ?>
-								<div id="DetailStack">
-									<h4 style="margin-top: 10px">Money&nbsp;&nbsp;money&nbsp;&nbsp;money...</h4>
-									<table>
-										<tr>
-											<td><span style="font-size:11px; color:lightgray;font-weight: bold;">Set currency to 0 to make it not use that currency...</span></td>
-										</tr>
-										<tr>
-											<td><label for="OnSaleCheckbox">On Sale</label><input id="OnSaleCheckbox" name="ANORRL$EditItem$OnSaleBox" type="checkbox" <?php if($asset->onsale): ?>checked<?php endif ?>></td>
-										</tr>
-									</table>
-								</div>
-								<?php endif ?>
+								
 
 								<input type="submit" value="Update" name="ANORRL$EditItem$Submit">
 								
@@ -285,7 +295,7 @@
 							<?php if(in_array($asset->type, $versioning_types)): ?>
 							<form method="POST" id="DetailStack" enctype="multipart/form-data">
 								<h4 style="margin-top: 10px">Publish Version</h4>
-								<table style="padding-bottom: 37px;">
+								<table style="padding-bottom: 37px;" id="Table">
 									<tr>
 										<td><span style="font-size:11px; color:lightgray;font-weight: bold;"></span></td>
 									</tr>
@@ -306,7 +316,7 @@
 								
 								<div class="PublicDomainRow">
 									<span style="font-size:11px; color:lightgray;font-weight: bold;display: block;margin-bottom: -25px;margin-top: 12px;margin-left: 10px;">Click one of the buttons below to revert to a previous version of this item.</span>
-									<table cellspacing="10" style="padding-top: 22px">
+									<table cellspacing="10" style="padding-top: 22px" id="Table">
 										<tr>
 											<td>
 												&nbsp;

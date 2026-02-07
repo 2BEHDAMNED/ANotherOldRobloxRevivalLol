@@ -1,6 +1,6 @@
 <?php
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/imageutils.php";
 
@@ -84,7 +84,16 @@
 				imagesavealpha($resizedimage, true);
 				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
 				imagefill($resizedimage, 0, 0, $trans_colour);
+				
+				if($asset->type == AssetType::FACE) {
+					// whatever lmfao
+					$sizeoffsetfactor = 15 * ((420-($size == 420 ? 0 : $size))/420);
+					imagefilledrectangle($resizedimage, $sizeoffsetfactor, $sizeoffsetfactor, $size-$sizeoffsetfactor, $size-$sizeoffsetfactor, 0xafafaf);
+				}
+
 				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
+
+
 
 				imagesavealpha($resizedimage, true);
 				header("Content-Type: image/png");

@@ -17,8 +17,8 @@
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<link rel="stylesheet" href="/css/new/my/character.css">
 		
-		<script src="/js/jquery.js"></script>
-		<script src="/js/jquery-modal.js"></script>
+		<script src="/js/core/jquery.js"></script>
+		<script src="/js/core/jquery-modal.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/character.js?t=<?= time() ?>"></script>
 	</head>

@@ -2,7 +2,7 @@
 header('Content-type: application/json');
 $assetid = intval($_GET['universeId']);
 
-require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 
 $asset = Asset::FromID($assetid);
 

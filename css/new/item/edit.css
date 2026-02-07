@@ -13,12 +13,12 @@ h2 {
 	width: 866px;
 }
 
-#EditContainer #ItemDetails table {
+/* fml */
+#EditContainer #ItemDetails #Table {
 	border: 2px solid black;
 	padding: 10px;
 	background: #222;
 	width:512px;
-	
 }
 
 #ItemDetails input[type=text],

@@ -1,6 +1,6 @@
 <?php
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 	if(isset($_GET['id']) || isset($_GET['userId'])) {

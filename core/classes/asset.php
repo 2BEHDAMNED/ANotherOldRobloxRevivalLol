@@ -155,7 +155,6 @@
 		public AssetType   $type;
 		public string      $name;
 		public string      $description;
-		/** friends-only in places */
 		public bool        $public;
 
 		public int         $favourites_count;
@@ -172,6 +171,12 @@
 		public DateTime    $last_updatetime;
 		public DateTime    $created_at;
 
+		/**
+		 * Attempts to grab an asset given from ID (yes)
+		 * 
+		 * @param int $id 
+		 * @return Asset|null Null if asset was not found.
+		 */
 		public static function FromID(int $id): Asset|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_id` = ?");
@@ -187,87 +192,7 @@
 		}
 
 
-		public static function GetAssetsOfTypePaged(string $query, AssetType $type, int $pagenum, int $count, User|null $input_user = null) {
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 
-			$page = (($pagenum-1)*$count);
-			$q = "%$query%";
-			$ordinal = $type->ordinal();
-
-			if($input_user == null) {
-				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 ORDER BY `asset_lastedited` DESC LIMIT ?, ?");
-				$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $count);
-				$stmt_getuser->execute();	
-			} else {
-				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 AND `asset_creator` = ? ORDER BY `asset_lastedited` DESC LIMIT ?, ?");
-				$stmt_getuser->bind_param('siiii', $q, $ordinal, $input_user->id, $page, $count);
-				$stmt_getuser->execute();
-			}
-			
-			
-			
-
-			$result = $stmt_getuser->get_result();
-
-			$result_array = [];
-
-			if($result->num_rows != 0) {
-				while($row = $result->fetch_assoc()) {
-					$asset = new Asset($row);
-					if($row['asset_type'] == AssetType::PLACE->ordinal()) {
-						$asset = Place::FromID($row['asset_id']);
-					} else {
-						$asset = new Asset($row);
-					}
-
-					if(!$asset->notcatalogueable && $asset->public) {
-						array_push($result_array, $asset);
-					}
-					
-				}
-				return $result_array;
-			}
-
-			return [];
-		}
-
-		public static function GetAssetsOfType(string $query, AssetType $type, User|null $input_user = null) {
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-
-			$q = "%$query%";
-			$ordinal = $type->ordinal();
-
-			if($input_user == null) {
-				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1");
-				$stmt_getuser->bind_param('si', $q, $ordinal);
-				$stmt_getuser->execute();
-			} else {
-				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_creator` = ? AND `asset_public` = 1");
-				$stmt_getuser->bind_param('sii', $q, $ordinal, $input_user->id);
-				$stmt_getuser->execute();
-			}
-
-			$result = $stmt_getuser->get_result();
-
-			$result_array = [];
-
-			if($result->num_rows != 0) {
-				while($row = $result->fetch_assoc()) {
-					if($row['asset_type'] == AssetType::PLACE->ordinal()) {
-						$asset = Place::FromID($row['asset_id']);
-					} else {
-						$asset = new Asset($row);
-					}
-
-					if(!$asset->notcatalogueable && $asset->public) {
-						array_push($result_array, $asset);
-					}
-				}
-				return $result_array;
-			}
-
-			return [];
-		}
 
 		function __construct(array|int $rowdata) {
 			if(is_array($rowdata)) {
@@ -316,8 +241,21 @@
 			}
 		}
 
+		private function RecurseRemove($input, $find, $replace) {
+			
+			$result = str_replace($find, $replace,$input);
+
+			if(str_contains($result, $find)) {
+				return $this->RecurseRemove($input, $find, $replace);
+			}
+
+			return $result;
+		}
+
 		function GetURLTitle() {
-			$result = str_replace(" ", "-", strtolower(trim(preg_replace('/[^A-Za-z0-9 ]/', "", $this->name))));
+			$result = strtolower(trim(preg_replace('/[^a-zA-Z0-9 ]/', "", $this->name)));
+			$result = $this->RecurseRemove($result, "  ", " ");
+			$result = str_replace(" ", "-", $result);
 			if($result == "") {
 				$result = "unnamed";
 			}
@@ -372,25 +310,6 @@
 			$result = $stmt->get_result();
 			$row = $result->fetch_assoc();
 			return $row["version_md5sig"];
-		}
-
-		function Comment(User|int|null $user, string $contents) {
-			if($user != null) {
-				$user_id = $user;
-				if($user instanceof User) {
-					$user_id = $user->id;
-				}
-
-
-			} else {
-				return ['error' => true, 'reason' => "User not logged in!"];
-			}
-		}
-		function GetAllComments(): array {
-			return [];
-		}
-		function GetComments(int $page = 1, int $rows = 15): array {
-			return [];
 		}
 
 		function Favourite(User|int $user) {
@@ -584,7 +503,9 @@
 		}
 
 		public static function UpdateAllPlaces() {
-			foreach(self::GetAssetsOfType("", AssetType::PLACE) as $place) {
+			require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
+
+			foreach(AssetUtils::Get("", AssetType::PLACE) as $place) {
 				self::UpdatePlaceStats($place->id);
 			}
 		}
@@ -605,7 +526,7 @@
 		
 		public static function GetAllPaged(string $query, int $pagenum, int $count) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 AND assets.asset_name LIKE ? ORDER BY `place_currently_playing` DESC, `place_visit_count` DESC, `asset_lastedited` DESC LIMIT ?, ?");
+			$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 AND assets.asset_name LIKE ? ORDER BY `place_currently_playing` DESC, `place_visit_count` DESC, `asset_created` DESC LIMIT ?, ?");
 			$page = (($pagenum-1)*$count);
 			$q = "%$query%";
 			$stmt_getuser->bind_param('sii', $q, $page, $count);

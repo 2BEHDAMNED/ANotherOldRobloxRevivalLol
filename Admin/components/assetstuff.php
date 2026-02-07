@@ -1,6 +1,6 @@
 <?php
 	include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-	require_once $_SERVER["DOCUMENT_ROOT"]."/core/classes/asset.php";
+	require_once $_SERVER["DOCUMENT_ROOT"]."/core/utilities/assetutils.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/core/classes/renderer.php";
 	require_once $_SERVER["DOCUMENT_ROOT"]."/core/utilities/userutils.php";
 	

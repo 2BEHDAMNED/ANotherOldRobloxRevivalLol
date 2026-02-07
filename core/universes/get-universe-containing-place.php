@@ -9,7 +9,7 @@
 
 	
 
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 
 	$place = Place::FromID($placeid);
 

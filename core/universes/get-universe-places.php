@@ -1,5 +1,5 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	header("Content-Type: application/json");
 	if(isset($_GET['universeId'])) {
 		$place = Place::FromID(intval($_GET['universeId']));
