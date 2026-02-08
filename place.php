@@ -170,7 +170,9 @@
 							<div id="Content">
 								<div id="PlaceImageContainer">
 									<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
+									<?php if($asset->is_original): ?>
 									<div id="OriginalLabel">Original</div>
+									<?php endif ?>
 								</div>
 							</div>
 							<div id="Information">
@@ -179,11 +181,13 @@
 									<div id="AssetInfoStuff">
 										<span>Created by <a href="/users/<?= $asset->creator->id ?>/profile"><?= $asset_creator_name ?></a></span>
 										<span><b>Favourited</b>: <?= $favourites_label ?></span>
+										<?php if($asset->gears_enabled): ?>
 										<span id="GearsEnabled">Gears enabled!</span>
+										<?php endif ?>
 									</div>
 									<hr>
 									<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)" Play></button>
-									<?php if($is_creator || $asset->copylocked): ?>
+									<?php if($is_creator || !$asset->copylocked): ?>
 									<button class="PlaceButton" onclick="alert('erm not yet!')" Edit></button>
 									<?php endif ?>
 									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
@@ -253,7 +257,16 @@
 								Gamepasses content in here
 							</div>
 							<div id="InfoBox" content="Servers" style="display:none">
-
+								<?php if($user == null): ?>
+								<div id="ServersBox">
+									<p id="NoGamesWarning">You need to be logged in to see the servers for this game!</p>
+								</div>
+								<?php else: ?>
+								<h3>Servers <button onclick="ANORRL.PlaceLauncher.GrabGameservers(<?= $id ?>);">Refresh</button></h3>
+								<div id="ServersBox">
+									<p id="NoGamesWarning">There are no servers for this game!</p>
+								</div>
+								<?php endif ?>
 							</div>
 						</div>
 						<div id="CommentsContainer">
