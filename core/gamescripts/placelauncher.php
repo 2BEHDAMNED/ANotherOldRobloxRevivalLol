@@ -536,9 +536,7 @@
 			
 			$user = User::FromID(intval($session_data['session_playerid']));
 			
-			$fakeahserver = 'g3d.gurdit.com';
-
-			
+			$fakeahserver = "g3d.gurdit.cim";
 
 			if($place != null && $user != null && !$user->IsBanned()) {
 				if(UserUtils::RetrieveUser() == null) {
