@@ -100,6 +100,7 @@
 
 					die("Success!");
 				} else if($_POST['type'] == "render") {
+					$id = $asset->id;
 					$type = $asset->type;
 
 					if($type == AssetType::SHIRT || $type == AssetType::PANTS) {
