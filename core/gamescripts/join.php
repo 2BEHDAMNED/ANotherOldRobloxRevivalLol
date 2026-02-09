@@ -179,6 +179,7 @@
 			$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 			$script = str_replace("{playerid}",$playerid, $script);
 			$script = str_replace("{playername}",$playername, $script);
+			$script = str_replace("{server}",$server, $script);
 			$script = str_replace("{serverport}",$serverport, $script);
 			$script = str_replace("{placeid}",$placeid, $script);
 			$script = str_replace("{placecreator}",$placecreator, $script);
