@@ -762,6 +762,10 @@
 		}
 
 		function ResetThumbnail() {
+			
+			if($this->asset_type != AssetType::AUDIO && $this->asset_type != AssetType::PLACE) {
+				return;
+			}
 
 			$md5hash = $this->md5sig;
 
@@ -779,6 +783,10 @@
 			$version = AssetVersion::GetLatestVersionOf($asset);
 
 			if($version == null) {
+				return;
+			}
+
+			if($this->asset_type != AssetType::AUDIO && $this->asset_type != AssetType::PLACE) {
 				return;
 			}
 
