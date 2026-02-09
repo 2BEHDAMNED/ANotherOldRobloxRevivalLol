@@ -62,11 +62,12 @@
 							<div id="FiltersChooser" style="margin-top: 10px;">
 								<h4>Filters</h4>
 								<ul>
-									<li><a>Recently Uploaded</a></li>
-									<li><a>Most Purchased</a></li>
-									<li><a>Price (Low 2 High)</a></li>
-									<li><a>Price (High 2 Low)</a></li>
-									<li><a>Most Favourited</a></li>
+									<li data_filter="5"><a>Most Sold</a></li>
+									<li data_filter="6"><a>Most Favourited</a></li>
+									<li data_filter="1"><a>Recently Uploaded</a></li>
+									<li data_filter="2"><a>Recently Updated</a></li>
+									<li data_filter="3"><a>Oldest Uploaded</a></li>
+									<li data_filter="4"><a>Oldest Updated</a></li>
 								</ul>
 							</div>
 						</div>

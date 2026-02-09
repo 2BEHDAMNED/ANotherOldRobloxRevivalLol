@@ -1,23 +1,50 @@
 <?php
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/status.php";
-	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/utilutils.php";
 
 	/**
 	 *  Core Profile Badges.
 	 */
-	enum ANORRLBadges {
+	enum ANORRLBadge {
 		case ADMINISTRATOR;
+		case FORUM_MOD;
+		case IMAGE_MOD;
+		case HOMESTEAD;
+		case BRICKSMITH;
+		case FRIENDSHIP;
+		case INVITER;
+		case COMBAT_INITIATION;
+		case WARRIOR;
+		case BLOXXER;
 
 		public function ordinal(): int {
 			return match($this) {
-				ANORRLBadges::ADMINISTRATOR => 1
+				ANORRLBadge::ADMINISTRATOR => 1,
+				ANORRLBadge::FORUM_MOD => 2,
+				ANORRLBadge::IMAGE_MOD => 3,
+				ANORRLBadge::HOMESTEAD => 4,
+				ANORRLBadge::BRICKSMITH => 5,
+				ANORRLBadge::FRIENDSHIP => 6,
+				ANORRLBadge::INVITER => 7,
+				ANORRLBadge::COMBAT_INITIATION => 8,
+				ANORRLBadge::WARRIOR => 9,
+				ANORRLBadge::BLOXXER => 10,
 			};
 		}
 
-		public static function index(int $badge): ANORRLBadges {
+		public static function index(int $badge): ANORRLBadge {
 			return match($badge) {
-				1 =>ANORRLBadges::ADMINISTRATOR
+				1 => ANORRLBadge::ADMINISTRATOR,
+				2 => ANORRLBadge::FORUM_MOD,
+				3 => ANORRLBadge::IMAGE_MOD,
+				4 => ANORRLBadge::HOMESTEAD,
+				5 => ANORRLBadge::BRICKSMITH,
+				6 => ANORRLBadge::FRIENDSHIP,
+				7 => ANORRLBadge::INVITER,
+				8 => ANORRLBadge::COMBAT_INITIATION,
+				9 => ANORRLBadge::WARRIOR,
+				10 => ANORRLBadge::BLOXXER,
 			};
 		}
 	}
@@ -122,8 +149,8 @@
 			$this->password = strval($rowdata['user_password']);
 			$this->security_key = strval($rowdata['user_security']);
 		}
-		
-		function GetFriends(): array {
+
+				function GetFriends(): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE (`sender` LIKE ? OR `reciever` LIKE ?) AND `status` = 1;");
 			$stmt_getuser->bind_param('ii', $this->id, $this->id);
@@ -265,7 +292,7 @@
 			return array_merge($result, $teamcreatedplaces);
 		}
 
-		function GiveProfileBadge(ANORRLBadges $badge): void {
+		function GiveProfileBadge(ANORRLBadge $badge): void {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt = $con->prepare("SELECT * FROM `profilebadges` WHERE `badge_id` = ? AND `badge_userid` = ?");
 			$ordinal = $badge->ordinal();
@@ -273,11 +300,14 @@
 			$stmt->execute();
 
 			if($stmt->get_result()->num_rows == 0) {
-				// something
+				$stmt = $con->prepare("INSERT INTO `profilebadges`(`badge_id`, `badge_userid`, `badge_admincorecore`) VALUES (?, ?, 0)");
+				$ordinal = $badge->ordinal();
+				$stmt->bind_param('ii', $ordinal, $this->id);
+				$stmt->execute();
 			}
 		}
 
-		function HasProfileBadgeOf(ANORRLBadges $badge): bool {
+		function HasProfileBadgeOf(ANORRLBadge $badge): bool {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt = $con->prepare("SELECT * FROM `profilebadges` WHERE `badge_id` = ? AND `badge_userid` = ?");
 			$ordinal = $badge->ordinal();
@@ -302,7 +332,7 @@
 			$badges = [];
 
 			while($row = $result->fetch_assoc()) {
-				array_push($badges, ANORRLBadge::FromID($row['badge_id']));
+				array_push($badges, ProfileBadge::FromID($row['badge_id']));
 			}
 
 			return $badges;
@@ -1003,39 +1033,13 @@ EOT;
 			return $stmt->get_result()->num_rows != 0;
 		}
 
-		/**
-		 * Checks if the user is admin (duh)
-		 * @return void
-		 */
 		function IsAdmin(): bool {
-			return $this->HasProfileBadgeOf(ANORRLBadges::ADMINISTRATOR);
+			return $this->HasProfileBadgeOf(ANORRLBadge::ADMINISTRATOR);
 		}
 
-		/**
-		 * Returns the ban details if the user has been suspended/terminated<br>
-		 * Null if no bans have been issued.
-		 * @return void
-		 */
-		function GetBanDetails() {}
-
-		/**
-		 * Checks if user is banned via {@see GetBanDetails}
-		 * @return bool
-		 */
 		function IsBanned(): bool {
 			return false;
 		}
-
-		/**
-		 * Gives user a suspension until notice.
-		 * @return void
-		 */
-		function Suspend(): void {}
-		/**
-		 * Permanent version of Suspend()
-		 * @return void
-		 */
-		function Terminate(): void {}
 
 		function IsOnline(): bool {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
@@ -1134,28 +1138,6 @@ EOT;
 					return "Was last seen: ".$row['action'].", ".$this->getTimeAgo(DateTime::createFromFormat("Y-m-d H:i:s", $row['action_time']));
 				} else {
 					return "Was never online I guess :[";
-				}
-			}
-		}
-
-		private function getTimeAgo(DateTime $time) {
-			$time_difference = time() - $time->getTimestamp();
-
-			if( $time_difference < 1 ) { return 'less than 1 second ago'; }
-			$condition = array( 12 * 30 * 24 * 60 * 60 =>  'year',
-						30 * 24 * 60 * 60       =>  'month',
-						24 * 60 * 60            =>  'day',
-						60 * 60                 =>  'hour',
-						60                      =>  'minute',
-						1                       =>  'second'
-			);
-
-			foreach($condition as $secs => $str) {
-				$d = $time_difference / $secs;
-
-				if($d >= 1) {
-					$t = round( $d );
-					return $t . ' ' . $str . ( $t > 1 ? 's' : '' ) . ' ago';
 				}
 			}
 		}
@@ -1341,12 +1323,12 @@ EOT;
 		
 	}
 
-	class ANORRLBadge {
-		public ANORRLBadges $id;
+	class ProfileBadge {
+		public ANORRLBadge $id;
 		public string $name;
 		public string $description;
 
-		public static function FromID(int $id): ANORRLBadge|null {
+		public static function FromID(int $id): ProfileBadge|null {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `profilebadges_info` WHERE `pbadge_id` = ?");
 			$stmt_getuser->bind_param('i', $id);
@@ -1361,7 +1343,7 @@ EOT;
 		}
 
 		function __construct($rowdata) {
-			$this->id = ANORRLBadges::index(intval($rowdata['pbadge_id']));
+			$this->id = ANORRLBadge::index(intval($rowdata['pbadge_id']));
 			$this->name = strval($rowdata['pbadge_name']);
 			$this->description = strval($rowdata['pbadge_description']);
 		}

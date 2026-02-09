@@ -77,23 +77,9 @@
 		<script src="/js/user.js?t=<?= time() ?>"></script>
 		<script>
 			$(function(){
-				ANORRL.User.GrabFeed(<?= $get_user->id ?>);
+				//ANORRL.User.GrabFeed(<?= $get_user->id ?>);
 			});
 		</script>
-		<?php if($get_user->setprofilepicture): ?>
-		<script>
-			var render = false;
-			function flipRenders(element) {
-				render = !render;
-
-				if(render) {
-					$("#ProfilePictureYeah").attr("src", "/thumbs/player?id=<?= $get_user->id ?>");
-				} else {
-					$("#ProfilePictureYeah").attr("src", "/thumbs/profile?id=<?= $get_user->id ?>");
-				}
-			}
-		</script>
-		<?php endif ?>
 	</head>
 	<body>
 		<div class="Badge" template><a href=""><img src=""><span></span></a></div>
@@ -106,9 +92,6 @@
 							<h2 style="margin: 5px 0px; width: 830px;"><?= $get_user->name ?>'s Profile</h2>
 							<div id="ProfileImage">
 								<div id="ImageContainer">
-									<?php if($get_user->setprofilepicture): ?>
-									<a href="javascript:flipRenders(this)" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;" title="Swap pictures!"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;" title="Swap pictures!"></a>
-									<?php endif ?>
 									<img id="ProfilePictureYeah" src="/thumbs/<?= $get_user->setprofilepicture ? "profile" : "player" ?>?id=<?= $get_user->id ?>">
 								</div>
 								

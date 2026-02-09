@@ -45,13 +45,7 @@
 
 	$header_data = $get_user;
 
-	include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-
-	$stmt = $con->prepare("SELECT * FROM `friends` WHERE (`sender` = ? OR `reciever` = ?) AND `status` = 1");
-	$stmt->bind_param("ii", $get_user->id, $get_user->id);
-	$stmt->execute();
-
-	$result_stmt = $stmt->get_result();
+	$friends = $get_user->GetFriends();
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,23 +64,16 @@
 				<div id="BodyContainer">
 					<h2><?= $get_user->name ?>'s Friends</h2>
 					<div id="FriendsContainer">
-						<?php if($result_stmt->num_rows != 0): ?>
+						<?php if(count($friends) != 0): ?>
 						<table>
 						<?php 
 							$count = 0;
-							while($row = $result_stmt->fetch_assoc()) {
+							foreach($friends as $friendo) {
 								if($count == 0) {
 									echo "<tr>";
 								}
 
 								$controlPanel = "";
-
-								$friendo = $row['reciever'] == $get_user->id ? User::FromID($row['sender']) : User::FromID($row['reciever']);
-								
-								if($friendo == null) {
-									// There's a person that's non existent somehow!
-									continue;
-								}
 
 								$fid = $friendo->id;
 								

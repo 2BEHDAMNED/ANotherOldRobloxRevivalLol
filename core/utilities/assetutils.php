@@ -1,64 +1,66 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
-    class AssetUtils {
-        public static function GetPaged(string $query, AssetType $type, int $pagenum, int $count, User|null $input_user = null) {
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+	enum CatalogFilter {
+		case RecentlyUploaded;
+		case RecentlyUpdated;
+		case OldestUploaded;
+		case OldestUpdated;
+		case MostSold;
+		case MostFavourited;
 
-			$page = (($pagenum-1)*$count);
-			$q = "%$query%";
-			$ordinal = $type->ordinal();
+		/* Games Stuff Only */
+		case MostPopular;
+		case MostVisited;
 
-            $userline = $input_user == null ? "" : "AND `asset_creator` = ?";
-
-            $stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 $userline ORDER BY `asset_created` DESC LIMIT ?, ?");
-
-			if($input_user == null) {
-				$stmt_getuser->bind_param('siii', $q, $ordinal, $page, $count);
-			} else {
-				$stmt_getuser->bind_param('siiii', $q, $ordinal, $input_user->id, $page, $count);
-			}
-
-            $stmt_getuser->execute();
-
-			$result = $stmt_getuser->get_result();
-
-			$result_array = [];
-
-			if($result->num_rows != 0) {
-				while($row = $result->fetch_assoc()) {
-					$asset = new Asset($row);
-					if($row['asset_type'] == AssetType::PLACE->ordinal()) {
-						$asset = Place::FromID($row['asset_id']);
-					} else {
-						$asset = new Asset($row);
-					}
-
-					if(!$asset->notcatalogueable && $asset->public) {
-						array_push($result_array, $asset);
-					}
-					
-				}
-				return $result_array;
-			}
-
-			return [];
+		public function ordinal(): int {
+			return match($this) {
+				CatalogFilter::RecentlyUploaded => 1,
+				CatalogFilter::RecentlyUpdated => 2,
+				CatalogFilter::OldestUploaded => 3,
+				CatalogFilter::OldestUpdated => 4,
+				CatalogFilter::MostSold => 5,
+				CatalogFilter::MostFavourited => 6,
+				CatalogFilter::MostPopular => 7,
+				CatalogFilter::MostVisited => 8,
+			};
 		}
 
-		public static function Get(string $query, AssetType $type, User|null $input_user = null) {
+		public static function index(int $index): CatalogFilter {
+			return match($index) {
+				1 => CatalogFilter::RecentlyUploaded,
+				2 => CatalogFilter::RecentlyUpdated,
+				3 => CatalogFilter::OldestUploaded,
+				4 => CatalogFilter::OldestUpdated,
+				5 => CatalogFilter::MostSold,
+				6 => CatalogFilter::MostFavourited,
+				7 => CatalogFilter::MostPopular,
+				8 => CatalogFilter::MostVisited,
+			};
+		}
+	}
+	
+	class AssetUtils {
+		
+		public static function Get(AssetType $type, string $query = "", int $page = -1, int $count = -1): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 
-			$q = "%$query%";
-			$ordinal = $type->ordinal();
+			
+			$stmt_query = "%$query%";
+			$stmt_type = $type->ordinal();
 
-			if($input_user == null) {
+			if($page == -1 || $count == -1) {
 				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1");
-				$stmt_getuser->bind_param('si', $q, $ordinal);
+				$stmt_getuser->bind_param('si', $stmt_query, $stmt_type);
 				$stmt_getuser->execute();
+				// show all
 			} else {
-				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_creator` = ? AND `asset_public` = 1");
-				$stmt_getuser->bind_param('sii', $q, $ordinal, $input_user->id);
+				$stmt_page = (($page-1)*$count);
+				
+				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 LIMIT ?, ?");
+				$stmt_getuser->bind_param('siii', $stmt_query, $stmt_type, $stmt_page, $count);
 				$stmt_getuser->execute();
+				// pagify
 			}
 
 			$result = $stmt_getuser->get_result();
@@ -81,6 +83,70 @@
 			}
 
 			return [];
+
 		}
-    }
+		
+		public static function GetFiltered(CatalogFilter $filter, AssetType $type, string $query, int $page = -1, int $count = -1) {
+
+			if($type != AssetType::PLACE && 
+				($filter == CatalogFilter::MostPopular || $filter == CatalogFilter::MostVisited)) {
+				$filter = CatalogFilter::RecentlyUploaded;
+			}
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+
+			$base_sql_query = "SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1";
+			if($type == AssetType::PLACE) {
+				$base_sql_query = "SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1".($_SESSION['ANORRL$Games$OriginalOnly'] ? " AND `place_original` = 1" : "");
+			}
+			
+			$filter = match($filter) {
+				CatalogFilter::RecentlyUploaded => "ORDER BY `asset_created` DESC",
+				CatalogFilter::RecentlyUpdated  => "ORDER BY `asset_lastedited` DESC",
+				CatalogFilter::OldestUploaded   => "ORDER BY `asset_created` ASC",
+				CatalogFilter::OldestUpdated    => "ORDER BY `asset_lastedited` ASC",
+				CatalogFilter::MostSold         => "ORDER BY `asset_sales_count` DESC, `asset_lastedited` DESC",
+				CatalogFilter::MostFavourited   => "ORDER BY `asset_favourites_count` DESC, `asset_lastedited` DESC",
+				CatalogFilter::MostPopular      => "ORDER BY `place_currently_playing` DESC, `place_visit_count` DESC, `asset_lastedited` DESC",
+				CatalogFilter::MostVisited      => "ORDER BY `place_visit_count` DESC"
+			};
+			
+			$stmt_query = "%$query%";
+			$stmt_type = $type->ordinal();
+
+			if($page == -1 || $count == -1) {
+				$stmt_getuser = $con->prepare("$base_sql_query $filter");
+				$stmt_getuser->bind_param('si', $stmt_query, $stmt_type);
+				$stmt_getuser->execute();
+			} else {
+				$stmt_page = (($page-1)*$count);
+				
+				$stmt_getuser = $con->prepare("$base_sql_query $filter LIMIT ?, ?");
+				$stmt_getuser->bind_param('siii', $stmt_query, $stmt_type, $stmt_page, $count);
+				$stmt_getuser->execute();
+			}
+
+			$result = $stmt_getuser->get_result();
+
+			$result_array = [];
+
+			if($result->num_rows != 0) {
+				while($row = $result->fetch_assoc()) {
+					if($type == AssetType::PLACE) {
+						$asset = Place::FromID($row['place_id']);
+					} else {
+						$asset = new Asset($row);
+					}
+
+					if(!$asset->notcatalogueable && $asset->public) {
+						array_push($result_array, $asset);
+					}
+				}
+				return $result_array;
+			}
+
+			return [];
+		}
+
+	}
 ?>

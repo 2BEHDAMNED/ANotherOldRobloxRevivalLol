@@ -1,58 +1,48 @@
 <?php
 	header("Content-Type: application/json");
 
+	if(session_status() == PHP_SESSION_NONE) {
+		session_start();
+	}
+
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 	$user = UserUtils::RetrieveUser();
-	error_reporting(E_ALL ^ E_DEPRECATED);
-	function time_elapsed_string($datetime, $full = false) {
-		$now = new DateTime;
-		$ago = new DateTime($datetime);
-		$diff = $now->diff($ago);
-
-		$diff->w = floor($diff->d / 7);
-		$diff->d -= $diff->w * 7;
-
-		$string = array(
-			'y' => 'year',
-			'm' => 'month',
-			'w' => 'week',
-			'd' => 'day',
-			'h' => 'hour',
-			'i' => 'minute',
-			's' => 'second',
-		);
-		foreach ($string as $k => &$v) {
-			if ($diff->$k) {
-				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
-			} else {
-				unset($string[$k]);
-			}
-		}
-
-		if (!$full) $string = array_slice($string, 0, 1);
-		return $string ? implode(', ', $string) . ' ago' : 'just now';
-	}
 
 	Place::UpdateAllPlaces();
 
 	if(!isset($_GET['placeid'])) {
+		$original = false;
+		$filter = CatalogFilter::MostPopular->ordinal();
 		$page = 1;
+		$query = "";
+		
+		if(isset($_GET['f'])) {
+			$filter = intval($_GET['f']);
+		}
+
 		if(isset($_GET['p'])) {
 			$page = intval($_GET['p']);
 		}
 
-		$query = "";
-
 		if(isset($_GET['q'])) {
 			$query = $_GET['q'];
+		}
+
+		if(isset($_GET['o'])) {
+			$original = boolval($_GET['o']);
 		}
 
 		if($page < 1) {
 			die(header("Location: /api/games?q=$query&p=1"));
 		}
 
-		$retrievedassets = Place::GetAllPaged($query, $page, 9);
+		$catalog_filter = CatalogFilter::index($filter);
+
+		$_SESSION['ANORRL$Games$OriginalOnly'] = $original;
+
+		$retrievedassets = AssetUtils::GetFiltered($catalog_filter, AssetType::PLACE, $query, $page, 9);
 
 		$assets = [];
 
@@ -75,12 +65,12 @@
 			}
 		}
 		
-		if(count(Place::GetAll($query)) <= 9) {
+		if(count(AssetUtils::GetFiltered($catalog_filter, AssetType::PLACE, $query)) <= 9) {
 			$total_pages = 1;
 		} else {
-			$total_pages = floor((count(Place::GetAll($query))/9) + 0.5);
+			$total_pages = floor((count(AssetUtils::GetFiltered($catalog_filter, AssetType::PLACE, $query))/9) + 0.5);
 
-			if(count(Place::GetAllPaged($query, $total_pages, 9)) == 0) {
+			if(count(AssetUtils::GetFiltered($catalog_filter, AssetType::PLACE, $query, $total_pages, 9)) == 0) {
 				$total_pages--;
 			}
 		}
@@ -88,9 +78,10 @@
 		if($total_pages < $page && $total_pages != $page && $page != 1) {
 			die(header("Location: /api/games?q=$query&p=1"));
 		}
-
+		unset($_SESSION['ANORRL$Games$OriginalOnly']);
 		die(json_encode(["games" => $assets, "page" => $page, "total_pages" => $total_pages]));
 	} else {
+		unset($_SESSION['ANORRL$Games$OriginalOnly']);
 		$placeid = intval($_GET['placeid']);
 
 		$place = Place::FromID($placeid);
@@ -115,4 +106,6 @@
 
 		
 	}
+
+	
 ?>

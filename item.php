@@ -283,13 +283,13 @@
 									<div id="NotOnSale">You need to be logged in to purchase this!</div>
 								<?php else: ?>
 								<?php if($asset->onsale): ?>
-									<?php if(!$user_bought): ?>
+									<?php if(!$is_bought): ?>
 										<button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel()"><span>Free for grabs!</span></button>
 									<?php else: ?>
 										<div id="NotOnSale">Hey! You already own this item??</div>
 									<?php endif ?>
 								<?php else: ?>
-									<?php if($user_bought): ?>
+									<?php if($is_bought): ?>
 										<div id="NotOnSale">Item not on sale and besides you own this.</div>
 									<?php else: ?>
 										<div id="NotOnSale">Item not on sale.</div>
@@ -300,18 +300,26 @@
 								<?php if($user != null): ?>
 								<div id="ManageOptions">
 									<?php if($is_creator): ?>
-									<a href="/edit?id=<?= $asset->id ?>">Edit</a>
-									<?php endif ?>
-									<?php if($user != null && $user->IsAdmin() && in_array($asset->type, $rendering_types)): ?>
-									<a href="javascript:Render()">Render this asset</a>
-									<?php endif ?>
-									<?php if($is_creator): ?>
+									<a href="/edit?id=<?= $asset->id ?>">Configure</a>
+									<?php if(in_array($asset->type, $rendering_types)): ?><a href="javascript:Render()">Render this asset</a><?php endif?>
 									<a href="javascript:Delete()">Delete this asset</a>
 									<?php endif ?>
 								</div>
 								<?php endif ?>
 							</div>
 						</div>
+						<?php if($user != null): ?>
+						<div id="CommentsContainer">
+							<h3>Users who bought this!</h3>
+							<div id="CommentSection">
+								<?php if($asset->sales_count > 0): ?>
+									<div id="CommentsDisabled">Unfortunately this hasn't been implemented yet...</div>		
+								<?php else: ?>
+									<div id="CommentsDisabled">Aw man! No one bothered to take this <?= strtolower($asset->type->label()) ?> yet!</div>	
+								<?php endif ?>
+							</div>
+						</div>
+						<?php endif ?>
 						<div id="CommentsContainer">
 							<?php if($user == null || !$asset->comments_enabled): ?>
 							<h3>Comments</h3>

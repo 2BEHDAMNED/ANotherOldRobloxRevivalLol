@@ -1,6 +1,7 @@
 <?php
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/classes/user.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/utilutils.php';
 
 	enum AssetType {
 		case IMAGE;
@@ -191,9 +192,6 @@
 			}
 		}
 
-
-
-
 		function __construct(array|int $rowdata) {
 			if(is_array($rowdata)) {
 				$this->id = intval($rowdata['asset_id']);
@@ -241,20 +239,35 @@
 			}
 		}
 
-		private function RecurseRemove($input, $find, $replace) {
-			
-			$result = str_replace($find, $replace,$input);
+		function GetFileContents(int $version = -1) {
+			if($version > 0) {
+				$asset_version = AssetVersion::GetVersionOf($this, $version);
 
-			if(str_contains($result, $find)) {
-				return $this->RecurseRemove($input, $find, $replace);
+				if($asset_version != null) {
+					$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset_version->md5sig;
+				} else {
+					return null;
+				}
+			} else {
+				$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$this->GetLatestVersionDetails()->md5sig;
 			}
 
-			return $result;
+			if(file_exists($filename)) {
+				$handle = fopen($filename, "r"); 
+				$contents = fread($handle, filesize($filename)); 
+				fclose($handle);
+				$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
+				$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
+
+				return str_replace("arl.lambda.cam", $_SERVER['SERVER_NAME'], $contents);
+			}
+			
+			return null;
 		}
 
 		function GetURLTitle() {
 			$result = strtolower(trim(preg_replace('/[^a-zA-Z0-9 ]/', "", $this->name)));
-			$result = $this->RecurseRemove($result, "  ", " ");
+			$result = UtilUtils::RecurseRemove($result, "  ", " ");
 			$result = str_replace(" ", "-", $result);
 			if($result == "") {
 				$result = "unnamed";
@@ -388,32 +401,6 @@
 			$stmt->execute();
 		}
 
-		function GetFileContents(int $version = -1) {
-			if($version > 0) {
-				$asset_version = AssetVersion::GetVersionOf($this, $version);
-
-				if($asset_version != null) {
-					$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset_version->md5sig;
-				} else {
-					return null;
-				}
-			} else {
-				$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$this->GetLatestVersionDetails()->md5sig;
-			}
-
-			if(file_exists($filename)) {
-				$handle = fopen($filename, "r"); 
-				$contents = fread($handle, filesize($filename)); 
-				fclose($handle);
-				$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
-				$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
-
-				return str_replace("arl.lambda.cam", $_SERVER['SERVER_NAME'], $contents);
-			}
-			
-			return null;
-		}
-
 		function GetRelatedAssets() {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
@@ -505,8 +492,21 @@
 		public static function UpdateAllPlaces() {
 			require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 
-			foreach(AssetUtils::Get("", AssetType::PLACE) as $place) {
-				self::UpdatePlaceStats($place->id);
+			foreach(AssetUtils::Get(AssetType::PLACE) as $place) {
+				if($place instanceof Place) {
+					$visits = $place->visit_count;
+					
+					if($visits > 100 && !$place->creator->HasProfileBadgeOf(ANORRLBadge::HOMESTEAD)) {
+						$place->creator->GiveProfileBadge(ANORRLBadge::HOMESTEAD);
+					}
+
+					if($visits > 1000 && !$place->creator->HasProfileBadgeOf(ANORRLBadge::BRICKSMITH)) {
+						$place->creator->GiveProfileBadge(ANORRLBadge::BRICKSMITH);
+					}
+
+					self::UpdatePlaceStats($place->id);
+				}
+				
 			}
 		}
 
@@ -522,59 +522,6 @@
 			} else {
 				return null;
 			}
-		}
-		
-		public static function GetAllPaged(string $query, int $pagenum, int $count) {
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 AND assets.asset_name LIKE ? ORDER BY `place_currently_playing` DESC, `place_visit_count` DESC, `asset_created` DESC LIMIT ?, ?");
-			$page = (($pagenum-1)*$count);
-			$q = "%$query%";
-			$stmt_getuser->bind_param('sii', $q, $page, $count);
-			$stmt_getuser->execute();
-
-			$result = $stmt_getuser->get_result();
-
-			$result_array = [];
-
-			if($result->num_rows != 0) {
-				while($row = $result->fetch_assoc()) {
-					$asset = Place::FromID($row['place_id']);
-
-					if(!$asset->notcatalogueable && $asset->public) {
-						array_push($result_array, $asset);
-					}
-					
-				}
-				return $result_array;
-			}
-
-			return [];
-		}
-
-		public static function GetAll(string $query) {
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-
-			$stmt_getuser = $con->prepare("SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND assets.asset_public = 1 AND assets.asset_name LIKE ? ORDER BY `place_currently_playing` DESC, `place_visit_count` DESC, `asset_lastedited` DESC;");
-			
-			$q = "%$query%";
-			$stmt_getuser->bind_param('s', $q);
-			$stmt_getuser->execute();
-
-			$result = $stmt_getuser->get_result();
-
-			$result_array = [];
-
-			if($result->num_rows != 0) {
-				while($row = $result->fetch_assoc()) {
-					$asset = Place::FromID($row['place_id']);
-					if(!$asset->notcatalogueable && $asset->public) {
-						array_push($result_array, $asset);
-					}
-				}
-				return $result_array;
-			}
-
-			return [];
 		}
 
 		function __construct($rowdata) {
@@ -743,23 +690,21 @@
 	
 				$visits = $stmt_visitcount->get_result()->num_rows;
 
-				/*if($visits > 100 && !Asset::FromID($placeid)->creator->HasProfileBadgeOf(User::BADGE_HOMESTEAD)) {
-					Asset::FromID($placeid)->creator->GiveProfileBadge(User::BADGE_HOMESTEAD);
+				if($visits > 100 && !$this->creator->HasProfileBadgeOf(ANORRLBadge::HOMESTEAD)) {
+					$this->creator->GiveProfileBadge(ANORRLBadge::HOMESTEAD);
 				}
 
-				if($visits > 1000 && !Asset::FromID($placeid)->creator->HasProfileBadgeOf(User::BADGE_BRICKSMITH)) {
-					Asset::FromID($placeid)->creator->GiveProfileBadge(User::BADGE_BRICKSMITH);
-				}*/
+				if($visits > 1000 && !$this->creator->HasProfileBadgeOf(ANORRLBadge::BRICKSMITH)) {
+					$this->creator->GiveProfileBadge(ANORRLBadge::BRICKSMITH);
+				}
 	
 				$stmt = $con->prepare('UPDATE `asset_places` SET `place_visit_count` = ? WHERE `place_id` = ?;');
 				$stmt->bind_param('ii', $visits, $placeid);
 				$stmt->execute();
 			}
 		}
+
 		function GetBadges(): array {
-			return [];
-		}
-		function GetGamepasses(): array {
 			return [];
 		}
 	}

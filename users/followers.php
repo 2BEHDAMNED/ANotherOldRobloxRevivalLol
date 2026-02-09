@@ -36,13 +36,7 @@
 
 	$header_data = $get_user;
 
-	include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-
-	$stmt = $con->prepare("SELECT * FROM `follows` WHERE `followed` = ? ORDER BY `followed_at` ASC");
-	$stmt->bind_param("i", $get_user->id);
-	$stmt->execute();
-
-	$result_stmt = $stmt->get_result();
+	$followers = $get_user->GetFollowers();
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,23 +55,16 @@
 				<div id="BodyContainer">
 					<h2><?= $get_user->name ?>'s Followers</h2>
 					<div id="FriendsContainer">
-						<?php if($result_stmt->num_rows != 0): ?>
+						<?php if(count($followers) != 0): ?>
 						<table>
 						<?php 
 							$count = 0;
-							while($row = $result_stmt->fetch_assoc()) {
+							foreach($followers as $friendo) {
 								if($count == 0) {
 									echo "<tr>";
 								}
 
 								$controlPanel = "";
-
-								$friendo = User::FromID($row['follower']);
-								
-								if($friendo == null) {
-									// There's a person that's non existent somehow!
-									continue;
-								}
 
 								$fid = $friendo->id;
 								

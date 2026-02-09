@@ -22,10 +22,9 @@
 		$sort = $_GET['sortBy'];
 
 		if($type == "FreeModels") {
-			$result[0]['TotalNumberOfResults'] = count(AssetUtils::Get($query, AssetType::MODEL));
+			$result[0]['TotalNumberOfResults'] = count(AssetUtils::Get(AssetType::MODEL, $query));
 		} elseif($type == "FreeDecals") {
-			$result[0]['TotalNumberOfResults'] = count(AssetUtils::Get($query, AssetType::DECAL));
-
+			$result[0]['TotalNumberOfResults'] = count(AssetUtils::Get(AssetType::DECAL, $query));
         }
 		
 	}

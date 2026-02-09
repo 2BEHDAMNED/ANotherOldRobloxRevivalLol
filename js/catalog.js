@@ -18,19 +18,20 @@ const regex = /[^A-Za-z0-9 ]/g;
 
 ANORRL.Catalog  = {
 	CurrentPage: 1,
+	CurrentFilter: 5,
 	CurrentCategory: 8,
 	CurrentQuery: "",
 	CurrentlyLoadingCrapBruh: false,
 	Submit: function() {
-		this.GrabAssets(this.CurrentCategory, 1, $("#SearchBox[name=query]").val());
+		this.GrabAssets(this.CurrentFilter, this.CurrentCategory, 1, $("#SearchBox[name=query]").val());
 	},
 	NextPage: function() {
-		this.GrabAssets(this.CurrentCategory, this.CurrentPage + 1);
+		this.GrabAssets(this.CurrentFilter, this.CurrentCategory, this.CurrentPage + 1);
 	},
 	PrevPage: function() {
-		this.GrabAssets(this.CurrentCategory, this.CurrentPage - 1);
+		this.GrabAssets(this.CurrentFilter, this.CurrentCategory, this.CurrentPage - 1);
 	},
-	GrabAssets: function(category, page, query) {
+	GrabAssets: function(filter, category, page, query) {
 
 		if(this.CurrentlyLoadingCrapBruh) {
 			return;
@@ -51,6 +52,12 @@ ANORRL.Catalog  = {
 		}
 		if(page === undefined) {
 			page = 1;
+		}
+
+		if(filter === undefined) {
+			filter = this.CurrentFilter;
+		} else {
+			this.CurrentFilter = filter;
 		}
 
 		if(query === undefined) {
@@ -74,11 +81,14 @@ ANORRL.Catalog  = {
 			$(this).removeAttr("selected");
 		});
 
-		var categorylabel = $("li[data_category="+category+"]").find("a").html().toLowerCase().replaceAll("-", "");
+		$("li[data_filter]").each(function() {
+			$(this).removeAttr("selected");
+		});
 
 		$("li[data_category="+category+"]").attr("selected", "");
+		$("li[data_filter="+filter+"]").attr("selected", "");
 		
-		$.get("/api/catalog", {c: category, q: query, p : page}, function(data) {
+		$.get("/api/catalog", {f: filter, c: category, q: query, p : page}, function(data) {
 			
 			var assets = data['assets'];
 			ANORRL.Catalog.CurrentPage = data['page'];
@@ -185,7 +195,11 @@ ANORRL.Catalog  = {
 $(function(){
 
 	$("li[data_category]").on("click",function() {
-		ANORRL.Catalog.GrabAssets($(this).attr("data_category"), ANORRL.Catalog.CurrentPage, "");
+		ANORRL.Catalog.GrabAssets(ANORRL.Catalog.CurrentFilter, $(this).attr("data_category"), ANORRL.Catalog.CurrentPage, "");
+	});
+
+	$("li[data_filter]").on("click",function() {
+		ANORRL.Catalog.GrabAssets($(this).attr("data_filter"), ANORRL.Catalog.CurrentCategory, ANORRL.Catalog.CurrentPage, "");
 	});
 	
 	ANORRL.Catalog.GrabAssets();
@@ -197,6 +211,6 @@ $(function(){
 	});
 
 	$("#Paginator").find("input").on("change", function() {
-		ANORRL.Catalog.GrabAssets(ANORRL.Catalog.CurrentCategory, Number($(this).val()));
+		ANORRL.Catalog.GrabAssets(ANORRL.Catalog.CurrentFilter, ANORRL.Catalog.CurrentCategory, Number($(this).val()));
 	});
 });

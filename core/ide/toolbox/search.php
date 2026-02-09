@@ -21,12 +21,19 @@
 		$startOffset = intval(trim($_GET['startOffset']));
 		$resultSize = intval(trim($_GET['resultSize']));
 
+		$filter = match($sort) {
+			"Relevance" => CatalogFilter::RecentlyUploaded,
+			"MostTaken" => CatalogFilter::MostSold,
+			"Favorites" => CatalogFilter::MostFavourited,
+			"Updated" => CatalogFilter::RecentlyUpdated,
+		};
+
 		$assets = [];
 
 		if($type == "FreeModels") {
-			$assets = AssetUtils::GetPaged($query, AssetType::MODEL, 1, $resultSize);
+			$assets = AssetUtils::GetFiltered($filter, AssetType::MODEL, $query, 1, $resultSize);
 		} elseif($type == "FreeDecals") {
-			$assets = AssetUtils::GetPaged($query, AssetType::DECAL, 1, $resultSize);
+			$assets = AssetUtils::GetFiltered($filter, AssetType::DECAL, $query, 1, $resultSize);
 		}
 
 		foreach($assets as $asset) {

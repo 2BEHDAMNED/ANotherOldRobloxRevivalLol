@@ -26,7 +26,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
-		<link rel="stylesheet" href="/css/new/games.css?v=3">
+		<link rel="stylesheet" href="/css/new/games.css?v=4">
 		
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
@@ -58,12 +58,16 @@
 					<div id="GamesContainer">
 						<div id="GamesFilterPanel">
 							<h4>Filters</h4>
+							<div style="text-align: center;margin: 5px;border: 2px solid black;padding: 5px;padding-top: 3px;background: #111;color: #ffc63f;text-decoration: none;color: #ffa634;">
+								<label for="ANORRL_Games_OriginalGamesInput">Original Only</label>
+								<input id="ANORRL_Games_OriginalGamesInput" type="checkbox">
+							</div>
 							<ul>
-								<li><a>Most Popular</a></li>
-								<li><a>Most Visited</a></li>
-								<li><a>Original Games</a></li>
-								<li><a>Newly Created</a></li>
-								<li><a>Recently Updated</a></li>
+								<li data_filter="7"><a>Most Popular</a></li>
+								<li data_filter="8"><a>Most Visited</a></li>
+								<li data_filter="6"><a>Most Favourited</a></li>
+								<li data_filter="1"><a>Recently Created</a></li>
+								<li data_filter="2"><a>Recently Updated</a></li>
 							</ul>
 						</div>
 						<div id="Games">

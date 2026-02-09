@@ -207,7 +207,6 @@
 							<table id="InfoHeaders">
 								<td>Info</td>
 								<td>Badges</td>
-								<td>Gamepasses</td>
 								<td>Servers</td>
 							</table>
 							<div id="InfoBox" content="Info" style="display:none">
@@ -251,10 +250,6 @@
 							<div id="InfoBox" content="Badges" style="display:none">
 								<b>Badges</b><br>
 								Badges content in here
-							</div>
-							<div id="InfoBox" content="Gamepasses" style="display:none">
-								<b>Gamepasses</b><br>
-								Gamepasses content in here
 							</div>
 							<div id="InfoBox" content="Servers" style="display:none">
 								<?php if($user == null): ?>

@@ -23,23 +23,23 @@
 		}
 
 		if($_GET['category'] == "FreeModels") {
-			$paged_assets = AssetUtils::GetPaged($_GET['keyword'], AssetType::MODEL, intval($_GET['page']), intval($_GET['num']), $user);
-			$assets = AssetUtils::Get($_GET['keyword'], AssetType::MODEL, $user);
+			$paged_assets = AssetUtils::Get(AssetType::MODEL, $_GET['keyword'], intval($_GET['page']), intval($_GET['num']));
+			$assets = AssetUtils::Get(AssetType::MODEL, $_GET['keyword']);
 			$validresponse = true;
 		} 
 		else if($_GET['category'] == "FreeDecals") {
-			$paged_assets = AssetUtils::GetPaged($_GET['keyword'], AssetType::DECAL, intval($_GET['page']), intval($_GET['num']), $user);
-			$assets = AssetUtils::Get($_GET['keyword'], AssetType::DECAL, $user);
+			$paged_assets = AssetUtils::Get(AssetType::DECAL, $_GET['keyword'], intval($_GET['page']), intval($_GET['num']));
+			$assets = AssetUtils::Get(AssetType::DECAL, $_GET['keyword']);
 			$validresponse = true;
 		}
 		else if($_GET['category'] == "FreeMeshes") {
-			$paged_assets = AssetUtils::GetPaged($_GET['keyword'], AssetType::MESH, intval($_GET['page']), intval($_GET['num']), $user);
-			$assets = AssetUtils::Get($_GET['keyword'], AssetType::MESH, $user);
+			$paged_assets = AssetUtils::Get(AssetType::MESH, $_GET['keyword'], intval($_GET['page']), intval($_GET['num']));
+			$assets = AssetUtils::Get(AssetType::MESH, $_GET['keyword']);
 			$validresponse = true;
 		}
 		else if($_GET['category'] == "FreeAudio") {
-			$paged_assets = AssetUtils::GetPaged($_GET['keyword'], AssetType::AUDIO, intval($_GET['page']), intval($_GET['num']), $user);
-			$assets = AssetUtils::Get($_GET['keyword'], AssetType::AUDIO, $user);
+			$paged_assets = AssetUtils::Get(AssetType::AUDIO, $_GET['keyword'], intval($_GET['page']), intval($_GET['num']));
+			$assets = AssetUtils::Get(AssetType::AUDIO, $_GET['keyword']);
 			$validresponse = true;
 		}
 

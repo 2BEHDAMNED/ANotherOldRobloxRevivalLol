@@ -148,3 +148,15 @@
 .Game[template] {
 	display:none;
 }
+
+li:hover,
+li:hover {
+	cursor: pointer;
+}
+
+li[selected] > a,
+li[selected] > a {
+	font-weight: bold;
+	text-decoration: underline;
+	background: #1a1a1a !important;
+}

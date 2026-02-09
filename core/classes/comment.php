@@ -1,5 +1,6 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/utilutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/user.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/slurutils.php";
@@ -33,7 +34,7 @@
 			$profileurl = $this->poster->setprofilepicture ? "profile" : "player";
 			$formatted_datetime = $this->postdate->format("d/m/Y");
 
-			// add time ago
+			$timeago = UtilUtils::GetTimeAgo($this->postdate);
 
 			echo <<<EOT
 			<div class="Comment">
@@ -44,7 +45,7 @@
 				</div>
 				<div id="CommentPartArea">
 					<div id="CommentInfoArea">
-						<a href="/users/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime</span>
+						<a href="/users/$user_id/profile">$user_name</a>&nbsp;<span>Posted on $formatted_datetime ($timeago)</span>
 					</div>
 					<code>$contents</code>
 				</div>

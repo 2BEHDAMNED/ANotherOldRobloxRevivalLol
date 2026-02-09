@@ -5,6 +5,7 @@ if(ANORRL == undefined) {
 const regex = /[^A-Za-z0-9 ]/g;
 
 ANORRL.Games = {
+	CurrentFilter: 7,
 	CurrentPage: 1,
 	CurrentQuery: "",
 	MobileEnabled: false,
@@ -13,19 +14,24 @@ ANORRL.Games = {
 			page = 1;
 		}
 
-		this.LoadGames("", page);
+		this.LoadGames("", page, this.CurrentFilter);
 	},
 	Submit: function() {
-		this.LoadGames($("#SearchBox[name=query]").val(), 1);
+		this.LoadGames($("#SearchBox[name=query]").val(), 1, this.CurrentFilter);
 	},
 	NextPage: function() {
-		this.LoadGames(this.CurrentQuery, this.CurrentPage + 1);
+		this.LoadGames(this.CurrentQuery, this.CurrentPage + 1, this.CurrentFilter);
 	},
 	PrevPage: function() {
-		this.LoadGames(this.CurrentQuery, this.CurrentPage - 1);
+		this.LoadGames(this.CurrentQuery, this.CurrentPage - 1, this.CurrentFilter);
 	},
 	LoadGames: function(query, page, filter) {
 
+		if(filter === undefined) {
+			filter = this.CurrentFilter;
+		} else {
+			this.CurrentFilter = filter;
+		}
 		if(query === undefined) {
 			query = this.CurrentQuery;
 		} else {
@@ -49,13 +55,21 @@ ANORRL.Games = {
 		gamescontainer.children().each(function() {
 			$(this).remove();
 		});
-
+		
 		var pagercontainer = $("#Games #Paginator");
 		
 		var backPager = pagercontainer.find("#BackPager");
 		var nextPager = pagercontainer.find("#NextPager");
 
-		$.get("/api/games", { q: query, p : page}, function(data) {
+		$("li[data_filter]").each(function() {
+			$(this).removeAttr("selected");
+		});
+
+		$("li[data_filter="+filter+"]").attr("selected", "");
+
+		var original = $("#ANORRL_Games_OriginalGamesInput").is(":checked") ? 1 : 0;
+
+		$.get("/api/games", {f: filter, q: query, p : page, o: original}, function(data) {
 
 			var games = data['games'];
 			ANORRL.Games.CurrentPage = data['page'];
@@ -117,7 +131,7 @@ ANORRL.Games = {
 					template.find("#ActivePlayerCount").html(asset['activeplayercount']);
 					template.find("#VisitCount").html(asset['visitcount']);
 
-					if(asset['original']) {
+					if(asset['original'] && !original) {
 						template.find("#OriginalArea").css("display", "block");
 					}
 					
@@ -165,6 +179,14 @@ ANORRL.Games = {
 $(function() {
 	ANORRL.Games.LoadNoQueryGames();
 
+	$("#ANORRL_Games_OriginalGamesInput").on("click", function() {
+		ANORRL.Games.Submit();
+	})
+
+	$("li[data_filter]").on("click",function() {
+		ANORRL.Games.LoadGames(ANORRL.Games.CurrentQuery, ANORRL.Games.CurrentPage, $(this).attr("data_filter"));
+	});
+
 	$("#SearchBox").on("keypress", function(e) {
 		if(e.keyCode == 13) {
 			ANORRL.Games.Submit();
@@ -172,6 +194,6 @@ $(function() {
 	});
 
 	$("#Games #Paginator").find("input").on("change", function() {
-		ANORRL.Games.LoadGames(this.CurrentQuery, Number($(this).val()));
+		ANORRL.Games.LoadGames(ANORRL.Games.CurrentQuery, Number($(this).val()));
 	});
 })
