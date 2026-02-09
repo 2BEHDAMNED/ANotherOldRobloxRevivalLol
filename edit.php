@@ -56,7 +56,7 @@
 
 	if(
 		isset($_POST['action']) &&
-		$_GET["action"] == 'ANORRL$EditItem$ResetThumbnail'
+		$_POST["action"] == 'ANORRL$EditItem$ResetThumbnail'
 	) {
 		AssetVersion::GetLatestVersionOf($asset)->ResetThumbnail();
 	}
