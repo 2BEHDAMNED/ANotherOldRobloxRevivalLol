@@ -65,7 +65,6 @@
 			$asset = Asset::FromID(intval($_POST['id']));
 
 			if($asset != null && ($asset->creator->id == $user->id || $user->IsAdmin())) {
-				echo "allowed";
 				if($_POST['type'] == "delete") {
 					echo "deleting";
 					$id = $asset->id;
@@ -101,7 +100,6 @@
 
 					die("Success!");
 				} else if($_POST['type'] == "render") {
-					$asset = Asset::FromID($id);
 					$type = $asset->type;
 
 					if($type == AssetType::SHIRT || $type == AssetType::PANTS) {
