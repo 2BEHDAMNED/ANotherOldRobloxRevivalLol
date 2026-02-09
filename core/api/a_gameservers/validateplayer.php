@@ -1,5 +1,6 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/user.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 	
