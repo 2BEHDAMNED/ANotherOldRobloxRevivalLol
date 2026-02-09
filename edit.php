@@ -55,6 +55,13 @@
 	} 
 
 	if(
+		isset($_POST['action']) &&
+		$_GET["action"] == 'ANORRL$EditItem$ResetThumbnail'
+	) {
+		AssetVersion::GetLatestVersionOf($asset)->ResetThumbnail();
+	}
+
+	if(
 		isset($_POST['ANORRL$EditItem$Audio$AssetID']) &&
 		isset($_POST['ANORRL$EditItem$Audio$Submit']) && 
 		$asset->type == AssetType::AUDIO
@@ -215,7 +222,9 @@
 			})
 
 			function RemoveThumbnail() {
-				alert("Later...");
+				$.post("", {"action": "ANORRL$EditItem$ResetThumbnail"}, function() {
+					window.location.reload();
+				})
 			}
 		</script>
 		<?php if(isset($_SESSION['ANORRL$EditItem$Success']) && !$_SESSION['ANORRL$EditItem$Success']): ?>
@@ -331,7 +340,7 @@
 											<div class="FilePicker" style="display: block;margin-top: 10px;text-align:center">
 												<input type="number" name="ANORRL$EditItem$Audio$AssetID" style="width: 100px;" placeholder="Decal ID" value="">
 												<input type="submit" name="ANORRL$EditItem$Audio$Submit"  style="margin: 0;display: inline-block;"     value="Update">
-												<a href="javascript:RemovePicture()">Remove...</a>
+												<a href="javascript:RemoveThumbnail()">Remove...</a>
 											</div>
 										</div>
 									</div>

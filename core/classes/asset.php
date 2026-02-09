@@ -723,7 +723,7 @@
 		public AssetType $asset_type;
 		public DateTime $publish_date;
 
-		public static function GetLatestVersionOf(Asset|int $asset) {
+		public static function GetLatestVersionOf(Asset|int $asset): AssetVersion|null {
 			if($asset instanceof Asset) {
 				return self::GetVersionOf($asset, $asset->current_version);
 			} else {
@@ -732,7 +732,7 @@
 			}
 		}
 
-		public static function GetVersionOf(Asset|int $asset, int $version) {
+		public static function GetVersionOf(Asset|int $asset, int $version): AssetVersion|null {
 			$id = $asset;
 			if($asset instanceof Asset) {
 				$id = $asset->id;
@@ -761,15 +761,24 @@
 			$this->publish_date = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['version_publishdate']);	
 		}
 
+		function ResetThumbnail() {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
+			$stmt_getuser->bind_param('si', $this->md5sig, $this->id);
+			$stmt_getuser->execute();
+		}
+
 		function SetThumbnail(Asset $asset) {
 			$version = AssetVersion::GetLatestVersionOf($asset);
+
+			if($version == null) {
+				return;
+			}
 
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
 			$stmt_getuser->bind_param('si', $version->md5thumb, $this->id);
 			$stmt_getuser->execute();
-
-			//
 		}
 
 	}
