@@ -766,7 +766,7 @@
 
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
-			$stmt_getuser->bind_param('ii', $version->md5thumb, $this->id);
+			$stmt_getuser->bind_param('si', $version->md5thumb, $this->id);
 			$stmt_getuser->execute();
 
 			//
