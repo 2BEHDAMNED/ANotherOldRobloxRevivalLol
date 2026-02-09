@@ -16,11 +16,13 @@
 	$rcc_settings = $settings['renderer'];
 
 	$access = $settings['asset']['ACCESSKEY'];
-	
+	$rcc_ip = $rcc_settings['RCCGAMEIP'];
+	$rcc_port = 64898;
+	$rcc_teamcreate_port = 64888;
 	$ARBITER_HOSTS = [
 		"37.114.46.52:7000",
 	];
-	$ARBITER_BEARER_TOKEN = "427803b4bd7de917c017d5b7d9dc49cdf9e2b8bf547d1e28fc5c965fa3b3d285";
+	$ARBITER_BEARER_TOKEN = "427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285";
 	$ARBITER_RAM_THRESHOLD = 80;
 
 	header("Content-Type: application/json");
@@ -82,20 +84,21 @@
 	}
 
 	function parseHealth(array $health): array {
-		$out = ['ok' => true, 'ram_percent' => null, 'stressed' => null];
+		$out = ['ram' => null, 'status' => null];
 
 		foreach ($health as $k => $v) {
 			$lk = strtolower($k);
-			if (strpos($lk, 'ram') !== false || strpos($lk, 'memory') !== false) {
+
+			if (strpos($lk, 'ram') !== false) {
 				if (is_numeric($v)) {
-					$out['ram_percent'] = intval($v);
+					$out['ram'] = (int)$v;
 				} elseif (is_string($v) && preg_match('/\d+/', $v, $m)) {
-					$out['ram_percent'] = intval($m[0]);
+					$out['ram'] = (int)$m[0];
 				}
 			}
-			if ($lk === 'stressed' || $lk === 'is_stressed' || $lk === 'overloaded') {
-				if (is_bool($v)) $out['stressed'] = $v;
-				elseif (is_numeric($v)) $out['stressed'] = ($v ? true : false);
+
+			if ($lk === 'status' && is_string($v)) {
+				$out['status'] = strtolower($v);
 			}
 		}
 
@@ -111,10 +114,10 @@
 			if ($health !== null) {
 				$parsed = parseHealth($health);
 				$ram_ok = true;
-				if ($parsed['ram_percent'] !== null && $parsed['ram_percent'] > $ramThreshold) {
+				if ($parsed['ram'] !== null && $parsed['ram'] > $ramThreshold) {
 					$ram_ok = false;
 				}
-				if ($parsed['stressed'] === true) $ram_ok = false;
+				if ($parsed['status'] === 'stressed') $ram_ok = false;
 
 				if (!$ram_ok) {
 					continue;
@@ -129,7 +132,7 @@
 			];
 
 			$resp = httpPostJson($gameserverUrl, ['placeId' => $placeId], $headers, 6);
-			if ($resp !== null && isset($resp['status']) && strtolower($resp['status']) === 'ready') {
+			if ($resp !== null && isset($resp['status']) && strtolower($resp['status']) === 'alive') {
 				$jobId = $resp['jobId'] ?? ($resp['jobID'] ?? null);
 				$port = $resp['port'] ?? null;
 				if ($jobId !== null && $port !== null) {
