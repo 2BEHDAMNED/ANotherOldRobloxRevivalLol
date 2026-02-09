@@ -27,11 +27,11 @@
 
 				$rcc_port = $row['server_teamcreate'] == 1 ? $rcc_teamcreate_port : $rcc_gameserver_port;
 
-				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+				/*$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
 				$rcc->CloseJob(trim($_GET['jobID']));
 
 				$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
-				$rcc2->closeJob(trim($_GET['jobID']));
+				$rcc2->closeJob(trim($_GET['jobID']));*/
 
 				$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
 				$stmt_createnewserver->bind_param("s", $_GET['jobID']);
