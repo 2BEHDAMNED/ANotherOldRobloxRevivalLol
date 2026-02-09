@@ -91,14 +91,18 @@
 				
 			}
 		}
-	} else {
+	}  
+	{
 		if(isset($_POST['type'])) {
 			if(isset($_POST['id'])) {
 				$asset = Asset::FromID(intval($_POST['id']));
 
-				if($asset != null && $asset->creator->id == $user->id || $user->IsAdmin()) {
+				if($asset != null && ($asset->creator->id == $user->id || $user->IsAdmin())) {
+					echo "allowed";
 					if($_POST['type'] == "delete") {
+						echo "deleting";
 						$id = $asset->id;
+
 						$stmt = $con->prepare('DELETE FROM `inventory` WHERE `inv_assetid` = ?');
 						$stmt -> bind_param("i", $id);
 						$stmt->execute();
@@ -121,9 +125,13 @@
 						$stmt -> bind_param("i", $id);
 						$stmt->execute();
 
-						$stmt = $con->prepare('DELETE FROM `asset_places` WHERE `place_id` = ?');
-                                                $stmt -> bind_param("i", $id);
-                                                $stmt->execute();
+						if($asset->type == AssetType::PLACE) {
+							$stmt = $con->prepare('DELETE FROM `asset_places` WHERE `place_id` = ?');
+							$stmt -> bind_param("i", $id);
+							$stmt->execute();
+						}
+
+
 						die("Success!");
 					}
 				}

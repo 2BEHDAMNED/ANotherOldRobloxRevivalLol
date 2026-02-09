@@ -78,8 +78,9 @@
 			$_SESSION['ANORRL$EditItem$Success'] = true;
 
 			if($asset->type == AssetType::PLACE &&
-			   isset($_POST['ANORRL$EditItem$Place$ServerSize']) &&
-			   isset($_POST['ANORRL$EditItem$Place$Year'])) {
+			   isset($_POST['ANORRL$EditItem$Place$ServerSize'])/* &&
+			   isset($_POST['ANORRL$EditItem$Place$Year'])*/
+			   ) {
 
 				$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
 
@@ -97,7 +98,8 @@
 					$server_size = $allUsersCount;
 				}
 
-				$year = PlaceYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
+				$year = $asset->year->ordinal();
+				//$year = PlaceYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
 
 				$stmt = $con->prepare('UPDATE `asset_places` SET `place_year` = ?, `place_copylocked` = ?, `place_serversize` = ?, `place_original` = ?, `place_gears_enabled` = ? WHERE `place_id` = ?;');
 				$stmt->bind_param('siiiii', $year, $copylocked, $server_size, $original, $gears, $id);
