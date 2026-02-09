@@ -145,7 +145,7 @@
 
 	$serverToken = $_GET['serverToken'];
 	$sessionToken = $_GET['sessionToken'];
-	$server = $_GET['server'] ?? "g3d.gurdit.com";
+	$server = "g3d.gurdit.com";//$_GET['server'] ?? "g3d.gurdit.com";
 
 	$serverDetails = getServerDetails($serverToken);
 	$sessionDetails = getSessionDetails($sessionToken);
