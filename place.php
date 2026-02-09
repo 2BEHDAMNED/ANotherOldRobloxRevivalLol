@@ -151,7 +151,7 @@
 				}
 
 				function Delete() {
-					$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
+					$.post("/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
 						window.location.reload();
 					});
 				}

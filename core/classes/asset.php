@@ -421,6 +421,12 @@
 
 			return $result;
 		}
+
+		function SetThumbnailTo(Asset $asset) {
+			if($this->type == AssetType::AUDIO && ($asset->type == AssetType::DECAL || $asset->type == AssetType::IMAGE)) {
+				AssetVersion::GetLatestVersionOf($this)->SetThumbnail($asset);
+			}
+		}
 	}
 
 	enum PlaceYear {
@@ -753,6 +759,17 @@
 			$this->md5thumb = strval($rowdata['version_md5thumb']);
 
 			$this->publish_date = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['version_publishdate']);	
+		}
+
+		function SetThumbnail(Asset $asset) {
+			$version = AssetVersion::GetLatestVersionOf($asset);
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
+			$stmt_getuser->bind_param('ii', $version->md5thumb, $this->id);
+			$stmt_getuser->execute();
+
+			//
 		}
 
 	}

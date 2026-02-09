@@ -54,6 +54,31 @@
 		return $file_info->buffer($contents);
 	} 
 
+	if(
+		isset($_POST['ANORRL$EditItem$Audio$AssetID']) &&
+		isset($_POST['ANORRL$EditItem$Audio$Submit']) && 
+		$asset->type == AssetType::AUDIO
+	) {
+		$thumbassetid = intval($_POST['ANORRL$EditItem$Audio$AssetID']);
+		$thumbasset = Asset::FromID($thumbassetid);
+
+		if(
+			$thumbasset->type == AssetType::DECAL ||
+			$thumbasset->type == AssetType::IMAGE
+		) {
+			$asset->SetThumbnailTo($thumbasset);
+
+			$_SESSION['ANORRL$EditItem$Success'] = true;
+
+			die(header("Location: /edit?id=$id"));
+		} else {
+			$_SESSION['ANORRL$EditItem$Error'] = "ID must either be a decal or image!";
+			$_SESSION['ANORRL$EditItem$Success'] = false;
+
+			die(header("Location: /edit?id=$id"));
+		}
+	}
+
 	if(isset($_POST['ANORRL$EditItem$Name']) &&
 	   isset($_POST['ANORRL$EditItem$Description'])) {
 
@@ -294,6 +319,26 @@
 								<input type="submit" value="Update" name="ANORRL$EditItem$Submit">
 								
 							</form>
+							<?php if($asset->type == AssetType::AUDIO): ?>
+							<form method="POST" enctype="multipart/form-data">
+								<div id="DetailStack">
+									<h4>Album Cover</h4>
+									<div id="Table">
+										<span style="display: block;margin-bottom: 10px;font-size: 10px;color: #999;font-style: italic;">This is for if you want to add a neat little cover for your audio! (Decal/Image ids only!)</span>
+										<div style="width:294px;margin: 0 auto;">
+											<h4 style="margin: 0;width: 254px;">Current Thumbnail Photo</h4>
+											<img style="width: 290px;border: 2px solid black;background: #1a1a1a;" src="/thumbs/?id=<?= $asset->id ?>&sxy=290">
+											<div class="FilePicker" style="display: block;margin-top: 10px;text-align:center">
+												<input type="number" name="ANORRL$EditItem$Audio$AssetID" style="width: 100px;" placeholder="Decal ID" value="">
+												<input type="submit" name="ANORRL$EditItem$Audio$Submit"  style="margin: 0;display: inline-block;"     value="Update">
+												<a href="javascript:RemovePicture()">Remove...</a>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</form>
+							<?php endif ?>
 							<?php if(in_array($asset->type, $versioning_types)): ?>
 							<form method="POST" id="DetailStack" enctype="multipart/form-data">
 								<h4 style="margin-top: 10px">Publish Version</h4>
