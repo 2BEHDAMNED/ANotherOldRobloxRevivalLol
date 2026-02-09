@@ -108,7 +108,7 @@
 
 	function tryProvisionViaArbiter(int $placeId, array $arbiterHosts, string $bearerToken, int $ramThreshold): ?array {
 		foreach ($arbiterHosts as $host) {
-			$healthUrl = rtrim($host, '/') . "/api/v1/health";
+			/*$healthUrl = rtrim($host, '/') . "/api/v1/health";
 			if (strpos($healthUrl, 'http') !== 0) $healthUrl = "http://".$healthUrl;
 
 			$health = httpGetJson($healthUrl, [], 3);
@@ -123,7 +123,7 @@
 				if (!$ram_ok) {
 					continue;
 				}
-			}
+			}*/
 			
 			$gameserverUrl = rtrim($host, '/') . "/api/v1/gameserver";
 			if (strpos($gameserverUrl, 'http') !== 0) $gameserverUrl = "http://".$gameserverUrl;
