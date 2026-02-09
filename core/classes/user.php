@@ -1135,7 +1135,7 @@ EOT;
 				if($activity_result->num_rows != 0) {
 					$row = $activity_result->fetch_assoc();
 					//
-					return "Was last seen: ".$row['action'].", ".$this->getTimeAgo(DateTime::createFromFormat("Y-m-d H:i:s", $row['action_time']));
+					return "Was last seen: ".$row['action'].", ".UtilUtils::getTimeAgo(DateTime::createFromFormat("Y-m-d H:i:s", $row['action_time']));
 				} else {
 					return "Was never online I guess :[";
 				}
