@@ -762,9 +762,16 @@
 		}
 
 		function ResetThumbnail() {
+
+			$md5hash = $this->md5sig;
+
+			if($this->asset->type == AssetType::AUDIO) {
+				$md5hash = "audio";
+			}
+
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
-			$stmt_getuser->bind_param('si', $this->md5sig, $this->id);
+			$stmt_getuser->bind_param('si', $md5hash, $this->id);
 			$stmt_getuser->execute();
 		}
 
