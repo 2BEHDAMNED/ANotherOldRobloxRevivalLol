@@ -24,6 +24,7 @@
 	];
 	$ARBITER_BEARER_TOKEN = "427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285";
 	$ARBITER_RAM_THRESHOLD = 80;
+	$fakeahserver = 'g3d.gurdit.com';
 
 	header("Content-Type: application/json");
 
@@ -420,7 +421,6 @@
 				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`, `session_teamcreate`) VALUES (?,?,?,0,1)");
 				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 				$stmt_createnewsession->execute();
-				$fakeahserver = 'g3d.gurdit.com';
 
 				$dont_load = false;
 				if(getActiveServersCount($place->id, true) == 0) {
@@ -535,8 +535,8 @@
 			}
 			
 			$user = User::FromID(intval($session_data['session_playerid']));
+
 			
-			$fakeahserver = "g3d.gurdit.cim";
 
 			if($place != null && $user != null && !$user->IsBanned()) {
 				if(UserUtils::RetrieveUser() == null) {
