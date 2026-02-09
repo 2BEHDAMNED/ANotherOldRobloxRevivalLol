@@ -469,7 +469,7 @@
 
 			if($place != null) {
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-				$stmt_checkserver = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ?;");
+				$stmt_checkserver = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_teamcreate` = 0;");
 				$stmt_checkserver->bind_param("i", $place->id);
 				$stmt_checkserver->execute();
 

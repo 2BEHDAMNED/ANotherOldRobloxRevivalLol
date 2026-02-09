@@ -12,7 +12,7 @@
 			$place = Place::FromID(intval($_GET['placeId']));
 
 			if($place != null) {
-				$stmt_checkserver = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ?;");
+				$stmt_checkserver = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_teamcreate` = 0;");
 				$stmt_checkserver->bind_param("i", $place->id);
 				$stmt_checkserver->execute();
 
@@ -24,7 +24,7 @@
 
 				while($server_row = $result_checkserver->fetch_assoc()) {
 
-					$stmt_checkplayersfromserver = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ? AND `session_status` = 1;");
+					$stmt_checkplayersfromserver = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ? AND `session_status` = 1 AND `server_teamcreate` = 0;");
 					$stmt_checkplayersfromserver->bind_param("s", $server_row['server_id']);
 					$stmt_checkplayersfromserver->execute();
 
