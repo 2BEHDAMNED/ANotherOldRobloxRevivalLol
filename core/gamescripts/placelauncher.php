@@ -267,6 +267,7 @@
 			$stmt_createnewserver->execute();
 
 			updatePlaceOfSession($sessionID, $serverid, $teamcreate);
+			error_log($arb['host']);
 
 			return [
 				'server_id' => $serverid,
