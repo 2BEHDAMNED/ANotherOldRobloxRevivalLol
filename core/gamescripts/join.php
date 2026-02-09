@@ -36,15 +36,8 @@
 	}
 
 	ob_start();
-
-	$user = UserUtils::RetrieveUser();
-	$userid = 1;
-	if($user != null) {
-		$userid = $user->id;
-	}
-	
 ?>
-<?php if(!isset($_GET['serverToken']) && !isset($_GET['sessionToken']) && !isset($_GET['server'])): ?>
+<?php if(!isset($_GET['serverToken']) && !isset($_GET['sessionToken'])) && !isset($_GET['server'])): ?>
 {
 	"ClientPort":0,
 	"MachineAddress":"localhost",
@@ -55,7 +48,7 @@
 	"SeleniumTestMode":true,
 	"UserId":0,
 	"SuperSafeChat":true,
-	"CharacterAppearance":"http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=<?= $userid ?>&placeId=0",
+	"CharacterAppearance":"http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=1&placeId=0",
 	"ClientTicket":"",
 	"GameId":"00000000-0000-0000-0000-000000000000",
 	"PlaceId":0,
@@ -83,7 +76,7 @@
 	"BrowserTrackerId":0,
 	"UsePortraitMode":false,
 	"FollowUserId":0,
-	"characterAppearanceId":<?= $userid ?>
+	"characterAppearanceId":1
 }
 <?php
 	function get_signature($script)
@@ -152,7 +145,7 @@
 
 	$serverToken = $_GET['serverToken'];
 	$sessionToken = $_GET['sessionToken'];
-	$server = $_GET['server'] ?? 'g3d.gurdit.com';
+	$server = $_GET['server'];
 
 	$serverDetails = getServerDetails($serverToken);
 	$sessionDetails = getSessionDetails($sessionToken);
@@ -179,10 +172,10 @@
 			$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 			$script = str_replace("{playerid}",$playerid, $script);
 			$script = str_replace("{playername}",$playername, $script);
-			$script = str_replace("{server}",$server, $script);
 			$script = str_replace("{serverport}",$serverport, $script);
 			$script = str_replace("{placeid}",$placeid, $script);
 			$script = str_replace("{placecreator}",$placecreator, $script);
+			$script = str_replace("{server}",$server, $script);
 			$signature = get_signature($script);
 
 			die("--rbxsig%". $signature . "%" . $script);
