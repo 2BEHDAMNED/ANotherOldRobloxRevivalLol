@@ -766,7 +766,7 @@
 			$md5hash = $this->md5sig;
 
 			if($this->asset->type == AssetType::AUDIO) {
-				$md5hash = "audio";
+				$md5hash = "sound";
 			}
 
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
