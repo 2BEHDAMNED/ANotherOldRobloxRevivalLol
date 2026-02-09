@@ -491,14 +491,15 @@ ANORRL.Character  = {
 		}
 	},
 	IsRendering: false,
-	RenderPlayer: function() {
+	RenderPlayer: function(forcerender) {
 		if(ANORRL.Character.IsRendering) {
 			return;
 		}
 		$("#PlayerRender").attr("src","/images/ProgressIndicator4White.gif");
 		ANORRL.Character.IsRendering = true;
 
-		$.get("/api/character?r=rendercharacter", function(data) {
+
+		$.get("/api/character?r="+(forcerender ? "re" : "")+"rendercharacter", function(data) {
 			
 			if(data['error']) {
 				alert(data['reason']);

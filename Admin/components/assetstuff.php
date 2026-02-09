@@ -60,12 +60,47 @@
 		}
 	}
 
-	if($user->IsAdmin()) {
-		if(isset($_POST['type'])) {
-			if(isset($_POST['id'])) {
-				$id = intval($_POST['id']);
+	if(isset($_POST['type'])) {
+		if(isset($_POST['id'])) {
+			$asset = Asset::FromID(intval($_POST['id']));
 
-				if($_POST['type'] == "render") {
+			if($asset != null && ($asset->creator->id == $user->id || $user->IsAdmin())) {
+				echo "allowed";
+				if($_POST['type'] == "delete") {
+					echo "deleting";
+					$id = $asset->id;
+
+					$stmt = $con->prepare('DELETE FROM `inventory` WHERE `inv_assetid` = ?');
+					$stmt -> bind_param("i", $id);
+					$stmt->execute();
+
+					$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ?');
+					$stmt -> bind_param("i", $id);
+					$stmt->execute();
+
+					$stmt = $con->prepare('DELETE FROM `visit` WHERE `visit_place` = ?');
+					$stmt -> bind_param("i", $id);
+					$stmt->execute();
+
+					$stmt = $con->prepare('DELETE FROM `favourites` WHERE `fav_assetid` = ?');
+					$stmt -> bind_param("i", $id);
+					$stmt->execute();
+					
+					CheckAndDeleteAsset($asset->id);
+
+					$stmt = $con->prepare('DELETE FROM `assets` WHERE `asset_id` = ?');
+					$stmt -> bind_param("i", $id);
+					$stmt->execute();
+
+					if($asset->type == AssetType::PLACE) {
+						$stmt = $con->prepare('DELETE FROM `asset_places` WHERE `place_id` = ?');
+						$stmt -> bind_param("i", $id);
+						$stmt->execute();
+					}
+
+
+					die("Success!");
+				} else if($_POST['type'] == "render") {
 					$asset = Asset::FromID($id);
 					$type = $asset->type;
 
@@ -88,59 +123,13 @@
 					$message = "Success!";
 				}
 
-				
 			}
 		}
-	}  
-	{
-		if(isset($_POST['type'])) {
-			if(isset($_POST['id'])) {
-				$asset = Asset::FromID(intval($_POST['id']));
-
-				if($asset != null && ($asset->creator->id == $user->id || $user->IsAdmin())) {
-					echo "allowed";
-					if($_POST['type'] == "delete") {
-						echo "deleting";
-						$id = $asset->id;
-
-						$stmt = $con->prepare('DELETE FROM `inventory` WHERE `inv_assetid` = ?');
-						$stmt -> bind_param("i", $id);
-						$stmt->execute();
-
-						$stmt = $con->prepare('DELETE FROM `transactions` WHERE `ta_asset` = ?');
-						$stmt -> bind_param("i", $id);
-						$stmt->execute();
-
-						$stmt = $con->prepare('DELETE FROM `visit` WHERE `visit_place` = ?');
-						$stmt -> bind_param("i", $id);
-						$stmt->execute();
-
-						$stmt = $con->prepare('DELETE FROM `favourites` WHERE `fav_assetid` = ?');
-						$stmt -> bind_param("i", $id);
-						$stmt->execute();
-						
-						CheckAndDeleteAsset($asset->id);
-
-						$stmt = $con->prepare('DELETE FROM `assets` WHERE `asset_id` = ?');
-						$stmt -> bind_param("i", $id);
-						$stmt->execute();
-
-						if($asset->type == AssetType::PLACE) {
-							$stmt = $con->prepare('DELETE FROM `asset_places` WHERE `place_id` = ?');
-							$stmt -> bind_param("i", $id);
-							$stmt->execute();
-						}
-
-
-						die("Success!");
-					}
-				}
-			}
-		}
-
-		$message = "You are not authorised to use this.";
-		
 	}
+
+	$message = "You are not authorised to use this.";
+		
+	
 
 	die($message);
 ?>

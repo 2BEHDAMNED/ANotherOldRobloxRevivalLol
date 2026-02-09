@@ -301,7 +301,7 @@
 								<div id="ManageOptions">
 									<?php if($is_creator): ?>
 									<a href="/edit?id=<?= $asset->id ?>">Configure</a>
-									<?php if(in_array($asset->type, $rendering_types)): ?><a href="javascript:Render()">Render this asset</a><?php endif?>
+									<?php if(in_array($asset->type, $rendering_types)): ?><a href="javascript:Render()" id="RenderButton">Render this asset</a><?php endif?>
 									<a href="javascript:Delete()">Delete this asset</a>
 									<?php endif ?>
 								</div>
