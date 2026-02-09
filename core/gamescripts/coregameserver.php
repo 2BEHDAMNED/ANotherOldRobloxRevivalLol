@@ -266,6 +266,8 @@ if game:GetService("Players").EmoteSoundsEnabled and not cloudEditEnabled then
 					emoteSounder.SoundId = "rbxassetid://2136"
 				elseif emoteName == "gmod" then
 					emoteSounder.SoundId = "rbxassetid://2140"
+				elseif emoteName == "cryforme" then
+					emoteSounder.SoundId = "rbxassetid://3239"
 				else
 					shouldPlay = false
 				end
