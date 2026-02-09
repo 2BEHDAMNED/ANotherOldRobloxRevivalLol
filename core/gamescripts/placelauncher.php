@@ -328,6 +328,7 @@
 						$serverid = $provision['server_id'];
 						$jobId = $provision['jobId'];
 						$port = $provision['port'];
+						$fakeahserver = $provision['host'];
 						$dont_load = false;
 					} else {
 						try {
@@ -380,7 +381,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionID",
 							"message" => "HELLOOOOOOOO!!!!!"
@@ -419,12 +420,13 @@
 				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`, `session_teamcreate`) VALUES (?,?,?,0,1)");
 				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 				$stmt_createnewsession->execute();
+				$fakeahserver = 'g3d.gurdit.com';
 
 				$dont_load = false;
 				if(getActiveServersCount($place->id, true) == 0) {
 					$provision = provisionServerWithArbiterFallback($place->id, $sessionID, true);
 					if ($provision !== null) {
-						$serverid = $provision['server_id'];
+						$fakeahserver = $provision['host'];
 						$jobId = $provision['jobId'];
 						$port = $provision['port'];
 						$dont_load = false;
@@ -483,7 +485,7 @@
 							"status" => 2,
 							"settings" => [
 									"ClientPort" => 0,
-									"MachineAddress" => "g3d.gurdit.com",
+									"MachineAddress" => $fakeahserver,
 									"ServerPort" => intval($port),
 									"PingUrl" => "",
 									"PingInterval" => 120,
@@ -533,6 +535,8 @@
 			}
 			
 			$user = User::FromID(intval($session_data['session_playerid']));
+			
+			$fakeahserver = 'g3d.gurdit.com';
 
 			
 
@@ -544,6 +548,7 @@
 				if(getActiveServersCount($place->id) == 0) {
 					$provision = provisionServerWithArbiterFallback($place->id, $sessionToken, false);
 					if ($provision !== null) {
+						$fakeahserver = $provision['host'];
 						$serverid = $provision['server_id'];
 						$jobId = $provision['jobId'];
 						$port = $provision['port'];
@@ -599,7 +604,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=$fakeahserver",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionToken",
 							"message" => "HELLOOOOOOOO!!!!!"
