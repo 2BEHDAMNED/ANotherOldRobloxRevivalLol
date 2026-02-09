@@ -33,7 +33,7 @@
 						],
 						"content" => $status->content,
 						"time_posted" => $status->time_posted->getTimestamp(),
-						"time_posted_label" => UtilUtils::GetTimeAgo('@'.($status->time_posted->getTimestamp()))
+						"time_posted_label" => UtilUtils::GetTimeAgo($status->time_posted)
 					]);
 				}
 			}
