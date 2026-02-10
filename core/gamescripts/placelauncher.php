@@ -106,7 +106,7 @@
 		return $out;
 	}
 
-	function tryProvisionViaArbiter(int $placeId, array $arbiterHosts, string $bearerToken, int $ramThreshold): ?array {
+	function tryProvisionViaArbiter(int $placeId, bool $teamcreate, array $arbiterHosts, string $bearerToken, int $ramThreshold): ?array {
 		foreach ($arbiterHosts as $host) {
 			/*$healthUrl = rtrim($host, '/') . "/api/v1/health";
 			if (strpos($healthUrl, 'http') !== 0) $healthUrl = "http://".$healthUrl;
@@ -132,7 +132,7 @@
 				"Authorization: Bearer $bearerToken"
 			];
 
-			$resp = httpPostJson($gameserverUrl, ['placeId' => $placeId], $headers, 6);
+			$resp = httpPostJson($gameserverUrl, ['placeId' => $placeId, "TeamCreate" => $teamcreate], $headers, 6);
 			if ($resp !== null && isset($resp['status']) && strtolower($resp['status']) === 'alive') {
 				$jobId = $resp['jobId'] ?? ($resp['jobID'] ?? null);
 				$port = $resp['port'] ?? null;
@@ -246,7 +246,7 @@
 	function provisionServerWithArbiterFallback(int $placeId, string $sessionID, bool $teamcreate = false): ?array {
 		global $ARBITER_HOSTS, $ARBITER_BEARER_TOKEN, $ARBITER_RAM_THRESHOLD, $access, $rcc_ip, $rcc_port, $rcc_teamcreate_port;
 
-		$arb = tryProvisionViaArbiter($placeId, $ARBITER_HOSTS, $ARBITER_BEARER_TOKEN, $ARBITER_RAM_THRESHOLD);
+		$arb = tryProvisionViaArbiter($placeId, $teamcreate, $ARBITER_HOSTS, $ARBITER_BEARER_TOKEN, $ARBITER_RAM_THRESHOLD);
 		if ($arb !== null) {
 			$jobId = $arb['jobId'];
 			$port = $arb['port'];
