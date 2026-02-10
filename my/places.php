@@ -1,6 +1,7 @@
 <?php
 	session_start();
 
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/classes/asset.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/clientdetect.php';
 	$user = UserUtils::RetrieveUser();
