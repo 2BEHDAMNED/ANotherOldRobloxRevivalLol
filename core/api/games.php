@@ -68,7 +68,7 @@
 		if(count(AssetUtils::GetFiltered($catalog_filter, AssetType::PLACE, $query)) <= 9) {
 			$total_pages = 1;
 		} else {
-			$total_pages = floor((count(AssetUtils::GetFiltered($catalog_filter, AssetType::PLACE, $query))/9) + 0.5);
+			$total_pages = floor((count(AssetUtils::GetFiltered($catalog_filter, AssetType::PLACE, $query))/9) + 1);
 
 			if(count(AssetUtils::GetFiltered($catalog_filter, AssetType::PLACE, $query, $total_pages, 9)) == 0) {
 				$total_pages--;
