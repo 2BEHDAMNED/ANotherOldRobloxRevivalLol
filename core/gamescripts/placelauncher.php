@@ -250,7 +250,7 @@
 		$arb = tryProvisionViaArbiter($placeId, $ARBITER_HOSTS, $ARBITER_BEARER_TOKEN, $ARBITER_RAM_THRESHOLD, $teamcreate);
 		if ($arb !== null) {
 			$jobId = $arb['jobId'];
-			$port = $arb['fakeahport'];
+			$port = $arb['port'];
 			$serverid = "arbiter-".$jobId;
 			$strPort = strval($port);
 
@@ -329,7 +329,7 @@
 					if ($provision !== null) {
 						$serverid = $provision['server_id'];
 						$jobId = $provision['jobId'];
-						$port = $provision['fakeahport'];
+						$port = $provision['port'];
 						$fakeahserver = $provision['host'];
 						$dont_load = false;
 					} else {
@@ -429,7 +429,7 @@
 					if ($provision !== null) {
 						$fakeahserver = $provision['host'];
 						$jobId = $provision['jobId'];
-						$port = $provision['fakeahport'];
+						$port = $provision['port'];
 						$dont_load = false;
 					} else {
 						try {
@@ -550,7 +550,7 @@
 						$fakeahserver = $provision['host'];
 						$serverid = $provision['server_id'];
 						$jobId = $provision['jobId'];
-						$port = $provision['fakeahport'];
+						$port = $provision['port'];
 						$dont_load = false;
 					} else {
 						try {
