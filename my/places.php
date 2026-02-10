@@ -26,8 +26,8 @@
 			$year = PlaceYear::Y2016;
 			break;
 		case Client::Unknown:
-			break;
-			//die("Hey something isn't right here... You sure you're using the right studio?");
+			//break;
+			die("Hey something isn't right here... You sure you're using the right studio?");
 	}
 
 	$places = $user->GetPlaces(false);

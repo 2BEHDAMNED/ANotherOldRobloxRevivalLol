@@ -106,7 +106,7 @@
 		return $out;
 	}
 
-	function tryProvisionViaArbiter(int $placeId, bool $teamcreate, array $arbiterHosts, string $bearerToken, int $ramThreshold): ?array {
+	function tryProvisionViaArbiter(int $placeId, array $arbiterHosts, string $bearerToken, int $ramThreshold, bool $teamcreate): ?array {
 		foreach ($arbiterHosts as $host) {
 			/*$healthUrl = rtrim($host, '/') . "/api/v1/health";
 			if (strpos($healthUrl, 'http') !== 0) $healthUrl = "http://".$healthUrl;
@@ -132,10 +132,11 @@
 				"Authorization: Bearer $bearerToken"
 			];
 
-			$resp = httpPostJson($gameserverUrl, ['placeId' => $placeId, "TeamCreate" => $teamcreate], $headers, 6);
-			if ($resp !== null && isset($resp['status']) && strtolower($resp['status']) === 'alive') {
+			$resp = httpPostJson($gameserverUrl, ['placeId' => $placeId, 'TeamCreate' => $teamcreate], $headers, 6);
+			//if ($resp !== null && isset($resp['status']) && strtolower($resp['status']) === 'alive') {
+			if ($resp !== null) {
 				$jobId = $resp['jobId'] ?? ($resp['jobID'] ?? null);
-				$port = $resp['port'] ?? null;
+				$port = $resp['fakeahport'] ?? null;
 				if ($jobId !== null && $port !== null) {
 					return [
 						'host' => $host,
@@ -246,10 +247,10 @@
 	function provisionServerWithArbiterFallback(int $placeId, string $sessionID, bool $teamcreate = false): ?array {
 		global $ARBITER_HOSTS, $ARBITER_BEARER_TOKEN, $ARBITER_RAM_THRESHOLD, $access, $rcc_ip, $rcc_port, $rcc_teamcreate_port;
 
-		$arb = tryProvisionViaArbiter($placeId, $teamcreate, $ARBITER_HOSTS, $ARBITER_BEARER_TOKEN, $ARBITER_RAM_THRESHOLD);
+		$arb = tryProvisionViaArbiter($placeId, $ARBITER_HOSTS, $ARBITER_BEARER_TOKEN, $ARBITER_RAM_THRESHOLD, $teamcreate);
 		if ($arb !== null) {
 			$jobId = $arb['jobId'];
-			$port = $arb['port'];
+			$port = $arb['fakeahport'];
 			$serverid = "arbiter-".$jobId;
 			$strPort = strval($port);
 
@@ -267,7 +268,6 @@
 			$stmt_createnewserver->execute();
 
 			updatePlaceOfSession($sessionID, $serverid, $teamcreate);
-			error_log($arb['host']);
 
 			return [
 				'server_id' => $serverid,
@@ -329,7 +329,7 @@
 					if ($provision !== null) {
 						$serverid = $provision['server_id'];
 						$jobId = $provision['jobId'];
-						$port = $provision['port'];
+						$port = $provision['fakeahport'];
 						$fakeahserver = $provision['host'];
 						$dont_load = false;
 					} else {
@@ -429,7 +429,7 @@
 					if ($provision !== null) {
 						$fakeahserver = $provision['host'];
 						$jobId = $provision['jobId'];
-						$port = $provision['port'];
+						$port = $provision['fakeahport'];
 						$dont_load = false;
 					} else {
 						try {
@@ -550,7 +550,7 @@
 						$fakeahserver = $provision['host'];
 						$serverid = $provision['server_id'];
 						$jobId = $provision['jobId'];
-						$port = $provision['port'];
+						$port = $provision['fakeahport'];
 						$dont_load = false;
 					} else {
 						try {
