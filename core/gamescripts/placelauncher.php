@@ -52,7 +52,7 @@
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 
-		if ($errno || !$res) return null;
+		if ($errno || $res === false || $res === '') return null;
 		$decoded = json_decode($res, true);
 		if (json_last_error() !== JSON_ERROR_NONE) return null;
 		return $decoded;
@@ -78,7 +78,7 @@
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 
-		if ($errno || !$res) return null;
+		if ($errno || $res === false || $res === '') return null;
 		$decoded = json_decode($res, true);
 		if (json_last_error() !== JSON_ERROR_NONE) return null;
 		return $decoded;
@@ -108,7 +108,8 @@
 
 	function tryProvisionViaArbiter(int $placeId, array $arbiterHosts, string $bearerToken, int $ramThreshold, bool $teamcreate): ?array {
 		foreach ($arbiterHosts as $host) {
-			/*$healthUrl = rtrim($host, '/') . "/api/v1/health";
+			/*
+			$healthUrl = rtrim($host, '/') . "/api/v1/health";
 			if (strpos($healthUrl, 'http') !== 0) $healthUrl = "http://".$healthUrl;
 
 			$health = httpGetJson($healthUrl, [], 3);
@@ -123,8 +124,9 @@
 				if (!$ram_ok) {
 					continue;
 				}
-			}*/
-			
+			}
+			*/
+
 			$gameserverUrl = rtrim($host, '/') . "/api/v1/gameserver";
 			if (strpos($gameserverUrl, 'http') !== 0) $gameserverUrl = "http://".$gameserverUrl;
 
@@ -133,15 +135,19 @@
 			];
 
 			$resp = httpPostJson($gameserverUrl, ['placeId' => $placeId, 'TeamCreate' => $teamcreate], $headers, 6);
-			//if ($resp !== null && isset($resp['status']) && strtolower($resp['status']) === 'alive') {
+
 			if ($resp !== null) {
-				$jobId = $resp['jobId'] ?? ($resp['jobID'] ?? null);
-				$port = $resp['fakeahport'] ?? null;
-				if ($jobId !== null && $port !== null) {
+				$jobId = $resp['jobId'] ?? null;
+				$fakePort = $resp['fakeahport'] ?? null;
+				if ($fakePort == null) {
+					$fakePort = $resp['port'] ?? null;
+				}
+
+				if ($jobId !== null && $fakePort !== null) {
 					return [
 						'host' => $host,
 						'jobId' => strval($jobId),
-						'port' => intval($port),
+						'port' => intval($fakePort),
 						'raw' => $resp
 					];
 				}
