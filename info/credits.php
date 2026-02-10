@@ -96,7 +96,7 @@
 						<hr>
 						<p>But these aren't the only ones, no.</p>
 						<p>Thank you everyone (in this list below) for playing on/participating in the community for this project!</p>
-						<div style="text-align: center">
+						<div style="text-align: center; word-spacing: 10px;">
 						<?php
 							foreach(UserUtils::GetAllUsers() as $user) {
 								if(in_array($user->id, $excludelist)) {
@@ -106,7 +106,7 @@
 								$username = $user->name;
 
 								echo <<<EOT
-								<a href="/users/$userid/profile">$username</a> 
+								<a href="/users/$userid/profile">$username,</a> 
 								EOT;
 							}
 						?>

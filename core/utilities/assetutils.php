@@ -97,7 +97,7 @@
 
 			$base_sql_query = "SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1";
 			if($type == AssetType::PLACE) {
-				$base_sql_query = "SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1".($_SESSION['ANORRL$Games$OriginalOnly'] ? " AND `place_original` = 1" : "");
+				$base_sql_query = "SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 ".($_SESSION['ANORRL$Games$OriginalOnly'] ? " AND `place_original` = 1 " : "");
 			}
 			
 			$filter = match($filter) {
