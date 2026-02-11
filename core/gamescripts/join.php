@@ -37,7 +37,7 @@
 
 	ob_start();
 ?>
-<?php if(!isset($_GET['serverToken']) && !isset($_GET['sessionToken']) && !isset($_GET['server'])): ?>
+<?php if(!isset($_GET['serverToken']) && !isset($_GET['sessionToken'])) :?> //&& !isset($_GET['server'])): ?>
 {
 	"ClientPort":0,
 	"MachineAddress":"localhost",
@@ -145,7 +145,7 @@
 
 	$serverToken = $_GET['serverToken'];
 	$sessionToken = $_GET['sessionToken'];
-	$server = $_GET['server'] ?? "g3d.gurdit.com";
+	$server = /*$_GET['server'] ??*/ "g3d.gurdit.com";
 
 	$serverDetails = getServerDetails($serverToken);
 	$sessionDetails = getSessionDetails($sessionToken);
