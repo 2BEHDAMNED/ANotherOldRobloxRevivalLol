@@ -50,7 +50,7 @@ if cloudEditEnabled then
 	print("cloud edit enabled!")
 
 	local doPeriodicSaves = true
-	local delayBetweenSavesSeconds = 15 -- 5 minutes
+	local delayBetweenSavesSeconds = 5 * 60 -- 5 minutes
 	local function periodicSave()
 		if doPeriodicSaves then
 			print("Auto-Saving by normal means!")
