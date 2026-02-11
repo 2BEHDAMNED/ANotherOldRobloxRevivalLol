@@ -285,7 +285,7 @@
 												$iteration_count = $iteration_countfull % 4;
  
 												if($iteration_count < 4) {
-													for($i = 0; $i <= 4-$iteration_count; $i++) {
+													for($i = 1; $i < 4-$iteration_count; $i++) {
 														echo <<<EOT
 														<td><div class="Badge" style="background: none;border: none;margin: 2px;"></div></td>
 														EOT;
