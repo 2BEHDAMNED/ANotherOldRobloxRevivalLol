@@ -184,7 +184,7 @@
 .PopularGame #Play {
 	width: 212px;
 	height: 54px;
-	background: url(/images/btn_play_54h.png);
+	background: url("/images/buttons/play.png");
 	display: inline-block;
 }
 
