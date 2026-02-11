@@ -265,6 +265,10 @@
 													EOT;
 												}
 
+												if(!($badge instanceof ProfileBadge)) {
+													continue;
+												}
+
 												$badgeid = $badge->id->ordinal();
 												$badgename = $badge->name;
 												$badgenamefile = str_replace(" ", "", $badge->name);
@@ -284,8 +288,8 @@
 												$iteration_countfull++;
 												$iteration_count = $iteration_countfull % 4;
  
-												if($iteration_count < 4) {
-													for($i = 1; $i < 4-$iteration_count; $i++) {
+												if($iteration_count < 4 && count($profilebadges) == $iteration_countfull) {
+													for($i = 0; $i < 4-$iteration_count; $i++) {
 														echo <<<EOT
 														<td><div class="Badge" style="background: none;border: none;margin: 2px;"></div></td>
 														EOT;
