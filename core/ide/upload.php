@@ -107,7 +107,7 @@
 							// If the user owns this asset, then allow publishing.
 					
 							(AssetUploader::UpdatePlace($assetid, $recieveddata, $asset->creator));
-							http_response_code(505);
+							http_response_code(200);
 							die("Uploaded successfully!");
 						}
 						

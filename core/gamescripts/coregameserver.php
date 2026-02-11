@@ -49,12 +49,11 @@ local ns = game:GetService("NetworkServer")
 if cloudEditEnabled then
 	print("cloud edit enabled!")
 
-	game:Save(saveUrl)
-
 	local doPeriodicSaves = true
 	local delayBetweenSavesSeconds = 5 * 60 -- 5 minutes
 	local function periodicSave()
 		if doPeriodicSaves then
+			print("Auto-Saving by normal means!")
 			game:Save(saveUrl)
 			delay(delayBetweenSavesSeconds, periodicSave)
 		end
@@ -64,6 +63,7 @@ if cloudEditEnabled then
 	-- Hook into OnClose to save on shutdown
 	game.OnClose = function()
 		doPeriodicSaves = false
+		print("Auto-Saving by penis...")
 		game:Save(saveUrl)
 	end
 	ns:ConfigureAsCloudEditServer()
