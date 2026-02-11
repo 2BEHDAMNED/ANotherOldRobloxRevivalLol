@@ -618,8 +618,8 @@
 		function IsCloudEditor(User $user) {
 			if($this->teamcreate_enabled) {
 				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-				$stmt_checkiseditor = $con->prepare('SELECT * FROM `cloudeditors` WHERE `cloudeditor_userid` = ?;');
-				$stmt_checkiseditor->bind_param('i', $user->id);
+				$stmt_checkiseditor = $con->prepare('SELECT * FROM `cloudeditors` WHERE `cloudeditor_userid` = ? AND `cloudeditor_placeid` = ?;');
+				$stmt_checkiseditor->bind_param('ii', $user->id, $this->id);
 				$stmt_checkiseditor->execute();
 
 				return $stmt_checkiseditor->get_result()->num_rows != 0;
