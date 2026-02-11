@@ -345,8 +345,11 @@
 			}
 		}
 
-		public static function UpdatePlace(int $id, array|string $file) {
-			$user = UserUtils::RetrieveUser();
+		public static function UpdatePlace(int $id, array|string $file, User|null $user = null) {
+			if($user == null) {
+				$user = UserUtils::RetrieveUser();
+			}
+			
 
 			if(is_array($file)) {
 				if($file['error'] != 0) {

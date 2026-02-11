@@ -106,7 +106,7 @@
 						if(($user != null && $asset->creator->id == $user->id) || ($place->teamcreate_enabled && (($user != null && $place->IsCloudEditor($user))  || (isset($_GET['access']) && $_GET['access'] == $access)))) {
 							// If the user owns this asset, then allow publishing.
 					
-							(AssetUploader::UpdatePlace($assetid, $recieveddata));
+							(AssetUploader::UpdatePlace($assetid, $recieveddata, $asset->creator));
 							http_response_code(505);
 							die("Uploaded successfully!");
 						}
