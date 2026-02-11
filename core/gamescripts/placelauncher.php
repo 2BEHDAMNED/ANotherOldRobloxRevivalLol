@@ -370,7 +370,12 @@
 			
 			if($place == null) {
 				$server_details = getServerDetails($session_data['session_serverid']);
-				$place = Place::FromID(intval($server_details['server_placeid']));
+				if($server_details != null) {
+					$place = Place::FromID(intval($server_details['server_placeid']));
+				} else {
+					$place = null;
+				}
+				
 			}
 			
 			$user = User::FromID(intval($session_data['session_playerid']));
