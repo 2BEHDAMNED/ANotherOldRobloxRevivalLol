@@ -53,7 +53,7 @@
 
 		$stmt_teamcreate = $teamcreate ? 1 : 0;
 
-		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` != `server_maxcount` AND `server_teamcreate` = ?");
+		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` < `server_maxcount` AND `server_teamcreate` = ?");
 		$stmt_getactiveservers->bind_param("ii", $placeID, $stmt_teamcreate);
 		$stmt_getactiveservers->execute();
 
@@ -128,6 +128,7 @@
 		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
 
 		if($result_getsessiondetails->num_rows != 0) {
+			error_log("found a thing i think");
 			return $result_getsessiondetails->fetch_assoc();
 		}
 
@@ -372,8 +373,6 @@
 			}
 			
 			$user = User::FromID(intval($session_data['session_playerid']));
-
-			
 
 			if($place != null && $user != null && !$user->IsBanned()) {
 				if(UserUtils::RetrieveUser() == null) {
