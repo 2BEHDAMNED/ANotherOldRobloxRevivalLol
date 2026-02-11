@@ -1053,9 +1053,10 @@ EOT;
 			
 			$userGameDetails = $this->getUserGameDetails();
 			
-			if($userGameDetails != null)
+			if($userGameDetails != null && $this->getServerDetails($userGameDetails['session_serverid']) != null) {
 				$result = true;
-
+			}
+				
 			$stmt_result = $result ? 1 : 0;
 	
 			$stmt_user_status_check = $con->prepare('UPDATE `users` SET `user_online` = ? WHERE `user_id` = ?');
@@ -1116,6 +1117,10 @@ EOT;
 						[ In Game: <a href="/$place_stubname-place?id=$place_id">$place_name</a> ]
 						EOT;
 					}
+				} else {
+					$stmt_getsessiondetails = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ? AND `session_status` = 1;");
+					$stmt_getsessiondetails->bind_param("i", $this->id);
+					$stmt_getsessiondetails->execute();
 				}
 			}
 

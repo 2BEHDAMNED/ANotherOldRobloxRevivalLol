@@ -65,6 +65,8 @@ if cloudEditEnabled then
 		game:ServerSave()
 	end
 
+	
+
 	ns:ConfigureAsCloudEditServer()
 end
 

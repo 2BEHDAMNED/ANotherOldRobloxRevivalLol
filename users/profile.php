@@ -70,7 +70,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
-		<link rel="stylesheet" href="/css/new/my/profile.css?v=4">
+		<link rel="stylesheet" href="/css/new/my/profile.css?v=5">
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
@@ -265,6 +265,10 @@
 													EOT;
 												}
 
+												if(!($badge instanceof ProfileBadge)) {
+													continue;
+												}
+
 												$badgeid = $badge->id->ordinal();
 												$badgename = $badge->name;
 												$badgenamefile = str_replace(" ", "", $badge->name);
@@ -283,6 +287,14 @@
 
 												$iteration_countfull++;
 												$iteration_count = $iteration_countfull % 4;
+ 
+												if($iteration_count < 4 && count($profilebadges) == $iteration_countfull) {
+													for($i = 0; $i < 4-$iteration_count; $i++) {
+														echo <<<EOT
+														<td><div class="Badge" style="background: none;border: none;margin: 2px;"></div></td>
+														EOT;
+													}
+												}
 
 												if($iteration_count == 4 || count($profilebadges) == $iteration_countfull) {
 													echo <<<EOT

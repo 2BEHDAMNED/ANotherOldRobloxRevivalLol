@@ -24,7 +24,7 @@
 
 				while($server_row = $result_checkserver->fetch_assoc()) {
 
-					$stmt_checkplayersfromserver = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ? AND `session_status` = 1 AND `server_teamcreate` = 0;");
+					$stmt_checkplayersfromserver = $con->prepare("SELECT * FROM `active_players` WHERE `session_serverid` = ? AND `session_status` = 1 AND `session_teamcreate` = 0;");
 					$stmt_checkplayersfromserver->bind_param("s", $server_row['server_id']);
 					$stmt_checkplayersfromserver->execute();
 
