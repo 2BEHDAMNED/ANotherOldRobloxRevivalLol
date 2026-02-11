@@ -19,7 +19,7 @@
 	function getAnActiveServer(int $placeID): array|null {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` != `server_maxcount`");
+		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` != `server_maxcount` AND `server_teamcreate` = 0");
 		$stmt_getactiveservers->bind_param("i", $placeID);
 		$stmt_getactiveservers->execute();
 
@@ -47,7 +47,7 @@
 	function getServerDetails(string $serverID): array|null {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_servers` WHERE `server_id` = ?");
+		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_servers` WHERE `server_id` = ? AND `server_teamcreate` = 0");
 		$stmt_getsessiondetails->bind_param("s", $serverID);
 		$stmt_getsessiondetails->execute();
 
