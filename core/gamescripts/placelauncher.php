@@ -280,6 +280,7 @@
 						$job = new Roblox\Grid\Rcc\Job($jobId);
 						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
 						<<<EOT
+						game:SetServerSaveUrl("http://arl.lambda.cam/Data/Upload.ashx?assetid=$placeId&access=$access")
 						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId", true)
 						EOT);
 						$base64data = $rcc->OpenJob($job, $script);
