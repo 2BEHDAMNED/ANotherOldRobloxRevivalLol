@@ -283,6 +283,14 @@
 
 												$iteration_countfull++;
 												$iteration_count = $iteration_countfull % 4;
+ 
+												if($iteration_count < 4) {
+													for($i = 0; $i < 4-$iteration_count; $i++) {
+														echo <<<EOT
+														<td></td>
+														EOT;
+													}
+												}
 
 												if($iteration_count == 4 || count($profilebadges) == $iteration_countfull) {
 													echo <<<EOT
