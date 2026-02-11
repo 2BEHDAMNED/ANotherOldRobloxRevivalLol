@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-local placeId, port, url, access, jobID, cloudEditEnabled = ...
+local placeId, port, url, access, jobID, cloudEditEnabled, saveUrl = ...
 
 if not cloudEditEnabled then
 	cloudEditEnabled = false
@@ -49,13 +49,13 @@ local ns = game:GetService("NetworkServer")
 if cloudEditEnabled then
 	print("cloud edit enabled!")
 
-	game:ServerSave()
+	game:Save(saveUrl)
 
 	local doPeriodicSaves = true
 	local delayBetweenSavesSeconds = 5 * 60 -- 5 minutes
 	local function periodicSave()
 		if doPeriodicSaves then
-			game:ServerSave()
+			game:Save(saveUrl)
 			delay(delayBetweenSavesSeconds, periodicSave)
 		end
 	end
@@ -64,7 +64,7 @@ if cloudEditEnabled then
 	-- Hook into OnClose to save on shutdown
 	game.OnClose = function()
 		doPeriodicSaves = false
-		game:ServerSave()
+		game:Save(saveUrl)
 	end
 	ns:ConfigureAsCloudEditServer()
 end
