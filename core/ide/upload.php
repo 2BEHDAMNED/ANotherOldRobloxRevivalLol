@@ -36,11 +36,11 @@
 		}
 	}
 
-	if($user != null) {
+	if($user != null || (isset($_GET['access']) && $_GET['access'] == $access)) {
 		if(isset($_GET['assetid'])) {
 			$assetid = intval($_GET['assetid']);
 
-			if($assetid == 0) {
+			if($assetid == 0 && $user != null) {
 				// Publish new item
 
 				$timer = 31;
@@ -103,7 +103,7 @@
 					if($asset->type == AssetType::PLACE) {
 						$place = Place::FromID(intval($assetid));
 
-						if($asset->creator->id == $user->id || ($place->teamcreate_enabled && ($place->IsCloudEditor($user)) || (isset($_GET['access']) && $_GET['access'] == $access))) {
+						if(($user != null && $asset->creator->id == $user->id) || ($place->teamcreate_enabled && (($user != null && $place->IsCloudEditor($user))  || (isset($_GET['access']) && $_GET['access'] == $access)))) {
 							// If the user owns this asset, then allow publishing.
 					
 							print_r(AssetUploader::UpdatePlace($assetid, $recieveddata));
