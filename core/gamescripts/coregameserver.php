@@ -214,6 +214,11 @@ game:GetService("Players").PlayerRemoving:connect(function(player)
 
 	if #game:GetService("Players"):GetPlayers() == 0 then
 		print("CLOSING THE SERVER.")
+		if cloudEditEnabled then
+			print("Auto-Saving cuz server is closing!")
+			game:Save(saveUrl)
+		end
+		
 		game:HttpGet(url .. "/api/a_gameservers/close?jobID="..jobID .. "&access="..access)
 	end
 end)
