@@ -49,6 +49,8 @@ local ns = game:GetService("NetworkServer")
 if cloudEditEnabled then
 	print("cloud edit enabled!")
 
+	game:ServerSave()
+
 	local doPeriodicSaves = true
 	local delayBetweenSavesSeconds = 5 * 60 -- 5 minutes
 	local function periodicSave()
@@ -64,9 +66,6 @@ if cloudEditEnabled then
 		doPeriodicSaves = false
 		game:ServerSave()
 	end
-
-	
-
 	ns:ConfigureAsCloudEditServer()
 end
 
