@@ -146,16 +146,8 @@
 				];
 				
 				if($serverplace->year == PlaceYear::Y2013) {
-					if($asset->type == AssetType::HAT && str_contains($contents, "Accessory")) {
-						foreach ($attachments as $attachment) {
-							//if (strstr($string, $url)) { // mine version
-							if (strpos($contents, $attachment) !== FALSE) { // Yoshi version
-								die();
-							}
-						}
-
-						//seems like we can convert it...
-						$contents = str_replace("Accessory", "Hat", $contents);
+					if(str_contains($contents, "Accessory")) {
+						die();
 					}
 				}
 				
