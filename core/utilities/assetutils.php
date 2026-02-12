@@ -50,9 +50,9 @@
 			if($user == null) 
 				return [];
 			
-			$query_filter = "AND `asset_public` = 1";
+			$query_filter = "AND `asset_public` = 1 AND `asset_nevershow` = 0";
 			if($user->IsAdmin()) {
-				$query_filter = "";
+				$query_filter = "AND `asset_nevershow` = 0";
 			}
 			
 			$stmt_query = "%$query%";
@@ -110,9 +110,9 @@
 			if($user == null) 
 				return [];
 			
-			$query_filter = "AND `asset_public` = 1";
+			$query_filter = "AND `asset_public` = 1 AND `asset_nevershow` = 0";
 			if($user->IsAdmin()) {
-				$query_filter = "";
+				$query_filter = "AND `asset_nevershow` = 0";
 			}
 
 			$base_sql_query = "SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? $query_filter";
