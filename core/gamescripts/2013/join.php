@@ -34,8 +34,7 @@
 		return null;
 	}
 	ob_start();
- ?>
--- MultiplayerSharedScript.lua inserted here ------ Prepended to Join.lua --
+?>-- MultiplayerSharedScript.lua inserted here ------ Prepended to Join.lua --
 
 pcall(function() game:SetPlaceID({placeID}, true) end)
 
@@ -287,7 +286,7 @@ pcall(function() game:SetVideoInfo("") end)
 				$playerName = $player->name;
 				$server = $_GET['server'] ?? "86.20.118.158";
 				$serverPort = $serverDetails['server_port'];
-				$playerAppearance = $player->GetCharacterAppearance();
+				//$playerAppearance = $player->GetCharacterAppearance();
 			}
 		}
 	}
