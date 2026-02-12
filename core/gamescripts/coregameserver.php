@@ -314,7 +314,10 @@ while wait(1) do
 	end
 end
 <?php
-	 function get_signature($script)
+
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/clientdetect.php";
+
+	function get_signature($script)
     {
         $signature = "";
         openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
@@ -326,5 +329,9 @@ end
     $script = "\r\n" . ob_get_clean();
     $signature = get_signature($script);
 
-    echo "--rbxsig%". $signature . "%" . $script;
+	echo match(ClientDetector::DetectClient()) {
+		Client::C2013 => "%". $signature . "%" . $script,
+		Client::C2016 => "--rbxsig%". $signature . "%" . $script,
+		default => "hey are you sure you are in the right place buddy?"
+	};
 ?>
