@@ -449,7 +449,7 @@
 							$job = new Roblox\Grid\Rcc\Job($jobId);
 							$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
 							<<<EOT
-							loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId", true)
+								loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId", true, "http://arl.lambda.cam/Data/Upload.ashx?assetid=$placeId&access=$access")
 							EOT);
 							$base64data = $rcc->OpenJob($job, $script);
 							$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
