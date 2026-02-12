@@ -306,5 +306,5 @@ pcall(function() game:SetVideoInfo("") end)
 	$script = str_replace("{placeCreator}"    , $creatorID       , $script);
 	$signature = get_signature($script);
 
-	die("--rbxsig%". $signature . "%" . $script);
+	die("%". $signature . "%" . $script);
 ?>
