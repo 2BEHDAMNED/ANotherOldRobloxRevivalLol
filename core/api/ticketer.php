@@ -229,7 +229,7 @@
 						$serverID = $joinData['serverID'];
 						$sessionID = $joinData['sessionID'];
 						//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
-						die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=localhost+placeid:$placeID+launchmode:play+gameinfo:0");
+						die("anorrl-2013-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=localhost+placeid:$placeID+launchmode:play+gameinfo:0");
 					} else {
 						die("server failed to create....");
 					}
