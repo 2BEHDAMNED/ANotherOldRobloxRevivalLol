@@ -135,6 +135,7 @@
 					$serverid = getRandomString(11);
 					$placeId = $place->id;
 					$port = rand(50000, 60000);
+					$strPort = strval($port);
 					$jobId = md5(rand());
 					$rcc_ip = "192.168.0.220";
 					$json = httpGetJson("http://$rcc_ip:64209/2013/StartServer?id=$placeId&serverId=$serverid&maxPlayerCount=12&gamePort=$port&jobId=$jobId");
