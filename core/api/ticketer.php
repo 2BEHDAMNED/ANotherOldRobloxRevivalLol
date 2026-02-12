@@ -76,7 +76,7 @@
 	}
 
 	function httpGetJson(string $url, array $headers = [], int $timeout = 10): ?array {
-		echo $url;
+		//echo $url;
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -133,7 +133,7 @@
 					$port = rand(50000, 60000);
 					$jobId = md5(rand());
 					$rcc_ip = "192.168.0.220";
-					$json = httpGetJson("http://$rcc_ip:64209/2013/StartPlayer?id=$placeId&serverId=$serverid&maxPlayerCount=12&gamePort=$port&jobId=$jobId");
+					$json = httpGetJson("http://$rcc_ip:64209/2013/StartServer?id=$placeId&serverId=$serverid&maxPlayerCount=12&gamePort=$port&jobId=$jobId");
 
 					if($json != null && $json['result']) {
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
