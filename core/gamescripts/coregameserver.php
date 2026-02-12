@@ -332,6 +332,6 @@ end
 	echo match(ClientDetector::DetectClient()) {
 		Client::C2013 => "%". $signature . "%" . $script,
 		Client::C2016 => "--rbxsig%". $signature . "%" . $script,
-		default => "hey are you sure you are in the right place buddy?"
+		default => "%". $signature . "%" . $script
 	};
 ?>
