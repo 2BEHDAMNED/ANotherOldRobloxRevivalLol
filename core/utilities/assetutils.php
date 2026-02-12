@@ -84,7 +84,7 @@
 						$asset = new Asset($row);
 					}
 
-					if(!$asset->notcatalogueable && $asset->public) {
+					if($user->IsAdmin() || !$asset->notcatalogueable && $asset->public) {
 						array_push($result_array, $asset);
 					}
 				}
@@ -158,7 +158,7 @@
 						$asset = new Asset($row);
 					}
 
-					if(!$asset->notcatalogueable && $asset->public) {
+					if($user->IsAdmin() || !$asset->notcatalogueable && $asset->public) {
 						array_push($result_array, $asset);
 					}
 				}
