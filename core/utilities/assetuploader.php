@@ -93,7 +93,7 @@
 					return ["error" => true, "reason" => "Something went wrong idfk..."];
 				}
 
-				if($asset != null && $asset->public && !$hidden_ahh) {
+				if($asset != null && $asset->public && $asset->onsale && !$hidden_ahh) {
 					self::PushWebhook($asset);
 				}
 				
