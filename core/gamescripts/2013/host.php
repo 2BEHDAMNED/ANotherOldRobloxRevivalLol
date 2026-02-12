@@ -8,6 +8,7 @@ loadfile('http://arl.lambda.cam/game/2013/gameserver.ashx')({placeID}, {port}, "
 	}
 
 	header("Content-Type: text/plain");
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
 	if(
 		isset($_GET['placeID']) &&
