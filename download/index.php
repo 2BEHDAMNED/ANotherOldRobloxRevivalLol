@@ -53,14 +53,14 @@
 										</div>
 									</td>
 									
-									<td>
+									<!--<td>
 										<div>
 											<a href="javascript:alert('2018 idk bro')">
 												<img src="/images/placeholder.png">
 												<span>2018 (later)</span>
 											</a>
 										</div>
-									</td>
+									</td>-->
 									
 									<td>
 										<div title="Icon created by Wiz!">
@@ -71,14 +71,14 @@
 										</div>
 									</td>
 
-									<td>
+									<!--<td>
 										<div>
 											<a href="javascript:alert('2010 Client Soon!')">
 												<img src="/images/placeholder.png">
 												<span>2010 (soon)</span>
 											</a>
 										</div>
-									</td>
+									</td>-->
 								</tr>
 							</table>
 						</div>
@@ -96,14 +96,14 @@
 										</div>
 									</td>
 
-									<td>
+									<!--<td>
 										<div>
 											<a href="javascript:alert('2018 Studio idk bro')">
 												<img src="/images/placeholder.png">
 												<span>2018 (later)</span>
 											</a>
 										</div>
-									</td>
+									</td>-->
 
 									<td>
 										<div title="Icon created by Cu-bp!">
