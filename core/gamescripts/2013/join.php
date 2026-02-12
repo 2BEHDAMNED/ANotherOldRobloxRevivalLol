@@ -287,6 +287,7 @@ pcall(function() game:SetVideoInfo("") end)
 				$server = $_GET['server'] ?? "86.20.118.158";
 				$serverPort = $serverDetails['server_port'];
 				//$playerAppearance = $player->GetCharacterAppearance();
+				$playerAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=".$playerID;
 			}
 		}
 	}
