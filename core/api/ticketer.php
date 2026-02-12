@@ -153,7 +153,7 @@
 
 					if($json != null && $json['result']) {
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`) VALUES (?,?,?,?,?)");
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`, `server_year`) VALUES (?,?,?,?,?, '2013')");
 						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
 						$stmt_createnewserver->execute();
 

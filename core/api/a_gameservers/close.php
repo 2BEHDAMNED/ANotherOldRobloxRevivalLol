@@ -25,13 +25,20 @@
 			if($result_getactiveservers->num_rows != 0) {
 				$row = $result_getactiveservers->fetch_assoc();
 
-				$rcc_port = $row['server_teamcreate'] == 1 ? $rcc_teamcreate_port : $rcc_gameserver_port;
+				if($row['server_year'] != "2013") {
+					$rcc_port = $row['server_teamcreate'] == 1 ? $rcc_teamcreate_port : $rcc_gameserver_port;
 
-				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
-				$rcc->CloseJob(trim($_GET['jobID']));
+					$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+					$rcc->CloseJob(trim($_GET['jobID']));
 
-				$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
-				$rcc2->closeJob(trim($_GET['jobID']));
+					$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
+					$rcc2->closeJob(trim($_GET['jobID']));
+				} else {
+					$rcc_ip = "192.168.0.220";
+					file_get_contents("http://$rcc_ip:64209/2013/StopServer?serverId=".$row['server_id']."&placeId=".$row['server_placeid']);
+				}
+
+				
 
 				$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
 				$stmt_createnewserver->bind_param("s", $_GET['jobID']);
