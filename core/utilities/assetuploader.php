@@ -88,9 +88,13 @@
 					AssetType::GEAR,
 					AssetType::FACE
 				];
+				$asset = Asset::FromID($id);
+				if($asset == null) {
+					return ["error" => true, "reason" => "Something went wrong idfk..."];
+				}
 
-				if(in_array($type, $types)) {
-					self::PushWebhook(Asset::FromID($id));
+				if($asset != null && $asset->public && !$hidden_ahh) {
+					self::PushWebhook($asset);
 				}
 				
 			
