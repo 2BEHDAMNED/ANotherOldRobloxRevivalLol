@@ -75,6 +75,18 @@
 		return $result_getactiveservers->num_rows;
 	}
 
+	function updatePlaceOfSession(string $sessionID, string $placeID, bool $teamcreate = false): array|null {
+		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+		$stmt_teamcreate = $teamcreate ? 1 : 0;
+
+		$stmt_getsessiondetails = $con->prepare("UPDATE `active_players` SET `session_serverid` = ? WHERE `session_id` = ? AND `session_teamcreate` = ?");
+		$stmt_getsessiondetails->bind_param("ssi", $placeID, $sessionID, $stmt_teamcreate);
+		$stmt_getsessiondetails->execute();
+
+		return null;
+	}
+
 	function httpGetJson(string $url, array $headers = [], int $timeout = 10): ?array {
 		//echo $url;
 		$ch = curl_init();
