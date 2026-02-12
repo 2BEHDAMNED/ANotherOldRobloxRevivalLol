@@ -76,6 +76,7 @@
 	}
 
 	function httpGetJson(string $url, array $headers = [], int $timeout = 10): ?array {
+		echo $url;
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -212,6 +213,8 @@
 						$sessionID = $joinData['sessionID'];
 						//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
 						die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=localhost+placeid:$placeID+launchmode:play+gameinfo:0");
+					} else {
+						die("server failed to create....");
 					}
 					//
 				}
