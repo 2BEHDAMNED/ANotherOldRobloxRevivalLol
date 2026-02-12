@@ -5,11 +5,11 @@
 	$user = UserUtils::RetrieveUser();
 
 
-	function getRandomString(): string {
+	function getRandomString(int $length = 25): string {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$randomString = '';
 		
-		for ($i = 0; $i < 25; $i++) {
+		for ($i = 0; $i < $length; $i++) {
 			$index = rand(0, strlen($characters) - 1);
 			$randomString .= $characters[$index];
 		}
@@ -84,12 +84,16 @@
 		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		$res = curl_exec($ch);
+		echo $res;
 		$errno = curl_errno($ch);
 		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 
 		if ($errno || $res == false || $res == '') return null;
 		$decoded = json_decode($res, true);
+		if(str_contains($res, "true")) {
+			$decoded["result"] = true;
+		}
 		if (json_last_error() !== JSON_ERROR_NONE) return null;
 		return $decoded;
 	}
@@ -128,7 +132,7 @@
 			$dont_load = false;
 			if(getActiveServersCount($place->id) == 0) {
 				try {
-					$serverid = getRandomString();
+					$serverid = getRandomString(11);
 					$placeId = $place->id;
 					$port = rand(50000, 60000);
 					$jobId = md5(rand());
