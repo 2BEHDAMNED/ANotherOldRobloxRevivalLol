@@ -34,7 +34,6 @@
 					$rcc2 = new RCCServiceSoap($rcc_ip, $rcc_port);
 					$rcc2->closeJob(trim($_GET['jobID']));
 				} else {
-					$rcc_ip = "192.168.0.220";
 					file_get_contents("http://$rcc_ip:64209/2013/StopServer?serverId=".$row['server_id']."&placeId=".$row['server_placeid']);
 				}
 

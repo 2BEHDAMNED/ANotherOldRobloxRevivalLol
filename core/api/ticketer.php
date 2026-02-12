@@ -148,7 +148,6 @@
 					$port = rand(50000, 60000);
 					$strPort = strval($port);
 					$jobId = md5(rand());
-					$rcc_ip = "192.168.0.220";
 					$json = httpGetJson("http://$rcc_ip:64209/2013/StartServer?id=$placeId&serverId=$serverid&maxPlayerCount=12&gamePort=$port&jobId=$jobId");
 
 					if($json != null && $json['result']) {
@@ -228,7 +227,7 @@
 						$serverID = $joinData['serverID'];
 						$sessionID = $joinData['sessionID'];
 						//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
-						die("anorrl-2013-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013join.ashx?sessionToken=$sessionID&serverToken=$serverID&server=localhost+placeid:$placeID+launchmode:play+gameinfo:0");
+						die("anorrl-2013-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013join.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
 					} else {
 						die("server failed to create....");
 					}

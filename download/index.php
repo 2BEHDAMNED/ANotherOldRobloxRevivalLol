@@ -64,9 +64,9 @@
 									
 									<td>
 										<div title="Icon created by Wiz!">
-											<a href="javascript:alert('2013 Soon!')">
+											<a href="2013/ANORRL2013PlayerLauncher.exe">
 												<img src="/images/download/2013client.png">
-												<span>2013 (soon)</span>
+												<span>2013</span>
 											</a>
 										</div>
 									</td>
@@ -107,9 +107,9 @@
 
 									<td>
 										<div title="Icon created by Cu-bp!">
-											<a href="javascript:alert('2013 Studio Soon!')">
+											<a href="ANORRL2013StudioLauncher">
 												<img src="/images/download/2013studio.png">
-												<span>2013 (soon)</span>
+												<span>2013</span>
 											</a>
 										</div>
 									</td>
