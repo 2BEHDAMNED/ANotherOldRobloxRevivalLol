@@ -1,7 +1,43 @@
-<?php ob_start() ?>
+<?php 
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+
+	function getSessionDetails(string $sessionID): array|null {
+		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_players` WHERE `session_id` = ?");
+		$stmt_getsessiondetails->bind_param("s", $sessionID);
+		$stmt_getsessiondetails->execute();
+
+		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
+
+		if($result_getsessiondetails->num_rows != 0) {
+			return $result_getsessiondetails->fetch_assoc();
+		}
+
+		return null;
+	}
+
+	function getServerDetails(string $serverID): array|null {
+		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+		$stmt_getsessiondetails = $con->prepare("SELECT * FROM `active_servers` WHERE `server_id` = ?");
+		$stmt_getsessiondetails->bind_param("s", $serverID);
+		$stmt_getsessiondetails->execute();
+
+		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
+
+		if($result_getsessiondetails->num_rows != 0) {
+			return $result_getsessiondetails->fetch_assoc();
+		}
+
+		return null;
+	}
+	ob_start();
+ ?>
 -- MultiplayerSharedScript.lua inserted here ------ Prepended to Join.lua --
 
-pcall(function() game:SetPlaceID(1818, true) end)
+pcall(function() game:SetPlaceID({placeID}, true) end)
 
 settings()["Game Options"].CollisionSoundEnabled = true
 pcall(function() settings().Rendering.EnableFRM = true end)
@@ -16,7 +52,7 @@ if threadSleepTime==nil then
 	threadSleepTime = 15
 end
 
-local test = true
+local test = {test}
 
 print("! Joining game '' place -1 at localhost")
 
@@ -34,11 +70,11 @@ pcall(function() game:GetService("SocialService"):SetGroupUrl("http://arl.lambda
 pcall(function() game:GetService("SocialService"):SetGroupRankUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRank&playerid=%d&groupid=%d") end)
 pcall(function() game:GetService("SocialService"):SetGroupRoleUrl("http://arl.lambda.cam/Game/LuaWebService/HandleSocialRequest.ashx?method=GetGroupRole&playerid=%d&groupid=%d") end)
 pcall(function() game:GetService("GamePassService"):SetPlayerHasPassUrl("http://arl.lambda.cam/Game/GamePass/GamePassHandler.ashx?Action=HasPass&UserID=%d&PassID=%d") end)
-pcall(function() game:GetService("MarketplaceService"):SetProductInfoUrl("https://api.roblox.com/marketplace/productinfo?assetId=%d") end)
-pcall(function() game:GetService("MarketplaceService"):SetPlayerOwnsAssetUrl("https://api.roblox.com/ownership/hasasset?userId=%d&assetId=%d") end)
-pcall(function() game:SetCreatorID(0, Enum.CreatorType.User) end)
+pcall(function() game:GetService("MarketplaceService"):SetProductInfoUrl("https://arl.lambda.cam/marketplace/productinfo?assetId=%d") end)
+pcall(function() game:GetService("MarketplaceService"):SetPlayerOwnsAssetUrl("https://arl.lambda.cam/ownership/hasasset?userId=%d&assetId=%d") end)
+pcall(function() game:SetCreatorID({placeCreator}, Enum.CreatorType.User) end)
 
--- Bubble chat.  This is all-encapsulated to allow us to turn it off with a config setting
+-- ClassicAndBubble chat.  This is all-encapsulated to allow us to turn it off with a config setting
 pcall(function() game:GetService("Players"):SetChatStyle(Enum.ChatStyle.ClassicAndBubble) end)
 
 pcall( function()
@@ -181,7 +217,7 @@ local success, err = pcall(function()
 	connectionFailed = client.ConnectionFailed:connect(onConnectionFailed)
 	client.Ticket = ""	
 	
-	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", 53640, 0, threadSleepTime) end)
+	playerConnectSuccess, player = pcall(function() return client:PlayerConnect({playerID}, "{server}", {serverPort}, 0, threadSleepTime) end)
 	if not playerConnectSuccess then
 		return false, "Failed to create player :("
 	end
@@ -192,8 +228,8 @@ local success, err = pcall(function()
 	pcall(function() player:SetAccountAge(365) end)
 	player.Idled:connect(onPlayerIdled)
 	
-	pcall(function() player.Name = [========[Player]========] end)
-	player.CharacterAppearance = ""	
+	pcall(function() player.Name = [========[{playerName}]========] end)
+	player.CharacterAppearance = "{playerAppearance}"	
 	if not test then visit:SetUploadUrl("")end
 		
 end)
@@ -213,8 +249,63 @@ pcall(function() game:SetVideoInfo("") end)
 	}    
 	header("Content-Type: text/plain");
 
+	$testMode = true;
+	$placeID = 0;
+	$creatorID = 0;
+	$playerID = 0;
+	$playerName = "Player";
+	$playerAppearance = "";
+	$server = "localhost";
+	$serverPort = 53640;
+
+	if(
+		isset($_GET['serverToken']) && 
+		isset($_GET['sessionToken']) && 
+		isset($_GET['server'])
+	) {
+		$serverToken = $_GET['serverToken'];
+		$sessionToken = $_GET['sessionToken'];
+
+		$serverDetails = getServerDetails($serverToken);
+		$sessionDetails = getSessionDetails($sessionToken);
+
+		if($serverDetails != null && $sessionDetails != null) {
+
+			$player = User::FromID(intval($sessionDetails['session_playerid']));
+			$place = Place::FromID(intval($serverDetails['server_placeid']));
+			
+			if($player != null && !$player->IsBanned() && $place != null) {
+
+				if(UserUtils::RetrieveUser() == null) {
+					UserUtils::SetCookies($player->security_key);
+				}
+
+				$testMode = false;
+				$placeID = $place->id;
+				$creatorID = $place->creator->id;
+				$playerID = $player->id;
+				$playerName = $player->name;
+				$server = $_GET['server'] ?? "g3d.gurdit.com";
+				$serverPort = $serverDetails['server_port'];
+				$playerAppearance = $player->GetCharacterAppearance();
+			}
+		}
+	}
+
 	$script = "\r\n" . ob_get_clean();
+
+	$test  = $testMode ? "true" : "false";
+
+	$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
+	$script = str_replace("{test}"            , $test            , $script);
+	$script = str_replace("{playerID}"        , $playerID        , $script);
+	$script = str_replace("{playerName}"      , $playerName      , $script);
+	$script = str_replace("{playerAppearance}", $playerAppearance, $script);
+	$script = str_replace("{server}"          , $server          , $script);
+	$script = str_replace("{serverPort}"      , $serverPort      , $script);
+	$script = str_replace("{placeID}"         , $placeID         , $script);
+	$script = str_replace("{placeCreator}"    , $creatorID       , $script);
 	$signature = get_signature($script);
 
-	die("%". $signature . "%" . $script);
+	die("--rbxsig%". $signature . "%" . $script);
 ?>

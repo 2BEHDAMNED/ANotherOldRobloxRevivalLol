@@ -330,6 +330,6 @@ end
     $signature = get_signature($script);
 
 	echo match(ClientDetector::DetectClient()) {
-		default => "%". $signature . "%" . $script
+		default => "--rbxsig%". $signature . "%" . $script
 	};
 ?>

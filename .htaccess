@@ -57,23 +57,15 @@
 	
 	RewriteRule ^Game/LoadPlaceInfo.ashx$ /core/gamescripts/loadplaceinfo.php   [END]
 	RewriteRule ^game/gameserver.ashx$ /core/gamescripts/gameserver.php	  [END]
-	RewriteRule ^game/host.ashx$ /core/gamescripts/host.php	  [END]
 	RewriteRule ^game/join.ashx$ /core/gamescripts/join.php				  [END]
-	RewriteRule ^game/2013/join.ashx$ /core/gamescripts/2013/join.php				  [END]
-	RewriteRule ^game/2013/gameserver.ashx$ /core/gamescripts/2013/gameserver.php				  [END]
+	RewriteRule ^game/2013/host.ashx$       /core/gamescripts/2013/host.php			[END]
+	RewriteRule ^game/2013/join.ashx$       /core/gamescripts/2013/join.php			[END]
+	RewriteRule ^game/2013/gameserver.ashx$ /core/gamescripts/2013/gameserver.php	[END]
 	RewriteRule ^game/studio.ashx$ /core/gamescripts/studio.php			  [END]
 	RewriteRule ^game/visit.ashx$ /core/gamescripts/visit.php 			  [END]
 	RewriteRule ^game/edit.ashx$ /core/gamescripts/edit.php			  [END]
 	RewriteRule ^game/load-place-info$ /core/places/load-place-info.php			  [END]
-
-	RewriteRule ^Game/gameserver.ashx$ /core/gamescripts/gameserver.php   [END] # Only exists bc of windows!
-	RewriteRule ^Game/host.ashx$ /core/gamescripts/host.php   [END] # Only exists bc of windows!
 	
-	RewriteRule ^Game/join.ashx$ /core/gamescripts/join.php				  [END] # Only exists bc of windows!
-	RewriteRule ^Game/studio.ashx$ /core/gamescripts/studio.php			  [END] # Only exists bc of windows!
-	RewriteRule ^Game/visit.ashx$ /core/gamescripts/visit.php			  [END] # Only exists bc of windows!
-	RewriteRule ^Game/edit.ashx$ /core/gamescripts/edit.php			  [END] # Only exists bc of windows!
-
 	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx /core/social/socialrequests.php [END]
 	RewriteRule ^userblock/getblockedusers /core/social/getblockedusers.php [END]
 	RewriteRule ^user/following-exists /core/social/following-exists.php [END]
@@ -193,6 +185,7 @@
 	RewriteRule ^Asset/BodyColors.ashx$ /core/character/bodycolors.php 			  [END]
 	RewriteRule ^Asset/CharacterFetch.ashx$ /core/character/characterfetch.php 			  [END]
 	RewriteRule ^Asset/GetScriptState.ashx$ /core/gamescripts/getscriptstate.txt 			  [END]
+	RewriteRule ^asset/GetScriptState.ashx$ /core/gamescripts/getscriptstate.txt 			  [END]
 
 	# SHUT THE FUCK UPP!!!!!
 	RewriteRule ^Error/Dmp.ashx$ /core/nothing.txt [END]
@@ -218,7 +211,7 @@
 	RewriteRule ^catalog$ /catalog.php [END]
 
 	RewriteRule ^test$ /test.php [END]
-
+	
 	RewriteRule ^games.php$ /core/error/404.php [END]
 	RewriteRule ^games.php$ /core/error/404.php [END]
 	RewriteRule ^catalog.php$ /core/error/404.php [END]

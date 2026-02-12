@@ -1,5 +1,6 @@
+<?php ob_start() ?>
 -- Start Game Script Arguments
-local placeId, port, gameId, sleeptime, access, url, killID, deathID, timeout, machineAddress, gsmInterval, gsmUrl, maxPlayers, maxSlotsUpperLimit, maxSlotsLowerLimit, maxGameInstances, injectScriptAssetID, apiKey, libraryRegistrationScriptAssetID = ...
+local placeId, port, url, access, jobID = ...
 
 -- REQUIRES: StartGanmeSharedArgs.txt
 -- REQUIRES: MonitorGameStatus.txt
@@ -8,11 +9,8 @@ local placeId, port, gameId, sleeptime, access, url, killID, deathID, timeout, m
 
 pcall(function() settings().Network.UseInstancePacketCache = true end)
 pcall(function() settings().Network.UsePhysicsPacketCache = true end)
---pcall(function() settings()["Task Scheduler"].PriorityMethod = Enum.PriorityMethod.FIFO end)
 pcall(function() settings()["Task Scheduler"].PriorityMethod = Enum.PriorityMethod.AccumulatedError end)
 
---settings().Network.PhysicsSend = 1 -- 1==RoundRobin
---settings().Network.PhysicsSend = Enum.PhysicsSendMethod.ErrorComputation2
 settings().Network.PhysicsSend = Enum.PhysicsSendMethod.TopNErrors
 settings().Network.ExperimentalPhysicsEnabled = true
 settings().Network.WaitingForCharacterLogRate = 100
@@ -23,7 +21,6 @@ pcall(function() settings().Diagnostics:LegacyScriptMode() end)
 local assetId = placeId -- might be able to remove this now
 
 local scriptContext = game:GetService('ScriptContext')
-pcall(function() scriptContext:AddStarterScript(libraryRegistrationScriptAssetID) end)
 scriptContext.ScriptsDisabled = true
 
 game:SetPlaceID(assetId, true)
@@ -40,9 +37,9 @@ if url~=nil then
 
 	game:GetService("BadgeService"):SetPlaceId(placeId)
 	if access~=nil then
-		game:GetService("BadgeService"):SetAwardBadgeUrl(url .. "/Game/Badge/AwardBadge.ashx?UserID=%d&BadgeID=%d&PlaceID=%d&" .. access)
-		game:GetService("BadgeService"):SetHasBadgeUrl(url .. "/Game/Badge/HasBadge.ashx?UserID=%d&BadgeID=%d&" .. access)
-		game:GetService("BadgeService"):SetIsBadgeDisabledUrl(url .. "/Game/Badge/IsBadgeDisabled.ashx?BadgeID=%d&PlaceID=%d&" .. access)
+		game:GetService("BadgeService"):SetAwardBadgeUrl(url .. "/Game/Badge/AwardBadge.ashx?UserID=%d&BadgeID=%d&PlaceID=%d&access=" .. access)
+		game:GetService("BadgeService"):SetHasBadgeUrl(url .. "/Game/Badge/HasBadge.ashx?UserID=%d&BadgeID=%d&access=" .. access)
+		game:GetService("BadgeService"):SetIsBadgeDisabledUrl(url .. "/Game/Badge/IsBadgeDisabled.ashx?BadgeID=%d&PlaceID=%d&access=" .. access)
 
 		game:GetService("FriendService"):SetMakeFriendUrl(url .. "/Game/CreateFriend?firstUserId=%d&secondUserId=%d")
 		game:GetService("FriendService"):SetBreakFriendUrl(url .. "/Game/BreakFriend?firstUserId=%d&secondUserId=%d")
@@ -60,36 +57,68 @@ if url~=nil then
 	
 	pcall(function() 
 				if access then
-					loadfile(url .. "/Game/PlaceSpecificScript.ashx?PlaceId=" .. placeId .. "&" .. access)()
+					loadfile(url .. "/Game/PlaceSpecificScript.ashx?PlaceId=" .. placeId .. "&access=" .. access)()
 				end
 			end)
 end
 
 pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(false) end)
 settings().Diagnostics.LuaRamLimit = 0
---settings().Network:SetThroughputSensitivity(0.08, 0.01)
---settings().Network.SendRate = 35
---settings().Network.PhysicsSend = 0  -- 1==RoundRobin
 
---shared["__time"] = 0
---game:GetService("RunService").Stepped:connect(function (time) shared["__time"] = time end)
+local shouldCountDown = true
+local countdownTimer = 60
+
+local commands = {";ec", ";cock", ";raymonf", ";gage", ";minecraft", ";suicide", ";energycell", ";cancer", ";bleach", ";sex", ";kms", ";death", ";robloxsuckingpenis"}
+
+local ecSounds = {
+	1991,
+	1993,
+	1995
+}
+
+function onChatted(msg, speaker)
+    source = string.lower(speaker.Name)
+    msg = string.lower(msg)
+    for i=1,#commands do
+        if msg == commands[i] and speaker.Character.Humanoid.Health > 0 then
+            speaker.Character.Humanoid.Health = 0
+            local sound = Instance.new("Sound")
+            sound.Parent = game.Workspace:FindFirstChild(speaker.Name).Head
+            sound.SoundId = "http://arl.lambda.cam/asset/?id=" .. ecSounds[math.random(1, #ecSounds)]
+            wait(0.2)
+            sound:Play()
+        end
+    end
+end
 
 game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
-	
-	if url and access and placeId and player and player.userId then
-		-- Custom --
-		game:HttpGet(url .. "/Game/PlayerTracking.ashx?m=r&" .. access .. "&i=" .. player.userId .. "&n=" .. player.Name)
+	shouldCountDown = false
+
+	local playerResult = game:HttpGet(url .. "/api/a_gameservers/validateplayer?jobID="..jobID .. "&access=" .. access .."&userID=" .. tostring(player.userId), true)
+
+	if playerResult ~= "OK" then
+		player:Kick("Hey wait something ain't right here...")
 	end
+
+	player.Chatted:connect(function(msg)
+        onChatted(msg, player)
+    end)
 end)
 
 
 game:GetService("Players").PlayerRemoving:connect(function(player)
 	print("Player " .. player.userId .. " leaving")	
+	game:HttpGet(url .. "/api/a_gameservers/removeplayer?jobID="..jobID .. "&access="..access.."&userID=" .. tostring(player.userId))
 
-	if url and access and placeId and player and player.userId then
-		-- Custom --
-		game:HttpGet(url .. "/Game/PlayerTracking.ashx?m=u&" .. access .. "&i=" .. player.userId)
+	if #game:GetService("Players"):GetPlayers() == 0 then
+		print("CLOSING THE SERVER.")
+		if cloudEditEnabled then
+			print("Auto-Saving cuz server is closing!")
+			game:Save(saveUrl)
+		end
+		
+		game:HttpGet(url .. "/api/a_gameservers/close?jobID="..jobID .. "&access="..access)
 	end
 end)
 
@@ -98,26 +127,47 @@ if placeId~=nil and url~=nil then
 	wait()
 	
 	-- load the game
-	game:Load(url .. "/asset/?id=" .. placeId)
+	game:Load(url .. "/asset/?id=" .. placeId .. "&access=" .. access .. "&t=<?= time() ?>")
 end
 
 -- Now start the connection
-ns:Start(port, sleeptime) 
+ns:Start(port, 15) 
 
-if timeout then
-	scriptContext:SetTimeout(timeout)
-end
+scriptContext:SetTimeout(10)
 scriptContext.ScriptsDisabled = false
 
 ------------------------------END START GAME SHARED SCRIPT--------------------------
 
+-- StartGame -- 
+game:GetService("RunService"):Run()
 
--- StartGame --
+while wait(1) do
+	if shouldCountDown then
+		countdownTimer = countdownTimer - 1
 
-if injectScriptAssetID and (injectScriptAssetID < 0) then
-	pcall(function() Game:LoadGame(injectScriptAssetID * -1) end)
-else
-	pcall(function() Game:GetService("ScriptContext"):AddStarterScript(injectScriptAssetID) end)
+		if shouldCountDown and countdownTimer <= 0 then
+			print("CLOSING THE SERVER.")
+			game:HttpGet(url .. "/api/a_gameservers/close?jobID="..jobID .. "&access="..access)
+			break
+		end
+	else
+		break
+	end
 end
 
+
 Game:GetService("RunService"):Run()
+<?php
+	function get_signature($script)
+	{
+		$signature = "";
+		openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
+		return base64_encode($signature);
+	}    
+	header("Content-Type: text/plain");
+
+	$script = "\r\n" . ob_get_clean();
+	$signature = get_signature($script);
+
+	die("%". $signature . "%" . $script);
+?>

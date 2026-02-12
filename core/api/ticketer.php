@@ -87,8 +87,16 @@
 				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
 				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 				$stmt_createnewsession->execute();
-
-				die($sessionID);
+				
+				$placeID = $place->id;
+				if($place->year == PlaceYear::Y2016) {
+					die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
+				} elseif($place->year == PlaceYear::Y2013) {
+					//file_get_contents("http://192.168.220:64209/2013/StartServer?id=")
+					die("2013 has not been implemented yet...");
+					//die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
+				}
+				
 
 			}
 
@@ -115,7 +123,14 @@
 					$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 					$stmt_createnewsession->execute();
 
-					die($sessionID);
+					$placeID = $place->id;
+					if($place->year == PlaceYear::Y2016) {
+						die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
+					} elseif($place->year == PlaceYear::Y2013) {
+						//file_get_contents("http://192.168.220:64209/2013/StartServer?id=")
+						die("2013 has not been implemented yet...");
+						//die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
+					}
 
 				}
 			}
