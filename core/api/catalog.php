@@ -33,9 +33,9 @@
 	$catalog_filter = CatalogFilter::index($filter);
 	$asset_type = AssetType::index($type);
 
-	$total_pages = floor((count(AssetUtils::GetFiltered($catalog_filter, $asset_type, $query))/16) + 0.5)+1;
+	$total_pages = floor((count(AssetUtils::GetFiltered($catalog_filter, $asset_type, $query))/12) + 0.5)+1;
 
-	if(count(AssetUtils::GetFiltered($catalog_filter, $asset_type, $query, $total_pages, 16)) == 0) {
+	if(count(AssetUtils::GetFiltered($catalog_filter, $asset_type, $query, $total_pages, 12)) == 0) {
 		$total_pages--;
 	}
 
@@ -43,7 +43,7 @@
 		die(header("Location: /api/catalog?c=$type&q=$query&p=1"));
 	}
 
-	$assets = AssetUtils::GetFiltered($catalog_filter, $asset_type, $query, $page, 16);
+	$assets = AssetUtils::GetFiltered($catalog_filter, $asset_type, $query, $page, 12);
 
 	$assets_raw = [];
 

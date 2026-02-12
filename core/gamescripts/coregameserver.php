@@ -330,8 +330,6 @@ end
     $signature = get_signature($script);
 
 	echo match(ClientDetector::DetectClient()) {
-		Client::C2013 => "%". $signature . "%" . $script,
-		Client::C2016 => "--rbxsig%". $signature . "%" . $script,
 		default => "%". $signature . "%" . $script
 	};
 ?>
