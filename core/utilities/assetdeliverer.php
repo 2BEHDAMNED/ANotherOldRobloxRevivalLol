@@ -123,7 +123,15 @@
 					die("Bad Request");
 				}
 				
-				if($serverplace != null && !$serverplace->gears_enabled && $asset->type == AssetType::GEAR) {
+				if($serverplace->year == PlaceYear::Y2013 && str_contains($contents, "Attachment")) {
+					die();
+				}
+
+				if($serverplace->year == PlaceYear::Y2013 && !str_contains($contents, "Attachment") && str_contains($contents, "Accessory")) {
+					$contents = str_replace("Accessory", "Hat", $contents);
+				}
+				
+				if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR) {
 					die();
 				}
 				
