@@ -82,7 +82,7 @@ hr {
 }
 
 #PlaceDetails #ManageOptions a {
-	font-size: 11px;
+	font-size: 12px;
 	width: 175px;
 	padding: 3px 0px;
 }
@@ -228,26 +228,23 @@ hr {
 }
 
 .PlaceButton[Play] {
+	background: url("/images/buttons/Play.png");
+}
+
+.PlaceButton[Edit] {
+	background: url("/images/buttons/Edit.png");
+}
+
+.PlaceButton[Play],
+.PlaceButton[Edit] {
 	height: 43px;
-	background: url("/images/buttons/play.png");
 	background-size: 175px;
 	border: 0px;
 }
 
-.PlaceButton[Edit] {
-	height: 47px;
-	background: url("/images/buttons/edit.png");
-	border: 0px;
-	width: 143px;
-	margin: 0 auto;
-}
-
+.PlaceButton[Play]:hover,
 .PlaceButton[Edit]:hover {
-	filter: brightness(125%);
-}
-
-.PlaceButton[Play]:hover {
-	background-position: 0 45px;
+	background-position: 0 44px;
 }
 
 #GearsEnabled {

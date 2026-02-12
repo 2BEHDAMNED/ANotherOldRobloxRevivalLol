@@ -76,7 +76,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/item/item.css">
-		<link rel="stylesheet" href="/css/new/item/place.css?v=1">
+		<link rel="stylesheet" href="/css/new/item/place.css?v=2">
 
 		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
@@ -105,7 +105,7 @@
 					} else {
 						$(this).attr("selected", "true");
 					}
-				});
+				})
 
 				$("#InfoBox[content]").each(function() {
 					if($(this).attr("content").toLowerCase() != tabToGoTo) {
