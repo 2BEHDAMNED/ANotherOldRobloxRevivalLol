@@ -285,7 +285,7 @@ pcall(function() game:SetVideoInfo("") end)
 				$creatorID = $place->creator->id;
 				$playerID = $player->id;
 				$playerName = $player->name;
-				$server = $_GET['server'] ?? "g3d.gurdit.com";
+				$server = $_GET['server'] ?? "86.20.118.158";
 				$serverPort = $serverDetails['server_port'];
 				$playerAppearance = $player->GetCharacterAppearance();
 			}

@@ -24,7 +24,7 @@
 	];
 	$ARBITER_BEARER_TOKEN = "427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285";
 	$ARBITER_RAM_THRESHOLD = 80;
-	$fakeahserver = 'g3d.gurdit.com';
+	$fakeahserver = '86.20.118.158';
 
 	header("Content-Type: application/json");
 

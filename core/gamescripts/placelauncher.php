@@ -228,7 +228,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=g3d.gurdit.com",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=86.20.118.158",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionID",
 							"message" => "HELLOOOOOOOO!!!!!"
@@ -323,7 +323,7 @@
 							"status" => 2,
 							"settings" => [
 									"ClientPort" => 0,
-									"MachineAddress" => "g3d.gurdit.com",
+									"MachineAddress" => "86.20.118.158",
 									"ServerPort" => intval($port),
 									"PingUrl" => "",
 									"PingInterval" => 120,
@@ -434,7 +434,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=g3d.gurdit.com",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=86.20.118.158",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionToken",
 							"message" => "HELLOOOOOOOO!!!!!"
