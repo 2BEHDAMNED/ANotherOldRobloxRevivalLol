@@ -61,6 +61,20 @@
 		return null;
 	}
 
+	function getActiveServersCount(int $placeID, bool $teamcreate = false): bool {
+		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+		$stmt_teamcreate = $teamcreate ? 1 : 0;
+
+		$stmt_getactiveservers = $con->prepare("SELECT * FROM `active_servers` WHERE `server_placeid` = ? AND `server_playercount` != `server_maxcount` AND `server_teamcreate` = ?");
+		$stmt_getactiveservers->bind_param("ii", $placeID, $stmt_teamcreate);
+		$stmt_getactiveservers->execute();
+
+		$result_getactiveservers = $stmt_getactiveservers->get_result();
+
+		return $result_getactiveservers->num_rows;
+	}
+
 	function httpGetJson(string $url, array $headers = [], int $timeout = 10): ?array {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
