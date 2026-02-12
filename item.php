@@ -38,7 +38,12 @@
 			$type = AssetType::AUDIO->ordinal();
 			$stmt->bind_param("ii", $id, $type);
 			$stmt->execute();
-			$audio_asset_id = $stmt->get_result()->fetch_assoc()['asset_id'];
+			$stmt_result = $stmt->get_result();
+			if($stmt_result->num_rows == 0) {
+				$audio_asset_id = $id;
+			} else {
+				$audio_asset_id = $stmt_result->fetch_assoc()['asset_id'];
+			}
 		}
 
 		if($user != null) {

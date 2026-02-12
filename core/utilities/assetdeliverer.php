@@ -37,6 +37,19 @@
 		2613,
 		2614,
 		2615,
+		3396,
+		3397,
+		3398,
+		3399,
+		3400,
+		3401,
+		3402,
+		3403,
+		3404,
+		3405,
+		3406,
+		3407,
+		3408
 	];
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
