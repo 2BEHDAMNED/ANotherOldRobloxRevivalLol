@@ -122,13 +122,41 @@
 					http_response_code(400);
 					die("Bad Request");
 				}
-				
-				if($serverplace->year == PlaceYear::Y2013 && str_contains($contents, "Attachment")) {
-					die();
-				}
 
-				if($serverplace->year == PlaceYear::Y2013 && !str_contains($contents, "Attachment") && str_contains($contents, "Accessory")) {
-					$contents = str_replace("Accessory", "Hat", $contents);
+				$attachments = [
+					"FaceCenterAttachment",
+					"FaceFrontAttachment",
+					"HairAttachment",
+					"HatAttachment",
+					"RootAttachment",
+					"LeftGripAttachment",
+					"LeftShoulderAttachment",
+					"LeftFootAttachment",
+					"RightGripAttachment",
+					"RightShoulderAttachment",
+					"RightFootAttachment",
+					"BodyBackAttachment",
+					"BodyFrontAttachment",
+					"LeftCollarAttachment",
+					"NeckAttachment",
+					"RightCollarAttachment",
+					"WaistBackAttachment",
+					"WaistFrontAttachment",
+					"WaistCenterAttachment",
+				];
+				
+				if($serverplace->year == PlaceYear::Y2013) {
+					if($asset->type == AssetType::HAT && str_contains($contents, "Accessory")) {
+						foreach ($attachments as $attachment) {
+							//if (strstr($string, $url)) { // mine version
+							if (strpos($contents, $attachment) !== FALSE) { // Yoshi version
+								die();
+							}
+						}
+
+						//seems like we can convert it...
+						$contents = str_replace("Accessory", "Hat", $contents);
+					}
 				}
 				
 				if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR) {
