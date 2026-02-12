@@ -44,20 +44,29 @@
 		
 		public static function Get(AssetType $type, string $query = "", int $page = -1, int $count = -1): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
+			$user = UserUtils::RetrieveUser();
+			if($user == null) 
+				return [];
+			
+			$query_filter = "AND `asset_public` = 1";
+			if($user->IsAdmin()) {
+				$query_filter = "";
+			}
 			
 			$stmt_query = "%$query%";
 			$stmt_type = $type->ordinal();
 
 			if($page == -1 || $count == -1) {
-				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1");
+				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? $query_filter");
 				$stmt_getuser->bind_param('si', $stmt_query, $stmt_type);
 				$stmt_getuser->execute();
 				// show all
 			} else {
 				$stmt_page = (($page-1)*$count);
 				
-				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 LIMIT ?, ?");
+				$stmt_getuser = $con->prepare("SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? $query_filter LIMIT ?, ?");
 				$stmt_getuser->bind_param('siii', $stmt_query, $stmt_type, $stmt_page, $count);
 				$stmt_getuser->execute();
 				// pagify
@@ -95,9 +104,20 @@
 
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 
-			$base_sql_query = "SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1";
+			require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
+
+			$user = UserUtils::RetrieveUser();
+			if($user == null) 
+				return [];
+			
+			$query_filter = "AND `asset_public` = 1";
+			if($user->IsAdmin()) {
+				$query_filter = "";
+			}
+
+			$base_sql_query = "SELECT * FROM `assets` WHERE `asset_name` LIKE ? AND `asset_type` = ? $query_filter";
 			if($type == AssetType::PLACE) {
-				$base_sql_query = "SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND `asset_name` LIKE ? AND `asset_type` = ? AND `asset_public` = 1 ".($_SESSION['ANORRL$Games$OriginalOnly'] ? " AND `place_original` = 1 " : "");
+				$base_sql_query = "SELECT asset_places.* FROM `asset_places`, `assets` WHERE assets.asset_id = asset_places.place_id AND `asset_name` LIKE ? AND `asset_type` = ? $query_filter ".($_SESSION['ANORRL$Games$OriginalOnly'] ? " AND `place_original` = 1 " : "");
 			}
 			
 			$filter = match($filter) {

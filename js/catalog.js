@@ -18,7 +18,7 @@ const regex = /[^A-Za-z0-9 ]/g;
 
 ANORRL.Catalog  = {
 	CurrentPage: 1,
-	CurrentFilter: 5,
+	CurrentFilter: 1,
 	CurrentCategory: 8,
 	CurrentQuery: "",
 	CurrentlyLoadingCrapBruh: false,

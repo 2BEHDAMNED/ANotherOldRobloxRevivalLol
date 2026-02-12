@@ -250,7 +250,11 @@
 			
 		}
 
-		public static function UploadMesh(string $name, string $description, array $file) {
+		public static function UploadMesh(string $name, string $description, array $file,
+			bool $public = false, 
+			bool $comments_enabled = true, 
+			bool $on_sale = false
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if($file['error'] == 0) {
@@ -261,7 +265,7 @@
 				}
 
 				// process singular asset
-				$image_result = self::UploadAsset($user, AssetType::MESH, $name, "", false, true, $mesh_data);
+				$image_result = self::UploadAsset($user, AssetType::MESH, $name, $description, $public, false, $mesh_data);
 				if($image_result['error']) {
 					return $image_result;
 				} else {
@@ -281,6 +285,13 @@
 
 					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
 					$stmt->bind_param('si', $md5hashfile, $image_result['id']);
+					$stmt->execute();
+
+					$stmt_onsale = $on_sale ? 1 : 0;
+					$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+					$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $image_result['id']);
 					$stmt->execute();
 
 					$render = TheFuckingRenderer::RenderMesh($image_result['id']);
@@ -499,7 +510,12 @@
 			}
 		}
 
-		public static function UploadDecal(string $name, string $description, array $file, bool $face = false) {
+		public static function UploadDecal(string $name, string $description, array $file, 
+			bool $face = false, 
+			bool $public = false, 
+			bool $comments_enabled = true, 
+			bool $on_sale = false
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if($file['error'] == 0) {
@@ -560,7 +576,7 @@
 						</Item>
 					</roblox>
 					EOT;
-					$decal_result = self::UploadAsset($user, $face ? AssetType::FACE : AssetType::DECAL, $name, $description, true, false, $decal_data);
+					$decal_result = self::UploadAsset($user, $face ? AssetType::FACE : AssetType::DECAL, $name, $description, $public, false, $decal_data);
 					if($decal_result['error']) {
 						return $decal_result;
 					}
@@ -597,11 +613,12 @@
 					$stmt->bind_param('ii', $decal_result['id'], $image_id);
 					$stmt->execute();
 
-					if($face) {
-						$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
-						$stmt->bind_param('i', $decal_result['id']);
-						$stmt->execute();
-					}
+					$stmt_onsale = $on_sale ? 1 : 0;
+					$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+					$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $decal_result['id']);
+					$stmt->execute();
 
 					return ["error" => false, "id" => $decal_result['id']];
 				}
@@ -610,7 +627,11 @@
 			}
 		}
 
-		public static function UploadAudio(string $name, string $description, array $file) {
+		public static function UploadAudio(string $name, string $description, array $file,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = false
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if($file['error'] == 0) {
@@ -627,63 +648,44 @@
 				}
 
 				// process singular asset
-				$audio_result = self::UploadAsset($user, AssetType::AUDIO, $name, "", false, true, $data);
+				$audio_result = self::UploadAsset($user, AssetType::AUDIO, $name, $description, $public, false, $data);
 				if($audio_result['error']) {
 					return $audio_result;
 				} else {
-					$audio_id = $audio_result['id'];
-					$audio_data = <<<EOT
-					<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://arl.lambda.cam/roblox.xsd" version="4">
-						<External>null</External>
-						<External>nil</External>
-						<Item class="Sound" referent="RBX0">
-							<Properties>
-								<bool name="Looped">false</bool>
-								<string name="Name">Sound</string>
-								<float name="Pitch">1</float>
-								<bool name="PlayOnRemove">false</bool>
-								<Content name="SoundId"><url>http://arl.lambda.cam/asset/?id=$audio_id</url></Content>
-								<float name="Volume">0.5</float>
-							</Properties>
-						</Item>
-					</roblox>
-					EOT;
-					$audiomodel_result = self::UploadAsset($user, AssetType::AUDIO, $name, $description, false, false, $audio_data);
-					if($audiomodel_result['error']) {
-						return $audiomodel_result;
-					}
 
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 					require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
 					$ta_id = TransactionUtils::GenerateID();
 					$ta_assettype = AssetType::AUDIO->ordinal();
 					$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
-					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $audiomodel_result['id'], $ta_assettype, $user->id);
+					$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $audio_result['id'], $ta_assettype, $user->id);
 					$stmt_processtransaction->execute();
 
 					$directory = $_SERVER['DOCUMENT_ROOT'];
-					$md5hashfile = "sound";
-					
-					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
-					$stmt->bind_param('si', $md5hashfile, $audio_id);
+
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = 'sound' WHERE `version_assetid` = ?");
+					$stmt->bind_param('i', $audio_result['id']);
 					$stmt->execute();
 
-					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
-					$stmt->bind_param('si', $md5hashfile, $audiomodel_result['id']);
+					$stmt_onsale = $on_sale ? 1 : 0;
+					$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+					$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $audio_result['id']);
 					$stmt->execute();
 
-					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
-					$stmt->bind_param('ii', $audiomodel_result['id'], $audio_id);
-					$stmt->execute();
-
-					return ["error" => false, "id" => $audiomodel_result['id']];
+					return ["error" => false, "id" => $audio_result['id']];
 				}
 			} else {
 				return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
 			}
 		}
 
-		public static function UploadTShirt(string $name, string $description, array $file) {
+		public static function UploadTShirt(string $name, string $description, array $file,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = true
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if($file['error'] == 0) {
@@ -767,7 +769,7 @@
 					</roblox>
 		
 					EOT;
-					$decal_result = self::UploadAsset($user, AssetType::TSHIRT, $name, $description, true, false, $tshirt_data);
+					$decal_result = self::UploadAsset($user, AssetType::TSHIRT, $name, $description, $public, false, $tshirt_data);
 					if($decal_result['error']) {
 						return $decal_result;
 					}
@@ -800,8 +802,11 @@
 					$stmt->bind_param('si', $md5hashfile, $decal_result['id']);
 					$stmt->execute();
 
-					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
-					$stmt->bind_param('i', $decal_result['id']);
+					$stmt_onsale = $on_sale ? 1 : 0;
+					$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+					$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $decal_result['id']);
 					$stmt->execute();
 
 					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
@@ -815,7 +820,11 @@
 			}
 		}
 
-		public static function UploadShirt(string $name, string $description, array $file) {
+		public static function UploadShirt(string $name, string $description, array $file,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = true
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if($file['error'] == 0) {
@@ -852,7 +861,7 @@
 						</Item>
 					</roblox>
 					EOT;
-					$shirt_result = self::UploadAsset($user, AssetType::SHIRT, $name, $description, true, false, $tshirt_data);
+					$shirt_result = self::UploadAsset($user, AssetType::SHIRT, $name, $description, $public, false, $tshirt_data);
 					if($shirt_result['error']) {
 						return $shirt_result;
 					}
@@ -883,8 +892,11 @@
 					$stmt->bind_param('si', $md5hashfile, $shirt_result['id']);
 					$stmt->execute();
 
-					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
-					$stmt->bind_param('i', $shirt_result['id']);
+					$stmt_onsale = $on_sale ? 1 : 0;
+					$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+					$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $shirt_result['id']);
 					$stmt->execute();
 
 					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
@@ -912,7 +924,11 @@
 			}
 		}
 
-		public static function UploadPants(string $name, string $description, array $file) {
+		public static function UploadPants(string $name, string $description, array $file,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = true
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if($file['error'] == 0) {
@@ -949,7 +965,7 @@
 						</Item>
 					</roblox>
 					EOT;
-					$pants_result = self::UploadAsset($user, AssetType::PANTS, $name, $description, true, false, $tshirt_data);
+					$pants_result = self::UploadAsset($user, AssetType::PANTS, $name, $description, $public, false, $tshirt_data);
 					if($pants_result['error']) {
 						return $pants_result;
 					}
@@ -981,10 +997,12 @@
 					$stmt->bind_param('si', $md5hashfile, $pants_result['id']);
 					$stmt->execute();
 
-					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
-					$stmt->bind_param('i', $pants_result['id']);
+					$stmt_onsale = $on_sale ? 1 : 0;
+					$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+					$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $pants_result['id']);
 					$stmt->execute();
-					
 
 					$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
 					$stmt->bind_param('ii', $pants_result['id'], $image_id);
@@ -1019,9 +1037,7 @@
 		) {
 			if($user == null) {
 				$user = UserUtils::RetrieveUser();
-			}
-			
-			
+			}			
 
 			if(is_array($file)) {
 				if($file['error'] != 0) {
@@ -1031,7 +1047,6 @@
 			} else {
 				$place_data = $file;
 			}
-			
 
 			// process singular asset
 			$place_result = self::UploadAsset($user, AssetType::PLACE, $name, $description, $public, false, $place_data);
@@ -1063,6 +1078,12 @@
 				$place_year = $year->ordinal();
 				$stmt_addplace->bind_param('isii', $place_id, $place_year, $place_copylocked, $server_size);
 				$stmt_addplace->execute();
+
+				$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+				$stmt = $con->prepare("UPDATE `assets` SET `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+				$stmt->bind_param('ii', $stmt_commentsenabled, $place_id);
+				$stmt->execute();
 
 				if(!file_exists($assetsdir)) {
 					$render = TheFuckingRenderer::RenderPlace($place_id);
@@ -1116,11 +1137,21 @@
 				$stmt_addplace->bind_param('isii', $place_id, $place_year, $place_copylocked, $server_size);
 				$stmt_addplace->execute();
 
+				$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+				$stmt = $con->prepare("UPDATE `assets` SET `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+				$stmt->bind_param('ii', $stmt_commentsenabled, $place_id);
+				$stmt->execute();
+
 				return ["error" => false, "id" => $place_result['id']];
 			}
 		}
 
-		public static function UploadModel(string $name, string $description, array|string $file) {
+		public static function UploadModel(string $name, string $description, array|string $file,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = true
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if(is_array($file)) {
@@ -1134,7 +1165,7 @@
 			
 
 			// process singular asset
-			$place_result = self::UploadAsset($user, AssetType::MODEL, $name, $description, false, false, $place_data);
+			$place_result = self::UploadAsset($user, AssetType::MODEL, $name, $description, $public, false, $place_data);
 			if($place_result['error']) {
 				return $place_result;
 			} else {
@@ -1157,6 +1188,13 @@
 				$stmt->bind_param('si', $md5hashfile, $place_id);
 				$stmt->execute();
 
+				$stmt_onsale = $on_sale ? 1 : 0;
+				$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+				$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+				$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $place_id);
+				$stmt->execute();
+
 				if(!file_exists($assetsdir)) {
 					$render = TheFuckingRenderer::RenderModel($place_id);
 					$data = "data:image/png;base64,$render";
@@ -1173,7 +1211,11 @@
 			}
 		}
 
-		public static function UploadHat(string $name, string $description, array|string $file) {
+		public static function UploadHat(string $name, string $description, array|string $file,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = false
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if(is_array($file)) {
@@ -1211,7 +1253,7 @@
 			}
 
 			// process singular asset
-			$place_result = self::UploadAsset($user, AssetType::HAT, $name, $description, true, false, $place_data);
+			$place_result = self::UploadAsset($user, AssetType::HAT, $name, $description, $public, false, $place_data);
 			if($place_result['error']) {
 				return $place_result;
 			} else {
@@ -1230,8 +1272,11 @@
 				$md5hashfile = md5($place_data);
 				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
 
-				$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
-				$stmt->bind_param('i', $place_id);
+				$stmt_onsale = $on_sale ? 1 : 0;
+				$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+				$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+				$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $place_id);
 				$stmt->execute();
 				
 				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
@@ -1254,7 +1299,11 @@
 			}
 		}
 
-		public static function UploadAnimation(string $name, string $description, array|string $file) {
+		public static function UploadAnimation(string $name, string $description, array|string $file,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = true
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if(is_array($file)) {
@@ -1268,7 +1317,7 @@
 			
 
 			// process singular asset
-			$place_result = self::UploadAsset($user, AssetType::ANIMATION, $name, $description, true, false, $place_data);
+			$place_result = self::UploadAsset($user, AssetType::ANIMATION, $name, $description, $public, false, $place_data);
 			if($place_result['error']) {
 				return $place_result;
 			} else {
@@ -1282,6 +1331,13 @@
 				$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
 				$stmt_processtransaction->bind_param('siiii', $ta_id, $user->id, $place_id, $ta_assettype, $user->id);
 				$stmt_processtransaction->execute();
+
+				$stmt_onsale = $on_sale ? 1 : 0;
+				$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+				$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+				$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $place_id);
+				$stmt->execute();
 				
 				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = 'animation' WHERE `version_assetid` = ?");
 				$stmt->bind_param('i', $place_id);
@@ -1291,7 +1347,11 @@
 			}
 		}
 
-		public static function UploadGear(string $name, string $description, array|string $file) {
+		public static function UploadGear(string $name, string $description, array|string $file,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = true
+		) {
 			$user = UserUtils::RetrieveUser();
 
 			if(is_array($file)) {
@@ -1302,10 +1362,17 @@
 			} else {
 				$place_data = $file;
 			}
-			
+
+			if(strpos($place_data, "CharacterMesh") !== false) {
+				return ["error" => true, "reason" => "That is not a gear... That is a character mesh!"];
+			}
+
+			if(strpos($place_data, needle: "Tool") === false) {
+				return ["error" => true, "reason" => "Where's the gear huh..."];
+			}
 
 			// process singular asset
-			$place_result = self::UploadAsset($user, AssetType::GEAR, $name, $description, true, false, $place_data);
+			$place_result = self::UploadAsset($user, AssetType::GEAR, $name, $description, $public, false, $place_data);
 			if($place_result['error']) {
 				return $place_result;
 			} else {
@@ -1324,8 +1391,11 @@
 				$md5hashfile = md5($place_data);
 				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
 
-				$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = 1 WHERE `asset_id` = ?");
-				$stmt->bind_param('i', $place_id);
+				$stmt_onsale = $on_sale ? 1 : 0;
+				$stmt_commentsenabled = $comments_enabled ? 1 : 0;
+
+				$stmt = $con->prepare("UPDATE `assets` SET `asset_onsale` = ?, `asset_comments_enabled` = ? WHERE `asset_id` = ?");
+				$stmt->bind_param('iii', $stmt_onsale, $stmt_commentsenabled, $place_id);
 				$stmt->execute();
 				
 				$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");

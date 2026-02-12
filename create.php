@@ -54,6 +54,9 @@
 					}
 
 					$description = trim($_POST['ANORRL$CreateAsset$Description']);
+					$public = isset($_POST['ANORRL$CreateAsset$Public']);
+					$comments_enabled = isset($_POST['ANORRL$CreateAsset$CommentsEnabled']);
+					$on_sale = isset($_POST['ANORRL$CreateAsset$OnSale']);
 					
 					if($result == null) {
 						if($type == "images") {
@@ -71,46 +74,46 @@
 							}
 						}
 						else if($type == "decals") {
-							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], false, $public, $comments_enabled, $on_sale);
 						}
 						else if($type == "audio") {
-							$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
 						}
 						else if($type == "tshirts") {
-							$result = AssetUploader::UploadTShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							$result = AssetUploader::UploadTShirt($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
 						}
 						else if($type == "faces") {
-							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true);
+							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true, $public, $comments_enabled, $on_sale);
 						}
 						else if($type == "shirts") {
-							$result = AssetUploader::UploadShirt($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							$result = AssetUploader::UploadShirt($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
 						}
 						else if($type == "pants") {
-							$result = AssetUploader::UploadPants($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							$result = AssetUploader::UploadPants($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
 						}
 						else if($type == "meshes") {
-							$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
 						}
 						else if($type == "models") {
-							$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File']);
+							$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
 						}
 						else if($type == "hats") {
 							/*if($user->IsAdmin()) {
 							} else {
 								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
 							}*/
-							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
+							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);	
 							
 						}
 						else if($type == "animations") {
-							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
+							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);	
 						}
 						else if($type == "gears") {
 							/*if($user->IsAdmin()) {
 							} else {
 								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
 							}*/
-							$result = AssetUploader::UploadGear($name, $description, $_FILES['ANORRL$CreateAsset$File']);	
+							$result = AssetUploader::UploadGear($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);	
 							
 						}
 						else {
@@ -224,6 +227,18 @@
 										<tr>
 											<td>File</td>
 											<td><label for="files">Choose file</label><input id="files" style="display:none;" type="file"  name="ANORRL$CreateAsset$File" required><label id="filename">No file chosen</label></td>
+										</tr>
+										<tr>
+											<td><span style="margin-top: 8px;display: block;">Public</span></td>
+											<td><input name="ANORRL$CreateAsset$Public" type="checkbox" style="margin-top: 8px;" checked></td>
+										</tr>
+										<tr>
+											<td>Comments</td>
+											<td><input name="ANORRL$CreateAsset$CommentsEnabled" type="checkbox" checked></td>
+										</tr>
+										<tr>
+											<td>On Sale</td>
+											<td><input name="ANORRL$CreateAsset$OnSale" type="checkbox"></td>
 										</tr>
 										<tr>
 											<td><input type="submit" value="Upload" style="margin-top:10px" name="ANORRL$CreateAsset$Submit" onclick="$(this).attr('disabled', 'true'); document.forms[0].submit()"></td>

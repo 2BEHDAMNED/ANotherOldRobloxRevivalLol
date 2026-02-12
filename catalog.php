@@ -20,6 +20,15 @@
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/catalog.js?t=<?= time() ?>"></script>
+		<style>
+			h5 {
+				font-family: punk;
+				text-align: center;
+				background: black;
+				padding: 8px 0px;
+				margin: 0px;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="Asset" template>
@@ -43,29 +52,33 @@
 						<div id="OptionsPanel">
 							<div id="CategoriesChooser">
 								<h4>Categories</h4>
+								<h5 style="margin-top: 5px">Accoutrement</h5>
 								<ul>
 									<li data_category="8" ><a>Hats</a></li>
 									<li data_category="18"><a>Faces</a></li>
 									<li data_category="11"><a>Shirts</a></li>
 									<li data_category="2" ><a>T-Shirts</a></li>
 									<li data_category="12"><a>Pants</a></li>
-
-									<li data_category="3" ><a>Audio</a></li>
-									<li data_category="13"><a>Decals</a></li>
-									<li data_category="10"><a>Models</a></li>
-
 									<li data_category="19"><a>Gears</a></li>
 									<li data_category="17"><a>Heads</a></li>
-									<li data_category="32"><a>Packages</a></li>
+									
+								</ul>
+								<h5>Development</h5>
+								<ul>
+									<li data_category="3" ><a>Audio</a></li>
+									<li data_category="4" ><a>Meshes</a></li>
+									<li data_category="24"><a>Animations</a></li>
+									<li data_category="13"><a>Decals</a></li>
+									<li data_category="10"><a>Models</a></li>
 								</ul>
 							</div>
 							<div id="FiltersChooser" style="margin-top: 10px;">
 								<h4>Filters</h4>
 								<ul>
-									<li data_filter="5"><a>Most Sold</a></li>
-									<li data_filter="6"><a>Most Favourited</a></li>
 									<li data_filter="1"><a>Recently Uploaded</a></li>
 									<li data_filter="2"><a>Recently Updated</a></li>
+									<li data_filter="5"><a>Most Sold</a></li>
+									<li data_filter="6"><a>Most Favourited</a></li>
 									<li data_filter="3"><a>Oldest Uploaded</a></li>
 									<li data_filter="4"><a>Oldest Updated</a></li>
 								</ul>
