@@ -107,7 +107,7 @@
 
 									<td>
 										<div title="Icon created by Cu-bp!">
-											<a href="ANORRL2013StudioLauncher">
+											<a href="2013/ANORRL2013StudioLauncher.exe">
 												<img src="/images/download/2013studio.png">
 												<span>2013</span>
 											</a>
