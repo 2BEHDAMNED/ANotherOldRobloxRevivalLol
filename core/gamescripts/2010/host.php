@@ -11,7 +11,7 @@ loadfile('http://arl.lambda.cam/game/2010/gameserver.ashx')({placeID}, {port}, "
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
 	if(
-		isset($_GET['placeID']) &&c
+		isset($_GET['placeID']) &&
 		isset($_GET['port']) &&
 		isset($_GET['access']) &&
 		isset($_GET['jobID']))
