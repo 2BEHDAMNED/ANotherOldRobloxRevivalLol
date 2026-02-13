@@ -109,7 +109,7 @@
 		return $decoded;
 	}
 
-	function findAndStart2013Game(Place|null $place = null, User|null $user = null) {
+	function findAndStartOtherGame(string $year, Place|null $place = null, User|null $user = null) {
 
 		$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 		$rcc_settings = $settings['renderer'];
@@ -221,17 +221,28 @@
 					$stmt_createnewsession->execute();
 					die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
 				} elseif($place->year == PlaceYear::Y2013) {
-					$joinData = findAndStart2013Game($place, $user);
+					$joinData = findAndStartOtherGame("2013", $place, $user);
 					
 					if($joinData != null) {
 						$serverID = $joinData['serverID'];
 						$sessionID = $joinData['sessionID'];
 						//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
-						die("anorrl-2013-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013join.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
+						die("anorrl-2013-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
 					} else {
 						die("server failed to create....");
 					}
 					//
+				} else {
+					$joinData = findAndStartOtherGame("2010", $place, $user);
+					
+					if($joinData != null) {
+						$serverID = $joinData['serverID'];
+						$sessionID = $joinData['sessionID'];
+						//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
+						die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2010%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
+					} else {
+						die("server failed to create....");
+					}
 				}
 				
 
@@ -245,28 +256,56 @@
 				$place = Place::FromID(intval($server_details['server_placeid']));
 
 				if($place != null) {
+
 					$playerID = $user->id;
-					if(isUserInAGame($user->id)) {
-						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
-						$stmt_createnewsession->bind_param("i", $playerID);
-						$stmt_createnewsession->execute();
-					}
-
-					$serverID = $server_details['server_id'];
-					$sessionID = getRandomString();
-					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-					$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
-					$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
-					$stmt_createnewsession->execute();
-
+					
+					
 					$placeID = $place->id;
 					if($place->year == PlaceYear::Y2016) {
+						if(isUserInAGame($user->id)) {
+							include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+							$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
+							$stmt_createnewsession->bind_param("i", $playerID);
+							$stmt_createnewsession->execute();
+						}
+
+						$server = getAnActiveServer($place->id);
+
+						if($server != null) {
+							$serverID = $server['server_id'];
+						} else {
+							$serverID = strval($place->id);
+						}
+						$sessionID = getRandomString();
+						
+						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+						$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
+						$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
+						$stmt_createnewsession->execute();
 						die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
 					} elseif($place->year == PlaceYear::Y2013) {
-						//file_get_contents("http://192.168.220:64209/2013/StartServer?id=")
-						die("2013 has not been implemented yet...");
-						//die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
+						$joinData = findAndStartOtherGame("2013", $place, $user);
+						
+						if($joinData != null) {
+							$serverID = $joinData['serverID'];
+							$sessionID = $joinData['sessionID'];
+							//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
+							die("anorrl-2013-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
+						} else {
+							die("server failed to create....");
+						}
+						//
+					} else {
+						$joinData = findAndStartOtherGame("2010", $place, $user);
+						
+						if($joinData != null) {
+							$serverID = $joinData['serverID'];
+							$sessionID = $joinData['sessionID'];
+							//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
+							die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2010%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
+						} else {
+							die("server failed to create....");
+						}
 					}
 
 				}
