@@ -198,6 +198,15 @@
 				if($place->year == PlaceYear::Y2010) {
 					die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:play+gameinfo:0");	
 				}
+				if($place->year == PlaceYear::Y2013) {
+					$clientticket = base64_encode($user->security_key);
+					die("anorrl-2013-studio:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:play+gameinfo:$clientticket");	
+				}
+
+				if($place->year == PlaceYear::Y2016) {
+					$clientticket = base64_encode($user->security_key);
+					die("anorrl-studio-lambda:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:play+gameinfo:$clientticket");	
+				}
 			}
 		} else {
 			if(isset($_POST['placeID'])) {
