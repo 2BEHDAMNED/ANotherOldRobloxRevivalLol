@@ -171,7 +171,7 @@
 			$script = "\r\n" . ob_get_clean();
 			$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 			$script = str_replace("{playerid}",$playerid, $script);
-			$script = str_replace("{playername}",$player->GetAccountAge(), $script);
+			$script = str_replace("{playerage}",$player->GetAccountAge(), $script);
 			$script = str_replace("{playername}",$playername, $script);
 			$script = str_replace("{serverport}",$serverport, $script);
 			$script = str_replace("{placeid}",$placeid, $script);
