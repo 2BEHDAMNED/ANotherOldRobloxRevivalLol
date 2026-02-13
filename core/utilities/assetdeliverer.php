@@ -155,7 +155,7 @@
 				}
 				
 				if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR) {
-					die();
+					die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
 				}
 				
 				$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];
