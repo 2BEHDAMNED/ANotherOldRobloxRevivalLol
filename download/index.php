@@ -71,14 +71,14 @@
 										</div>
 									</td>
 
-									<!--<td>
-										<div>
-											<a href="javascript:alert('2010 Client Soon!')">
-												<img src="/images/placeholder.png">
-												<span>2010 (soon)</span>
+									<td>
+										<div title="Icon created by Cu-bp!">
+											<a href="2010/ANORRL2010AppLauncher.exe">
+												<img src="/images/download/2010.png">
+												<span>2010</span>
 											</a>
 										</div>
-									</td>-->
+									</td>
 								</tr>
 							</table>
 						</div>
