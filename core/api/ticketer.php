@@ -148,12 +148,12 @@
 					$port = rand(50000, 60000);
 					$strPort = strval($port);
 					$jobId = md5(rand());
-					$json = httpGetJson("http://$rcc_ip:64209/2013/StartServer?id=$placeId&serverId=$serverid&maxPlayerCount=12&gamePort=$port&jobId=$jobId");
+					$json = httpGetJson("http://$rcc_ip:64209/$year/StartServer?id=$placeId&serverId=$serverid&maxPlayerCount=12&gamePort=$port&jobId=$jobId");
 
 					if($json != null && $json['result']) {
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`, `server_year`) VALUES (?,?,?,?,?, '2013')");
-						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`, `server_year`) VALUES (?,?,?,?,?,?)");
+						$stmt_createnewserver->bind_param("ssiiss", $serverid, $jobId, $placeId, $place->server_size, $strPort, $year);
 						$stmt_createnewserver->execute();
 
 						updatePlaceOfSession($sessionID, $serverid);
@@ -232,7 +232,7 @@
 						die("server failed to create....");
 					}
 					//
-				} else {
+				} else if($place->year == PlaceYear::Y2010) {
 					$joinData = findAndStartOtherGame("2010", $place, $user);
 					
 					if($joinData != null) {
@@ -243,6 +243,8 @@
 					} else {
 						die("server failed to create....");
 					}
+				} else {
+					die("Uhm something weird happened i think...");
 				}
 				
 
