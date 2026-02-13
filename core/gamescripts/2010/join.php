@@ -85,7 +85,7 @@ end
 
 function reportError(err)
 	print("***ERROR*** " .. err)
-	--if not test then visit:SetUploadUrl("") end
+	if not test then visit:SetUploadUrl("") end
 	client:Disconnect()
 	wait(4)
 	showErrorWindow("Error: " .. err)
@@ -191,7 +191,7 @@ local success, err = pcall(function()
 	
 	pcall(function() player.Name = [========[{playerName}]========] end)
 	player.CharacterAppearance = "{playerAppearance}"	
-	--if not test then visit:SetUploadUrl("")end
+	if not test then visit:SetUploadUrl("")end
 
 	setMessage("Connecting to Server")
 	client.ConnectionAccepted:connect(onConnectionAccepted)
