@@ -146,7 +146,7 @@
 				];
 				
 				if($serverplace->year == PlaceYear::Y2013) {
-					if(str_contains($contents, "Accessory")) {
+					if(str_contains($contents, "Accessory") || str_contains($contents, "Attachment")) {
 						die();
 					}
 				}
