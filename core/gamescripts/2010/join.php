@@ -131,7 +131,7 @@ function onConnectionAccepted(url, replicator)
 	
 	local success, err = pcall(function()	
 		if not test then 
-		    visit:SetPing("", 300) 
+		    --visit:SetPing("", 300) 
 		end
 		
 		game:SetMessageBrickCount()
