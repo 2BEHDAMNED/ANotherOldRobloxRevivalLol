@@ -79,8 +79,12 @@ game:GetService("ChangeHistoryService"):SetEnabled(true)
 					$script = str_replace("{placeid}", "".intval($_GET['placeId']), $script);
 					$script = str_replace("{creatorid}", "".$place->creator->id, $script);
 					$signature = get_signature($script);
-
-					die("--rbxsig%". $signature . "%" . $script);
+					if($place->year != PlaceYear::Y2010) {
+						die("--rbxsig%". $signature . "%" . $script);
+					} else {
+						die("%". $signature . "%" . $script);
+					}
+					
 				}
 			}
 			
