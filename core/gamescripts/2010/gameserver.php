@@ -1,69 +1,62 @@
 <?php ob_start() ?>
--- Start Game Script Arguments
 local placeId, port, url, access, jobID = ...
 
--- REQUIRES: StartGanmeSharedArgs.txt
--- REQUIRES: MonitorGameStatus.txt
+------------------- UTILITY FUNCTIONS --------------------------
+
+-- This code might move to C++
+function characterRessurection(player)
+	if player.Character then
+		local humanoid = player.Character.Humanoid
+		humanoid.Died:connect(function() wait(5) player:LoadCharacter() end)
+	end
+end
+
+-----------------------------------END UTILITY FUNCTIONS -------------------------
 
 -----------------------------------"CUSTOM" SHARED CODE----------------------------------
 
-pcall(function() settings().Network.UseInstancePacketCache = true end)
-pcall(function() settings().Network.UsePhysicsPacketCache = true end)
-pcall(function() settings()["Task Scheduler"].PriorityMethod = Enum.PriorityMethod.AccumulatedError end)
-
-settings().Network.PhysicsSend = Enum.PhysicsSendMethod.TopNErrors
+settings().Network.PhysicsSend = 1 -- 1==RoundRobin
 settings().Network.ExperimentalPhysicsEnabled = true
 settings().Network.WaitingForCharacterLogRate = 100
 pcall(function() settings().Diagnostics:LegacyScriptMode() end)
 
 -----------------------------------START GAME SHARED SCRIPT------------------------------
 
-local assetId = placeId -- might be able to remove this now
-
 local scriptContext = game:GetService('ScriptContext')
 scriptContext.ScriptsDisabled = true
-
-game:SetPlaceID(assetId, true)
 game:GetService("ChangeHistoryService"):SetEnabled(false)
-
 -- establish this peer as the Server
 local ns = game:GetService("NetworkServer")
-
 if url~=nil then
 	pcall(function() game:GetService("Players"):SetAbuseReportUrl(url .. "/AbuseReport/InGameChatHandler.ashx") end)
 	pcall(function() game:GetService("ScriptInformationProvider"):SetAssetUrl(url .. "/Asset/") end)
 	pcall(function() game:GetService("ContentProvider"):SetBaseUrl(url .. "/") end)
 	--pcall(function() game:GetService("Players"):SetChatFilterUrl(url .. "/Game/ChatFilter.ashx") end)
-
 	game:GetService("BadgeService"):SetPlaceId(placeId)
 	if access~=nil then
 		game:GetService("BadgeService"):SetAwardBadgeUrl(url .. "/Game/Badge/AwardBadge.ashx?UserID=%d&BadgeID=%d&PlaceID=%d&access=" .. access)
 		game:GetService("BadgeService"):SetHasBadgeUrl(url .. "/Game/Badge/HasBadge.ashx?UserID=%d&BadgeID=%d&access=" .. access)
 		game:GetService("BadgeService"):SetIsBadgeDisabledUrl(url .. "/Game/Badge/IsBadgeDisabled.ashx?BadgeID=%d&PlaceID=%d&access=" .. access)
-
-		game:GetService("FriendService"):SetMakeFriendUrl(url .. "/Game/CreateFriend?firstUserId=%d&secondUserId=%d")
-		game:GetService("FriendService"):SetBreakFriendUrl(url .. "/Game/BreakFriend?firstUserId=%d&secondUserId=%d")
-		game:GetService("FriendService"):SetGetFriendsUrl(url .. "/Game/AreFriends?userId=%d")
 	end
 	game:GetService("BadgeService"):SetIsBadgeLegalUrl("")
-	game:GetService("InsertService"):SetBaseSetsUrl(url .. "/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
-	game:GetService("InsertService"):SetUserSetsUrl(url .. "/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d")
+	game:GetService("InsertService"):SetBaseCategoryUrl(url .. "/Game/Tools/InsertAsset.ashx?nsets=10&type=base")
+	game:GetService("InsertService"):SetUserCategoryUrl(url .. "/Game/Tools/InsertAsset.ashx?nsets=20&type=user&userid=%d")
 	game:GetService("InsertService"):SetCollectionUrl(url .. "/Game/Tools/InsertAsset.ashx?sid=%d")
 	game:GetService("InsertService"):SetAssetUrl(url .. "/Asset/?id=%d")
 	game:GetService("InsertService"):SetAssetVersionUrl(url .. "/Asset/?assetversionid=%d")
+	game:GetService("InsertService"):SetAdvancedResults(true)
 	game:GetService("InsertService"):SetTrustLevel(0) -- i dont know what this does... it just works...
-	
-	--pcall(function() loadfile(url .. "/Game/LoadPlaceInfo.ashx?PlaceId=" .. placeId)() end)
 	
 	pcall(function() 
 		if access then
-			--loadfile(url .. "/Game/PlaceSpecificScript.ashx?PlaceId=" .. placeId .. "&access=" .. access)()
+			--loadfile(url .. "/Game/PlaceSpecificScript.ashx?PlaceId=" .. placeId .. "&" .. access)()
 		end
 	end)
 end
-
 pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(false) end)
 settings().Diagnostics.LuaRamLimit = 0
+shared["__time"] = 0
+game:GetService("RunService").Stepped:connect(function (time) shared["__time"] = time end)
 
 local shouldCountDown = true
 local countdownTimer = 60
@@ -93,6 +86,13 @@ end
 
 game:GetService("Players").PlayerAdded:connect(function(player)
 	print("Player " .. player.userId .. " added")
+	characterRessurection(player)
+	player.Changed:connect(function(name)
+		if name=="Character" then
+			characterRessurection(player)
+		end
+	end)
+
 	shouldCountDown = false
 
 	if jobID ~= nil and url ~= nil and access ~= nil then
@@ -108,9 +108,8 @@ game:GetService("Players").PlayerAdded:connect(function(player)
 	end)
 end)
 
-
 game:GetService("Players").PlayerRemoving:connect(function(player)
-	print("Player " .. player.userId .. " leaving")	
+	print("Player " .. player.userId .. " leaving")
 
 	if jobID ~= nil and url ~= nil and access ~= nil then
 		game:HttpGet(url .. "/api/a_gameservers/removeplayer?jobID="..jobID .. "&access="..access.."&userID=" .. tostring(player.userId))
@@ -122,7 +121,7 @@ game:GetService("Players").PlayerRemoving:connect(function(player)
 	end
 end)
 
-if placeId~=nil and url~=nil then
+if placeId~=nil and url~=nil and access ~= nil then
 	-- yield so that file load happens in the heartbeat thread
 	wait()
 	
@@ -132,12 +131,10 @@ end
 
 -- Now start the connection
 ns:Start(port, 15) 
-
 scriptContext:SetTimeout(10)
 scriptContext.ScriptsDisabled = false
 
 ------------------------------END START GAME SHARED SCRIPT--------------------------
-
 -- StartGame -- 
 game:GetService("RunService"):Run()
 

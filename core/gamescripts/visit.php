@@ -1,12 +1,8 @@
-<?php
-	ob_start();
-?>
+<?php ob_start(); ?>
 -- Prepended to Edit.lua and Visit.lua and Studio.lua and PlaySolo.lua--
 
 function ifSeleniumThenSetCookie(key, value)
-	if false then
-		game:GetService("CookiesService"):SetCookieValue(key, value)
-	end
+	
 end
 
 ifSeleniumThenSetCookie("SeleniumTest1", "Inside the visit lua script")
@@ -76,24 +72,13 @@ local screenGui = game:GetService("CoreGui"):FindFirstChild("RobloxGui")
 
 function doVisit()
 	message.Text = "Loading Game"
-	if false then
-		game:Load("")
-		pcall(function() visit:SetUploadUrl("") end)
-	else
-	    pcall(function() visit:SetUploadUrl("") end)
-	end
-	
+	pcall(function() visit:SetUploadUrl("") end)
 
 	message.Text = "Running"
 	game:GetService("RunService"):Run()
 
 	message.Text = "Creating Player"
-	if false then
-		player = game:GetService("Players"):CreateLocalPlayer(0)
-		player.Name = [====[Guest 5628]====]
-	else
-		player = game:GetService("Players"):CreateLocalPlayer(0)
-	end
+	player = game:GetService("Players"):CreateLocalPlayer(0)
 	player.CharacterAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId={userid}&placeId=0"
 	local propExists, canAutoLoadChar = false
 	propExists = pcall(function()  canAutoLoadChar = game.Players.CharacterAutoLoads end)
@@ -107,15 +92,6 @@ function doVisit()
 	player:SetSuperSafeChat(true)
 	pcall(function() player:SetMembershipType(Enum.MembershipType.None) end)
 	pcall(function() player:SetAccountAge(0) end)
-	
-	if false then
-		message.Text = "Setting Ping"
-		visit:SetPing("", 300)
-
-		message.Text = "Sending Stats"
-		game:HttpGet("")
-	end
-	
 end
 
 success, err = pcall(doVisit)
@@ -135,14 +111,8 @@ if success then
 	message.Parent = nil
 else
 	print(err)
-	if false then
-		pcall(function() visit:SetUploadUrl("") end)
-	end
 	wait(5)
 	message.Text = "Error on visit: " .. err
-	if false then
-		game:HttpPost("http://arl.lambda.cam/Error/Lua.ashx?", "Visit.lua: " .. err)
-	end
 end
 <?php
 	function get_signature($script)
