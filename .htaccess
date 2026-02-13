@@ -201,6 +201,7 @@
 	RewriteRule ^game/report-stats?$ /core/nothing.txt [END]
 	RewriteRule ^Game/report-stats?$ /core/nothing.txt [END]
 	RewriteRule ^game/validate-machine?$ /core/success.txt [END]
+	RewriteRule ^mac-address/validate-machine?$ /core/success.txt [END]
 	RewriteRule ^Game/validate-machine?$ /core/success.txt [END]
 
 	RewriteRule ^game/MachineConfiguration.ashx?$ /core/authentication/machineconfiguration.txt [END]
