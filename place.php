@@ -188,7 +188,7 @@
 									<hr>
 									<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)" Play></button>
 									<?php if($is_creator || !$asset->copylocked): ?>
-									<button class="PlaceButton" onclick="alert('erm not yet!')" Edit></button>
+									<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.EditPlace(<?= $id ?>)" Edit></button>
 									<?php endif ?>
 									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
 									<hr>
