@@ -1,11 +1,12 @@
-<?php die(include($_SERVER['DOCUMENT_ROOT']."/my/places.php")); ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Hello everybody</title>
+        <title>ANORRL</title>
     </head>
     <body>
-        <h1>My name is markiplier</h1>
-        <p>And today we will be playing <b>five nights at freddys</b></p>
+        <h1>ANORRL 2010 Client Notice...</h1>
+        <p>Hello! Welcome to the ANORRL 2010 client!</p>
+        <p>Please be aware that you can only publish places from here. Not open (from online).</p>
+        <p>If you want to edit a place, click the "Edit" button on the place page!</p>
     </body>
 </html>
