@@ -147,7 +147,7 @@
 				
 				if($serverplace->year == PlaceYear::Y2013) {
 					if(str_contains($contents, "Accessory") || str_contains($contents, "Attachment")) {
-						die();
+						die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
 					}
 				}
 				
