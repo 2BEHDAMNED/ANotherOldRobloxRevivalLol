@@ -191,7 +191,7 @@
 
 	if($user != null) {
 		if(isset($_POST['editID'])) {
-			$place = Place::FromID(intval($_POST['placeID']));
+			$place = Place::FromID(intval($_POST['editID']));
 
 			if($place != null && $user->id == $place->creator->id) {
 				$placeID = $place->id;
