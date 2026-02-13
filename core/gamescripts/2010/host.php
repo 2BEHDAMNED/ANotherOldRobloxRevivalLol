@@ -11,7 +11,7 @@ loadfile('http://arl.lambda.cam/game/2010/gameserver.ashx')({placeID}, {port}, "
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
 	if(
-		isset($_GET['placeID']) &&
+		isset($_GET['placeID']) &&c
 		isset($_GET['port']) &&
 		isset($_GET['access']) &&
 		isset($_GET['jobID']))
@@ -19,7 +19,7 @@ loadfile('http://arl.lambda.cam/game/2010/gameserver.ashx')({placeID}, {port}, "
 		$place = Place::FromID(intval($_GET['placeID']));
 		$port = intval($_GET['port']);
 
-		if($place != null && $place->year == PlaceYear::Y2013) {
+		if($place != null && $place->year == PlaceYear::Y2010) {
 			$script = "\r\n" . ob_get_clean();
 			$script = str_replace("{placeID}",$place->id     , $script);
 			$script = str_replace("{port}"   ,$port          , $script);
