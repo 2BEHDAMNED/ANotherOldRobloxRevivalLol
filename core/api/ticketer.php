@@ -116,6 +116,7 @@
 
 		$access = $settings['asset']['ACCESSKEY'];
 		$rcc_ip = $rcc_settings['RCCGAMEIP'];
+		$rcc_ip = "192.168.0.220";
 
 		if($place != null && $user != null) {
 			$playerID = $user->id;
@@ -145,7 +146,7 @@
 				try {
 					$serverid = getRandomString(11);
 					$placeId = $place->id;
-					$port = rand(50000, 60000);
+					$port = rand(40000, 49999);
 					$strPort = strval($port);
 					$jobId = md5(rand());
 					$json = httpGetJson("http://$rcc_ip:64209/$year/StartServer?id=$placeId&serverId=$serverid&maxPlayerCount=12&gamePort=$port&jobId=$jobId");
