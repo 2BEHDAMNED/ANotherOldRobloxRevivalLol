@@ -52,7 +52,17 @@
 		
 		<script type="text/javascript">
 			function editTemplateInStudio(play_placeId) {
+				<?php if($client == Client::C2010): ?>
+				var app = new ActiveXObject("Roblox.App");
+				var workspace = app.CreateGame(2);	// Window
+
+				workspace.ExecUrlScript("http://arl.lambda.cam/game/edit.ashx?placeId="+play_placeId);
+					
+				workspace = app.NullDispatch;
+				app = app.NullDispatch;
+				<?php else: ?>
 				window.external.StartGame("http://arl.lambda.cam/","http://arl.lambda.cam/","http://arl.lambda.cam/game/edit.ashx?placeId=" + play_placeId);
+				<?php endif ?>
 			}
 			function editrecentfile(recentpath) {
 				window.external.StartGame("","", recentpath);	
