@@ -97,7 +97,6 @@
 					self::PushWebhook($asset);
 				}
 				
-			
 				return ["error" => false, "id" => $id];
 			} else {
 				return ["error" => true, "reason" => "User not authorised."];

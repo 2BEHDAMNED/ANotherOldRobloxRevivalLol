@@ -224,7 +224,7 @@ local success, err = pcall(function()
 	player:SetSuperSafeChat(false)
 	pcall(function() player:SetUnder13(false) end)
 	pcall(function() player:SetMembershipType(Enum.MembershipType.None) end)
-	pcall(function() player:SetAccountAge(365) end)
+	pcall(function() player:SetAccountAge({playerAge}) end)
 	player.Idled:connect(onPlayerIdled)
 	
 	pcall(function() player.Name = [========[{playerName}]========] end)
@@ -254,6 +254,7 @@ pcall(function() game:SetVideoInfo("") end)
 	$playerID = 0;
 	$playerName = "Player";
 	$playerAppearance = "";
+	$playerAge = 0;
 	$server = "localhost";
 	$serverPort = 53640;
 
@@ -284,10 +285,10 @@ pcall(function() game:SetVideoInfo("") end)
 				$creatorID = $place->creator->id;
 				$playerID = $player->id;
 				$playerName = $player->name;
+				$playerAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=".$playerID;
+				$playerAge = $player->GetAccountAge();
 				$server = $_GET['server'] ?? "86.20.118.158";
 				$serverPort = $serverDetails['server_port'];
-				//$playerAppearance = $player->GetCharacterAppearance();
-				$playerAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=".$playerID;
 			}
 		}
 	}
@@ -300,6 +301,7 @@ pcall(function() game:SetVideoInfo("") end)
 	$script = str_replace("{test}"            , $test            , $script);
 	$script = str_replace("{playerID}"        , $playerID        , $script);
 	$script = str_replace("{playerName}"      , $playerName      , $script);
+	$script = str_replace("{playerAge}"       , $playerAge       , $script);
 	$script = str_replace("{playerAppearance}", $playerAppearance, $script);
 	$script = str_replace("{server}"          , $server          , $script);
 	$script = str_replace("{serverPort}"      , $serverPort      , $script);

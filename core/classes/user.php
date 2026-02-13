@@ -1240,6 +1240,13 @@ EOT;
 		function GetAutoThumbsUrl() {
 			return "/thumbs/" . ($this->setprofilepicture ? "profile" : "player"). "?id=".$this->id;
 		}
+
+		function GetAccountAge(): int {
+			$earlier = $this->join_date;
+			$later = new DateTime();
+
+			return intval($later->diff($earlier)->format("%a"));
+		}
 	}
 
 	class UserSettings {

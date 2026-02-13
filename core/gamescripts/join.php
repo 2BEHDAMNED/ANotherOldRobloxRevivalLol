@@ -119,7 +119,7 @@
 	"CreatorId":{placecreator},
 	"CreatorTypeEnum":"User",
 	"MembershipType":"None",
-	"AccountAge":256,
+	"AccountAge":{playerage},
 	"CookieStoreFirstTimePlayKey":"rbx_evt_ftp",
 	"CookieStoreFiveMinutePlayKey":"rbx_evt_fmp",
 	"CookieStoreEnabled":true,
@@ -171,6 +171,7 @@
 			$script = "\r\n" . ob_get_clean();
 			$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 			$script = str_replace("{playerid}",$playerid, $script);
+			$script = str_replace("{playername}",$player->GetAccountAge(), $script);
 			$script = str_replace("{playername}",$playername, $script);
 			$script = str_replace("{serverport}",$serverport, $script);
 			$script = str_replace("{placeid}",$placeid, $script);
