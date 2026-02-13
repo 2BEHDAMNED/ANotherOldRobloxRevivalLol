@@ -56,6 +56,7 @@
 
 	$access = $settings['asset']['ACCESSKEY'];
 
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/clientdetect.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/utilities/assetutils.php";
 	
@@ -145,7 +146,9 @@
 					"WaistCenterAttachment",
 				];
 				
-				if($serverplace->year == PlaceYear::Y2013) {
+				$client = ClientDetector::DetectClient();
+
+				if($serverplace->year == PlaceYear::Y2013 || $client == Client::C2013) {
 					if(str_contains($contents, "Accessory") || str_contains($contents, "Attachment")) {
 						die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
 					}
