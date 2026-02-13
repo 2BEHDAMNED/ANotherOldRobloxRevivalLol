@@ -26,6 +26,9 @@
 				$row = $result_getactiveservers->fetch_assoc();
 
 				if(!isset($_GET['dontcall'])) {
+					if($row['server_year'] != "2016") {
+						$rcc_ip = "192.168.0.220";
+					}
 					if($row['server_year'] == "2016") {
 						$rcc_port = $row['server_teamcreate'] == 1 ? $rcc_teamcreate_port : $rcc_gameserver_port;
 
@@ -40,9 +43,6 @@
 						file_get_contents("http://$rcc_ip:64209/2010/StopServer?serverId=".$row['server_id']."&placeId=".$row['server_placeid']);
 					}
 				}
-				
-
-				
 
 				$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");
 				$stmt_createnewserver->bind_param("s", $_GET['jobID']);
