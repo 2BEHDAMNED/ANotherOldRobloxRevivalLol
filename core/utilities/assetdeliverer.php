@@ -149,7 +149,7 @@
 				$client = ClientDetector::DetectClient();
 
 				if($serverplace->year == PlaceYear::Y2013 || $client == Client::C2013) {
-					if(str_contains($contents, "Accessory")) { //|| str_contains($contents, "Attachment")) {
+					if(str_contains($contents, "Accoutrement")) { //|| str_contains($contents, "Attachment")) {
 						die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
 					}
 				}
