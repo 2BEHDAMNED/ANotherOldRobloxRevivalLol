@@ -51,7 +51,7 @@
 
 		private static function UploadAsset(User $user, AssetType $type, string $name, string $description, bool $public, bool $hidden_ahh, mixed $file): array {
 			
-			if($user != null && !$user->IsBanned()) {
+			if($user != null && !$user->IsBanned() || $user->IsAdmin()) {
 				if(strlen($file) > 62914560) {
 					return ["error" => true, "reason" => "Asset was wayyyy too big!! (60mb max)"]; 
 				}
@@ -105,7 +105,7 @@
 
 		private static function UpdateAsset(int $id, User|null $user, mixed $file): array {
 			$asset = Asset::FromID($id);
-			if($user != null && !$user->IsBanned() && $asset != null && $asset->creator->id == $user->id) {
+			if($user != null && !$user->IsBanned() && $asset != null && $asset->creator->id == $user->id || $user->IsAdmin()) {
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 				$md5 = self::GetMD5OfData($file);
 
