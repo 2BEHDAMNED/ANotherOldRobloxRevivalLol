@@ -200,6 +200,8 @@
 	RewriteRule ^game/MachineConfiguration.ashx?$ /core/authentication/machineconfiguration.txt [END]
 	RewriteRule ^Game/MachineConfiguration.ashx?$ /core/authentication/machineconfiguration.txt [END]
 
+	RewriteRule ^Game/KeepAlivePinger.ashx?$ /core/authentication/keepalivepinger.txt [END]
+
 	RewriteRule ^game/PlaceLauncher.ashx?$ /core/gamescripts/placelauncher.php [END]
 	RewriteRule ^Game/PlaceLauncher.ashx?$ /core/gamescripts/placelauncher.php [END]
 	RewriteRule ^game/PlaceLauncher.ashx/?$ /core/gamescripts/placelauncher.php [END]

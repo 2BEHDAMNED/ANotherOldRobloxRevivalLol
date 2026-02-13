@@ -110,8 +110,8 @@
 			$_SESSION['ANORRL$EditItem$Success'] = true;
 
 			if($asset->type == AssetType::PLACE &&
-			   isset($_POST['ANORRL$EditItem$Place$ServerSize'])/* &&
-			   isset($_POST['ANORRL$EditItem$Place$Year'])*/
+			   isset($_POST['ANORRL$EditItem$Place$ServerSize']) &&
+			   isset($_POST['ANORRL$EditItem$Place$Year'])
 			   ) {
 
 				$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
@@ -130,8 +130,8 @@
 					$server_size = $allUsersCount;
 				}
 
-				$year = $asset->year->ordinal();
-				//$year = PlaceYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
+				//$year = $asset->year->ordinal();
+				$year = PlaceYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
 
 				$stmt = $con->prepare('UPDATE `asset_places` SET `place_year` = ?, `place_copylocked` = ?, `place_serversize` = ?, `place_original` = ?, `place_gears_enabled` = ? WHERE `place_id` = ?;');
 				$stmt->bind_param('siiiii', $year, $copylocked, $server_size, $original, $gears, $id);
@@ -279,14 +279,11 @@
 								<div id="DetailStack">
 									<h4 style="margin-top: 10px">Place Settings</h4>
 									<table id="Table">
-										<?php 
-										// later cuz barely any work has been done on the clients (KINDA)
-										if(false): ?>
 										<tr id="PlaceYear">
 											<td style="vertical-align: middle;">Year</td>
 											<td>
 												<select name="ANORRL$EditItem$Place$Year">
-													<option value="2016">2016 (ANORRL)</option>
+													<option value="2016">ANORRL (2016)</option>
 													<!--<option value="2008">2008 (Gamma)</option>-->
 													<option value="2013">2013</option>
 													<option value="2010">2010</option>
@@ -295,7 +292,6 @@
 												</select>
 											</td>
 										</tr>
-										<?php endif ?>
 										<tr>
 											<td>Server Size</td>
 											<td><input type="number" name="ANORRL$EditItem$Place$ServerSize" value="<?= $asset->server_size ?>"></td>
