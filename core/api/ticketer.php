@@ -190,76 +190,21 @@
 	}
 
 	if($user != null) {
-		if(isset($_POST['placeID'])) {
-
+		if(isset($_POST['editID'])) {
 			$place = Place::FromID(intval($_POST['placeID']));
 
-			if($place != null) {
-				$playerID = $user->id;
-				
-				
+			if($place != null && $user->id == $place->creator->id) {
 				$placeID = $place->id;
-				if($place->year == PlaceYear::Y2016) {
-					if(isUserInAGame($user->id)) {
-						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
-						$stmt_createnewsession->bind_param("i", $playerID);
-						$stmt_createnewsession->execute();
-					}
-
-					$server = getAnActiveServer($place->id);
-
-					if($server != null) {
-						$serverID = $server['server_id'];
-					} else {
-						$serverID = strval($place->id);
-					}
-					$sessionID = getRandomString();
-					
-					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-					$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
-					$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
-					$stmt_createnewsession->execute();
-					die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
-				} elseif($place->year == PlaceYear::Y2013) {
-					$joinData = findAndStartOtherGame("2013", $place, $user);
-					
-					if($joinData != null) {
-						$serverID = $joinData['serverID'];
-						$sessionID = $joinData['sessionID'];
-						//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
-						die("anorrl-2013-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
-					} else {
-						die("server failed to create....");
-					}
-					//
-				} else if($place->year == PlaceYear::Y2010) {
-					$joinData = findAndStartOtherGame("2010", $place, $user);
-					
-					if($joinData != null) {
-						$serverID = $joinData['serverID'];
-						$sessionID = $joinData['sessionID'];
-						//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
-						die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2010%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
-					} else {
-						die("server failed to create....");
-					}
-				} else {
-					die("Uhm something weird happened i think...");
+				if($place->year == PlaceYear::Y2010) {
+					die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:play+gameinfo:0");	
 				}
-				
-
 			}
+		} else {
+			if(isset($_POST['placeID'])) {
 
-		} else if(isset($_POST['serverID'])) {
-
-			$server_details = getServerDetails($_POST['serverID']);
-
-			if($server_details != null) {
-				$place = Place::FromID(intval($server_details['server_placeid']));
+				$place = Place::FromID(intval($_POST['placeID']));
 
 				if($place != null) {
-
 					$playerID = $user->id;
 					
 					
@@ -298,7 +243,7 @@
 							die("server failed to create....");
 						}
 						//
-					} else {
+					} else if($place->year == PlaceYear::Y2010) {
 						$joinData = findAndStartOtherGame("2010", $place, $user);
 						
 						if($joinData != null) {
@@ -309,11 +254,78 @@
 						} else {
 							die("server failed to create....");
 						}
+					} else {
+						die("Uhm something weird happened i think...");
 					}
+					
 
 				}
+
+			} else if(isset($_POST['serverID'])) {
+
+				$server_details = getServerDetails($_POST['serverID']);
+
+				if($server_details != null) {
+					$place = Place::FromID(intval($server_details['server_placeid']));
+
+					if($place != null) {
+
+						$playerID = $user->id;
+						
+						
+						$placeID = $place->id;
+						if($place->year == PlaceYear::Y2016) {
+							if(isUserInAGame($user->id)) {
+								include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+								$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
+								$stmt_createnewsession->bind_param("i", $playerID);
+								$stmt_createnewsession->execute();
+							}
+
+							$server = getAnActiveServer($place->id);
+
+							if($server != null) {
+								$serverID = $server['server_id'];
+							} else {
+								$serverID = strval($place->id);
+							}
+							$sessionID = getRandomString();
+							
+							include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+							$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
+							$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
+							$stmt_createnewsession->execute();
+							die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
+						} elseif($place->year == PlaceYear::Y2013) {
+							$joinData = findAndStartOtherGame("2013", $place, $user);
+							
+							if($joinData != null) {
+								$serverID = $joinData['serverID'];
+								$sessionID = $joinData['sessionID'];
+								//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
+								die("anorrl-2013-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2013%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
+							} else {
+								die("server failed to create....");
+							}
+							//
+						} else {
+							$joinData = findAndStartOtherGame("2010", $place, $user);
+							
+							if($joinData != null) {
+								$serverID = $joinData['serverID'];
+								$sessionID = $joinData['sessionID'];
+								//http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$fakeahserver
+								die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2F2010%2Fjoin.ashx?sessionToken=$sessionID&serverToken=$serverID&server=86.20.118.158+placeid:$placeID+launchmode:play+gameinfo:0");
+							} else {
+								die("server failed to create....");
+							}
+						}
+
+					}
+				}
+				
 			}
-			
 		}
+		
 	}
 	

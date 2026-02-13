@@ -47,6 +47,19 @@ ANORRL.PlaceLauncher  = {
 			window.open(data, "_self");
 		});
 	},
+
+	EditPlace: function(placeId) {
+		$.post("/api/ticketer", {editID: placeId, }, function(data) {
+			if(data == "") {
+				alert("You need to be logged in to play!");
+				return;
+			} else if(!data.startsWith("anorrl-")) {
+				alert(data);
+				return;
+			}
+			window.open(data, "_self");
+		});
+	},
 	
 	CreateServerElement: function(placeID, serverId, currentPlayersCount, maxPlayersCount) {
 		var table = $("<table><tr></tr></table>");
