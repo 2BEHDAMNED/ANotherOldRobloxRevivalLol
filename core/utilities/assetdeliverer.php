@@ -96,12 +96,17 @@
 		if($asset->type == AssetType::PLACE) {
 			$place = Place::FromID($asset->id);
 			
-			if($place->copylocked && $user == null || ($user != null && $user->id != $place->creator->id) && (!$user->IsAdmin())
-				&& (!isset($_GET['access']) || 
-				(isset($_GET['access']) && $_GET['access'] != $access))
-			) {
+			if(!isset($_GET['access']) && $user == null && $place->copylocked) {
 				die(http_response_code(503));
+			} else {
+				if($place->copylocked && $user == null || ($user != null && $user->id != $place->creator->id) && (!$user->IsAdmin())
+					&& (!isset($_GET['access']) || 
+					(isset($_GET['access']) && $_GET['access'] != $access))
+				) {
+					die(http_response_code(503));
+				}
 			}
+			
 		}
 		
 		if(file_exists($filename)) {
