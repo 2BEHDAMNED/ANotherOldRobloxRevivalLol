@@ -96,7 +96,7 @@
 		if($asset->type == AssetType::PLACE) {
 			$place = Place::FromID($asset->id);
 			
-			if($place->copylocked && $user->id != $place->creator->id && (!$user->IsAdmin())
+			if($place->copylocked && $user == null || ($user != null && $user->id != $place->creator->id) && (!$user->IsAdmin())
 				&& (!isset($_GET['access']) || 
 				(isset($_GET['access']) && $_GET['access'] != $access))
 			) {
