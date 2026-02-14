@@ -210,14 +210,15 @@
 						}
 
 						$json = json_decode($response, true);
-						$serverid = $json['jobId'];
+						$serverid = getRandomString();
+						$jobId = $json['jobId'];
 						$port = $json['fakeahport'];
 						$pid = $json['pid'];
 						$strPort = strval($port);
 
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`) VALUES (?,?,?,?,?)");
-						$stmt_createnewserver->bind_param("ssiis", $serverid, $serverid, $placeId, $place->server_size, $strPort);
+						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
 						$stmt_createnewserver->execute();
 
 						updatePlaceOfSession($sessionID, $serverid);
