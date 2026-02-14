@@ -317,7 +317,7 @@
 						$arb = requestArbiter($place->id, true);
 
 						if ($arb !== null) {
-							$serverid = $arb['jobId'];
+							$serverid = getRandomString();
 							$placeId = $place->id;
 							$port = intval($arb['fakeahport']);
 							$strPort = strval($port);
@@ -451,7 +451,7 @@
 						$arb = requestArbiter($place->id, false);
 
 						if ($arb !== null) {
-							$serverid = $arb['jobId'];
+							$serverid = getRandomString();
 							$placeId = $place->id;
 							$port = intval($arb['fakeahport']);
 							$strPort = strval($port);
