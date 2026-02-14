@@ -27,7 +27,7 @@
 						"author" => [
 							"name" => "ANORRL",
 							"url" => "https://arl.lambda.cam/",
-							"icon_url" => "https://arl.lambda.cam/favicon.ico"
+							"icon_url" => "https://arl.lambda.cam/images/download/2016client.png"
 						],
 						"thumbnail" => [
 							"url" => "https://arl.lambda.cam/thumbs/?id=".$asset->id
@@ -93,7 +93,7 @@
 					return ["error" => true, "reason" => "Something went wrong idfk..."];
 				}
 
-				if($asset != null && $asset->public && $asset->onsale && !$hidden_ahh) {
+				if($asset != null && $asset->public && !$hidden_ahh) {
 					self::PushWebhook($asset);
 				}
 				
