@@ -1,6 +1,8 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/user.php";
 
 	$user = UserUtils::RetrieveUser();
 
