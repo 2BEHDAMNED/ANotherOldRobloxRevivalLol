@@ -11,8 +11,6 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
-	sleep(5);
-
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 	$rcc_settings = $settings['renderer'];
 
@@ -409,7 +407,11 @@
 						curl_close($ch);
 
 						if($code != 200) {
-							die(http_response_code(503));
+							http_response_code(503);
+                            die(json_encode([
+                                "status" => 0,
+                                "error" => "Wow so much errors!"
+                            ]));
 						}
 
 						$json = json_decode($response, true);
@@ -451,7 +453,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=86.20.118.158",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=37.114.46.52",//86.20.118.158",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionToken",
 							"message" => "HELLOOOOOOOO!!!!!"
