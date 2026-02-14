@@ -383,6 +383,7 @@
 					UserUtils::SetCookies($user->security_key);
 				}
 				$dont_load = false;
+                $arbiter_ip = "37.114.46.52";
 				if(getActiveServersCount($place->id) == 0) {
 					try {
 						$placeId = $place->id;
@@ -443,6 +444,9 @@
 
 					if($server_data != null) {
 						$serverid = $server_data['server_id'];
+                        if(intval($server_data['server_pid']) == 0) {
+                            $arbiter_ip = "86.20.118.158";
+                        }
 					} else {
 						$dont_load = true;
 					}
@@ -454,7 +458,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=37.114.46.52",//86.20.118.158",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=$arbiter_ip",//",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionToken",
 							"message" => "HELLOOOOOOOO!!!!!"
