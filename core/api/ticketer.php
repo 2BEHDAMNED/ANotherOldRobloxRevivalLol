@@ -116,7 +116,7 @@
 
 		$access = $settings['asset']['ACCESSKEY'];
 		$rcc_ip = $rcc_settings['RCCGAMEIP'];
-		$rcc_ip = "192.168.0.220";
+		//$rcc_ip = "192.168.0.220";
 
 		if($place != null && $user != null) {
 			$playerID = $user->id;

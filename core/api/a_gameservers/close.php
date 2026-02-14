@@ -27,7 +27,7 @@
 
 				if(!isset($_GET['dontcall'])) {
 					if($row['server_year'] != "2016") {
-						$rcc_ip = "192.168.0.220";
+						//$rcc_ip = "192.168.0.220";
 					}
 					if($row['server_year'] == "2016") {
 						$rcc_port = $row['server_teamcreate'] == 1 ? $rcc_teamcreate_port : $rcc_gameserver_port;
