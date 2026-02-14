@@ -11,6 +11,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
+	sleep(5);
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 	$rcc_settings = $settings['renderer'];
@@ -19,8 +20,6 @@
 	$rcc_ip = $rcc_settings['RCCGAMEIP'];
 	$rcc_port = 64898;
 	$rcc_teamcreate_port = 64888;
-	$arbiter = "37.114.46.52";
-	$arbiterport = 7000;
 
 	header("Content-Type: application/json");
 
@@ -130,6 +129,7 @@
 		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
 
 		if($result_getsessiondetails->num_rows != 0) {
+			error_log("found a thing i think");
 			return $result_getsessiondetails->fetch_assoc();
 		}
 
@@ -181,55 +181,36 @@
 				$dont_load = false;
 				if(getActiveServersCount($place->id) == 0) {
 					try {
-						$user = UserUtils::RetrieveUser();
-						$placeId = $place->id;
-						$teamcreate = $teamcreate ?? false;
-
-						$arbiteritself = "http://$arbiter:$arbiterport/api/v1/gameserver";
-						$body = json_encode([
-							"PlaceId" => $placeId,
-							"TeamCreate" => $teamcreate
-						]);
-
-						$ch = curl_init($arbiteritself);
-						curl_setopt($ch, CURLOPT_HTTPHEADER, [
-							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
-							"Content-Type: application/json",
-							"User-Agent: ANORRL/1.0"
-						]);
-						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-						curl_setopt($ch, CURLOPT_POST, true);
-						curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-						$response = curl_exec($ch);
-						$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-						curl_close($ch);
-
-						if($httpcode !== 200) {
-							die(http_response_code(503));
-						}
-
-						$json = json_decode($response, true);
 						$serverid = getRandomString();
-						$jobId = $json['jobId'];
-						$port = $json['fakeahport'];
-						$pid = $json['pid'];
+						$placeId = $place->id;
+						$port = rand(50000, 60000);
 						$strPort = strval($port);
 
+						$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
+						$jobId = md5(rand());
+						$job = new Roblox\Grid\Rcc\Job($jobId);
+						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
+						<<<EOT
+						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
+						EOT);
+						$base64data = $rcc->OpenJob($job, $script);
+						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
+
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`) VALUES (?,?,?,?,?)");
-						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`, `server_pid`) VALUES (?,?,?,?,?,'0')");
+						$stmt_createnewserver->bind_param("ssiiss", $serverid, $serverid, $placeId, $place->server_size, $strPort, $pid);
 						$stmt_createnewserver->execute();
 
 						updatePlaceOfSession($sessionID, $serverid);
 
-					} catch(Exception $e) {
+					} catch(SoapFault $e) {
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ?;");
 						$stmt_createnewserver->bind_param("s", $sessionID);
 						$stmt_createnewserver->execute();
 						die(json_encode([
-							"status" => 0,
-							"error" => "Wow so much errors!"
+							"status" => 1,
+							"message" => "Wow so much errors!"
 						]));
 					}
 				} else {
@@ -248,7 +229,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$arbiter",//86.20.118.158",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=86.20.118.158",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionID",
 							"message" => "HELLOOOOOOOO!!!!!"
@@ -307,7 +288,7 @@
 						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
 
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`, `server_teamcreate`) VALUES (?,?,?,?,?,1)");
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`, `server_teamcreate`, `server_pid`) VALUES (?,?,?,?,?,1,'0')");
 						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
 						$stmt_createnewserver->execute();
 
@@ -379,7 +360,7 @@
 			}
 		}
 	} else if(isset($_GET['sessionID'])) {
-
+		
 		$sessionToken = $_GET['sessionID'];
 		$session_data = getSessionDetails($sessionToken);
 
@@ -406,29 +387,44 @@
 				$dont_load = false;
 				if(getActiveServersCount($place->id) == 0) {
 					try {
-						$serverid = getRandomString();
 						$placeId = $place->id;
-						$port = rand(50000, 60000);
+						
+						$data = json_encode([
+							"PlaceId" => $placeId,
+							"TeamCreate" => false
+						]);
+
+						$ch = curl_init("http://37.114.46.52:7000/api/v1gameserver");
+						curl_setopt($ch, CURLOPT_HTTPHEADER, [
+							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
+							"Content-Type: application/json",
+							"User-Agent: ANORRL/1.0"
+						]);
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+						curl_setopt($ch, CURLOPT_POST, true);
+						curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+						$response = curl_exec($ch);
+						$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+						curl_close($ch);
+
+						if($code != 200) {
+							die(http_response_code(503));
+						}
+
+						$json = json_decode($response, true);
+						$serverid = getRandomString();
+						$port = $json['fakeahport'];
+						$pid = $json['pid'];
 						$strPort = strval($port);
 
-						$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
-						$jobId = md5(rand());
-						$job = new Roblox\Grid\Rcc\Job($jobId);
-						$script = new Roblox\Grid\Rcc\ScriptExecution($jobId,
-						<<<EOT
-						loadfile("http://arl.lambda.cam/game/maingameserver.ashx")($placeId, $port, "http://arl.lambda.cam", "$access", "$jobId")
-						EOT);
-						$base64data = $rcc->OpenJob($job, $script);
-						$rcc->RenewLease($jobId, 60 * 60 * 12); // 12 HOURS
-
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`) VALUES (?,?,?,?,?)");
-						$stmt_createnewserver->bind_param("ssiis", $serverid, $jobId, $placeId, $place->server_size, $strPort);
+						$stmt_createnewserver = $con->prepare("INSERT INTO `active_servers`(`server_id`, `server_jobid`, `server_placeid`, `server_maxcount`, `server_port`, `server_pid`) VALUES (?,?,?,?,?,?)");
+						$stmt_createnewserver->bind_param("ssiiss", $serverid, $serverid, $placeId, $place->server_size, $strPort, $pid);
 						$stmt_createnewserver->execute();
 
 						updatePlaceOfSession($sessionToken, $serverid);
 
-					} catch(SoapFault $e) {
+					} catch(Exception $e) {
 						include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 						$stmt_createnewserver = $con->prepare("DELETE FROM `active_players` WHERE `session_id` = ?;");
 						$stmt_createnewserver->bind_param("s", $sessionToken);
