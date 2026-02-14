@@ -130,7 +130,6 @@
 		$result_getsessiondetails = $stmt_getsessiondetails->get_result();
 
 		if($result_getsessiondetails->num_rows != 0) {
-			error_log("found a thing i think");
 			return $result_getsessiondetails->fetch_assoc();
 		}
 
@@ -249,7 +248,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=86.20.118.158",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$arbiter",//86.20.118.158",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionID",
 							"message" => "HELLOOOOOOOO!!!!!"
