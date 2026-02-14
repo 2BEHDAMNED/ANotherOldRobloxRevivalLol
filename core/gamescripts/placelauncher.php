@@ -27,7 +27,7 @@
 	function requestArbiter(int $placeId, bool $teamcreate = false): array|null {
 		global $arbiter, $arbiterport;
 
-		$url = "http://$arbiter:$arbiterport/";
+		$url = "http://$arbiter:$arbiterport/api/v1/gameserver";
 
 		$data = json_encode([
 			"PlaceId" => $placeId,
