@@ -11,6 +11,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
+	sleep(5);
 
 	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
 	$rcc_settings = $settings['renderer'];
@@ -48,16 +49,16 @@
 		]);
 
 		$response = curl_exec($ch);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 
-		if ($httpcode !== 200 || !$response) {
+		if ($code !== 200 || !$response) {
 			return null;
 		}
 
 		$json = json_decode($response, true);
 
-		if (!isset($json['status']) || $json['status'] !== "ready") {
+		if (!isset($json['status']) || $json['status'] != "ready") {
 			return null;
 		}
 
