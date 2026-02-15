@@ -70,7 +70,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
-		<link rel="stylesheet" href="/css/new/my/profile.css?v=6">
+		<link rel="stylesheet" href="/css/new/my/profile.css?v=7">
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=<?= time() ?>"></script>
 		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
@@ -79,6 +79,16 @@
 			$(function(){
 				//ANORRL.User.GrabFeed(<?= $get_user->id ?>);
 			});
+			var render = true;
+			function flipRenders() {
+				render = !render;
+
+				if(render) {
+					$("#AvatarRenderYeah").attr("src", "/thumbs/player?id=<?= $get_user->id ?>&sxy=200");
+				} else {
+					$("#AvatarRenderYeah").attr("src", "/thumbs/headshot?id=<?= $get_user->id ?>&sxy=200");
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -201,7 +211,9 @@
 								<?php endif ?>
 							</ul>
 							<div id="AvatarRender">
-								<img src="/thumbs/player?id=<?= $get_user->id ?>&sxy=200">
+								<a href="javascript:flipRenders()" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;"></a>
+									
+								<img id="AvatarRenderYeah" src="/thumbs/player?id=<?= $get_user->id ?>&sxy=200">
 							</div>
 							<br id="Clearer">
 						</div>
