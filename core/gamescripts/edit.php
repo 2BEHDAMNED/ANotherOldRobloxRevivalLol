@@ -43,7 +43,7 @@ pcall(function() game:SetVideoInfo("") end)
 message.Text = "Loading Place. Please wait..." 
 coroutine.yield() 
 game:Load("http://arl.lambda.cam/Asset/?id={placeid}") 
-visit:SetUploadUrl("http://arl.lambda.cam/Data/Upload.ashx?assetid={placeid}")
+visit:SetUploadUrl("{uploadurl}")
 
 
 
@@ -74,9 +74,16 @@ game:GetService("ChangeHistoryService"):SetEnabled(true)
 			$place = Place::FromID(intval($_GET['placeId']));
 
 			if($place != null) {
-				if($place->creator->id == $user->id || $user->IsAdmin()) {	
+				if($place->creator->id == $user->id || $user->IsAdmin() || !$place->copylocked || ($place->teamcreate_enabled && $place->IsCloudEditor($user))) {	
 					$script = "\r\n" . ob_get_clean();
+				
+					$uploadurl = "http://arl.lambda.cam/Data/Upload.ashx?assetid=".$place->id;
+					if(!$place->copylocked && $place->creator->id != $user->id) {
+						$uploadurl = "";
+					}
+
 					$script = str_replace("{placeid}", "".intval($_GET['placeId']), $script);
+					$script = str_replace("{uploadurl}", $uploadurl, $script);
 					$script = str_replace("{creatorid}", "".$place->creator->id, $script);
 					$signature = get_signature($script);
 					if($place->year != PlaceYear::Y2010) {
