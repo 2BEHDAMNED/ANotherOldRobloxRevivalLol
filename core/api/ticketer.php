@@ -193,7 +193,7 @@
 		if(isset($_POST['editID'])) {
 			$place = Place::FromID(intval($_POST['editID']));
 
-			if($place != null && $user->id == $place->creator->id) {
+			if($place != null && ($user->id == $place->creator->id || !$place->copylocked || ($place->teamcreate_enabled && $place->IsCloudEditor($user)))) {
 				$placeID = $place->id;
 				if($place->year == PlaceYear::Y2010) {
 					die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:play+gameinfo:0");	
@@ -206,6 +206,12 @@
 				if($place->year == PlaceYear::Y2016) {
 					$clientticket = base64_encode(string: $user->security_key);
 					die("anorrl-studio-lambda:1+script:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:edit+gameinfo:$clientticket");	
+				}
+			} else {
+				if($place == null) {
+					die("Invalid place!");
+				} else {
+					die("This place is not available for editing!");
 				}
 			}
 		} else {
@@ -251,7 +257,6 @@
 						} else {
 							die("server failed to create....");
 						}
-						//
 					} else if($place->year == PlaceYear::Y2010) {
 						$joinData = findAndStartOtherGame("2010", $place, $user);
 						
