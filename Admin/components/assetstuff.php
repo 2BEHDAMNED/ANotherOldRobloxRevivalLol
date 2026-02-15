@@ -115,10 +115,12 @@
 						$render = TheFuckingRenderer::RenderPlayer($id);
 					}
 
-					$data = base64_decode($render);
+					if($render != null) {
+						$data = base64_decode($render);
 
-					file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, $data);
-
+						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, $data);
+					}
+					
 					$message = "Success!";
 				}
 
