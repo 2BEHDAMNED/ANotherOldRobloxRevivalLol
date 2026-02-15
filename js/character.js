@@ -395,7 +395,7 @@ ANORRL.Character  = {
 			if(!data['error']) {
 				ANORRL.Character.LoadWardrobe();
 				ANORRL.Character.LoadCurrentlyWearing();
-				ANORRL.Character.RenderPlayer();
+				//ANORRL.Character.RenderPlayer();
 				// Render
 			} else {
 				alert("Error: " + data['reason']);
@@ -407,7 +407,7 @@ ANORRL.Character  = {
 			if(!data['error']) {
 				ANORRL.Character.LoadWardrobe();
 				ANORRL.Character.LoadCurrentlyWearing();
-				ANORRL.Character.RenderPlayer();
+				//ANORRL.Character.RenderPlayer();
 				// Render
 			} else {
 				alert("Error: " + data['reason']);
@@ -486,7 +486,7 @@ ANORRL.Character  = {
 				rightleg: ANORRL.Character.GetBodyColourID(5)
 			}, function() {
 				// success or something
-				ANORRL.Character.RenderPlayer();
+				//ANORRL.Character.RenderPlayer();
 			});
 		}
 	},

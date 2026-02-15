@@ -95,7 +95,7 @@
 				return null;
 			}
 
-			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => $headshot, "IsClothing" => false]);
+			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => $headshot, "IsClothing" => true]);
 
 			return $data;
 		}
