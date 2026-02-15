@@ -15,10 +15,7 @@
 	$rcc_settings = $settings['renderer'];
 
 	$access = $settings['asset']['ACCESSKEY'];
-	$rcc_ip = $rcc_settings['RCCGAMEIP'];
-	$rcc_port = 64898;
-	$rcc_teamcreate_port = 64888;
-
+	
 	header("Content-Type: application/json");
 
 	function getRandomString(int $length = 11): string {

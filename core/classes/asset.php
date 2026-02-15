@@ -578,32 +578,26 @@
 
 					$jobID = $row['server_jobid'];
 
-					$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
-	
-					$rcc_settings = $settings['renderer'];
-					$rcc_ip = $rcc_settings['RCCGAMEIP'];
-					$rcc_port = 64888;
+					$data = json_encode([
+						"pid" => $row['server_pid']
+					]);
 
-					$directory = $_SERVER['DOCUMENT_ROOT']."/core/Assemblies/Roblox/Grid/Rcc/";
-					$scanned_directory = array_diff(scandir($directory), array('..', '.'));
+					$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver/kill");
+					curl_setopt($ch, CURLOPT_HTTPHEADER, [
+						"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
+						"Content-Type: application/json",
+						"User-Agent: ANORRL/1.0"
+					]);
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt($ch, CURLOPT_POST, true);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+					$response = curl_exec($ch);
+					$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+					curl_close($ch);
 
-					foreach($scanned_directory as $file) {
-						if(str_contains($file, "wsdl")) {
-							continue;
-						}
-						require $directory.$file;
+					if($code != 200) {
+						die(http_response_code(503));
 					}
-
-					$scriptText = <<<EOT
-					for _, v in pairs(game.Players:GetPlayers()) do
-						v:Kick("Team Create Session Closed.")
-					end
-					EOT;
-
-					$rcc = new Roblox\Grid\Rcc\RCCServiceSoap($rcc_ip, $rcc_port);
-					$script = new Roblox\Grid\Rcc\ScriptExecution("kicker", $scriptText);
-					$rcc->Execute($jobID, $script);
-					$rcc->CloseJob(trim($jobID));
 
 					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 					$stmt_createnewserver = $con->prepare("DELETE FROM `active_servers` WHERE `server_jobid` = ?;");

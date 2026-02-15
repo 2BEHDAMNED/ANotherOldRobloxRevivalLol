@@ -7,8 +7,6 @@
 	$rcc_settings = $settings['renderer'];
 
 	$access = $settings['asset']['ACCESSKEY'];
-	$rcc_ip = $rcc_settings['RCCGAMEIP'];
-	$rcc_port = 64898;
 
 	function getServerDetailsFromJobID(string $jobID): array|null {
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
