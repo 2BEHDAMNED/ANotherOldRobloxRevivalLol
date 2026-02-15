@@ -78,7 +78,11 @@
 			return $data;
 		}
 
-		public static function RenderUser(int $id = 0) {
+		public static function RenderUser(int $id = 0, bool $headshot = false) {
+			if($id == 0) {
+				return null;
+			}
+			
 			$user = User::FromID($id);
 
 			if($user == null) {
@@ -91,7 +95,7 @@
 				return null;
 			}
 
-			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => false, "IsClothing" => false]);
+			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => $headshot, "IsClothing" => false]);
 
 			return $data;
 		}
