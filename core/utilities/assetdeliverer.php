@@ -177,7 +177,7 @@
 				foreach($whitelist as $white) {
 					if(strpos($contents, $white) !== false) {
 						foreach($blacklist as $black) {
-							if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT && $asset->type != AssetType::MODEL)) { // hope that model whitelist aint gonna bite my ass
+							if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT && $asset->type != AssetType::MODEL && !(intval($_GET['serverplaceid']) == 0 && $asset->type == AssetType::GEAR))) { // hope that model whitelist aint gonna bite my ass
 								http_response_code(405);
 								die("Method Not Allowed");
 							}
