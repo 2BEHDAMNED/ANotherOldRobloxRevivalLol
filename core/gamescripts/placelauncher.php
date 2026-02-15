@@ -175,7 +175,7 @@
 				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
 				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 				$stmt_createnewsession->execute();
-
+                $arbiter_ip = "86.20.118.158";
 				$dont_load = false;
 				if(getActiveServersCount($place->id) == 0) {
 					try {
@@ -216,6 +216,9 @@
 
 					if($server_data != null) {
 						$serverid = $server_data['server_id'];
+                        if(intval($server_data['server_pid']) != 0) {
+                            $arbiter_ip = "37.114.46.52";
+                        }
 					} else {
 						$dont_load = true;
 					}
@@ -227,7 +230,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=86.20.118.158",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$arbiter_ip",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionID",
 							"message" => "HELLOOOOOOOO!!!!!"
@@ -310,6 +313,8 @@
 					if($server_data != null) {
 						$serverid = $server_data['server_id'];
 						$port = $server_data['server_port'];
+
+
 					} else {
 						$dont_load = true;
 					}
