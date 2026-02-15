@@ -167,7 +167,7 @@
 					}
 				}
 				
-				if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR) {
+				if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR && intval($_GET['serverplaceid']) != 0) {
 					die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
 				}
 				
