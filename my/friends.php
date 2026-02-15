@@ -82,7 +82,7 @@
 									
 								}
 								
-								$profile = $friendo->setprofilepicture ? "profile" : "player";
+								$profile = $friendo->setprofilepicture ? "profile" : "headshot";
 
 								$status = $friendo->IsOnline() ? "Online" : "Offline";
 								

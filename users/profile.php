@@ -92,7 +92,7 @@
 							<h2 style="margin: 5px 0px; width: 830px;"><?= $get_user->name ?>'s Profile</h2>
 							<div id="ProfileImage">
 								<div id="ImageContainer">
-									<img id="ProfilePictureYeah" src="/thumbs/<?= $get_user->setprofilepicture ? "profile" : "player" ?>?id=<?= $get_user->id ?>">
+									<img id="ProfilePictureYeah" src="/thumbs/<?= $get_user->setprofilepicture ? "profile" : "headshot" ?>?id=<?= $get_user->id ?>">
 								</div>
 								
 								<div id="Controls">

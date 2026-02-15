@@ -92,7 +92,7 @@
 											echo <<<EOT
 											<li class="Friend">
 												<a id="ProfileLink" href="/users/$fID/profile">
-													<img id="Profile" src="/thumbs/player?id=$fID&sxy=100">
+													<img id="Profile" src="/thumbs/headshot?id=$fID&sxy=100">
 													<div id="Name">$fName</div>
 												</a>
 											</li>

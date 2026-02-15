@@ -168,9 +168,10 @@
 	RewriteRule ^thumbs/?$ /core/thumbs/index.php [END]
 	RewriteRule ^thumbs/player?$ /core/thumbs/player.php [END]
 	RewriteRule ^thumbs/profile?$ /core/thumbs/profile.php [END]
+	RewriteRule ^thumbs/headshot?$ /core/thumbs/headshot.php [END]
 	RewriteRule ^thumbs/unavailable.jpg?$ /images/unavailable-75.png [END]
 
-	RewriteRule ^thumbnail/avatar-headshot?$ /core/thumbs/headshot.php [END]
+	RewriteRule ^thumbnail/avatar-headshot?$ /core/thumbs/fakeheadshot.php [END]
 
 	RewriteRule ^marketplace/productinfo$ /core/marketplace/productinfo.php [END]
 	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]

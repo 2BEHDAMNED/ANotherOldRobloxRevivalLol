@@ -1238,7 +1238,7 @@ EOT;
 		}
 
 		function GetAutoThumbsUrl() {
-			return "/thumbs/" . ($this->setprofilepicture ? "profile" : "player"). "?id=".$this->id;
+			return "/thumbs/" . ($this->setprofilepicture ? "profile" : "headshot"). "?id=".$this->id;
 		}
 
 		function GetAccountAge(): int {

@@ -1,28 +1,108 @@
 <?php
+
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
-	$user = User::FromID(1);
+	if(isset($_GET['id']) || isset($_GET['userId'])) {
+		if(isset($_GET['id'])) {
+			$id = intval($_GET['id']);
+		} else {
+			$id = intval($_GET['userId']);
+		}
+		
 
-	if(isset($_GET['userid'])) {
-		$user = User::FromID(intval($_GET['userid']));
-	}
+		$specialcase = false;
 
-	if($user == null) {
-		$user = User::FromID(1);
-	}
+		$user = User::FromID($id);
+		if($user != null) {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			
+			//base64_encode(
 
-	if($user->setprofilepicture) {
-		die(json_encode([
-			"Final" => true,
-			"Url" => "http://arl.lambda.cam/thumbs/profile?id=".$user->id,
-			"RetryUrl" => "http://arl.lambda.cam/thumbs/profile?id=".$user->id,
-		]));
-	} else {
-		die(json_encode([
-			"Final" => true,
-			"Url" => "http://arl.lambda.cam/thumbs/player?id=".$user->id,
-			"RetryUrl" => "http://arl.lambda.cam/thumbs/player?id=".$user->id,
-		]));
+			$md5hash = $user->GetCharacterAppearanceHash();
+
+			if(file_exists($_SERVER['DOCUMENT_ROOT']."/../renders/headshot_$md5hash.png")) {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../renders/headshot_$md5hash.png");
+			} else {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
+			}
+
+			ob_clean();
+
+			if(isset($_GET['sxy'])) {
+				$size = intval($_GET['sxy']);
+				if($size < 16 || $size > 420) {
+					$size = 420;
+				}
+
+				$image = imagecreatefromstring($contents);
+				imagesavealpha($image, true);
+				$width = imagesx($image);
+				$height = imagesy($image);
+
+				$resizedimage = imagecreatetruecolor($size, $size);
+				imagesavealpha($resizedimage, true);
+				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
+				imagefill($resizedimage, 0, 0, $trans_colour);
+				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
+
+				imagesavealpha($resizedimage, true);
+				header("Content-Type: image/png");
+				ob_clean();
+				imagepng($resizedimage);
+				
+			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
+				$sizex = intval($_GET['sx']);
+				if($sizex < 16 || $sizex > 1080) {
+					$sizex = 420;
+				}
+
+				$sizey = intval($_GET['sy']);
+				if($sizey < 16 || $sizey > 1080) {
+					$sizey = 420;
+				}
+
+				$image = imagecreatefromstring($contents);
+				$width = imagesx($image);
+				$height = imagesy($image);
+
+				if($width != $height) {
+					if($width > $height) {
+						$cropSize = $height;
+					}
+
+					if($width < $height) {
+						$cropSize = $width;
+					}
+
+					$image = ImageUtils::cropAlign($image,$cropSize, $cropSize);
+					$width = $cropSize;
+					$height = $cropSize;
+				}
+
+				imagesavealpha($image, true);
+				
+
+				$resizedimage = imagecreatetruecolor($sizex, $sizey);
+				imagesavealpha($resizedimage, true);
+				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
+				imagefill($resizedimage, 0, 0, $trans_colour);
+				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
+
+				header("Content-Type: image/png");
+				ob_clean();
+				imagepng($resizedimage);
+			} else {
+				$file_info = new finfo(FILEINFO_MIME_TYPE);
+				$mime = $file_info->buffer($contents);
+
+				header("Content-Type: $mime");
+				ob_clean();
+				echo $contents;
+			}
+
+			
+		}
 	}
 
 ?>

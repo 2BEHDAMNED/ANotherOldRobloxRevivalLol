@@ -31,7 +31,7 @@
 			$contents = str_replace(PHP_EOL, "<br>", $this->contents);
 			$user_id = $this->poster->id;
 			$user_name = $this->poster->name;
-			$profileurl = $this->poster->setprofilepicture ? "profile" : "player";
+			$profileurl = $this->poster->setprofilepicture ? "profile" : "headshot";
 			$formatted_datetime = $this->postdate->format("d/m/Y");
 
 			$timeago = UtilUtils::GetTimeAgo($this->postdate);

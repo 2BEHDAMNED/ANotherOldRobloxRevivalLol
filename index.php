@@ -64,7 +64,7 @@
 										if($user instanceof User) {
 											$user_id = $user->id;
 											$user_name = $user->name;
-											$profile = $user->setprofilepicture ? "profile" : "player";
+											$profile = $user->setprofilepicture ? "profile" : "headshot";
 											echo <<<EOT
 												<td>
 													<div class="User" title="$user_name">
@@ -94,7 +94,7 @@
 										if($user instanceof User) {
 											$user_id = $user->id;
 											$user_name = $user->name;
-											$profile = $user->setprofilepicture ? "profile" : "player";
+											$profile = $user->setprofilepicture ? "profile" : "headshot";
 											echo <<<EOT
 												<td>
 													<div class="User" title="$user_name">

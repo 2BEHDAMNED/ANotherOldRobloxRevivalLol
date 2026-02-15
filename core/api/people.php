@@ -43,7 +43,7 @@
 					"blurb" => htmlspecialchars($user->blurb, ENT_QUOTES),
 					"online" => $user->IsOnline(),
 					"status" => $user->GetOnlineActivity(),
-					"thumbnail" => "/thumbs/".($user->setprofilepicture ? "profile":"player")."?id=".$user->id."&sxy=64"
+					"thumbnail" => "/thumbs/".($user->setprofilepicture ? "profile":"headshot")."?id=".$user->id."&sxy=64"
 				]);
 			}
 		}
