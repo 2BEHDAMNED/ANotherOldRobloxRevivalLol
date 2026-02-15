@@ -59,6 +59,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/clientdetect.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/utilities/assetutils.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/utilities/imageutil.php";
 	
 	$user = UserUtils::RetrieveUser();
 
@@ -121,7 +122,7 @@
 			$handle = fopen($filename, "r"); 
 			$contents = fread($handle, filesize($filename)); 
 			fclose($handle);
-			header("Content-Type: application/octet-stream");//.checkMimeType($contents));
+			header("Content-Type: ".ImageUtils::checkMimeType($contents));
 			$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
 			$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
 
