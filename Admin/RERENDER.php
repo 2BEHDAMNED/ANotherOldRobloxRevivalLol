@@ -31,9 +31,8 @@
                 $render_image = imagecreatefromstring($data);
                 imagesavealpha($render_image, true);
                 imagepng($render_image, "$mediadir/headshot_$charactermd5.png");
-
-                $user->UpdateOutfitHash();
-
+                header("Content-Type: image/png");
+                imagepng($render_image);
                 
             }
             
