@@ -69,7 +69,7 @@
 				return null;
 			}
 
-			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => false]);
+			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => false, "IsClothing" => true]);
 
 			if(!$data) {
 				return null;
@@ -91,7 +91,7 @@
 				return null;
 			}
 
-			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => false]);
+			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => false, "IsClothing" => false]);
 
 			return $data;
 		}
