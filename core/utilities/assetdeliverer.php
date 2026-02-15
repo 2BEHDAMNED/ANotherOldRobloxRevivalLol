@@ -59,7 +59,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/clientdetect.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/utilities/assetutils.php";
-	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/utilities/imageutil.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] . "/core/utilities/imageutils.php";
 	
 	$user = UserUtils::RetrieveUser();
 
