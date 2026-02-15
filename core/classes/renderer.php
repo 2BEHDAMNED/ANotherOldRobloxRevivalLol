@@ -14,74 +14,68 @@
 		require $directory.$file;
 	}
 
-	
-	
 
 	class TheFuckingRenderer {
-
-		public static int $port = 0;
-		public static string $address = "";
 
 		public static string $domain = "";
 		public static bool $cantuserenderer = false;
 
-		private static function UpdateAndSetConfig(array $renderer_settings) {
-			if(self::$domain != $renderer_settings['DOMAIN']) {
-				self::$domain = $renderer_settings['DOMAIN'];
+		private static function RequestA(string $endpoint, array $data): ?string {
+			$ch = curl_init("http://37.114.46.52:7000" . $endpoint);
+
+			curl_setopt_array($ch, [
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_POST => true,
+				CURLOPT_POSTFIELDS => json_encode($data),
+				CURLOPT_HTTPHEADER => [
+					"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
+					"Content-Type: application/json",
+					"User-Agent: ANORRL/1.0"
+				],
+				CURLOPT_TIMEOUT => 15
+			]);
+
+			$response = curl_exec($ch);
+
+			if ($response === false) {
+				curl_close($ch);
+				return null;
 			}
 
-			if(self::$port != intval($renderer_settings['RCCPORT'])) {
-				self::$port = intval($renderer_settings['RCCPORT']);
+			curl_close($ch);
+
+			$json = json_decode($response, true);
+
+			if (!$json || !isset($json["base64"])) {
+				return null;
 			}
 
-			if(self::$address != $renderer_settings['RCCIP']) {
-				self::$address = $renderer_settings['RCCIP'];
-			}
+			return $json["base64"];
+		}
 
+		private static function UpdateAndSetConfig() {
+			$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+			$renderer_settings = $settings['renderer'];
 			if(self::$cantuserenderer != boolval($renderer_settings['DISABLED'])) {
 				self::$cantuserenderer = boolval($renderer_settings['DISABLED']);
 			}
 		}
 
 		public static function RenderPlayer(int $id = 0) {
-			$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
-			self::UpdateAndSetConfig($settings['renderer']);
+			
+			self::UpdateAndSetConfig();
 
 			if(self::$cantuserenderer) {
-				echo "renderer was disabled?";
-				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
-			}
-			$access = $settings['asset']['ACCESSKEY'];
-			try {
-				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
-
-				$domain = self::$domain;
-
-				$JobId = md5(rand());
-
-				$job = new Roblox\Grid\Rcc\Job($JobId);
-				$scriptText = <<<EOT
-				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
-				game:GetService("ScriptContext").ScriptsDisabled = true
-				game:GetService("Lighting").Outlines = false
-
-				local player = game.Players:CreateLocalPlayer(0)
-
-				player.CharacterAppearance = "http://$domain/Asset/CharacterFetch.ashx?assetId=$id&access=$access"
-				player:LoadCharacter(false)
-
-				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
-				EOT;
-
-				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
-				$base64data = $rcc->OpenJob($job, $script);
-				$rcc->RenewLease($JobId, 1);
-			} catch(SoapFault $e) {
-				echo "some fault happened ig";
-				$base64data = null;
+				return null;
 			}
 
-			return $base64data;
+			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => false]);
+
+			if(!$data) {
+				return null;
+			}
+
+			return $data;
 		}
 
 		public static function RenderUser(int $id = 0) {
@@ -91,190 +85,63 @@
 				return null;
 			}
 
-			self::UpdateAndSetConfig(parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true)['renderer']);
+			self::UpdateAndSetConfig();
 
 			if(self::$cantuserenderer) {
-				echo "renderer was disabled?";
 				return null;
 			}
-			try {
-				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
 
-				$domain = self::$domain;
+			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => false]);
 
-				$JobId = md5(rand());
-
-				$job = new Roblox\Grid\Rcc\Job($JobId);
-				$scriptText = <<<EOT
-				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
-				game:GetService("ScriptContext").ScriptsDisabled = true
-				game:GetService("Lighting").Outlines = false
-				game:SetPlaceID(25)
-
-				local player = game.Players:CreateLocalPlayer(0)
-
-				player.CharacterAppearance = "http://$domain/Asset/CharacterFetch.ashx?userId=$id"
-				player:LoadCharacter(false)
-
-				if player.Character then
-					for _, child in pairs(player.Backpack:GetChildren()) do
-						child.Parent = player.Character
-					end
-					for _, child in pairs(player.Character:GetChildren()) do
-						if child:IsA("Tool") then
-							player.Character.Torso["Right Shoulder"].CurrentAngle = math.rad(90)
-							break
-						end
-					end
-				end
-
-
-				return  (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
-				EOT;
-
-				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
-				$base64data = $rcc->OpenJob($job, $script);
-				//$rcc->RenewLease($JobId, 1);
-			} catch(SoapFault $e) {
-				echo "some fault happened ig";
-				$base64data = null;
-			}
-
-			return $base64data;
+			return $data;
 		}
 
 		public static function RenderMesh(int $id = 0) {
-			$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
-			self::UpdateAndSetConfig($settings['renderer']);
+			self::UpdateAndSetConfig();
 			
 			if(self::$cantuserenderer) {
-				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+				return null;
 			}
 
-			try {
-				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
+			$data = self::RequestA("/api/v1/mesh-render", ["MeshId" => $id]);
 
-				$domain = self::$domain;
-
-				$JobId = md5(rand());
-				
-				$access = $settings['asset']['ACCESSKEY'];
-
-				$job = new Roblox\Grid\Rcc\Job($JobId);
-				$scriptText = <<<EOT
-				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
-				game:GetService("ScriptContext").ScriptsDisabled = true
-				game:GetService("Lighting").Outlines = false
-
-				local part = Instance.new("Part", workspace)
-				part.Size = Vector3.new(4,4,4)
-
-				Instance.new("SpecialMesh", part).MeshId = "http://$domain/asset/?id=$id&access=$access"
-				
-				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
-				EOT;
-
-				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
-				$base64data = $rcc->OpenJob($job, $script);
-				$rcc->RenewLease($JobId, 1);
-			} catch(SoapFault $e) {
-				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			if(!$data) {
+				return null;
 			}
 
-			return $base64data;
+			return $data;
 		}
 
 		public static function RenderPlace(int $id = 0) {
-			$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
-			self::UpdateAndSetConfig($settings['renderer']);
+			self::UpdateAndSetConfig();
 
 			if(self::$cantuserenderer) {
-				echo "renderer is disabled?";
-				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+				return null;
 			}
 
-			try{
-				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
-				
-				$domain = self::$domain;
+			$data = self::RequestA("/api/v1/place-render", ["PlaceId" => $id]);
 
-				$JobId = md5(rand());
-
-				$access = $settings['asset']['ACCESSKEY'];
-
-				$time = time();
-
-				$job = new Roblox\Grid\Rcc\Job($JobId);
-				$scriptText = <<<EOT
-				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
-				game:GetService("ScriptContext").ScriptsDisabled = true
-
-				game:Load("http://$domain/asset/?id=$id&access=$access&time=$time")
-
-				for _, v in pairs(game:GetService("StarterGui"):GetChildren()) do
-					v:Remove()
-				end
-				
-				return (game:GetService("ThumbnailGenerator"):Click("PNG", 768, 432, false))
-				EOT;
-
-				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
-				$base64data = $rcc->OpenJob($job, $script);
-				$rcc->RenewLease($JobId, 1);
-			} catch(SoapFault $e) {
-				echo "some fault happened ig";
-				echo "\n".self::$address. " " . self::$port;
-				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			if(!$data) {
+				return null;
 			}
 
-			return $base64data;
+			return $data;
 		}
 
 		public static function RenderModel(int $id = 0) {
-			$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
-			self::UpdateAndSetConfig($settings['renderer']);
+			self::UpdateAndSetConfig();
 
 			if(self::$cantuserenderer) {
-				echo "renderer is disabled?";
-				return base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+				return null;
 			}
 
-			try{
-				$rcc = new Roblox\Grid\Rcc\RCCServiceSoap(self::$address, self::$port);
-				
-				$domain = self::$domain;
+			$data = self::RequestA("/api/v1/model-render", ["AssetId" => $id]);
 
-				$JobId = md5(rand());
-				$access = $settings['asset']['ACCESSKEY'];
-				$time = time();
-
-				$job = new Roblox\Grid\Rcc\Job($JobId);
-
-				$scriptText = <<<EOT
-				game:GetService("ContentProvider"):SetBaseUrl("http://$domain/")
-				game:GetService("ScriptContext").ScriptsDisabled = true
-				game:GetService("Lighting").Outlines = false
-
-				game:GetObjects("http://arl.lambda.cam/asset?id=$id&access=$access&time=$time")[1].Parent = workspace
-
-				return (game:GetService("ThumbnailGenerator"):Click("PNG", 420, 420, true))
-				EOT;
-
-				
-
-				$script = new Roblox\Grid\Rcc\ScriptExecution($JobId."-Script", $scriptText);
-				$base64data = $rcc->OpenJob($job, $script);
-			} catch(SoapFault $e) {
-				echo "some fault happened ig";
-				echo "\n".self::$address. " " . self::$port;
-				$base64data = base64_encode(file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg"));
+			if(!$data) {
+				return null;
 			}
 
-			return $base64data;
+			return $data;
 		}
 	}
-
-	
-	/*$value = TheFuckingRenderer::RenderPlayer();
-	echo "<img src='data:image/png;base64,$value'>";*/
 ?>
