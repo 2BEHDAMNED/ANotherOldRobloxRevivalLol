@@ -18,6 +18,8 @@
         if($user == null) {
             return;
         }
+        $characterinfo = $user->GetCharacterAppearanceVerbose();
+		$charactermd5 = md5($characterinfo);
         if(!file_exists("$mediadir/headshot_$charactermd5.png")) {
             $render = TheFuckingRenderer::RenderUser($user->id, true);
             if($render != null) {
