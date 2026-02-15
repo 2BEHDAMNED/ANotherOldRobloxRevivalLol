@@ -25,7 +25,7 @@
 		$characterinfo = $user->GetCharacterAppearanceVerbose();
 		$charactermd5 = md5($characterinfo);
 
-		if(true || !file_exists("$mediadir/$charactermd5.png")) {
+		if(!file_exists("$mediadir/$charactermd5.png")) {
 			$render = TheFuckingRenderer::RenderUser($user->id);
 			if($render != null) {
 				$data = "data:image/png;base64,$render";
@@ -38,6 +38,27 @@
 				imagepng($render_image, "$mediadir/$charactermd5.png");
 
 				$user->UpdateOutfitHash();
+
+				
+			}
+			
+		}
+
+		if(!file_exists("$mediadir/headshot_$charactermd5.png")) {
+			$render = TheFuckingRenderer::RenderUser($user->id, true);
+			if($render != null) {
+				$data = "data:image/png;base64,$render";
+				list($type, $data) = explode(';', $data);
+				list(, $data)      = explode(',', $data);
+				$data = base64_decode($data);
+
+				$render_image = imagecreatefromstring($data);
+				imagesavealpha($render_image, true);
+				imagepng($render_image, "$mediadir/headshot_$charactermd5.png");
+
+				$user->UpdateOutfitHash();
+
+				
 			}
 			
 		}
