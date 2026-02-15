@@ -64,7 +64,7 @@
 
 								<?php CreateProfile(
 									43,
-									"Helped me find and fix up some vulnerabilities, along with supplying help for datastores!!!"
+									"Helped me find and fix up some vulnerabilities, along with supplying help for datastores!!! They also created the arbiter program (for 2016 only) so like thank them for that too..."
 								); ?>
 
 								<?php CreateProfile(
