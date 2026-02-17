@@ -58,6 +58,11 @@
 
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
+				$parsed_userid = $user->id;
+				$parsed_type   = $type->ordinal();
+				$parsed_public = intval($public);
+				$parsed_hidden = intval($hidden_ahh);
+
 				if($type == AssetType::PLACE && strlen($file) == 0) {
 					$stmt = $con->prepare('INSERT INTO `assets`(`asset_creator`, `asset_type`, `asset_name`, `asset_description`, `asset_public`, `asset_nevershow`) VALUES (?, ?, ?, ?, ?, ?);');
 					$stmt->bind_param('iissii', $parsed_userid, $parsed_type, $name, $description, $parsed_public, $parsed_hidden);
@@ -80,10 +85,7 @@
 					file_put_contents($filepath, $file);
 				}
 
-				$parsed_userid = $user->id;
-				$parsed_type   = $type->ordinal();
-				$parsed_public = intval($public);
-				$parsed_hidden = intval($hidden_ahh);
+				
 
 				$stmt = $con->prepare('INSERT INTO `assets`(`asset_creator`, `asset_type`, `asset_name`, `asset_description`, `asset_public`, `asset_nevershow`) VALUES (?, ?, ?, ?, ?, ?);');
 				$stmt->bind_param('iissii', $parsed_userid, $parsed_type, $name, $description, $parsed_public, $parsed_hidden);
