@@ -56,7 +56,7 @@
 			}
 			
 			$stmt = $con->prepare("SELECT * FROM `datastores` WHERE `universeId`= ? AND `scope`= ? AND `type`= ? AND `dkey`= ? AND `target`= ?");
-			$stmt->bind_param('sisss', $key, $scope, $type, $target); 
+			$stmt->bind_param('sisss', $pid, $key, $scope, $type, $target); 
 			$stmt->execute();
 			
 			$result = $stmt->get_result()->fetch_all();
