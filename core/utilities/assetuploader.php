@@ -363,7 +363,6 @@
 			if($user == null) {
 				$user = UserUtils::RetrieveUser();
 			}
-			
 
 			if(is_array($file)) {
 				if($file['error'] != 0) {
@@ -425,7 +424,7 @@
 				$place_data = $file;
 			}
 
-			if(!str_starts_with($place_data, "<roblox xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://arl.lambda.cam/roblox.xsd\" version=\"4\">")) {
+			if(!str_starts_with($place_data, "<roblox")) {
 				return ["error" => true, "reason" => "Not a valid model file!"];
 			} else {
 				/*if(str_contains($place_data, "class=\"Script\"")) {
@@ -458,6 +457,75 @@
 					$stmt->execute();
 				
 					$render = TheFuckingRenderer::RenderModel($id);
+
+					if($render != null) {
+						$data = "data:image/png;base64,$render";
+						list($type, $data) = explode(';', $data);
+						list(, $data)      = explode(',', $data);
+						$data = base64_decode($data);
+
+						$render_image = imagecreatefromstring($data);
+						imagesavealpha($render_image, true);
+						imagepng($render_image, $assetsdir);
+					} else {
+						$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = 'placeholder' WHERE `version_id` = ?");
+						$stmt->bind_param('i', $place_result['versionid']);
+						$stmt->execute();
+					}
+				}
+
+				return ["error" => false, "vid" => $place_result['versionid']];
+			}
+		}
+
+		public static function UpdateModel(int $id, array|string $file) {
+			$user = UserUtils::RetrieveUser();
+
+			if(is_array($file)) {
+				if($file['error'] != 0) {
+					return ["error" => true, "reason" => "Something wrong occurred when uploading!"];
+				}
+				$place_data = file_get_contents($file['tmp_name']);
+			} else {
+				$place_data = $file;
+			}
+
+			if(!str_starts_with($place_data, "<roblox")) {
+				return ["error" => true, "reason" => "Not a valid model file!"];
+			}
+
+			// process singular asset
+			$place_result = self::UpdateAsset($id, $user, $place_data);
+			if($place_result['error']) {
+				return $place_result;
+			} else {
+				$directory = $_SERVER['DOCUMENT_ROOT'];
+				$md5hashfile = md5($place_data);
+				$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+				
+				if(!file_exists($assetsdir)) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					
+					$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
+					$stmt->bind_param('si', $md5hashfile, $place_result['versionid']);
+					$stmt->execute();
+				
+					$render = TheFuckingRenderer::RenderModel($id);
+
+					if($render != null) {
+						$data = "data:image/png;base64,$render";
+						list($type, $data) = explode(';', $data);
+						list(, $data)      = explode(',', $data);
+						$data = base64_decode($data);
+
+						$render_image = imagecreatefromstring($data);
+						imagesavealpha($render_image, true);
+						imagepng($render_image, $assetsdir);
+					} else {
+						$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = 'placeholder' WHERE `version_id` = ?");
+						$stmt->bind_param('i', $place_result['versionid']);
+						$stmt->execute();
+					}
 				}
 
 				return ["error" => false, "vid" => $place_result['versionid']];
@@ -493,6 +561,21 @@
 					$stmt->execute();
 				
 					$render = TheFuckingRenderer::RenderModel($id);
+
+					if($render != null) {
+						$data = "data:image/png;base64,$render";
+						list($type, $data) = explode(';', $data);
+						list(, $data)      = explode(',', $data);
+						$data = base64_decode($data);
+
+						$render_image = imagecreatefromstring($data);
+						imagesavealpha($render_image, true);
+						imagepng($render_image, $assetsdir);
+					} else {
+						$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = 'placeholder' WHERE `version_id` = ?");
+						$stmt->bind_param('i', $place_result['versionid']);
+						$stmt->execute();
+					}
 				}
 
 				return ["error" => false, "vid" => $place_result['versionid']];

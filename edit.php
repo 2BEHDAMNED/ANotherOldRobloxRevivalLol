@@ -170,17 +170,26 @@
 		if(in_array($asset->type, $versioning_types)) {
 			if($asset->type == AssetType::LUA) {
 				$result = AssetUploader::UpdateLua($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			} else if($asset->type == AssetType::MESH) {
+			}
+			else if($asset->type == AssetType::MESH) {
 				$result = AssetUploader::UpdateMesh($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			} else if($asset->type == AssetType::PLACE) {
+			}
+			else if($asset->type == AssetType::PLACE) {
 				$result = AssetUploader::UpdatePlace($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			} else if($asset->type == AssetType::HAT) {
+			}
+			else if($asset->type == AssetType::HAT) {
 				$result = AssetUploader::UpdateHat($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			} else if($asset->type == AssetType::GEAR) {
+			}
+			else if($asset->type == AssetType::MODEL) {
+				$result = AssetUploader::UpdateModel($asset->id, $_FILES['ANORRL$PublishAsset$File']);
+			} 
+			else if($asset->type == AssetType::GEAR) {
 				$result = AssetUploader::UpdateGear($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			} else if($asset->type == AssetType::ANIMATION) {
+			}
+			else if($asset->type == AssetType::ANIMATION) {
 				$result = AssetUploader::UpdateAnimation($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			} else {
+			}
+			else {
 				die("Type was recognised but not implemented...");
 			}
 			
