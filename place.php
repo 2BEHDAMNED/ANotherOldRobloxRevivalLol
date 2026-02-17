@@ -188,7 +188,7 @@
 										<?php endif ?>
 									</div>
 									<hr>
-									<?php if($place->IsUsable()): ?>
+									<?php if($asset->IsUsable()): ?>
 										<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)" Play></button>
 										<?php if($is_creator || !$asset->copylocked): ?>
 										<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.EditPlace(<?= $id ?>)" Edit></button>
