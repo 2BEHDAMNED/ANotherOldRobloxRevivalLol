@@ -10,12 +10,6 @@
 		exit(json_encode(["error" => "Not Acceptable"], JSON_NUMERIC_CHECK));
 	}
 
-	// only allow on domain of gamepersistence because FUCK YOU!
-	if ($_SERVER['SERVER_NAME'] != "gamepersistence" && $_SERVER['SERVER_NAME'] != "persistence") {
-		http_response_code(406);
-		exit(json_encode(["error" => "Not Acceptable"], JSON_NUMERIC_CHECK));
-	}
-
 	if(isset($_GET["value"]) && isset($_GET["key"]) && isset($_GET["placeId"]) && isset($_GET["scope"]) && isset($_GET["type"]) && isset($_GET["target"])){
 		$values=[];
 		$key = (string)$_GET["key"];
@@ -36,55 +30,38 @@
 			exit(json_encode(["error" => "Not Acceptable"], JSON_NUMERIC_CHECK));
 		}
 
-		$query = "INSERT INTO `datastores`(`id`, `dkey`, `universeId`, `type`, `scope`, `target`, `value`) VALUES (NULL,:dkey,:pid,:type,:scope,:target,:val)";
-		$queryChanged=false;
+		$query = "INSERT INTO `datastores`(`dkey`, `universeId`, `type`, `scope`, `target`, `value`) VALUES (?,?,?,?,?,?)";
 		
-		$where = "WHERE `universeId`=:pid AND `scope`=:scope AND `type`=:type AND `dkey`=:dkey AND `target`=:target";
+		$where = "WHERE `universeId`= ? AND `scope`= ? AND `type`= ? AND `dkey`= ? AND `target`= ?";
 	
-		$stmt = $conn->prepare("SELECT * FROM `datastores` WHERE `scope`=:scope AND `type`=:type AND `dkey`=:dkey AND `target`=:target AND `universeId` != :pid");
-		$stmt->bindParam(':dkey', $key, PDO::PARAM_STR); 
-		$stmt->bindParam(':pid', $pid, PDO::PARAM_INT); 
-		$stmt->bindParam(':scope', $scope, PDO::PARAM_STR); 
-		$stmt->bindParam(':type', $type, PDO::PARAM_STR); 
-		$stmt->bindParam(':target', $target, PDO::PARAM_STR);
+		$stmt = $con->prepare("SELECT * FROM `datastores` WHERE `scope` = ? AND `type`= ? AND `dkey`= ? AND `target`= ? AND `universeId` != ?");
+		$stmt->bind_param("ssssi", $scope, $type, $key, $target, $pid);
 		$stmt->execute();
 		
-		$stmt = $conn->prepare("SELECT * FROM `datastores` $where");
-		$stmt->bindParam(':dkey', $key, PDO::PARAM_STR); 
-		$stmt->bindParam(':pid', $pid, PDO::PARAM_INT); 
-		$stmt->bindParam(':scope', $scope, PDO::PARAM_STR); 
-		$stmt->bindParam(':type', $type, PDO::PARAM_STR); 
-		$stmt->bindParam(':target', $target, PDO::PARAM_STR);
-		if($stmt->rowCount() > 0){
-			$existingRecord = $stmt->fetch(PDO::FETCH_ASSOC);
+		$stmt = $con->prepare("SELECT * FROM `datastores` $where");
+		$stmt->bind_param("issss", $pid, $scope, $type, $key, $target);
+		$stmt->execute();
+		$stmt_result = $stmt->get_result();
+		if($stmt_result->num_rows > 0){
+			$existingRecord = $stmt_result->fetch_assoc();
 			
 			if ($existingRecord['universeId'] == $pid) {
-				$query = "UPDATE `datastores` SET `value`= value + :val $where";
+				$query = "UPDATE `datastores` SET `value`= value + ? $where";
 			} else {
 				http_response_code(405);
 				exit(json_encode(["error"=>"Method Not Allowed"]));
 			}
 		}
 		
-		$stmt = $conn->prepare($query);
-		$stmt->bindParam(':dkey', $key, PDO::PARAM_STR); 
-		$stmt->bindParam(':pid', $pid, PDO::PARAM_INT); 
-		$stmt->bindParam(':scope', $scope, PDO::PARAM_STR); 
-		$stmt->bindParam(':type', $type, PDO::PARAM_STR); 
-		$stmt->bindParam(':target', $target, PDO::PARAM_STR);
-		$stmt->bindParam(':val', $_GET["value"], PDO::PARAM_INT);	
+		$stmt = $con->prepare($query);
+		$stmt->bind_param("sissss", $_GET['value'], $pid, $scope, $type, $dkey, $target);
 		$stmt->execute();
 		
-		$stmt = $conn->prepare("SELECT value FROM `datastores` $where");
-		$stmt->bindParam(':dkey', $key, PDO::PARAM_STR); 
-		$stmt->bindParam(':pid', $pid, PDO::PARAM_INT); 
-		$stmt->bindParam(':scope', $scope, PDO::PARAM_STR); 
-		$stmt->bindParam(':type', $type, PDO::PARAM_STR); 
-		$stmt->bindParam(':target', $target, PDO::PARAM_STR);
+		$stmt = $con->prepare("SELECT value FROM `datastores` $where");
+		$stmt->bind_param("issss", $pid, $scope, $type, $dkey, $target);
 		$stmt->execute();
-		$value = $stmt->fetchColumn();
 		
-		$values = [array("Value"=>$value,"Scope"=>$scope,"Key"=>$key,"Target"=>$target)];
+		$values = [array("Value"=>$_GET['value'],"Scope"=>$scope,"Key"=>$key,"Target"=>$target)];
 		
 		exit(json_encode(["data"=>$values], JSON_NUMERIC_CHECK));
 	}

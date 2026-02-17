@@ -10,13 +10,6 @@
 		exit(json_encode(["error" => "Not Acceptable"], JSON_NUMERIC_CHECK));
 	}
 
-	// only allow on domain of gamepersistence because FUCK YOU!
-	error_log($_SERVER['SERVER_NAME']);
-	if ($_SERVER['SERVER_NAME'] != "gamepersistence.lambda.cam" && $_SERVER['SERVER_NAME'] != "persistence.lambda.cam") {
-		http_response_code(406);
-		exit(json_encode(["error" => "Not Acceptable Domain..."], JSON_NUMERIC_CHECK));
-	}
-
 	function removeEverythingBefore($in, $before) {
 		$pos = strpos($in, $before);
 		return $pos !== FALSE
