@@ -13,7 +13,7 @@
 	// only allow on domain of gamepersistence because FUCK YOU!
 	if ($_SERVER['SERVER_NAME'] != "gamepersistence" && $_SERVER['SERVER_NAME'] != "persistence") {
 		http_response_code(406);
-		exit(json_encode(["error" => "Not Acceptable"], JSON_NUMERIC_CHECK));
+		exit(json_encode(["error" => "Not Acceptable Domain..."], JSON_NUMERIC_CHECK));
 	}
 
 	function removeEverythingBefore($in, $before) {
