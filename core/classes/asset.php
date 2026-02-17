@@ -253,6 +253,9 @@
 			}
 
 			if(file_exists($filename)) {
+				if(filesize($filename) == 0) {
+					return null;
+				}
 				$handle = fopen($filename, "r"); 
 				$contents = fread($handle, filesize($filename)); 
 				fclose($handle);
@@ -546,7 +549,7 @@
 		}
 
 		function IsUsable(): bool {
-			if(AssetVersion::GetLatestVersionOf($this) == null) {
+			if(AssetVersion::GetLatestVersionOf($this) == null || self::GetFileContents() == null) {
 				return false;
 			}
 			return strlen(trim(self::GetFileContents())) != 0;
