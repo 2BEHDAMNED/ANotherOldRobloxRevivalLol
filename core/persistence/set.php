@@ -88,7 +88,7 @@
 		}
 		
 		$stmt = $con->prepare($query);
-		$stmt->bind_param("siissss",  $_POST["value"], $pid, $scope, $type, $dkey, $target);
+		$stmt->bind_param("sissss",  $_POST["value"], $pid, $scope, $type, $dkey, $target);
 		$stmt->execute();
 		
 		$values = [array("Value"=>$_POST["value"],"Scope"=>$scope,"Key"=>$key,"Target"=>$target)];
