@@ -68,6 +68,10 @@
 					return ["error" => false, "id" => $id];
 				}
 
+				if(strlen($file) == 0) {
+					return ["error" => true, "reason" => "You can't just upload a blank asset you dumb eejit!"];
+				}
+
 				$md5 = self::GetMD5OfData($file);
 				$directory = $_SERVER['DOCUMENT_ROOT'];
 				$assetsdir = "$directory/../assets/";
