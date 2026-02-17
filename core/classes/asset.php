@@ -545,6 +545,13 @@
 			$this->gears_enabled = boolval($rowdata['place_gears_enabled']);
 		}
 
+		function IsUsable(): bool {
+			if(AssetVersion::GetLatestVersionOf($this) == null) {
+				return false;
+			}
+			return strlen(trim(self::GetFileContents())) != 0;
+		}
+
 		function EnableTeamCreate() {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_enableteamcreate = $con->prepare('UPDATE `asset_places` SET `place_teamcreate_enabled` = 1 WHERE `place_id` = ?');

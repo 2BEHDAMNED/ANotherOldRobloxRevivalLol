@@ -188,11 +188,14 @@
 										<?php endif ?>
 									</div>
 									<hr>
-									<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)" Play></button>
-									<?php if($is_creator || !$asset->copylocked): ?>
-									<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.EditPlace(<?= $id ?>)" Edit></button>
-									<?php endif ?>
-									<!--<div id="NotOnSale">Place is not open for you to join!</div>-->
+									<?php if($place->IsUsable()): ?>
+										<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.LetsJoinAndPlay(<?= $id ?>)" Play></button>
+										<?php if($is_creator || !$asset->copylocked): ?>
+										<button class="PlaceButton" onclick="ANORRL.PlaceLauncher.EditPlace(<?= $id ?>)" Edit></button>
+										<?php endif ?>
+									<?php else: ?>
+									<div id="NotOnSale">This place is broken and needs to be republished.</div>
+									<?php endif?>
 									<hr>
 									<div id="ManageOptions">
 										<?php if($is_creator): ?>

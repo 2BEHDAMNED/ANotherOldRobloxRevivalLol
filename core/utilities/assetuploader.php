@@ -130,7 +130,7 @@
 					return ["error" => true, "reason" => "I'm pretty sure you've already uploaded this?"];
 				}
 				
-				if(trim(strlen($file)) == 0) {
+				if(strlen(trim($file)) == 0) {
 					return ["error" => true, "reason" => "This shit is empty! YEET!"];
 				}
 
