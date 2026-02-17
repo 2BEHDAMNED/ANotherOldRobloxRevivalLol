@@ -2,7 +2,7 @@
 	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/sqldbcon.php');
 	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/functions.php');
 
-	header("Content-Type: application/json");
+	// getSortedValues?placeId=331&type=sorted&scope=global&key=Highscore2015&pageSize=10&ascending=False
 
 	header("Content-Type: application/json");
 	http_response_code(501);

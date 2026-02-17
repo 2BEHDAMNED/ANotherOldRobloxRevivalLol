@@ -2,7 +2,7 @@
 	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/sqldbcon.php');
 	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/functions.php');
 
-	header("Content-Type: application/json");
+	// getV2?placeId=331&type=standard&scope=global
 
 	header("Content-Type: application/json");
 	http_response_code(501);

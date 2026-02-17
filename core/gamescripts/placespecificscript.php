@@ -3,11 +3,11 @@ game:GetService("Players"):SetSaveDataUrl("http://arl.lambda.cam/Persistence/Set
 game:GetService("Players"):SetLoadDataUrl("http://arl.lambda.cam/Persistence/GetBlob.ashx?placeid={id}&userid=%d&access={access}")
 
 game:GetService("Players").PlayerAdded:connectFirst(function(player)
-	player:LoadData()	
+	--player:LoadData()	
 end)
 
 game:GetService("Players").PlayerRemoving:connectLast(function(player)
-	player:SaveData()
+	--player:SaveData()
 end)
 <?php
 	function get_signature($script) {
