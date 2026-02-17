@@ -118,18 +118,7 @@
 					if($render != null) {
 						$data = base64_decode($render);
 
-						$data = "data:image/png;base64,$render";
-						list($type, $data) = explode(';', $data);
-						list(, $data)      = explode(',', $data);
-						$data = base64_decode($data);
-
-						$render_image = imagecreatefromstring($data);
-						imagesavealpha($render_image, true);
-						ob_clean();
-						imagepng($render_image);
-						$pngdata = ob_get_clean();
-
-						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, $pngdata);
+						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, $data);
 					} else {
 						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb)) {
 
