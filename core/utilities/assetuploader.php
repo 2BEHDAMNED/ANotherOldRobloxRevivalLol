@@ -57,6 +57,17 @@
 				}
 
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+				if($type == AssetType::PLACE && strlen($file) == 0) {
+					$stmt = $con->prepare('INSERT INTO `assets`(`asset_creator`, `asset_type`, `asset_name`, `asset_description`, `asset_public`, `asset_nevershow`) VALUES (?, ?, ?, ?, ?, ?);');
+					$stmt->bind_param('iissii', $parsed_userid, $parsed_type, $name, $description, $parsed_public, $parsed_hidden);
+					$stmt->execute();
+
+					$id = $con->insert_id;
+
+					return ["error" => false, "id" => $id];
+				}
+
 				$md5 = self::GetMD5OfData($file);
 				$directory = $_SERVER['DOCUMENT_ROOT'];
 				$assetsdir = "$directory/../assets/";
