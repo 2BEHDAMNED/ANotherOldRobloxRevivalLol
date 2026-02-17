@@ -11,7 +11,8 @@
 	}
 
 	// only allow on domain of gamepersistence because FUCK YOU!
-	if ($_SERVER['SERVER_NAME'] != "gamepersistence" && $_SERVER['SERVER_NAME'] != "persistence") {
+	error_log($_SERVER['SERVER_NAME']);
+	if ($_SERVER['SERVER_NAME'] != "gamepersistence.lambda.cam" && $_SERVER['SERVER_NAME'] != "persistence.lambda.cam") {
 		http_response_code(406);
 		exit(json_encode(["error" => "Not Acceptable Domain..."], JSON_NUMERIC_CHECK));
 	}
@@ -61,15 +62,11 @@
 				exit(json_encode(["error" => "Not Acceptable"], JSON_NUMERIC_CHECK));
 			}
 			
-			$stmt = $conn->prepare("SELECT * FROM `datastores` WHERE `universeId`=:pid AND `scope`=:scope AND `type`=:type AND `dkey`=:dkey AND `target`=:target");
-			$stmt->bindParam(':dkey', $key, PDO::PARAM_STR); 
-			$stmt->bindParam(':pid', $pid, PDO::PARAM_INT); 
-			$stmt->bindParam(':scope', $scope, PDO::PARAM_STR); 
-			$stmt->bindParam(':type', $type, PDO::PARAM_STR); 
-			$stmt->bindParam(':target', $target, PDO::PARAM_STR);
+			$stmt = $con->prepare("SELECT * FROM `datastores` WHERE `universeId`= ? AND `scope`= ? AND `type`= ? AND `dkey`= ? AND `target`= ?");
+			$stmt->bind_param('sisss', $key, $scope, $type, $target); 
 			$stmt->execute();
 			
-			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$result = $stmt->get_result()->fetch_all();
 			foreach($result as &$data){
 				array_push($values,array("Value"=>$data["value"],"Scope"=>$data["scope"],"Key"=>$data["key"],"Target"=>$data["target"]));
 			}
