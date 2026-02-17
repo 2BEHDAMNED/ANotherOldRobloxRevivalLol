@@ -217,9 +217,13 @@
 	RewriteRule ^test$ /test.php [END]
 
 	# persistence
-	RewriteRule ^persistence/getv2.aspx      /core/datastores/getv2.php     [END]
-	RewriteRule ^persistence/increment.aspx  /core/datastores/increment.php [END]
-	RewriteRule ^persistence/set.aspx        /core/datastores/set.php       [END]
+	RewriteRule ^persistence/getv2.aspx      /core/persistence/getv2.php     [END]
+	RewriteRule ^persistence/increment.aspx  /core/persistence/increment.php [END]
+	RewriteRule ^persistence/set.aspx        /core/persistence/set.php       [END]
+
+	#datastores
+	RewriteRule ^Persistence/SetBlob.ashx /core/datastores/setblob.php [END]
+	RewriteRule ^Persistence/GetBlob.ashx /core/datastores/getblob.php [END]
 	
 	RewriteRule ^games.php$ /core/error/404.php [END]
 	RewriteRule ^games.php$ /core/error/404.php [END]

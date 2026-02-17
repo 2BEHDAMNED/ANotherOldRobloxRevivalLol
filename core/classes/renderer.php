@@ -1,6 +1,6 @@
 <?php 
 
-	ini_set("default_socket_timeout", 15);
+	ini_set("default_socket_timeout", 60);
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 

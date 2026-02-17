@@ -1,26 +1,36 @@
 <?php ob_start(); ?>
-game:GetService("Players"):SetSaveDataUrl("http://arl.lambda.cam/Persistence/SetBlob.ashx?placeid={id}&userid=%d")
-game:GetService("Players"):SetLoadDataUrl("http://arl.lambda.cam/Persistence/GetBlobUrl.ashx?placeid={id}&userid=%d")
+game:GetService("Players"):SetSaveDataUrl("http://arl.lambda.cam/Persistence/SetBlob.ashx?placeid={id}&userid=%d&access={access}")
+game:GetService("Players"):SetLoadDataUrl("http://arl.lambda.cam/Persistence/GetBlobUrl.ashx?placeid={id}&userid=%d&access={access}")
 
 game:GetService("Players").PlayerAdded:connectFirst(function(player)
-    player:LoadData()	
+	player:LoadData()	
 end)
 
 game:GetService("Players").PlayerRemoving:connectLast(function(player)
-    player:SaveData()
+	player:SaveData()
 end)
 <?php
 	function get_signature($script) {
-        $signature = "";
-        openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
-        return base64_encode($signature);
-    }
+		$signature = "";
+		openssl_sign($script, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
+		return base64_encode($signature);
+	}
 
-    header("Content-Type: text/plain");
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
-    $script = "\r\n" . ob_get_clean();
-	$script = str_replace("{id}", $_GET['PlaceId'], $script);
-    $signature = get_signature($script);
+	if(isset($_GET['PlaceId']) && isset($_GET['access'])) {
+		header("Content-Type: text/plain");
 
-    echo "--rbxsig%". $signature . "%" . $script;
+		$place = Place::FromID(intval($_GET['PlaceId']));
+
+		if($place != null) {
+			$script = "\r\n" . ob_get_clean();
+			$script = str_replace("{id}", $_GET['PlaceId'], $script);
+			$script = str_replace("{access}", $_GET['PlaceId'], $script);
+			$signature = get_signature($script);
+
+			echo "--rbxsig%". $signature . "%" . $script;
+		}
+	}
+	
 ?>
