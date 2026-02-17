@@ -31,5 +31,5 @@
 		}
 	}
 
-	echo "X" . implode(",", $friendUserIds);
+	echo "X" . implode(",", $friendUserIds).",";
 ?>
