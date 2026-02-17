@@ -172,6 +172,7 @@
 	RewriteRule ^ownership/hasAsset$ /core/marketplace/hasasset.php [END]
 	RewriteRule ^gametransactions/getpendingtransactions/$ /core/marketplace/getpendingtransactions.php [END]
 	RewriteRule ^gametransactions/getpendingtransactions$ /core/marketplace/getpendingtransactions.php [END]
+	RewriteRule ^currency/balance$ /core/marketplace/balance.php [END]
 	
 	RewriteRule ^download/thankyou$ /download/thankyou.php [END]
 	RewriteRule ^moderation/v2/filtertext$  /core/moderation/filtertext.php [END]
