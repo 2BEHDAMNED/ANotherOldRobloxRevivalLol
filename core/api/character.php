@@ -294,6 +294,19 @@
 					imagepng($render_image, "$mediadir/$charactermd5.png");
 
 					$user->UpdateOutfitHash();
+
+					$render = TheFuckingRenderer::RenderUser($user->id, true);
+
+					if($render != null) {
+						$data = "data:image/png;base64,$render";
+						list($type, $data) = explode(';', $data);
+						list(, $data)      = explode(',', $data);
+						$data = base64_decode($data);
+
+						$render_image = imagecreatefromstring($data);
+						imagesavealpha($render_image, true);
+						imagepng($render_image, "$mediadir/headshot_$charactermd5.png");
+					}
 				}
 
 				
