@@ -121,6 +121,10 @@
 		if(file_exists($filename)) {
 //			die(strval(filesize($filename)));
 			$handle = fopen($filename, "r"); 
+			if(filesize($filename) == 0) {
+				error_log("Uhm there was a fucky wucky and this file: $filename was empty!");
+				die(http_response_code(503));
+			}
 			$contents = fread($handle, filesize($filename)); 
 			fclose($handle);
 			header("Content-Type: ".ImageUtils::checkMimeType($contents));
