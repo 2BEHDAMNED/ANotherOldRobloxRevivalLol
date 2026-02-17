@@ -33,7 +33,7 @@
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
 				} else if($asset->type == AssetType::ANIMATION) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/animation.png");
-				} else if($md5hash == "placeholder") {
+				} else if($md5hash == "placeholder" || ($asset->type == AssetType::PLACE && Place::FromID($asset->id) != null && !Place::FromID($asset->id)->IsUsable())) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/noassets.png");
 				} else {
 					if($asset->relatedasset != null || $asset->type == AssetType::IMAGE) {

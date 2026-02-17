@@ -200,7 +200,9 @@
 									<div id="ManageOptions">
 										<?php if($is_creator): ?>
 										<a href="/edit?id=<?= $asset->id ?>">Configure</a>
+										<?php if($asset->IsUsable()): ?>
 										<a href="javascript:Render()" id="RenderButton">Render this asset</a>
+										<?php endif ?>
 										<a href="javascript:Delete()">Delete this asset</a>
 										<?php endif ?>
 									</div>
