@@ -736,8 +736,8 @@ EOT;
 			if(str_ends_with($parsedshit, ";")) {
 				$parsedshit = substr($parsedshit, 0, strlen($parsedshit)-1);
 			}
-
-			return "http://arl.lambda.cam/Asset/BodyColors.ashx?userId=$userId$parsedshit";
+			$time = time();
+			return "http://arl.lambda.cam/Asset/BodyColors.ashx?userId=$userId&t=$time$parsedshit";
 		}
 
 		function GetCharacterAppearanceVerbose(): string {
