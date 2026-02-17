@@ -135,7 +135,7 @@
 
 	RewriteRule ^Game/Tools/InsertAsset.ashx$ /core/insertasset.php [END]
 
-	RewriteRule ^Friend/AreFriends$ /Friend/AreFriends.php [END]
+	RewriteRule ^Game/AreFriends$ /core/social/arefriends.php [END]
 
 	RewriteRule ^create/(.*?)$ /create.php?type=$1 [END]
 	RewriteRule ^create.php$ /core/error/404.php [END]
