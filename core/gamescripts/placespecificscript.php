@@ -26,7 +26,7 @@ end)
 		if($place != null) {
 			$script = "\r\n" . ob_get_clean();
 			$script = str_replace("{id}", $_GET['PlaceId'], $script);
-			$script = str_replace("{access}", $_GET['PlaceId'], $script);
+			$script = str_replace("{access}", $_GET['access'], $script);
 			$signature = get_signature($script);
 
 			echo "--rbxsig%". $signature . "%" . $script;
