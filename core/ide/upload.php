@@ -99,6 +99,11 @@
 					echo "decoding using gz\n";
 				}
 
+				if(trim(strlen($recieveddata)) == 0) {
+					http_response_code(500);
+					die("You can't just publish an empty place you dumb eejit!");
+				}
+
 				if($asset != null) {
 					if($asset->type == AssetType::PLACE) {
 						$place = Place::FromID(intval($assetid));
