@@ -1,6 +1,6 @@
 <?php ob_start(); ?>
 game:GetService("Players"):SetSaveDataUrl("http://arl.lambda.cam/Persistence/SetBlob.ashx?placeid={id}&userid=%d&access={access}")
-game:GetService("Players"):SetLoadDataUrl("http://arl.lambda.cam/Persistence/GetBlobUrl.ashx?placeid={id}&userid=%d&access={access}")
+game:GetService("Players"):SetLoadDataUrl("http://arl.lambda.cam/Persistence/GetBlob.ashx?placeid={id}&userid=%d&access={access}")
 
 game:GetService("Players").PlayerAdded:connectFirst(function(player)
 	player:LoadData()	
