@@ -112,11 +112,15 @@
 				if($md5 == $asset->GetLatestVersionDetails()->md5sig) { 
 					return ["error" => true, "reason" => "I'm pretty sure you've already uploaded this?"];
 				}
+				
+				if(trim(strlen($file)) == 0) {
+					return ["error" => true, "reason" => "This shit is empty! YEET!"];
+				}
 
 				$directory = $_SERVER['DOCUMENT_ROOT'];
 				$assetsdir = "$directory/../assets/";
 				$filepath = $assetsdir.$md5;
-				if(!file_exists($filepath)) {
+				if(!file_exists($filepath) || (file_exists($filepath) && filesize($filepath) == 0)) {
 					file_put_contents($filepath, $file);
 				}
 
