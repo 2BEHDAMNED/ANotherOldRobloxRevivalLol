@@ -168,6 +168,7 @@
 
 	RewriteRule ^marketplace/productinfo$ /core/marketplace/productinfo.php [END]
 	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]
+	RewriteRule ^marketplace/purchase$ /core/marketplace/purchase.php [END]
 	RewriteRule ^ownership/hasasset$ /core/marketplace/hasasset.php [END]
 	RewriteRule ^ownership/hasAsset$ /core/marketplace/hasasset.php [END]
 	RewriteRule ^gametransactions/getpendingtransactions/$ /core/marketplace/getpendingtransactions.php [END]
