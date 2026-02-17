@@ -392,14 +392,21 @@
 
 				
 					$render = TheFuckingRenderer::RenderPlace($id);
-					$data = "data:image/png;base64,$render";
-					list($type, $data) = explode(';', $data);
-					list(, $data)      = explode(',', $data);
-					$data = base64_decode($data);
+					if($render != null) {
+						$data = "data:image/png;base64,$render";
+						list($type, $data) = explode(';', $data);
+						list(, $data)      = explode(',', $data);
+						$data = base64_decode($data);
 
-					$render_image = imagecreatefromstring($data);
-					imagesavealpha($render_image, true);
-					imagepng($render_image, $assetsdir);
+						$render_image = imagecreatefromstring($data);
+						imagesavealpha($render_image, true);
+						imagepng($render_image, $assetsdir);
+					} else {
+						$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = 'placeholder' WHERE `version_id` = ?");
+						$stmt->bind_param('i', $place_result['versionid']);
+						$stmt->execute();
+					}
+					
 				}
 
 				return ["error" => false, "vid" => $place_result['versionid']];
@@ -1115,7 +1122,6 @@
 			if($user == null) {
 				$user = UserUtils::RetrieveUser();
 			}
-			
 
 			// process singular asset
 			$place_result = self::UploadAsset($user, AssetType::PLACE, $name, $description, $public, false, "");

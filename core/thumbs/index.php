@@ -26,10 +26,12 @@
 
 			if($md5hash == "sound" && $asset->type == AssetType::AUDIO) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
-			} else if($md5hash == "script" && $asset->type == AssetType::LUA) {
+			} else if($asset->type == AssetType::LUA) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
-			} else if($md5hash == "animation" && $asset->type == AssetType::ANIMATION) {
+			} else if($asset->type == AssetType::ANIMATION) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/animation.png");
+			} else if($md5hash == "placeholder") {
+				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/noassets.png");
 			} else {
 				if($asset->relatedasset != null || $asset->type == AssetType::IMAGE) {
 					if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash")) {

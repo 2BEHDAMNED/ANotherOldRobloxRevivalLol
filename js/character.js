@@ -393,9 +393,7 @@ ANORRL.Character  = {
 	WearAsset: function(assetid) {
 		$.post("/api/character?r=wear", { assetid: assetid }, function(data) {
 			if(!data['error']) {
-				ANORRL.Character.LoadWardrobe();
-				ANORRL.Character.LoadCurrentlyWearing();
-				//ANORRL.Character.RenderPlayer();
+				ANORRL.Character.RenderPlayer();
 				// Render
 			} else {
 				alert("Error: " + data['reason']);
@@ -405,9 +403,7 @@ ANORRL.Character  = {
 	RemoveAsset: function(assetid) {
 		$.post("/api/character?r=remove", { assetid: assetid }, function(data) {
 			if(!data['error']) {
-				ANORRL.Character.LoadWardrobe();
-				ANORRL.Character.LoadCurrentlyWearing();
-				//ANORRL.Character.RenderPlayer();
+				ANORRL.Character.RenderPlayer();
 				// Render
 			} else {
 				alert("Error: " + data['reason']);
@@ -486,7 +482,7 @@ ANORRL.Character  = {
 				rightleg: ANORRL.Character.GetBodyColourID(5)
 			}, function() {
 				// success or something
-				//ANORRL.Character.RenderPlayer();
+				ANORRL.Character.RenderPlayer();
 			});
 		}
 	},
@@ -505,9 +501,13 @@ ANORRL.Character  = {
 				alert(data['reason']);
 			}
 
+			ANORRL.Character.LoadWardrobe();
+			ANORRL.Character.LoadCurrentlyWearing();
 			
 			$("#PlayerRender").attr("src",ANORRL.Character.PlayerRenderUrl+"&t="+Date.now());
 			ANORRL.Character.IsRendering = false;
+
+			
 		});
 	}
 };

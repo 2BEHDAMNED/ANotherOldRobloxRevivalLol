@@ -19,7 +19,7 @@
 			
 			//base64_encode(
 
-			$md5hash = $user->GetCharacterAppearanceHash();
+			$md5hash = $user->currentoutfitmd5;
 
 			if(file_exists($_SERVER['DOCUMENT_ROOT']."/../renders/headshot_$md5hash.png")) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../renders/headshot_$md5hash.png");
