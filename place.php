@@ -151,9 +151,11 @@
 				}
 
 				function Delete() {
-					$.post("/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
-						window.location.reload();
-					});
+					if(window.confirm("Are you sure you want to delete this??")) {
+						$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
+							window.location.reload();
+						});
+					}
 				}
 			<?php endif ?>
 		</script>

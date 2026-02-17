@@ -148,16 +148,26 @@
 		</style>
 		<?php if($user != null && $user->IsAdmin()  || $is_creator): ?>
 		<script>
+			var rendering = false;
 			function Render() {
+				if(rendering) {
+					return;
+				}
+
+				rendering = true;
+				window.alert("Committing render! (Press ok to continue)");
+				$("#RenderButton").html("Rendering...");
 				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "render" }).done(function( data ) {
 					window.location.reload();
 				});
 			}
 			
 			function Delete() {
-				$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
-					window.location.reload();
-				});
+				if(window.confirm("Are you sure you want to delete this??")) {
+					$.post( "/Admin/components/assetstuff", { id: <?= $asset->id ?>, type: "delete" }).done(function( data ) {
+						window.location.reload();
+					});
+				}
 			}
 		</script>
 		<?php endif ?>
