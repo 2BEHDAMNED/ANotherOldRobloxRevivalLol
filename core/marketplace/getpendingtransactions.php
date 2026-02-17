@@ -1,5 +1,4 @@
 <?php
-require ($_SERVER['DOCUMENT_ROOT'].'/config/database.php');
 header('Content-Type: application/json; charset=UTF-8; X-Robots-Tag: noindex');
 $PlayerId = (int)$_GET['PlayerId'];
 $PlaceId = (int)$_GET['PlaceId'];
