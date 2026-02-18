@@ -47,50 +47,47 @@
 			$get_user = UserUtils::RetrieveUser();
 			
 			if($get_user != null && !$get_user->IsBanned()) {
-				if(is_numeric($asset_id)) {
-					$asset = Asset::FromID($asset_id);
-					if($asset != null && $asset->IsUsable()) {
-						if(!$get_user->Owns($asset) && $asset->onsale) {
-							$ta_id = self::GenerateID();
-							$ta_userid = $get_user->id;
-							$ta_asset = $asset->id;
-							$ordinal = $asset->type->ordinal();
-							$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
-							$stmt_processtransaction->bind_param('siiii', $ta_id, $ta_userid, $ta_asset, $ordinal, $asset->creator->id);
-							if($stmt_processtransaction->execute()) {
-								$stmt_get_sale_count = $con->prepare("SELECT * FROM `transactions` WHERE `ta_asset` = ? AND `ta_userid`!= ?");
-								$stmt_get_sale_count->bind_param('ii', $asset_id, $asset->creator->id);
-								$stmt_get_sale_count->execute();
-								$sale_count = $stmt_get_sale_count->get_result()->num_rows;
-			
-								$stmt_update_sale_stat = $con->prepare("UPDATE `assets` SET `asset_sales_count` = ? WHERE `asset_id` = ?");
-								$stmt_update_sale_stat->bind_param('ii', $sale_count, $asset_id);
-								$stmt_update_sale_stat->execute();
-								return "yay";
-							} else {
-								return "Something went wrong at our end!";
-							}
+				$asset = Asset::FromID($asset_id);
+				if($asset != null && $asset->IsUsable()) {
+					if(!$get_user->Owns($asset) && $asset->onsale) {
+						$ta_id = self::GenerateID();
+						$ta_userid = $get_user->id;
+						$ta_asset = $asset->id;
+						$ordinal = $asset->type->ordinal();
+						$stmt_processtransaction = $con->prepare("INSERT INTO `transactions`(`ta_id`, `ta_userid`, `ta_asset`, `ta_assettype`, `ta_assetcreator`) VALUES (?, ?, ?, ?, ?)");
+						$stmt_processtransaction->bind_param('siiii', $ta_id, $ta_userid, $ta_asset, $ordinal, $asset->creator->id);
+						if($stmt_processtransaction->execute()) {
+							$stmt_get_sale_count = $con->prepare("SELECT * FROM `transactions` WHERE `ta_asset` = ? AND `ta_userid`!= ?");
+							$stmt_get_sale_count->bind_param('ii', $asset_id, $asset->creator->id);
+							$stmt_get_sale_count->execute();
+							$sale_count = $stmt_get_sale_count->get_result()->num_rows;
+		
+							$stmt_update_sale_stat = $con->prepare("UPDATE `assets` SET `asset_sales_count` = ? WHERE `asset_id` = ?");
+							$stmt_update_sale_stat->bind_param('ii', $sale_count, $asset_id);
+							$stmt_update_sale_stat->execute();
+							return "yay";
 						} else {
-							if($get_user->Owns($asset)) {
-								return "You already own this asset.";
-							} else if(!$asset->onsale) {
-								return "Item is off-sale sorry not sorry...";
-							} else {
-								return "Item is off-sale and beside you already own this?";
-							}
+							return "Something went wrong at our end!";
 						}
-						
 					} else {
-						if($asset == null) {
-							return "That asset doesn't exist!";
+						if($get_user->Owns($asset)) {
+							return "You already own this asset.";
+						} else if(!$asset->onsale) {
+							return "Item is off-sale sorry not sorry...";
 						} else {
-							return "That asset is unusable at this time!";
+							return "Item is off-sale and beside you already own this?";
 						}
-						
 					}
+					
 				} else {
-					// outfits
+					if($asset == null) {
+						return "That asset doesn't exist!";
+					} else {
+						return "That asset is unusable at this time!";
+					}
+					
 				}
+			
 				
 				
 			} else {
