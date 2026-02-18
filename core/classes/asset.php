@@ -249,6 +249,9 @@
 					return null;
 				}
 			} else {
+				if($this->GetLatestVersionDetails() == null) {
+					return null;
+				}
 				$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$this->GetLatestVersionDetails()->md5sig;
 			}
 
@@ -266,6 +269,13 @@
 			}
 			
 			return null;
+		}
+
+		function IsUsable(): bool {
+			if(AssetVersion::GetLatestVersionOf($this) == null || self::GetFileContents() == null) {
+				return false;
+			}
+			return strlen(trim(self::GetFileContents())) > 0;
 		}
 
 		function GetURLTitle() {
@@ -546,13 +556,6 @@
 
 			$this->is_original = boolval($rowdata['place_original']);
 			$this->gears_enabled = boolval($rowdata['place_gears_enabled']);
-		}
-
-		function IsUsable(): bool {
-			if(AssetVersion::GetLatestVersionOf($this) == null || self::GetFileContents() == null) {
-				return false;
-			}
-			return strlen(trim(self::GetFileContents())) != 0;
 		}
 
 		function EnableTeamCreate() {
