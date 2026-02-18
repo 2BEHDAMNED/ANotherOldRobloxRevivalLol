@@ -875,7 +875,7 @@
 				} else {
 					$image_id = $image_result['id'];
 					$tshirt_data = <<<EOT
-					<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+					<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://arl.lambda.cam/roblox.xsd" version="4">
 						<External>null</External>
 						<External>nil</External>
 						<Item class="ShirtGraphic" referent="RBX0">

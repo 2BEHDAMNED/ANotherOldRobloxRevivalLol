@@ -231,6 +231,12 @@
 	#datastores
 	RewriteRule ^Persistence/SetBlob.ashx /core/gameapis/datastores/setblob.php [END]
 	RewriteRule ^Persistence/GetBlob.ashx /core/gameapis/datastores/getblob.php [END]
+
+	RewriteRule ^Setting/QuietGet/AndroidAppSettings/$                /core/gameapis/settings/ClientAppSettings.json    [END]
+	RewriteRule ^Setting/QuietGet/ClientAppSettings/$                 /core/gameapis/settings/ClientAppSettings.json    [END]
+	RewriteRule ^Setting/QuietGet/ClientSharedSettings/$              /core/gameapis/settings/ClientSharedSettings.json [END]
+	RewriteRule ^Setting/QuietGet/WindowsBootstrapperSettings/$       /core/gameapis/settings/Bootstrapper.json         [END]
+	RewriteRule ^Setting/QuietGet/WindowsStudioBootstrapperSettings/$ /core/gameapis/settings/Bootstrapper.json         [END]
 	
 	RewriteRule ^games.php$ /core/error/404.php [END]
 	RewriteRule ^games.php$ /core/error/404.php [END]
