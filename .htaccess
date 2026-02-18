@@ -45,42 +45,42 @@
 
 	RewriteRule ^Game/Upload.aspx /core/ide/goingupload.php			  [END]
 
-	RewriteRule ^Login/Negotiate.ashx$ /core/authentication/negotiate.php [END]
-	RewriteRule ^Login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
-	RewriteRule ^login/RequestAuth.ashx$ /core/authentication/requestauth.php [END]
-	RewriteRule ^game/GetCurrentUser.ashx$ /core/authentication/getcurrentuser.php [END]
-	RewriteRule ^Game/GetCurrentUser.ashx$ /core/authentication/getcurrentuser.php [END]
+	RewriteRule ^Login/Negotiate.ashx$ /core/gameapis/authentication/negotiate.php [END]
+	RewriteRule ^Login/RequestAuth.ashx$ /core/gameapis/authentication/requestauth.php [END]
+	RewriteRule ^login/RequestAuth.ashx$ /core/gameapis/authentication/requestauth.php [END]
+	RewriteRule ^game/GetCurrentUser.ashx$ /core/gameapis/authentication/getcurrentuser.php [END]
+	RewriteRule ^Game/GetCurrentUser.ashx$ /core/gameapis/authentication/getcurrentuser.php [END]
 	
-	RewriteRule ^Game/PlaceSpecificScript.ashx$ /core/gamescripts/placespecificscript.php   [END]
+	RewriteRule ^Game/PlaceSpecificScript.ashx$ /core/gameapis/gamescripts/placespecificscript.php   [END]
 
-	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx$ /core/social/socialrequests.php   [END]
+	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx$ /core/gameapis/social/socialrequests.php   [END]
 	
-	RewriteRule ^Game/LoadPlaceInfo.ashx$ /core/gamescripts/loadplaceinfo.php   [END]
-	RewriteRule ^game/gameserver.ashx$ /core/gamescripts/gameserver.php	  [END]
-	RewriteRule ^game/join.ashx$ /core/gamescripts/join.php				  [END]
-	RewriteRule ^game/studio.ashx$ /core/gamescripts/studio.php			  [END]
-	RewriteRule ^game/visit.ashx$ /core/gamescripts/visit.php 			  [END]
-	RewriteRule ^game/edit.ashx$ /core/gamescripts/edit.php			  [END]
-	RewriteRule ^game/load-place-info$ /core/places/load-place-info.php			  [END]
+	RewriteRule ^Game/LoadPlaceInfo.ashx$ /core/gameapis/gamescripts/loadplaceinfo.php   [END]
+	RewriteRule ^game/gameserver.ashx$ /core/gameapis/gamescripts/gameserver.php	  [END]
+	RewriteRule ^game/join.ashx$ /core/gameapis/gamescripts/join.php				  [END]
+	RewriteRule ^game/studio.ashx$ /core/gameapis/gamescripts/studio.php			  [END]
+	RewriteRule ^game/visit.ashx$ /core/gameapis/gamescripts/visit.php 			  [END]
+	RewriteRule ^game/edit.ashx$ /core/gameapis/gamescripts/edit.php			  [END]
+	RewriteRule ^game/load-place-info$ /core/gameapis/places/load-place-info.php			  [END]
 
-	RewriteRule ^game/2013/host.ashx$       /core/gamescripts/2013/host.php			[END]
-	RewriteRule ^game/2013/join.ashx$       /core/gamescripts/2013/join.php			[END]
-	RewriteRule ^game/2013join.ashx$        /core/gamescripts/2013/join.php			[END]
-	RewriteRule ^game/2013/gameserver.ashx$ /core/gamescripts/2013/gameserver.php	[END]
+	RewriteRule ^game/2013/host.ashx$       /core/gameapis/gamescripts/2013/host.php			[END]
+	RewriteRule ^game/2013/join.ashx$       /core/gameapis/gamescripts/2013/join.php			[END]
+	RewriteRule ^game/2013join.ashx$        /core/gameapis/gamescripts/2013/join.php			[END]
+	RewriteRule ^game/2013/gameserver.ashx$ /core/gameapis/gamescripts/2013/gameserver.php	[END]
 
-	RewriteRule ^game/2010/host.ashx$       /core/gamescripts/2010/host.php			[END]
-	RewriteRule ^game/2010/join.ashx$       /core/gamescripts/2010/join.php			[END]
-	RewriteRule ^game/2010/visit.ashx$       /core/gamescripts/2010/visit.php			[END]
-	RewriteRule ^game/2010/gameserver.ashx$ /core/gamescripts/2010/gameserver.php	[END]
+	RewriteRule ^game/2010/host.ashx$       /core/gameapis/gamescripts/2010/host.php			[END]
+	RewriteRule ^game/2010/join.ashx$       /core/gameapis/gamescripts/2010/join.php			[END]
+	RewriteRule ^game/2010/visit.ashx$       /core/gameapis/gamescripts/2010/visit.php			[END]
+	RewriteRule ^game/2010/gameserver.ashx$ /core/gameapis/gamescripts/2010/gameserver.php	[END]
 	
-	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx /core/social/socialrequests.php [END]
-	RewriteRule ^userblock/getblockedusers /core/social/getblockedusers.php [END]
-	RewriteRule ^user/following-exists /core/social/following-exists.php [END]
-	RewriteRule ^user/get-friendship-count /core/social/get-friendship-count.php [END]
-	RewriteRule ^user/follow /core/social/follow.php [END]
-	RewriteRule ^user/unfollow /core/social/unfollow.php [END]
-	RewriteRule ^user/request-friendship /core/social/request-friendship.php [END]
-	RewriteRule ^user/decline-friend-request /core/social/decline-friend-request.php [END]
+	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx /core/gameapis/social/socialrequests.php [END]
+	RewriteRule ^userblock/getblockedusers /core/gameapis/social/getblockedusers.php [END]
+	RewriteRule ^user/following-exists /core/gameapis/social/following-exists.php [END]
+	RewriteRule ^user/get-friendship-count /core/gameapis/social/get-friendship-count.php [END]
+	RewriteRule ^user/follow /core/gameapis/social/follow.php [END]
+	RewriteRule ^user/unfollow /core/gameapis/social/unfollow.php [END]
+	RewriteRule ^user/request-friendship /core/gameapis/social/request-friendship.php [END]
+	RewriteRule ^user/decline-friend-request /core/gameapis/social/decline-friend-request.php [END]
 	
 	RewriteRule ^login$ login.php										  [END]
 	RewriteRule ^Login$ login.php										  [END]
@@ -93,25 +93,25 @@
 	RewriteRule ^my/places$ /my/places.php							  [END]
 	RewriteRule ^my/character$ /my/character.php							  [END]
 	RewriteRule ^my/friends$ /my/friends.php							  [END]
-	RewriteRule ^my/settings/json /core/authentication/settings.php [END]
+	RewriteRule ^my/settings/json /core/gameapis/authentication/settings.php [END]
 
-	RewriteRule ^universes/get-universe-containing-place /core/universes/get-universe-containing-place.php [END]
-	RewriteRule ^universes/([0-9]+)/cloudeditenabled /core/universes/cloudeditenabled.php?universeId=$1 [END]
-	RewriteRule ^universes/([0-9]+)/game-start-info /core/universes/game-start-info.php [END]
-	RewriteRule ^universes/([0-9]+)/enablecloudedit /core/universes/enablecloudedit.php?universeId=$1 [END]
-	RewriteRule ^universes/([0-9]+)/disablecloudedit /core/universes/disablecloudedit.php?universeId=$1 [END]
-	RewriteRule ^universes/([0-9]+)/listcloudeditors /core/universes/listcloudeditors.php?universeId=$1 [END]
+	RewriteRule ^universes/get-universe-containing-place /core/gameapis/universes/get-universe-containing-place.php [END]
+	RewriteRule ^universes/([0-9]+)/cloudeditenabled /core/gameapis/universes/cloudeditenabled.php?universeId=$1 [END]
+	RewriteRule ^universes/([0-9]+)/game-start-info /core/gameapis/universes/game-start-info.php [END]
+	RewriteRule ^universes/([0-9]+)/enablecloudedit /core/gameapis/universes/enablecloudedit.php?universeId=$1 [END]
+	RewriteRule ^universes/([0-9]+)/disablecloudedit /core/gameapis/universes/disablecloudedit.php?universeId=$1 [END]
+	RewriteRule ^universes/([0-9]+)/listcloudeditors /core/gameapis/universes/listcloudeditors.php?universeId=$1 [END]
 
-	RewriteRule ^universes/([0-9]+)/addcloudeditor?(.*) /core/universes/addcloudeditor.php?universeId=$1&$2       [QSA,END]
-	RewriteRule ^universes/([0-9]+)/removecloudeditor?(.*) /core/universes/removecloudeditor.php?universeId=$1&$2 [QSA,END]
+	RewriteRule ^universes/([0-9]+)/addcloudeditor?(.*) /core/gameapis/universes/addcloudeditor.php?universeId=$1&$2       [QSA,END]
+	RewriteRule ^universes/([0-9]+)/removecloudeditor?(.*) /core/gameapis/universes/removecloudeditor.php?universeId=$1&$2 [QSA,END]
 
-	RewriteRule ^places/([0-9]+)/settings /core/places/settings.php?placeId=$1 [END]
-	RewriteRule ^universes/get-info$ /core/universes/get-info.php [END]
-	RewriteRule ^universes/validate-place-join$ /core/universes/validate-place-join.php [END]
-	RewriteRule ^universes/get-universe-places$ /core/universes/get-universe-places.php [END]
-	RewriteRule ^universes/get-aliases$ /core/universes/get-aliases.php [END]
+	RewriteRule ^places/([0-9]+)/settings /core/gameapis/places/settings.php?placeId=$1 [END]
+	RewriteRule ^universes/get-info$ /core/gameapis/universes/get-info.php [END]
+	RewriteRule ^universes/validate-place-join$ /core/gameapis/universes/validate-place-join.php [END]
+	RewriteRule ^universes/get-universe-places$ /core/gameapis/universes/get-universe-places.php [END]
+	RewriteRule ^universes/get-aliases$ /core/gameapis/universes/get-aliases.php [END]
 	
-	RewriteRule ^developerproducts/list$ /core/universes/developerproducts.php [END]
+	RewriteRule ^developerproducts/list$ /core/gameapis/universes/developerproducts.php [END]
 	
 	RewriteRule ^game/logout.aspx$ /core/api/logout.php							  [END]
 	RewriteRule ^Game/logout.aspx$ /core/api/logout.php							  [END]
@@ -135,20 +135,19 @@
 
 	RewriteRule ^Game/Tools/InsertAsset.ashx$ /core/insertasset.php [END]
 
-	RewriteRule ^Game/AreFriends$ /core/social/arefriends.php [END]
+	RewriteRule ^Game/AreFriends$ /core/gameapis/social/arefriends.php [END]
 
 	RewriteRule ^create/(.*?)$ /create.php?type=$1 [END]
 	RewriteRule ^create.php$ /core/error/404.php [END]
 
-	RewriteRule ^UploadMedia/PostImage.aspx /core/uploadmedia/postimage.php [END]
-	RewriteRule ^UploadMedia/UploadVideo.aspx /core/uploadmedia/uploadvideo.php [END]
+	RewriteRule ^UploadMedia/PostImage.aspx /core/gameapis/uploadmedia/postimage.php [END]
+	RewriteRule ^UploadMedia/UploadVideo.aspx /core/gameapis/uploadmedia/uploadvideo.php [END]
 
-	RewriteRule ^Sets/SetHandler.ashx /core/sets/setshandler.php [END]
-	RewriteRule ^sets/SetsHandler.ashx /core/sets/setshandler.php [END]
+	RewriteRule ^Sets/SetHandler.ashx /core/gameapis/sets/setshandler.php [END]
+	RewriteRule ^sets/SetsHandler.ashx /core/gameapis/sets/setshandler.php [END]
 
-	RewriteRule ^sets/get-roblox-sets /core/sets/get-roblox-sets.php [END]
-	RewriteRule ^UploadMedia/UploadVideo.aspx /core/uploadmedia/uploadvideo.php [END]
-
+	RewriteRule ^sets/get-roblox-sets /core/gameapis/sets/get-roblox-sets.php [END]
+	
 	RewriteRule ^Game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 	RewriteRule ^game/Tools/ThumbnailAsset.ashx /images/unavailable-75.png [END]
 	RewriteRule ^Thumbs/Avatar.ashx /core/thumbs/player.php [END]
@@ -166,20 +165,20 @@
 
 	RewriteRule ^thumbnail/avatar-headshot?$ /core/thumbs/fakeheadshot.php [END]
 
-	RewriteRule ^marketplace/productinfo$ /core/marketplace/productinfo.php [END]
-	RewriteRule ^marketplace/productDetails$ /core/marketplace/productinfo.php [END]
-	RewriteRule ^marketplace/purchase$ /core/marketplace/purchase.php [END]
-	RewriteRule ^ownership/hasasset$ /core/marketplace/hasasset.php [END]
-	RewriteRule ^ownership/hasAsset$ /core/marketplace/hasasset.php [END]
-	RewriteRule ^gametransactions/getpendingtransactions/$ /core/marketplace/getpendingtransactions.php [END]
-	RewriteRule ^gametransactions/getpendingtransactions$ /core/marketplace/getpendingtransactions.php [END]
-	RewriteRule ^currency/balance$ /core/marketplace/balance.php [END]
+	RewriteRule ^marketplace/productinfo$ /core/gameapis/marketplace/productinfo.php [END]
+	RewriteRule ^marketplace/productDetails$ /core/gameapis/marketplace/productinfo.php [END]
+	RewriteRule ^marketplace/purchase$ /core/gameapis/marketplace/purchase.php [END]
+	RewriteRule ^ownership/hasasset$ /core/gameapis/marketplace/hasasset.php [END]
+	RewriteRule ^ownership/hasAsset$ /core/gameapis/marketplace/hasasset.php [END]
+	RewriteRule ^gametransactions/getpendingtransactions/$ /core/gameapis/marketplace/getpendingtransactions.php [END]
+	RewriteRule ^gametransactions/getpendingtransactions$ /core/gameapis/marketplace/getpendingtransactions.php [END]
+	RewriteRule ^currency/balance$ /core/gameapis/marketplace/balance.php [END]
 	
 	RewriteRule ^download/thankyou$ /download/thankyou.php [END]
-	RewriteRule ^moderation/v2/filtertext$  /core/moderation/filtertext.php [END]
-	RewriteRule ^moderation/v2/filtertext/$ /core/moderation/filtertext.php [END]
-	RewriteRule ^moderation/filtertext/     /core/moderation/filtertext.php [END]
-	RewriteRule ^/moderation/filtertext/    /core/moderation/filtertext.php [END]
+	RewriteRule ^moderation/v2/filtertext$  /core/gameapis/moderation/filtertext.php [END]
+	RewriteRule ^moderation/v2/filtertext/$ /core/gameapis/moderation/filtertext.php [END]
+	RewriteRule ^moderation/filtertext/     /core/gameapis/moderation/filtertext.php [END]
+	RewriteRule ^/moderation/filtertext/    /core/gameapis/moderation/filtertext.php [END]
 
 	RewriteRule ^edit$ /edit.php [END]
 
@@ -188,10 +187,10 @@
 	RewriteCond %{QUERY_STRING} id=(.+)
 	RewriteRule ^(.*)-place$ /place.php?name=$1&id=%1 [QSD,END]
 	
-	RewriteRule ^Asset/BodyColors.ashx$ /core/character/bodycolors.php 			  [END]
-	RewriteRule ^Asset/CharacterFetch.ashx$ /core/character/characterfetch.php 			  [END]
-	RewriteRule ^Asset/GetScriptState.ashx$ /core/gamescripts/getscriptstate.txt 			  [END]
-	RewriteRule ^asset/GetScriptState.ashx$ /core/gamescripts/getscriptstate.txt 			  [END]
+	RewriteRule ^Asset/BodyColors.ashx$ /core/gameapis/character/bodycolors.php 			  [END]
+	RewriteRule ^Asset/CharacterFetch.ashx$ /core/gameapis/character/characterfetch.php 			  [END]
+	RewriteRule ^Asset/GetScriptState.ashx$ /core/gameapis/authentication/getscriptstate.txt 			  [END]
+	RewriteRule ^asset/GetScriptState.ashx$ /core/gameapis/authentication/getscriptstate.txt 			  [END]
 
 	# SHUT THE FUCK UPP!!!!!
 	RewriteRule ^Error/Dmp.ashx$ /core/nothing.txt [END]
@@ -203,15 +202,15 @@
 	RewriteRule ^mac-address/validate-machine?$ /core/success.txt [END]
 	RewriteRule ^Game/validate-machine?$ /core/success.txt [END]
 
-	RewriteRule ^game/MachineConfiguration.ashx?$ /core/authentication/machineconfiguration.txt [END]
-	RewriteRule ^Game/MachineConfiguration.ashx?$ /core/authentication/machineconfiguration.txt [END]
+	RewriteRule ^game/MachineConfiguration.ashx?$ /core/gameapis/authentication/machineconfiguration.txt [END]
+	RewriteRule ^Game/MachineConfiguration.ashx?$ /core/gameapis/authentication/machineconfiguration.txt [END]
 
-	RewriteRule ^Game/KeepAlivePinger.ashx?$ /core/authentication/keepalivepinger.txt [END]
+	RewriteRule ^Game/KeepAlivePinger.ashx?$ /core/gameapis/authentication/keepalivepinger.txt [END]
 
-	RewriteRule ^game/PlaceLauncher.ashx?$ /core/gamescripts/placelauncher.php [END]
-	RewriteRule ^Game/PlaceLauncher.ashx?$ /core/gamescripts/placelauncher.php [END]
-	RewriteRule ^game/PlaceLauncher.ashx/?$ /core/gamescripts/placelauncher.php [END]
-	RewriteRule ^Game/PlaceLauncher.ashx/?$ /core/gamescripts/placelauncher.php [END]
+	RewriteRule ^game/PlaceLauncher.ashx?$ /core/gameapis/gamescripts/placelauncher.php [END]
+	RewriteRule ^Game/PlaceLauncher.ashx?$ /core/gameapis/gamescripts/placelauncher.php [END]
+	RewriteRule ^game/PlaceLauncher.ashx/?$ /core/gameapis/gamescripts/placelauncher.php [END]
+	RewriteRule ^Game/PlaceLauncher.ashx/?$ /core/gameapis/gamescripts/placelauncher.php [END]
 	
 	RewriteRule ^game/([0-9]+)$ /place.php?name=a&id=$1 [END]
 	RewriteRule ^Game/([0-9]+)$ /place.php?name=a&id=$1 [END]
@@ -222,16 +221,16 @@
 	RewriteRule ^test$ /test.php [END]
 
 	# persistence
-	RewriteRule ^persistence/getV2.aspx      /core/persistence/getv2.php     [END]
-	RewriteRule ^persistence/getV2           /core/persistence/getv2.php     [END]
-	RewriteRule ^persistence/getSortedValues           /core/persistence/getv2.php     [END]
-	RewriteRule ^persistence/increment.aspx  /core/persistence/increment.php [END]
-	RewriteRule ^persistence/set.aspx        /core/persistence/set.php       [END]
-	RewriteRule ^persistence/set             /core/persistence/set.php       [END]
+	RewriteRule ^persistence/getV2.aspx      /core/gameapis/persistence/getv2.php     [END]
+	RewriteRule ^persistence/getV2           /core/gameapis/persistence/getv2.php     [END]
+	RewriteRule ^persistence/getSortedValues           /core/gameapis/persistence/getv2.php     [END]
+	RewriteRule ^persistence/increment.aspx  /core/gameapis/persistence/increment.php [END]
+	RewriteRule ^persistence/set.aspx        /core/gameapis/persistence/set.php       [END]
+	RewriteRule ^persistence/set             /core/gameapis/persistence/set.php       [END]
 
 	#datastores
-	RewriteRule ^Persistence/SetBlob.ashx /core/datastores/setblob.php [END]
-	RewriteRule ^Persistence/GetBlob.ashx /core/datastores/getblob.php [END]
+	RewriteRule ^Persistence/SetBlob.ashx /core/gameapis/datastores/setblob.php [END]
+	RewriteRule ^Persistence/GetBlob.ashx /core/gameapis/datastores/getblob.php [END]
 	
 	RewriteRule ^games.php$ /core/error/404.php [END]
 	RewriteRule ^games.php$ /core/error/404.php [END]
@@ -242,9 +241,9 @@
 	RewriteRule ^README.md$ /core/error/404.php [END]
 	RewriteRule ^info/credits.php$ /core/error/404.php [END]
 
-	RewriteRule ^GetAllowedMD5Hashes/$ /core/authentication/getallowedmd5hashes.php [END]
-	RewriteRule ^GetAllowedSecurityKeys/$ /core/authentication/getallowedsecuritykeys.php [END]
-	RewriteRule ^GetAllowedSecurityVersions/$ /core/authentication/getallowedsecurityversions.php [END]
+	RewriteRule ^GetAllowedMD5Hashes/$ /core/gameapis/authentication/getallowedmd5hashes.php [END]
+	RewriteRule ^GetAllowedSecurityKeys/$ /core/gameapis/authentication/getallowedsecuritykeys.php [END]
+	RewriteRule ^GetAllowedSecurityVersions/$ /core/gameapis/authentication/getallowedsecurityversions.php [END]
 
 	RewriteRule ^core/error/404.php /core/error/404.php [END]
 	RewriteRule ^core/error/500.php /core/error/500.php [END]
