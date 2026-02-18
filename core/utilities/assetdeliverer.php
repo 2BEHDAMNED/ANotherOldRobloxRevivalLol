@@ -1,16 +1,4 @@
 <?php
-
-	function IsRewrite() {
-		if(!empty($_SERVER['IIS_WasUrlRewritten']))
-			return true;
-		else if(array_key_exists('HTTP_MOD_REWRITE',$_SERVER))
-			return true;
-		else if( array_key_exists('REDIRECT_URL', $_SERVER))
-			return true;
-		else
-			return false;
-	}
-
 	if(!isset($_GET['id']) && !isset($_GET['ID'])) {
 		die(http_response_code(500));
 	}
@@ -19,10 +7,6 @@
 		$id = intval($_GET["id"]);
 	} else if(isset($_GET['ID'])) {
 		$id = intval($_GET["ID"]);
-	}
-
-	if(!IsRewrite()) {
-		die(header("Location: /asset/?id=".$id));
 	}
 
 	function checkMimeType($contents) {
@@ -65,140 +49,101 @@
 
 	$asset = Asset::FromID($id);
 	if($asset != null) {
-		if(isset($_GET['version']) && intval($_GET['version']) != 0) {
-			$version = intval($_GET['version']);
-			$asset_version = AssetVersion::GetVersionOf($asset, $version);
+		$version = isset($_GET['version']) ? intval($_GET['version']) : -1;
+		$contents = $asset->GetFileContents($version);
 
-			if($asset_version != null) {
-				$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset_version->md5sig;
-			} else {
-				die(http_response_code(404));
-			}
-
-		} else {
-			$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/".$asset->GetLatestVersionDetails()->md5sig;
-		}
-		
-	} else {
-		// TESTING REASONS ONLY, DO NOT USE ON PROD AT ALL.
-		$filename = $_SERVER['DOCUMENT_ROOT']."/../assets/$id";
-	}
-
-	if($asset != null) {
-		/*if(
-			(
-				!isset($_GET['access']) || 
-				(isset($_GET['access']) && $_GET['access'] != $access)
-			) && $user == null
-		) {
-			die(http_response_code(503));
-		}*/
-		
-		if($asset->type == AssetType::PLACE) {
-			$place = Place::FromID($asset->id);
-			
-			if($place->copylocked) {
-				$error = false;
-				if($user == null && isset($_GET['access'])) {
-					$error = true;
-				} 
+		if($contents != null) {
+			if($asset->type == AssetType::PLACE) {
+				$place = Place::FromID($asset->id);
 				
-				if(!$error && isset($_GET['access']) && $_GET['access'] != $access) {
-					$error = true;
-				}
+				if($place->copylocked) {
+					$error = false;
+					if($user == null && isset($_GET['access'])) {
+						$error = true;
+					} 
+					
+					if(!$error && (isset($_GET['access']) && trim($_GET['access']) != $access)) {
+						$error = true;
+					}
 
-				if(!$error && $user != null && $place->creator->id != $user->id) {
-					$error = true;
-				}
+					if(!$error && $user != null && $place->creator->id != $user->id && $user->IsAdmin()) {
+						$error = true;
+					}
 
-				if($error) {
-					if(!($_SERVER['HTTP_USER_AGENT'] == "Roblox/WinInet" || $_SERVER['HTTP_USER_AGENT'] == "Roblox/WinHttp"))
-						die(http_response_code(503));
-				}
-			}
-		}
-		
-		if(file_exists($filename)) {
-//			die(strval(filesize($filename)));
-			$handle = fopen($filename, "r"); 
-			if(filesize($filename) == 0) {
-				error_log("Uhm there was a fucky wucky and this file: $filename was empty!");
-				die(http_response_code(503));
-			}
-			$contents = fread($handle, filesize($filename)); 
-			fclose($handle);
-			header("Content-Type: ".ImageUtils::checkMimeType($contents));
-			$contents = str_replace("www.roblox.com", "arl.lambda.cam",$contents);
-			$contents = str_replace("api.roblox.com", "arl.lambda.cam",$contents);
-
-			$contents = str_replace("arl.lambda.cam", $_SERVER['SERVER_NAME'], $contents);
-
-			// whitelist code by aria (modified heavily by me)
-			if (isset($_GET['serverplaceid'])) {
-				$serverplace = Place::FromID(intval($_GET['serverplaceid']));
-				
-				if ($serverplace == null && intval($_GET['serverplaceid']) != 0) {
-					http_response_code(400);
-					die("Bad Request");
-				}
-
-				$attachments = [
-					"FaceCenterAttachment",
-					"FaceFrontAttachment",
-					"HairAttachment",
-					"HatAttachment",
-					"RootAttachment",
-					"LeftGripAttachment",
-					"LeftShoulderAttachment",
-					"LeftFootAttachment",
-					"RightGripAttachment",
-					"RightShoulderAttachment",
-					"RightFootAttachment",
-					"BodyBackAttachment",
-					"BodyFrontAttachment",
-					"LeftCollarAttachment",
-					"NeckAttachment",
-					"RightCollarAttachment",
-					"WaistBackAttachment",
-					"WaistFrontAttachment",
-					"WaistCenterAttachment",
-				];
-				
-				$client = ClientDetector::DetectClient();
-
-				if($serverplace->year == PlaceYear::Y2013 || $client == Client::C2013) {
-					if(str_contains($contents, "Accoutrement") || str_contains($contents, "Accessory")) {
-						die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
+					if($error) {
+						if(!($_SERVER['HTTP_USER_AGENT'] == "Roblox/WinInet" || $_SERVER['HTTP_USER_AGENT'] == "Roblox/WinHttp"))
+							die(http_response_code(503));
 					}
 				}
-				
-				if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR && intval($_GET['serverplaceid']) != 0) {
-					die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
-				}
-				
-				$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];
-				$whitelist = ["Keyframe", "Animation"];
-				
-				foreach($whitelist as $white) {
-					if(strpos($contents, $white) !== false) {
-						foreach($blacklist as $black) {
-							if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT && $asset->type != AssetType::MODEL && !(intval($_GET['serverplaceid']) == 0 && $asset->type == AssetType::GEAR))) { // hope that model whitelist aint gonna bite my ass
-								http_response_code(405);
-								die("Method Not Allowed");
+			} else{
+				// whitelist code by aria (modified heavily by me)
+				if (isset($_GET['serverplaceid'])) {
+					$serverplace = Place::FromID(intval($_GET['serverplaceid']));
+					
+					if ($serverplace == null && intval($_GET['serverplaceid']) != 0) {
+						http_response_code(400);
+						die("Bad Request");
+					}
+
+					$attachments = [
+						"FaceCenterAttachment",
+						"FaceFrontAttachment",
+						"HairAttachment",
+						"HatAttachment",
+						"RootAttachment",
+						"LeftGripAttachment",
+						"LeftShoulderAttachment",
+						"LeftFootAttachment",
+						"RightGripAttachment",
+						"RightShoulderAttachment",
+						"RightFootAttachment",
+						"BodyBackAttachment",
+						"BodyFrontAttachment",
+						"LeftCollarAttachment",
+						"NeckAttachment",
+						"RightCollarAttachment",
+						"WaistBackAttachment",
+						"WaistFrontAttachment",
+						"WaistCenterAttachment",
+					];
+					
+					$client = ClientDetector::DetectClient();
+
+					if($serverplace->year == PlaceYear::Y2013 || $client == Client::C2013) {
+						if(str_contains($contents, "Accoutrement") || str_contains($contents, "Accessory")) {
+							die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
+						}
+					}
+					
+					if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR && intval($_GET['serverplaceid']) != 0) {
+						die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
+					}
+					
+					$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];
+					$whitelist = ["Keyframe", "Animation"];
+					
+					foreach($whitelist as $white) {
+						if(strpos($contents, $white) !== false) {
+							foreach($blacklist as $black) {
+								if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT && $asset->type != AssetType::MODEL && !(intval($_GET['serverplaceid']) == 0 && $asset->type == AssetType::GEAR))) { // hope that model whitelist aint gonna bite my ass
+									http_response_code(405);
+									die("Method Not Allowed");
+								}
 							}
 						}
 					}
 				}
+
+				if($asset->type == AssetType::LUA && in_array($id, $sign_ids)) {
+					$contents = "%$id%\r\n" . $contents;
+					openssl_sign($contents, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
+					$signature = base64_encode($signature);
+					echo "%$signature%";
+				}
 			}
 
-			if(in_array($id, $sign_ids)) {
-				$contents = "%$id%\r\n" . $contents;
-				openssl_sign($contents, $signature, file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/core/PrivateKey.pem"), OPENSSL_ALGO_SHA1);
-				$signature = base64_encode($signature);
-				echo "%$signature%";
-			}
+			die($contents);
 			
-			echo $contents;
 		} else {
 			die(http_response_code(404));
 		}
@@ -224,24 +169,40 @@
 				$output = gzdecode($output);
 			}
 
-			header("Content-Type: ".checkMimeType($output));
+			$mimetype = checkMimeType($output);
 
-			$contents = str_replace("www.roblox.com", "arl.lambda.cam",$output);
+			if(str_contains($mimetype, "json")) {
+				$contents = "";
 
-			if(!isset($_GET['version'])) {
-				file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id, $contents);
+				if(!isset($_GET['version'])) {
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id, $contents);
+				} else {
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id."_".$version, $contents);
+				}
+
+				die(http_response_code(500));
 			} else {
-				file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id."_".$version, $contents);
+				header("Content-Type: $mimetype");
+
+				$contents = str_replace("www.roblox.com", "arl.lambda.cam",$output);
+
+				if(!isset($_GET['version'])) {
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id, $contents);
+				} else {
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id."_".$version, $contents);
+				}
 			}
+			
 		} else {
 			$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id.(isset($_GET['version']) ?  "_".$version : ""));
 			header("Content-Type: ".checkMimeType($contents));
 			if(str_contains(checkMimeType($contents), "json")) {
-				die(http_response_code(503));
+				echo "Unauthorised access to this roblox asset!";
+				file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/rbx_".$id.(isset($_GET['version']) ?  "_".$version : ""), "");
+				die(http_response_code(500));
 			}
 		}
 		
 		echo $contents;	
-		//die(http_response_code(404));
 	}
 ?>
