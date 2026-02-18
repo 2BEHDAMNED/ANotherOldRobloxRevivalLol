@@ -133,16 +133,13 @@
 		</a>
 	</div>
 	
-	<div id="Links" >
-		<?php if($header_check_user != null): ?>
+	<?php if($header_check_user != null): ?>
+	<div id="Links">
 		<a href="/users/<?= $header_check_user->id ?>/profile">Profile</a>
 		<a href="/games">Games</a>
 		<a href="/catalog">Catalog</a>
-		<a href="/people">People</a>
-		<?php endif ?>
+		<a href="/people">Vandalizers</a>
 	</div>
-	
-	<?php if($header_check_user != null): ?>
 	<div id="UserLinks" >
 		<a href="/my/home"      <?php if($_SERVER['SCRIPT_NAME'] == "/my/home.php"     		 ):?>selected<?php endif ?>>Home</a>
 		<a href="/my/profile"   <?php if($_SERVER['SCRIPT_NAME'] == "/my/profile.php"  		 ):?>selected<?php endif ?>>Account</a>
@@ -152,6 +149,8 @@
 		<a href="/my/stuff"     <?php if($_SERVER['SCRIPT_NAME'] == "/my/stuff.php"    		 ):?>selected<?php endif ?>>Stuff</a>
 		<a href="/download"     <?php if($_SERVER['SCRIPT_NAME'] == "/download/index.php"    ):?>selected<?php endif ?>>Download</a>
 	</div>
+	<?php else: ?>
+	<div id="Links"></div>
 	<?php endif ?>
 	
 </div>

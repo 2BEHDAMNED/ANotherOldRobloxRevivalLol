@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>People - ANORRL</title>
+		<title>Vandalizers - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
