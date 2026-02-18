@@ -271,10 +271,10 @@
 						<div id="ItemDetails">
 							<div id="Content">
 								<?php if($asset->type == AssetType::AUDIO): ?>
-								<img src="/thumbs/?id=<?= $asset->id ?>&sxy=190">
+								<img src="/thumbs/?id=<?= $asset->id ?>&sxy=190&nocompress">
 								<audio src="/asset/?id=<?= $audio_asset_id ?>" controls>Your browser does not support HTML5 Audio</audio>
 								<?php else: ?>
-								<img src="/thumbs/?id=<?= $asset->id ?>&sxy=240">
+								<img src="/thumbs/?id=<?= $asset->id ?>&sxy=240&nocompress">
 								<?php endif ?>
 							</div>
 							<div id="Information">

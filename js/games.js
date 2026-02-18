@@ -172,7 +172,7 @@ ANORRL.Games = {
 			}
 
 			//ANORRL.Stuff.CurrentlyLoadingCrapBruh = false;
-		});
+		}, null, "gzip");
 	}
 };
 

@@ -51,7 +51,7 @@
 										<a data_category="11">Shirts</a>
 										<a data_category="12">Pants</a>
 										<a data_category="19">Gears</a>
-										<a data_category="outfits">Outfits</a>
+										<a data_category="32">Outfits</a>
 									</div>
 									<hr>
 									<div>

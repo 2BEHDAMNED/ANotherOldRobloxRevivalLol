@@ -65,7 +65,11 @@
 		}
 	}
 		
-	die(json_encode(["assets" => $assets_raw, "page" => $page, "total_pages" => $total_pages]));
+	header("Content-Encoding: gzip");
+	ob_start("ob_gzhandler");
+	echo (json_encode(["assets" => $assets_raw, "page" => $page, "total_pages" => $total_pages]));
+	ob_end_flush();
+
 
 	
 ?>

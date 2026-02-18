@@ -3,6 +3,8 @@ if(ANORRL == undefined) {
 }
 
 ANORRL.Item = {
+	// frontend shit, 0 = unbought, 1 = processing, 2 = bought
+	State: 0,
 	Favourite: function(assetid) {
 		$.post("/api/favourite", { asset : assetid }, function(data) {
 			if(data['error']) {
@@ -35,7 +37,7 @@ ANORRL.Item = {
 				var id = prompt.attr("id").replaceAll("Purchase", "");
 
 				if(this.AllowedShittyIDs.includes(id)) {
-
+					ANORRL.Item.State = 1;
 					$("#ModalPopup #PurchaseProcessing").css("display", "block");
 					window.setTimeout(function() {
 						$.post("/api/purchase", { asset_id: Number($("#ModalPopup").attr("data-assetid")), typatransaction: id }, function(data) {
@@ -45,6 +47,7 @@ ANORRL.Item = {
 								$("#ModalPopup > div:visible").each(function() {
 									$(this).css("display", "none");
 								});
+								ANORRL.Item.State = 2;
 								$("#PurchaseSuccess").css("display", "block");
 							}
 						})
@@ -66,10 +69,22 @@ ANORRL.Item = {
 			errorpanel.css("display", "block");
 		},
 		ClosePurchasePanel: function() {
+			if(ANORRL.Item.State == 1) {
+				return;
+			}
 			if($("div#PurchaseProcessing:visible").size() == 0) {
-				$("#ModalPopup > div:visible").each(function() {
-					$(this).css("display", "none");
-				});
+				/*if(ANORRL.Item.State = 0) {
+					$("#ModalPopup > div:visible").each(function() {
+						//$(this).css("display", "none");
+					});
+				} else {
+					
+				}*/
+
+				if(ANORRL.Item.State == 2) {
+					window.location.reload();
+				}
+				
 
 				$("#PurchasePanel").css("display", "none");
 			}

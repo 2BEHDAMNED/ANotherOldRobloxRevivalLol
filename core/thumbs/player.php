@@ -10,6 +10,7 @@
 			$id = intval($_GET['userId']);
 		}
 		
+		$nocompress = isset($_GET['nocompress']);
 
 		$specialcase = false;
 
@@ -47,9 +48,17 @@
 				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $size, $size, $width, $height);
 
 				imagesavealpha($resizedimage, true);
-				header("Content-Type: image/png");
 				ob_clean();
-				imagepng($resizedimage);
+				if(!$nocompress) {
+					header("Content-Type: image/webp");
+					ob_start("ob_gzhandler");
+					header("Content-Encoding: gzip");
+					imagewebp($resizedimage, null, 35);
+					ob_end_flush();
+				} else {
+					header("Content-Type: image/png");
+					imagepng($resizedimage, null, 9);
+				}
 				
 			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
 				$sizex = intval($_GET['sx']);
@@ -89,9 +98,17 @@
 				imagefill($resizedimage, 0, 0, $trans_colour);
 				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
 
-				header("Content-Type: image/png");
 				ob_clean();
-				imagepng($resizedimage);
+				if(!$nocompress) {
+					header("Content-Type: image/webp");
+					ob_start("ob_gzhandler");
+					header("Content-Encoding: gzip");
+					imagewebp($resizedimage, null, 35);
+					ob_end_flush();
+				} else {
+					header("Content-Type: image/png");
+					imagepng($resizedimage, null, 9);
+				}
 			} else {
 				$file_info = new finfo(FILEINFO_MIME_TYPE);
 				$mime = $file_info->buffer($contents);
