@@ -49,7 +49,10 @@ ANORRL.People = {
 		$username.append($("<img src='/images/OnlineStatusIndicator_Is"+statusLabel+".png'> <a href='/users/"+data['id']+"/profile'>"+data['name']+"</a>"))
 
 		var $userbio = $("<td></td>");
-		$userbio.css("word-break", "break-all");
+		$userbio.css("word-break", "break-word");
+		$userbio.css("overflow-wrap", "anywhere");
+
+		//word-break: break-word;overflow-wrap: anywhere;
 		if(data['blurb'] == "") {
 			$userbio.html("<b>No blurb set</b>");
 		} else {
