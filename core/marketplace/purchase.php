@@ -1,5 +1,10 @@
 <?php
 	header('Content-Type: application/json; charset=utf-8');
-	$productId = (int)$_REQUEST['productId'];
+	
+	if(!isset($_REQUEST['productId'])) {
+		$productId = rand(0,100000);
+	} else {
+		$productId = (int)$_REQUEST['productId'];
+	}
 	$data = array('success' => 'true', 'status' => 'Bought', 'receipt' => $productId);
 ?>
