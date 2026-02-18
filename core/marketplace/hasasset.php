@@ -1,1 +1,1 @@
-<?php //userId=1&assetId=1818 ?>false
+<?php //userId=1&assetId=1818 ?>true
