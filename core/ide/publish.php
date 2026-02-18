@@ -16,7 +16,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/publish.css">
 		<script src="/js/core/jquery.js"></script>
-		<script src="/js/main.js?t=<?= time() ?>"></script>
+		<script src="/js/main.js?t=1771413807"></script>
 		<script src="/js/publish.js"></script>
 	</head>
 	<body>

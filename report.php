@@ -8,7 +8,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<script src="/js/core/jquery.js"></script>
-		<script src="/js/main.js?t=<?= time() ?>"></script>
+		<script src="/js/main.js?t=1771413807"></script>
         <script>
 
         </script>

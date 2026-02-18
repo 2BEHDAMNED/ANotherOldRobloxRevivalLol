@@ -17,8 +17,8 @@
 		<title>Games - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<script src="/js/core/jquery.js"></script>
-		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/games.js?t=<?= time() ?>"></script>
+		<script src="/js/main.js?t=1771413807"></script>
+		<script src="/js/games.js?t=1771413807"></script>
 		<script>
 			ANORRL.Games.MobileEnabled = true;
 		</script>

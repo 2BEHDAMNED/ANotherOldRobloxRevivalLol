@@ -157,8 +157,8 @@
 		<link rel="stylesheet" href="/css/new/create.css">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<script src="/js/core/jquery.js"></script>
-		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/create.js?t=<?= time() ?>"></script>
+		<script src="/js/main.js?t=1771413807"></script>
+		<script src="/js/create.js?t=1771413807"></script>
 	</head>
 	<body>
 		<div class="Asset" template>

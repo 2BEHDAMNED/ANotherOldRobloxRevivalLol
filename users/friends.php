@@ -55,7 +55,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/my/friends.css?v=1">
 		<script src="/js/core/jquery.js"></script>
-		<script src="/js/main.js?t=<?= time() ?>"></script>
+		<script src="/js/main.js?t=1771413807"></script>
 	</head>
 	<body>
 		<div id="Container">

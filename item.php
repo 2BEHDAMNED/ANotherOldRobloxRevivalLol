@@ -139,8 +139,8 @@
 		?>
 		
 		<script src="/js/core/jquery.js"></script>
-		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/item.js?t=<?= time() ?>"></script>
+		<script src="/js/main.js?t=1771413807"></script>
+		<script src="/js/item.js?t=1771413807"></script>
 		<style>
 			h2, h3, h4 {
 				margin: 0;

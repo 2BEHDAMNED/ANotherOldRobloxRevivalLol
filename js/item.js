@@ -73,13 +73,10 @@ ANORRL.Item = {
 				return;
 			}
 			if($("div#PurchaseProcessing:visible").size() == 0) {
-				/*if(ANORRL.Item.State = 0) {
-					$("#ModalPopup > div:visible").each(function() {
-						//$(this).css("display", "none");
-					});
-				} else {
-					
-				}*/
+				/* idfk why i even wrote this in the first place being dead ass
+				$("#ModalPopup > div:visible").each(function() {
+					$(this).css("display", "none");
+				});*/
 
 				if(ANORRL.Item.State == 2) {
 					window.location.reload();

@@ -72,9 +72,9 @@
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<link rel="stylesheet" href="/css/new/my/profile.css?v=7">
 		<script src="/js/core/jquery.js"></script>
-		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/placelauncher.js?t=<?= time() ?>"></script>
-		<script src="/js/user.js?t=<?= time() ?>"></script>
+		<script src="/js/main.js?t=1771413807"></script>
+		<script src="/js/placelauncher.js?t=1771413807"></script>
+		<script src="/js/user.js?t=1771413807"></script>
 		<script>
 			$(function(){
 				//ANORRL.User.GrabFeed(<?= $get_user->id ?>);

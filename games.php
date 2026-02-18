@@ -29,8 +29,8 @@
 		<link rel="stylesheet" href="/css/new/games.css?v=4">
 		
 		<script src="/js/core/jquery.js"></script>
-		<script src="/js/main.js?t=<?= time() ?>"></script>
-		<script src="/js/games.js?t=<?= time() ?>"></script>
+		<script src="/js/main.js?t=1771413807"></script>
+		<script src="/js/games.js?t=1771413807"></script>
 	</head>
 	<body>
 		<div class="Game" template>
