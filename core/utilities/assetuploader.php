@@ -1538,5 +1538,17 @@
 			}
 		}
 
+		public static function UploadCharacterMesh(
+			string $name, 
+			string $description, 
+			Asset|null $asset,
+			CharacterMeshType $meshType,
+			bool $public = true,
+			bool $comments_enabled = true,
+			bool $on_sale = true
+		) {
+
+		}
+
 	}
 ?>

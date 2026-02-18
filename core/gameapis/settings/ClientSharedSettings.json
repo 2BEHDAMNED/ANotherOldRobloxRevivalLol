@@ -1484,6 +1484,5 @@
    "FIntAvatarEditorAndroidRollout": "1",
    "DFFlagFixScaledR15Physics": "True",
    "DFFlagScaleR15Character": "True",
-   "FFlagUseNewSoundEngine": "True",
    "FLogNetwork": "7"
 }
