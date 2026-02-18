@@ -139,4 +139,10 @@ $(function(){
 	$("#UsersNavLinks").find("input").on("change", function() {
 		ANORRL.People.GrabFeed(ANORRL.People.CurrentStatusQuery, Number($(this).val()));
 	});
+
+	$("#SearchBox").on("keypress", function(e) {
+		if(e.keyCode == 13) {
+			ANORRL.People.Submit();
+		}
+	});
 });
