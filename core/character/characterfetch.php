@@ -5,8 +5,8 @@
     header("Cache-Control: post-check=0, pre-check=0", false);
     header("Pragma: no-cache");
 
-    if(isset($_GET['assetId']) && isset($_GET['access'])): ?>
-http://arl.lambda.cam/Asset/BodyColors.ashx?clothing;http://arl.lambda.cam/asset/?id=<?= $_GET['assetId'] ?>&access=<?= $_GET['access'] ?>
+    if(isset($_GET['assetId'])): ?>
+http://arl.lambda.cam/Asset/BodyColors.ashx?clothing;http://arl.lambda.cam/asset/?id=<?= $_GET['assetId'] ?>
 <?php else: 
 
 require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
