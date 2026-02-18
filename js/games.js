@@ -134,6 +134,8 @@ ANORRL.Games = {
 					if(asset['original'] && !original) {
 						template.find("#OriginalArea").css("display", "block");
 					}
+
+					template.find("#YearArea > span").html(asset['year']);
 					
 					template.find("#FavouritesArea > span").html(asset['favouritescount']);
 

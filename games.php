@@ -26,7 +26,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
-		<link rel="stylesheet" href="/css/new/games.css?v=4">
+		<link rel="stylesheet" href="/css/new/games.css?v=5">
 		
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=1771413807"></script>
@@ -37,6 +37,7 @@
 			<div id="ImageContainer">
 				<div id="FavouritesArea"><img src="/images/favourite_star.gif"> <span>0</span></div>
 				<div id="OriginalArea"><span>Original</span></div>
+				<div id="YearArea"><span></span></div>
 				<img src="">
 			</div>
 			<div id="Info">
