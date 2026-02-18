@@ -23,7 +23,7 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-					<h2 style="margin: 0; margin-top: 10px;">People</h2>
+					<h2 style="margin: 0; margin-top: 10px;">Vandalizers</h2>
 					<div id="Users">
 						<div method="GET" id="FormPanel">
 							<input id="SearchBox" name="query" type="text" placeholder="Look for users lol">

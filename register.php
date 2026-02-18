@@ -10,6 +10,7 @@
 		session_start();
 	}
 	
+	$istoomany = count(UserUtils::GetAllUsers()) > 80;
 
 	if(isset($_POST['ANORRL$Signup$Username']) &&
 	   isset($_POST['ANORRL$Signup$Password']) &&
@@ -39,6 +40,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
 		<script src="/js/core/jquery.js"></script>
+		<?php if(!$istoomany): ?>
 		<script src="/js/forms.js"></script>
 		<script>
 			$(function(){
@@ -74,6 +76,11 @@
 
 			});
 		</script>
+		<?php else: ?>
+		<script>
+			window.alert("There's too many users on the site! Don't even try! >:P");
+		</script>
+		<?php endif ?>
 		<!-- TODO: Add images on left and right when you get the right images -->
 	</head>
 	<body>
@@ -81,7 +88,8 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-				<div id="FormPanel">
+					<?php if(!$istoomany): ?>
+					<div id="FormPanel">
 						<form method="POST">
 							<div>
 								<h2>Registration</h2>
@@ -127,6 +135,7 @@
 							</div>
 						</form>
 					</div>
+					<?php endif ?>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 			</div>
