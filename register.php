@@ -79,6 +79,7 @@
 		<?php else: ?>
 		<script>
 			window.alert("There's too many users on the site! Don't even try! >:P");
+			window.location.href = "/login";
 		</script>
 		<?php endif ?>
 		<!-- TODO: Add images on left and right when you get the right images -->
