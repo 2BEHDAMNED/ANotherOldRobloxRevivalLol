@@ -138,7 +138,7 @@
 		<a href="/users/<?= $header_check_user->id ?>/profile">Profile</a>
 		<a href="/games">Games</a>
 		<a href="/catalog">Catalog</a>
-		<a href="/people">Vandalizers</a>
+		<a href="/people">Vandals</a>
 	</div>
 	<div id="UserLinks" >
 		<a href="/my/home"      <?php if($_SERVER['SCRIPT_NAME'] == "/my/home.php"     		 ):?>selected<?php endif ?>>Home</a>
