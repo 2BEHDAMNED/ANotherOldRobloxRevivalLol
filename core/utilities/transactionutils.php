@@ -49,7 +49,7 @@
 			if($get_user != null && !$get_user->IsBanned()) {
 				if(is_numeric($asset_id)) {
 					$asset = Asset::FromID($asset_id);
-					if($asset != null) {
+					if($asset != null && $asset->IsUsable()) {
 						if(!$get_user->Owns($asset) && $asset->onsale) {
 							$ta_id = self::GenerateID();
 							$ta_userid = $get_user->id;
@@ -81,7 +81,12 @@
 						}
 						
 					} else {
-						return "That asset doesn't exist!";
+						if($asset == null) {
+							return "That asset doesn't exist!";
+						} else {
+							return "That asset is unusable at this time!";
+						}
+						
 					}
 				} else {
 					// outfits

@@ -256,7 +256,7 @@
 			}
 
 			if(file_exists($filename)) {
-				if(filesize($filename) == 0) {
+				if(filesize($filename) == 0 || !filesize($filename)) {
 					return null;
 				}
 				$handle = fopen($filename, "r"); 

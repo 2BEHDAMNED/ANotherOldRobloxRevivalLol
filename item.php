@@ -297,26 +297,32 @@
 								<?php if($user == null): ?>
 									<div id="NotOnSale">You need to be logged in to purchase this!</div>
 								<?php else: ?>
-								<?php if($asset->onsale): ?>
-									<?php if(!$is_bought): ?>
-										<button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel()"><span>Free for grabs!</span></button>
+									<?php if(!$asset->IsUsable()): ?>
+										<div id="NotOnSale">This <?= strtolower($asset->type->label()) ?> is broken and needs to be republished.</div>
 									<?php else: ?>
-										<div id="NotOnSale">Hey! You already own this item??</div>
+										<?php if($asset->onsale): ?>
+											<?php if(!$is_bought): ?>
+												<button class="PurchaseButton" onclick="ANORRL.Item.Purchasing.OpenPurchasePanel()"><span>Free for grabs!</span></button>
+											<?php else: ?>
+												<div id="NotOnSale">Hey! You already own this item??</div>
+											<?php endif ?>
+										<?php else: ?>
+											<?php if($is_bought): ?>
+												<div id="NotOnSale">Item not on sale and besides you own this.</div>
+											<?php else: ?>
+												<div id="NotOnSale">Item not on sale.</div>
+											<?php endif ?>
+										<?php endif ?>
 									<?php endif ?>
-								<?php else: ?>
-									<?php if($is_bought): ?>
-										<div id="NotOnSale">Item not on sale and besides you own this.</div>
-									<?php else: ?>
-										<div id="NotOnSale">Item not on sale.</div>
-									<?php endif ?>
-								<?php endif ?>
 								<?php endif ?>
 								<hr>
 								<?php if($user != null): ?>
 								<div id="ManageOptions">
 									<?php if($is_creator): ?>
 									<a href="/edit?id=<?= $asset->id ?>">Configure</a>
+									<?php if($asset->IsUsable()): ?>
 									<?php if(in_array($asset->type, $rendering_types)): ?><a href="javascript:Render()" id="RenderButton">Render this asset</a><?php endif?>
+									<?php endif ?>
 									<a href="javascript:Delete()">Delete this asset</a>
 									<?php endif ?>
 								</div>
