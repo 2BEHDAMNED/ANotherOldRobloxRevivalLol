@@ -209,7 +209,7 @@
 			bool $on_sale = true,
 			bool $comments_enabled = true,
 			AssetYear $year = AssetYear::All,
-			User|null $user
+			User|null $user = null
 		): array {
 
 			if($user != null && !$user->IsBanned()) {
