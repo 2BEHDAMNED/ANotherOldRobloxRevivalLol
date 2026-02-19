@@ -240,6 +240,7 @@
 			$parsed_onsale          = intval($on_sale);
 			$parsed_commentsenabled = intval($comments_enabled);
 			$parsed_year            = $asset->year->ordinal();
+			//$parsed_year            = $asset->year->ordinal();
 
 			if($data != null) {
 				$md5 = self::GetMD5OfData($data);
@@ -247,9 +248,14 @@
 
 				$stmt = $con->prepare('INSERT INTO `assetversions`(`version_assetid`, `version_md5sig`, `version_assettype`, `version_subid`) VALUES (?, ?, ?, ?)');
 				$stmt->bind_param('isii', $id, $md5, $parsed_type, $new_versionid);
-				if(!$stmt->execute()) {
+				try {
+					if(!$stmt->execute()) {
+						return INTERNALERROR;
+					}
+				} catch(mysqli_sql_exception $e) {
 					return INTERNALERROR;
 				}
+				
 
 				$directory = $_SERVER['DOCUMENT_ROOT'];
 				$assetsdir = "$directory/../assets/";
