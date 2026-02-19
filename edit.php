@@ -87,111 +87,83 @@
 	}
 
 	if(isset($_POST['ANORRL$EditItem$Name']) &&
-	   isset($_POST['ANORRL$EditItem$Description'])) {
+	   isset($_POST['ANORRL$EditItem$Description']) &&
+	   isset($_POST['ANORRL$EditItem$Year'])
+	) {
 
 		include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
 		$name = ReturnNotUnicodedString($_POST['ANORRL$EditItem$Name']);
 		$description = ReturnNotUnicodedString($_POST['ANORRL$EditItem$Description']);
-		$public = isset($_POST['ANORRL$EditItem$PublicBox']) ? 1 : 0;
-		$comments_enabled = isset($_POST['ANORRL$EditItem$CommentsBox']) ? 1 : 0;
-		$on_sale = isset($_POST['ANORRL$EditItem$OnSaleBox']) ? 1 : 0;
+		$public = isset($_POST['ANORRL$EditItem$PublicBox']);
+		$comments_enabled = isset($_POST['ANORRL$EditItem$CommentsBox']);
+		$on_sale = isset($_POST['ANORRL$EditItem$OnSaleBox']);
+		$year = AssetYear::index($_POST['ANORRL$EditItem$Year']);
 
-		if(strlen($name) <= 0) {
-			$_SESSION['ANORRL$EditItem$Error'] = "Name must not be empty!";
+		$result = AssetUploader::EditAsset($asset, $name, $description, $public, $on_sale, $comments_enabled, $year);
+		
+		if($result['error']) {
+			$_SESSION['ANORRL$EditItem$Error'] = $result['reason'];
 			$_SESSION['ANORRL$EditItem$Success'] = false;
 
 			die(header("Location: /edit?id=$id"));
-		} else {
-			$stmt = $con->prepare('UPDATE `assets` SET `asset_name` = ?, `asset_description` = ?, `asset_public` = ?, `asset_comments_enabled` = ?, `asset_onsale` = ?,`asset_lastedited` = now() WHERE `asset_id` = ?;');
-			$stmt->bind_param('ssiiii', $name, $description, $public, $comments_enabled, $on_sale, $id);
+		}
+
+		$_SESSION['ANORRL$EditItem$Success'] = true;
+
+		if($asset->type == AssetType::PLACE && isset($_POST['ANORRL$EditItem$Place$ServerSize'])) {
+
+			$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
+			$original = isset($_POST['ANORRL$EditItem$Place$Original']) ? 1 : 0;
+			$gears = isset($_POST['ANORRL$EditItem$Place$Gears']) ? 1 : 0;
+			$server_size = intval($_POST['ANORRL$EditItem$Place$ServerSize']);
+			
+			if($server_size < 0) {
+				$server_size = $asset->server_size;
+			}
+
+			$allUsersCount = count(UserUtils::GetAllUsers());
+
+			if($server_size > $allUsersCount) {
+				$server_size = $allUsersCount;
+			}
+
+			$stmt = $con->prepare('UPDATE `asset_places` SET `place_copylocked` = ?, `place_serversize` = ?, `place_original` = ?, `place_gears_enabled` = ? WHERE `place_id` = ?;');
+			$stmt->bind_param('iiiii', $copylocked, $server_size, $original, $gears, $id);
 			$stmt->execute();
 
-			$_SESSION['ANORRL$EditItem$Success'] = true;
-
-			if($asset->type == AssetType::PLACE &&
-			   isset($_POST['ANORRL$EditItem$Place$ServerSize']) &&
-			   isset($_POST['ANORRL$EditItem$Place$Year'])
-			   ) {
-
-				$copylocked = isset($_POST['ANORRL$EditItem$Place$Copylocked']) ? 1 : 0;
-
-				$original = isset($_POST['ANORRL$EditItem$Place$Original']) ? 1 : 0;
-				$gears = isset($_POST['ANORRL$EditItem$Place$Gears']) ? 1 : 0;
-				$server_size = intval($_POST['ANORRL$EditItem$Place$ServerSize']);
+			if(isset($_FILES['ANORRL$EditItem$Place$ThumbnailFile'])) {
+				$file = $_FILES['ANORRL$EditItem$Place$ThumbnailFile'];
 				
-				if($server_size < 0) {
-					$server_size = $asset->server_size;
-				}
+				if($file['error'] == 0 && $file['size'] <= 5242880) {
+					$contents = file_get_contents($file['tmp_name']);
+					$type = CheckMimeType($contents);
 
-				$allUsersCount = count(UserUtils::GetAllUsers());
+					if(str_starts_with($type,"image/")) {
+						$image = imagecreatefromstring($contents);
+						imagesavealpha($image, true);
 
-				if($server_size > $allUsersCount) {
-					$server_size = $allUsersCount;
-				}
-
-				//$year = $asset->year->ordinal();
-				$year = AssetYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
-
-				$stmt = $con->prepare('UPDATE `asset_places` SET `place_year` = ?, `place_copylocked` = ?, `place_serversize` = ?, `place_original` = ?, `place_gears_enabled` = ? WHERE `place_id` = ?;');
-				$stmt->bind_param('siiiii', $year, $copylocked, $server_size, $original, $gears, $id);
-				$stmt->execute();
-
-				if(isset($_FILES['ANORRL$EditItem$Place$ThumbnailFile'])) {
-					$file = $_FILES['ANORRL$EditItem$Place$ThumbnailFile'];
-					
-					if($file['error'] == 0 && $file['size'] <= 5242880) {
-						$contents = file_get_contents($file['tmp_name']);
-						$type = CheckMimeType($contents);
-
-						if(str_starts_with($type,"image/")) {
-							$image = imagecreatefromstring($contents);
-							imagesavealpha($image, true);
-
-							if(imagesx($image) > 128 && imagesy($image) > 96) {
-								if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id")) {
-									unlink($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id");
-								}
-
-								imagepng($image, $_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id");
+						if(imagesx($image) > 128 && imagesy($image) > 96) {
+							if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id")) {
+								unlink($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id");
 							}
+
+							imagepng($image, $_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id");
 						}
 					}
 				}
 			}
-
-			die(header("Location: /".$asset->GetURLTitle()."-item?id=$id"));
 		}
+
+		die(header("Location: /".$asset->GetURLTitle()."-item?id=$id"));
+	
 
 		
 	} else if(isset($_FILES['ANORRL$PublishAsset$File']) &&
 	   isset($_POST['ANORRL$PublishAsset$Submit'])) {
 
 		if(in_array($asset->type, $versioning_types)) {
-			if($asset->type == AssetType::LUA) {
-				$result = AssetUploader::UpdateLua($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			}
-			else if($asset->type == AssetType::MESH) {
-				$result = AssetUploader::UpdateMesh($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			}
-			else if($asset->type == AssetType::PLACE) {
-				$result = AssetUploader::UpdatePlace($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			}
-			else if($asset->type == AssetType::HAT) {
-				$result = AssetUploader::UpdateHat($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			}
-			else if($asset->type == AssetType::MODEL) {
-				$result = AssetUploader::UpdateModel($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			} 
-			else if($asset->type == AssetType::GEAR) {
-				$result = AssetUploader::UpdateGear($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			}
-			else if($asset->type == AssetType::ANIMATION) {
-				$result = AssetUploader::UpdateAnimation($asset->id, $_FILES['ANORRL$PublishAsset$File']);
-			}
-			else {
-				die("Type was recognised but not implemented...");
-			}
+			$result = AssetUploader::UpdateAsset($asset, $_FILES['ANORRL$PublishAsset$File']);
 			
 			if($result['error']) {
 				$_SESSION['ANORRL$EditItem$Error'] = $result['reason'];

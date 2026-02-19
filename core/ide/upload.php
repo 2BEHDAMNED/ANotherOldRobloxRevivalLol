@@ -92,27 +92,29 @@
 			} else {
 				$asset = Asset::FromID(intval($assetid));
 
-				$recieveddata = file_get_contents("php://input");
-				//echo "parsed:".$recieveddata;
-				if(strlen(gzdecode($recieveddata)) != 0) {
-					$recieveddata = gzdecode($recieveddata);
-					echo "decoding using gz\n";
-				}
-
-				if(strlen(trim($recieveddata)) == 0) {
-					http_response_code(500);
-					die("You can't just publish an empty place you dumb eejit!");
-				}
-
 				if($asset != null) {
+					$recieveddata = file_get_contents("php://input");
+					if(is_bool($recieveddata)) {
+						http_response_code(500);
+						die("Something went wrong idfk what complain to grace until she says something");
+					}
+					if(strlen(gzdecode($recieveddata)) != 0) {
+						$recieveddata = gzdecode($recieveddata);
+						if(is_bool($recieveddata)) {
+							http_response_code(500);
+							die("You can't just publish an empty place you dumb eejit!");
+						}
+						error_log("decoding using gz for ".$asset->id);
+					}
+
 					if($asset->type == AssetType::PLACE) {
 						$place = Place::FromID(intval($assetid));
 
 						if(($user != null && $asset->creator->id == $user->id) || ($place->teamcreate_enabled && (($user != null && $place->IsCloudEditor($user))  || (isset($_GET['access']) && $_GET['access'] == $access)))) {
 							// If the user owns this asset, then allow publishing.
-					
-							$result = AssetUploader::UpdatePlace($assetid, $recieveddata, $asset->creator);
-							if($result['error'] == true) {
+							$result = AssetUploader::UpdateAsset($asset, $recieveddata);
+
+							if($result['error']) {
 								http_response_code(500);
 								die($result['reason']);
 							}

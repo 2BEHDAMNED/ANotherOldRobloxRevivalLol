@@ -2,7 +2,7 @@
 	session_start();
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
-	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/assetuploader_new.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/assetuploader.php';
 	$user = UserUtils::RetrieveUser();
 
 	$type = "none";
@@ -60,7 +60,7 @@
 					$comments_enabled = isset($_POST['ANORRL$CreateAsset$CommentsEnabled']);
 					$on_sale = isset($_POST['ANORRL$CreateAsset$OnSale']);
 
-					$result = NewAssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, AssetYear::All, $public, $on_sale, $comments_enabled);
+					$result = AssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, AssetYear::All, $public, $on_sale, $comments_enabled);
 				} else {
 					$result = [
 						"error" => true,

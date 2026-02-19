@@ -64,20 +64,10 @@
 		if(strlen($name) < 4) {
 			die("Name must not be less than 4 characters!");
 		}
-
-		$timer = 31;
-		if($user->GetLatestAssetUploaded() != null) {
-			$difference = (time()-($user->GetLatestAssetUploaded()->created_at->getTimestamp()-3600));
-			$timer = $difference;
-		}
-
-		if($timer < 30) {
-			die("You are uploading too many assets! Wait a bit!");
-		}
 	
-		$result = AssetUploader::CreatePlace($name, $description, $isPublic, $isCopylocked, $commentsEnabled, $server_size, $year, $user);
+		$result = AssetUploader::CreatePlace($name, $description, $isPublic, $commentsEnabled, $year, $server_size, $isCopylocked, $user);
 		
-		if($result['error'] == false) {
+		if(!$result['error']) {
 			$place_verified_id = $result['id'];
 			$verifiedcrap = true;
 		} else {
