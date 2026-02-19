@@ -240,7 +240,7 @@
 			$parsed_onsale          = intval($on_sale);
 			$parsed_commentsenabled = intval($comments_enabled);
 			$parsed_year            = $asset->year->ordinal();
-			//$parsed_year            = $asset->year->ordinal();
+			$parsed_type            = $asset->type->ordinal();
 
 			if($data != null) {
 				$md5 = self::GetMD5OfData($data);
