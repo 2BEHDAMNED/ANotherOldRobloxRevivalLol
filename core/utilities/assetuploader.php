@@ -281,8 +281,11 @@
 		public static function UpdateAsset(
 			Asset $asset,
 			array|string $file,
+			User|null $user = null
 		): array {
-			$user = UserUtils::RetrieveUser();
+			if($user == null) {
+				$user = UserUtils::RetrieveUser();
+			}
 
 			if($user != null && !$user->IsBanned() && ($asset->creator->id == $user->id || $user->IsAdmin())) {
 				$name = $asset->name;
