@@ -398,7 +398,7 @@
 				$stmt_addplace->bind_param('iii', $result['id'], $place_copylocked, $server_size);
 				if(!$stmt_addplace->execute()) {
 					$stmt = $con->prepare('DELETE FROM `assets` WHERE `asset_id` = ?;');
-					$stmt->bind_param('i', $id);
+					$stmt->bind_param('i', $result['id']);
 					$stmt->execute();
 
 					return INTERNALERROR;
