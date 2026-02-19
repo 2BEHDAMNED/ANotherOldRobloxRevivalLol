@@ -71,9 +71,11 @@
 			$place_verified_id = $result['id'];
 			$verifiedcrap = true;
 		} else {
+
 			$errorReason = $result['reason'];
 			$verifiedcrap = false;
-			die("<script>window.alert(\"$errorReason\"); window.close();</script>");
+			header("Location: /IDE/Upload.aspx");
+			die("<script>window.alert(\"$errorReason\");</script>");
 		}
 		
 	}
