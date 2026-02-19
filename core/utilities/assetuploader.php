@@ -669,7 +669,7 @@
 						}
 					} else {
 						if($type == AssetType::PLACE) {
-							$result = self::CommitAsset(null, $type, $name, $description, $public, $on_sale, $comments_enabled, $year, $user);
+							return self::CommitAsset(null, $type, $name, $description, $public, $on_sale, $comments_enabled, $year, $user);
 						}
 					}
 
