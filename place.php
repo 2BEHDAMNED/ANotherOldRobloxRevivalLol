@@ -171,7 +171,7 @@
 						<div id="PlaceDetails">
 							<div id="Content">
 								<div id="PlaceImageContainer">
-									<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350">
+									<img src="/thumbs/?id=<?= $asset->id ?>&sx=623&sy=350&nocompress">
 									<?php if($asset->is_original): ?>
 									<div id="OriginalLabel">Original</div>
 									<?php endif ?>
@@ -250,7 +250,7 @@
 									</td>
 									<td id="Detail">
 										<b>Year</b>
-										<span><?= $asset->year->ordinal() ?></span>
+										<span><?= $asset->year->label() ?></span>
 									</td>
 								</table>
 							</div>

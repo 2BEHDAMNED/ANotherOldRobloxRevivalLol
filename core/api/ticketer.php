@@ -193,7 +193,7 @@
 		if(isset($_POST['editID'])) {
 			$place = Place::FromID(intval($_POST['editID']));
 
-			if($place != null && ($user->id == $place->creator->id || !$place->copylocked || ($place->teamcreate_enabled && $place->IsCloudEditor($user)))) {
+			if($place != null && ($user->id == $place->creator->id || !$place->copylocked || ($place->teamcreate_enabled && $place->IsCloudEditor($user)) || $user->IsAdmin())) {
 				$placeID = $place->id;
 				if($place->year == AssetYear::Y2010) {
 					die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:play+gameinfo:0");	

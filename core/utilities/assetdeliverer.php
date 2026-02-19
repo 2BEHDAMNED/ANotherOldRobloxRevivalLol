@@ -58,7 +58,7 @@
 				
 				if($place->copylocked) {
 					$error = false;
-					if($user == null && isset($_GET['access'])) {
+					if($user == null && !isset($_GET['access'])) {
 						$error = true;
 					} 
 					
@@ -66,7 +66,7 @@
 						$error = true;
 					}
 
-					if(!$error && $user != null && $place->creator->id != $user->id && $user->IsAdmin()) {
+					if(!$error && $user != null && $place->creator->id != $user->id && !$user->IsAdmin()) {
 						$error = true;
 					}
 
@@ -142,6 +142,7 @@
 				}
 			}
 
+			header("Content-Type: ".checkMimeType($contents));
 			die($contents);
 			
 		} else {

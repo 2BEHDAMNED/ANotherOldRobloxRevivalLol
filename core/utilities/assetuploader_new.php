@@ -252,10 +252,24 @@
 			$stmt_processtransaction->execute();
 
 			if($public && $on_sale && !$hidden) {
+				$asset = Asset::FromID($id);
 				self::PushWebhook($asset);
 			}
 			
 			return ["error" => false, "id" => $id];
+		}
+
+		public static function UpdateAsset(
+			array|null $file,
+			string $name,
+			string $description = "",
+			AssetYear $year = AssetYear::All,
+			bool $public = true,
+			bool $on_sale = true,
+			bool $comments_enabled = true,
+			User|null $user = null
+		): array {
+			return [];
 		}
 
 		public static function UploadAsset(
@@ -373,10 +387,10 @@
 									$width = imagesx($original_image);
 									$height = imagesy($original_image);
 
-									ob_clean();
-									imagesavealpha($original_image, true);
+									ob_start();
 									imagepng($original_image);
-									$data = ob_get_clean();
+									$data = ob_get_contents();
+									ob_end_clean();
 
 									if($width != 585 || $height != 559) {
 										return ["error" => true, "reason" => "Image size was not correct! Did you mean to upload a t-shirt or decal? Expected: 585 x 559."];
@@ -439,9 +453,10 @@
 									
 									imagesavealpha($resizedimage, true);
 
-									ob_clean();
+									ob_start();
 									imagepng($resizedimage);
-									$data = ob_get_clean();
+									$data = ob_get_contents();
+									ob_end_clean();
 								}
 
 								$result = self::CommitAsset($data, AssetType::IMAGE, $name, "", false, false, $comments_enabled, $year, $user);

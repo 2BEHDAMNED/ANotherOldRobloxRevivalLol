@@ -85,7 +85,7 @@
 	RewriteRule ^login$ login.php										  [END]
 	RewriteRule ^Login$ login.php										  [END]
 	RewriteRule ^register$ register.php									  [END]
-	RewriteRule ^people$ people.php										  [END]
+	RewriteRule ^vandals$ vandals.php										  [END]
 
 	RewriteRule ^my/home$ /my/home.php									  [END]
 	RewriteRule ^my/stuff$ /my/stuff.php									  [END]
