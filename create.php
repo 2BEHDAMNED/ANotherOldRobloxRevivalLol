@@ -49,7 +49,9 @@
 		if(in_array($type, $validtypes)) {
 			if(isset($_POST['ANORRL$CreateAsset$Name']) &&
 				isset($_POST ['ANORRL$CreateAsset$Description']) &&
-				isset($_FILES['ANORRL$CreateAsset$File'])) {
+				isset($_FILES['ANORRL$CreateAsset$File']) &&
+				isset($_POST['ANORRL$CreateAsset$Year'])
+			) {
 				
 				//if($user->IsAdmin()) {
 				$result = null;
@@ -59,8 +61,18 @@
 				$public = isset($_POST['ANORRL$CreateAsset$Public']);
 				$comments_enabled = isset($_POST['ANORRL$CreateAsset$CommentsEnabled']);
 				$on_sale = isset($_POST['ANORRL$CreateAsset$OnSale']);
+				
+				$int_year = intval($_POST['ANORRL$CreateAsset$Year']);
+				if($int_year < 0) {
+					$int_year = 0;
+				}
 
-				$result = AssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, AssetYear::All, $public, $on_sale, $comments_enabled);
+				if($int_year > 3) {
+					$int_year = 0;
+				}
+				$year = AssetYear::index($int_year);
+
+				$result = AssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, $year, $public, $on_sale, $comments_enabled);
 				
 				/*} else {
 					$result = [
@@ -181,6 +193,20 @@
 										<tr>
 											<td>On Sale</td>
 											<td><input name="ANORRL$CreateAsset$OnSale" type="checkbox"></td>
+										</tr>
+										<tr id="PlaceYear">
+											<td style="vertical-align: middle;">For Client</td>
+											<td>
+												<select name="ANORRL$CreateAsset$Year">
+													<option value="0">Any</option>
+													<option value="3">ANORRL (2016)</option>
+													<!--<option value="2008">2008 (Gamma)</option>-->
+													<option value="2">2013</option>
+													<option value="1">2010</option>
+													<!--<option value="2012">2012</option>-->
+													
+												</select>
+											</td>
 										</tr>
 										<tr>
 											<td><input type="submit" value="Upload" style="margin-top:10px" name="ANORRL$CreateAsset$Submit" onclick="$(this).attr('disabled', 'true'); document.forms[0].submit()"></td>

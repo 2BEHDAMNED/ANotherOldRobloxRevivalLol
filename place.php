@@ -77,6 +77,7 @@
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/item/item.css">
 		<link rel="stylesheet" href="/css/new/item/place.css?v=2">
+		<link rel="stylesheet" href="/css/new/my/home.css?v=2">
 
 		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
@@ -209,6 +210,40 @@
 								</div>
 							</div>
 						</div>
+
+						<?php
+						$teamcreate = $asset->teamcreate_enabled && count($asset->GetCloudEditors());
+						if($user != null && $teamcreate): ?>
+						<div id="CommentsContainer">
+							<h3>Users worked on this!</h3>
+							<div id="CommentSection">
+									<div id="FriendsContainer">
+										<ul id="Friends" style="width: 848px;border: 0px;background: none;padding: 0px;text-align: center;height: 140px;">
+											<?php 
+												$users = $asset->GetCloudEditors();
+
+												foreach($users as $u) {
+													if($u instanceof User) {
+														
+														$fID = $u->id;
+														$fName = $u->name;
+														echo <<<EOT
+														<li class="Friend">
+															<a id="ProfileLink" href="/users/$fID/profile">
+																<img id="Profile" src="/thumbs/headshot?id=$fID&sxy=100">
+																<div id="Name">$fName</div>
+															</a>
+														</li>
+														EOT;
+													}
+													
+												}
+											?>
+										</ul>
+									</div>
+							</div>
+						</div>
+						<?php endif ?>
 
 						<div id="PlaceInfoArea">
 							<table id="InfoHeaders">

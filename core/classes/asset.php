@@ -597,6 +597,27 @@
 			return $stmt->get_result()->num_rows != 0;
 		}
 
+		function GetSales(): array {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` != `ta_assetcreator` AND `ta_asset` = ?;");
+			$stmt->bind_param("i", $this->id);
+			$stmt->execute();
+
+			$sales = $stmt->get_result();
+
+			$result = [];
+			
+			while($row = $sales->fetch_assoc()) {
+				$user = User::FromID(intval($row['ta_userid']));
+
+				if($user != null && !$user->IsBanned()) {
+					array_push($result, $user);
+				}
+			}
+
+			return $result;
+		}
+
 		function UpdateSalesCount() {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 			$stmt = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` != `ta_assetcreator` AND `ta_asset` = ?;");

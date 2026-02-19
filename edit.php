@@ -250,7 +250,19 @@
 												<td>Enable Comments</td>
 												<td><input type="checkbox" name="ANORRL$EditItem$CommentsBox" <?php if($asset->comments_enabled): ?>checked<?php endif ?>></td>
 											</tr>
-											
+											<tr id="PlaceYear">
+												<td style="vertical-align: middle;">Year</td>
+												<td>
+													<select name="ANORRL$EditItem$Year">
+														<option value="2016">ANORRL (2016)</option>
+														<!--<option value="2008">2008 (Gamma)</option>-->
+														<option value="2013">2013</option>
+														<option value="2010">2010</option>
+														<!--<option value="2012">2012</option>-->
+														
+													</select>
+												</td>
+											</tr>
 										</table>
 									</div>
 									
@@ -260,19 +272,6 @@
 								<div id="DetailStack">
 									<h4 style="margin-top: 10px">Place Settings</h4>
 									<table id="Table">
-										<tr id="PlaceYear">
-											<td style="vertical-align: middle;">Year</td>
-											<td>
-												<select name="ANORRL$EditItem$Place$Year">
-													<option value="2016">ANORRL (2016)</option>
-													<!--<option value="2008">2008 (Gamma)</option>-->
-													<option value="2013">2013</option>
-													<option value="2010">2010</option>
-													<!--<option value="2012">2012</option>-->
-													
-												</select>
-											</td>
-										</tr>
 										<tr>
 											<td>Server Size</td>
 											<td><input type="number" name="ANORRL$EditItem$Place$ServerSize" value="<?= $asset->server_size ?>"></td>

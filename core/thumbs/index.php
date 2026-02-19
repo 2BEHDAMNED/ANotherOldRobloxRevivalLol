@@ -30,7 +30,7 @@
 			} else {
 				$md5hash = $stmt_result->fetch_assoc()['version_md5thumb'];
 
-				if($md5hash == "sound" && $asset->type == AssetType::AUDIO) {
+				if($asset->type == AssetType::AUDIO) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
 				} else if($asset->type == AssetType::LUA) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
