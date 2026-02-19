@@ -212,6 +212,10 @@
 			User|null $user = null
 		): array {
 
+			if($user == null) {
+				$user = UserUtils::RetrieveUser();
+			}
+
 			if($user != null && !$user->IsBanned()) {
 				return self::CommitUpdateAsset($asset, null, $name, $description, $public, $on_sale, $comments_enabled, $year, $user);
 			}
