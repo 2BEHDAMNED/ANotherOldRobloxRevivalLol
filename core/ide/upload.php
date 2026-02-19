@@ -96,12 +96,14 @@
 					$recieveddata = file_get_contents("php://input");
 					if(is_bool($recieveddata)) {
 						http_response_code(500);
+						error_log("Something went wrong idfk what complain to grace until she says something");
 						die("Something went wrong idfk what complain to grace until she says something");
 					}
 					if(strlen(gzdecode($recieveddata)) != 0) {
 						$recieveddata = gzdecode($recieveddata);
 						if(is_bool($recieveddata)) {
 							http_response_code(500);
+							error_log("You can't just publish an empty place you dumb eejit!");
 							die("You can't just publish an empty place you dumb eejit!");
 						}
 						error_log("decoding using gz for ".$asset->id);
@@ -116,10 +118,15 @@
 
 							if($result['error']) {
 								http_response_code(500);
+								error_log($result['reason']);
 								die($result['reason']);
 							}
 							http_response_code(200);
 							die("Uploaded successfully!");
+						} else {
+							http_response_code(500);
+							error_log("So like you don't own this asset so can you not");
+							die("So like you don't own this asset so can you not");
 						}
 						
 					}
@@ -133,6 +140,7 @@
 	}
 
 	http_response_code(500);
+	error_log("Action failed.");
 	die("Action failed.");
 
 ?>

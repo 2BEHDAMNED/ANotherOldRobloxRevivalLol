@@ -72,7 +72,8 @@
 			$verifiedcrap = true;
 		} else {
 			$errorReason = $result['reason'];
-			die("<script>window.alert(\"$errorReason\")</script>");
+			$verifiedcrap = false;
+			die("<script>window.alert(\"$errorReason\"); window.close();</script>");
 		}
 		
 	}
