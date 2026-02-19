@@ -246,6 +246,8 @@
 			$parsed_year            = $asset->year->ordinal();
 			$parsed_type            = $asset->type->ordinal();
 
+			$new_versionid = count($asset->GetAllVersions());
+
 			if($data != null) {
 				$md5 = self::GetMD5OfData($data);
 				$new_versionid = count($asset->GetAllVersions())+1;
@@ -275,7 +277,11 @@
 
 			$stmt = $con->prepare('UPDATE `assets` SET `asset_currentversion` = ?, `asset_lastedited` = now(), `asset_name` = ?, `asset_description` = ?, `asset_public` = ?, `asset_onsale` = ?, `asset_comments_enabled` = ?, `asset_year` = ? WHERE `asset_id` = ?');
 			$stmt->bind_param('issiiiii', $new_versionid, $name, $description, $parsed_public, $parsed_onsale, $parsed_commentsenabled, $parsed_year, $id);
-			if(!$stmt->execute()) {
+			try {
+				if(!$stmt->execute()) {
+					return INTERNALERROR;
+				}
+			} catch(mysqli_sql_exception $e) {
 				return INTERNALERROR;
 			}
 		
