@@ -670,6 +670,19 @@
 
 								return $result;
 
+							} else if($type == AssetType::AUDIO) {
+
+								if(
+									ImageUtils::checkMimeType($data) != "audio/mpeg" &&
+									ImageUtils::checkMimeType($data) != "audio/ogg" &&
+									ImageUtils::checkMimeType($data) != "audio/vorbis" &&
+									ImageUtils::checkMimeType($data) != "audio/x-wav"
+								) {
+									return ["error" => true, "reason" => "Audio file was not a valid format!"];
+								}
+
+								return self::CommitAsset($data, $type, $name, $description, $public, $on_sale, $comments_enabled, $year, $user);
+
 							} else {
 								return ["error" => true, "reason" => "Invalid asset type found!"];
 							}

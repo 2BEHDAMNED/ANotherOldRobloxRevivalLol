@@ -74,7 +74,6 @@
 
 			$errorReason = $result['reason'];
 			$verifiedcrap = false;
-			header("Location: /IDE/Upload.aspx");
 			die("<script>window.alert(\"$errorReason\");</script>");
 		}
 		

@@ -51,22 +51,23 @@
 				isset($_POST ['ANORRL$CreateAsset$Description']) &&
 				isset($_FILES['ANORRL$CreateAsset$File'])) {
 				
-				if($user->IsAdmin()) {
-					$result = null;
-					$name = trim($_POST['ANORRL$CreateAsset$Name']);
+				//if($user->IsAdmin()) {
+				$result = null;
+				$name = trim($_POST['ANORRL$CreateAsset$Name']);
 
-					$description = trim($_POST['ANORRL$CreateAsset$Description']);
-					$public = isset($_POST['ANORRL$CreateAsset$Public']);
-					$comments_enabled = isset($_POST['ANORRL$CreateAsset$CommentsEnabled']);
-					$on_sale = isset($_POST['ANORRL$CreateAsset$OnSale']);
+				$description = trim($_POST['ANORRL$CreateAsset$Description']);
+				$public = isset($_POST['ANORRL$CreateAsset$Public']);
+				$comments_enabled = isset($_POST['ANORRL$CreateAsset$CommentsEnabled']);
+				$on_sale = isset($_POST['ANORRL$CreateAsset$OnSale']);
 
-					$result = AssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, AssetYear::All, $public, $on_sale, $comments_enabled);
-				} else {
+				$result = AssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, AssetYear::All, $public, $on_sale, $comments_enabled);
+				
+				/*} else {
 					$result = [
 						"error" => true,
 						"reason" => "Hey so this is temporarily disabled for non admins... Testing new uploader system :P"
 					];
-				}
+				}*/
 				
 				if(isset($result)) {
 					if($result['error']) {
