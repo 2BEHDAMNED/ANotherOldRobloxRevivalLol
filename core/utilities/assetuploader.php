@@ -2,7 +2,9 @@
 	include_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	include_once $_SERVER['DOCUMENT_ROOT']."/core/classes/renderer.php";
 	include_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
-
+	
+	ob_end_clean();
+	die("Sorry but this is disabled for now!");
 	
 	// Horse shit yandere dev code what am i doing bruh
 
