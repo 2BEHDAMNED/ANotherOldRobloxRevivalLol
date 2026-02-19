@@ -38,7 +38,11 @@
 				} else if($md5hash == "placeholder" || !$asset->IsUsable()) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/noassets.png");
 				} else {
-					if($asset->relatedasset != null || $asset->type == AssetType::IMAGE) {
+					if(count($asset->GetRelatedAssets()) != 0 || $asset->type == AssetType::IMAGE) {
+						if(count($asset->GetRelatedAssets()) == 1 && $asset->GetRelatedAssets()[0]->type == AssetType::IMAGE) {
+							$md5hash = $asset->GetRelatedAssets()[0]->GetLatestVersionDetails()->md5sig;
+						}
+						
 						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash")) {
 							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash");
 							$specialcase = true;

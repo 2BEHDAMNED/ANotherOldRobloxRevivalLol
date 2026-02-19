@@ -19,7 +19,7 @@ loadfile('http://arl.lambda.cam/game/2013/gameserver.ashx')({placeID}, {port}, "
 		$place = Place::FromID(intval($_GET['placeID']));
 		$port = intval($_GET['port']);
 
-		if($place != null && $place->year == PlaceYear::Y2013) {
+		if($place != null && $place->year == AssetYear::Y2013) {
 			$script = "\r\n" . ob_get_clean();
 			$script = str_replace("{placeID}",$place->id     , $script);
 			$script = str_replace("{port}"   ,$port          , $script);

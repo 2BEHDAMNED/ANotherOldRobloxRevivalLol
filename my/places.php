@@ -13,17 +13,17 @@
 
 	$client = ClientDetector::DetectClient();
 
-	$year = PlaceYear::Y2016;
+	$year = AssetYear::Y2016;
 
 	switch($client) {
 		case Client::C2010:
-			$year = PlaceYear::Y2010;
+			$year = AssetYear::Y2010;
 			break;
 		case Client::C2013:
-			$year = PlaceYear::Y2013;
+			$year = AssetYear::Y2013;
 			break;
 		case Client::C2016:
-			$year = PlaceYear::Y2016;
+			$year = AssetYear::Y2016;
 			break;
 		case Client::Unknown:
 			//break;
@@ -33,7 +33,7 @@
 	$places = $user->GetPlaces(false);
 
 	$teamplaces = [];
-	if($year == PlaceYear::Y2016) {
+	if($year == AssetYear::Y2016) {
 		$teamplaces = $user->GetPlaces(true);
 	}
 	

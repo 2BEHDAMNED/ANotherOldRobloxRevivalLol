@@ -2,7 +2,7 @@
 	session_start();
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
-	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/assetuploader.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/assetuploader_new.php';
 	$user = UserUtils::RetrieveUser();
 
 	$type = "none";
@@ -19,7 +19,6 @@
 		"audio",
 		"decals",
 		"models",
-		"places",
 
 		"gears",
 
@@ -27,118 +26,60 @@
 		"images",
 		"lua",
 		"hats",
-		"animations"
+		"animations",
+	];
+
+	$types = [
+		"faces" => AssetType::FACE,
+		"shirts" => AssetType::SHIRT,
+		"tshirts" => AssetType::TSHIRT,
+		"pants" => AssetType::PANTS,
+		"audio" => AssetType::AUDIO,
+		"decals" => AssetType::DECAL,
+		"models" => AssetType::MODEL,
+		"gears" => AssetType::GEAR,
+		"meshes" => AssetType::MESH,
+		"images" => AssetType::IMAGE,
+		"lua" => AssetType::LUA,
+		"hats" => AssetType::HAT,
+		"animations" => AssetType::ANIMATION,
 	];
 
 	if(count($_POST) != 0) {
 		if(in_array($type, $validtypes)) {
-			$timer = 61;
-			if($user->GetLatestAssetUploaded() != null) {
-				$difference = (time()-($user->GetLatestAssetUploaded()->created_at->getTimestamp()-3600));
-
-				$timer = $difference;
-			}
-			
-//			die(strval($timer));
-
-			if($timer > 60) {
-				if(isset($_POST['ANORRL$CreateAsset$Name']) &&
-					isset($_POST ['ANORRL$CreateAsset$Description']) &&
-					isset($_FILES['ANORRL$CreateAsset$File'])) {
-
+			if(isset($_POST['ANORRL$CreateAsset$Name']) &&
+				isset($_POST ['ANORRL$CreateAsset$Description']) &&
+				isset($_FILES['ANORRL$CreateAsset$File'])) {
+				
+				if($user->IsAdmin()) {
 					$result = null;
 					$name = trim($_POST['ANORRL$CreateAsset$Name']);
-					
-					if(strlen(trim($name)) <= 0) {
-						$result = ['error' => true, 'reason' => "You need to enter a name doofus!"];
-					}
 
 					$description = trim($_POST['ANORRL$CreateAsset$Description']);
 					$public = isset($_POST['ANORRL$CreateAsset$Public']);
 					$comments_enabled = isset($_POST['ANORRL$CreateAsset$CommentsEnabled']);
 					$on_sale = isset($_POST['ANORRL$CreateAsset$OnSale']);
-					
-					if($result == null) {
-						if($type == "images") {
-							if($user->IsAdmin()) {
-								$result = AssetUploader::UploadImage($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-							} else {
-								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-							}
-							
-						} else if($type == "lua") {
-							if($user->IsAdmin()) {
-								$result = AssetUploader::UploadLua($name, $description, $_FILES['ANORRL$CreateAsset$File']);
-							} else {
-								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-							}
-						}
-						else if($type == "decals") {
-							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], false, $public, $comments_enabled, $on_sale);
-						}
-						else if($type == "audio") {
-							$result = AssetUploader::UploadAudio($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
-						}
-						else if($type == "tshirts") {
-							$result = AssetUploader::UploadTShirt($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
-						}
-						else if($type == "faces") {
-							$result = AssetUploader::UploadDecal($name, $description, $_FILES['ANORRL$CreateAsset$File'], true, $public, $comments_enabled, $on_sale);
-						}
-						else if($type == "shirts") {
-							$result = AssetUploader::UploadShirt($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
-						}
-						else if($type == "pants") {
-							$result = AssetUploader::UploadPants($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
-						}
-						else if($type == "meshes") {
-							$result = AssetUploader::UploadMesh($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
-						}
-						else if($type == "models") {
-							$result = AssetUploader::UploadModel($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);
-						}
-						else if($type == "hats") {
-							/*if($user->IsAdmin()) {
-							} else {
-								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-							}*/
-							$result = AssetUploader::UploadHat($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);	
-							
-						}
-						else if($type == "animations") {
-							$result = AssetUploader::UploadAnimation($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);	
-						}
-						else if($type == "gears") {
-							/*if($user->IsAdmin()) {
-							} else {
-								$result = ['error' => true, 'reason' => "You are not authorised to perform this action!"];
-							}*/
-							$result = AssetUploader::UploadGear($name, $description, $_FILES['ANORRL$CreateAsset$File'], $public, $comments_enabled, $on_sale);	
-							
-						}
-						else {
-							die("type found but not handled...");
-						}
-					}
 
-					if(isset($result)) {
-						if($result['error']) {
-							$_SESSION['ANORRL$CreateAsset$Error'] = true;
-							$_SESSION['ANORRL$CreateAsset$Result'] = $result['reason'];
-						} else {
-							$_SESSION['ANORRL$CreateAsset$Error'] = false;
-							$_SESSION['ANORRL$CreateAsset$Result'] = $result['id'];
-						}
-						
-						die(header("Location: /create/".$type));
-					}
+					$result = NewAssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, AssetYear::All, $public, $on_sale, $comments_enabled);
+				} else {
+					$result = [
+						"error" => true,
+						"reason" => "Hey so this is temporarily disabled for non admins... Testing new uploader system :P"
+					];
 				}
-			} else {
-				$_SESSION['ANORRL$CreateAsset$Error'] = true;
-				$_SESSION['ANORRL$CreateAsset$Result'] = "Dude chill the fuck down it ain't that deep bro..."; 
-				die(header("Location: /create/".$type));
+				
+				if(isset($result)) {
+					if($result['error']) {
+						$_SESSION['ANORRL$CreateAsset$Error'] = true;
+						$_SESSION['ANORRL$CreateAsset$Result'] = $result['reason'];
+					} else {
+						$_SESSION['ANORRL$CreateAsset$Error'] = false;
+						$_SESSION['ANORRL$CreateAsset$Result'] = $result['id'];
+					}
+					
+					die(header("Location: /create/".$type));
+				}
 			}
-			
 		} else {
 			die("Not valid type...");
 		}

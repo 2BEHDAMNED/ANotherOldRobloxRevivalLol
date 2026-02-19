@@ -201,6 +201,51 @@
 		}
 	}
 
+	enum AssetYear {
+		case All;
+		case Y2010;
+		case Y2013;
+		case Y2016;
+
+		public static function index(string|int $ordinal): AssetYear {
+			if(is_int($ordinal)) {
+				return match($ordinal) {
+					0 => AssetYear::All,
+					1 => AssetYear::Y2010,
+					2 => AssetYear::Y2013,
+					3 => AssetYear::Y2016,
+					default => AssetYear::Y2016
+				};
+			} else {
+				return match($ordinal) {
+					"2010" => AssetYear::Y2010,
+					"2013" => AssetYear::Y2013,
+					"2016" => AssetYear::Y2016,
+					default => AssetYear::Y2016
+				};
+			}
+			
+		}
+
+		public function ordinal(): int {
+			return match($this) {
+				AssetYear::All 	    => 0,
+				AssetYear::Y2010 	=> 1,
+				AssetYear::Y2013 	=> 2,
+				AssetYear::Y2016	=> 3,
+			};
+		}
+
+		public function label(): string {
+			return match($this) {
+				AssetYear::All   	=> "All",
+				AssetYear::Y2010 	=> "2010",
+				AssetYear::Y2013 	=> "2013",
+				AssetYear::Y2016	=> "2016",
+			};
+		}
+	}
+
 	/**
 	 * Abstract class for assets
 	*/
@@ -212,15 +257,17 @@
 		public string      $description;
 		public bool        $public;
 
+		public AssetYear   $year;
+
 		public int         $favourites_count;
 		public bool        $comments_enabled;
 
 		public bool        $onsale;
 		public int         $sales_count;
 
-		public Asset|null $relatedasset;
-		public bool         $notcatalogueable;
-		public int $current_version;
+		public Asset|null  $relatedasset;
+		public bool        $notcatalogueable;
+		public int         $current_version;
 		
 
 		public DateTime    $last_updatetime;
@@ -255,6 +302,8 @@
 				$this->description = str_replace("<", "&lt;", str_replace(">", "&gt;", $rowdata['asset_description']));
 				$this->public = boolval($rowdata['asset_public']);
 
+				$this->year = AssetYear::index($rowdata['asset_year']);
+
 				$this->favourites_count = intval( $rowdata['asset_favourites_count']);
 				$this->comments_enabled = boolval($rowdata['asset_comments_enabled']);
 	
@@ -277,7 +326,9 @@
 				$this->name = $asset_data->name;
 				$this->description = $asset_data->description;
 				$this->public = $asset_data->public;
-	
+
+				$this->year = $asset_data->year;
+
 				$this->favourites_count = $asset_data->favourites_count;
 				$this->comments_enabled = $asset_data->comments_enabled;
 	
@@ -496,32 +547,8 @@
 		}
 	}
 
-	enum PlaceYear {
-		case Y2010;
-		case Y2013;
-		case Y2016;
-
-		public static function index(string $ordinal): PlaceYear {
-			return match($ordinal) {
-				"2010" => PlaceYear::Y2010,
-				"2013" => PlaceYear::Y2013,
-				"2016" => PlaceYear::Y2016,
-				default => PlaceYear::Y2016
-			};
-		}
-
-		public function ordinal(): string {
-			return match($this) {
-				PlaceYear::Y2010 	=> "2010",
-				PlaceYear::Y2013 	=> "2013",
-				PlaceYear::Y2016	=> "2016",
-			};
-		}
-	}
-
 	class Place extends Asset {
 		/** is the same as Asset::public */
-		public PlaceYear $year;
 		public bool $friends_only;
 		public bool $copylocked;
 		public int $server_size;
@@ -602,7 +629,6 @@
 
 			$this->friends_only = $this->public;
 			$this->copylocked = boolval($rowdata['place_copylocked']);
-			$this->year = PlaceYear::index($rowdata['place_year']);
 			$this->server_size = intval($rowdata['place_serversize']);
 			$this->visit_count = intval($rowdata['place_visit_count']);
 			$this->current_playing_count = intval($rowdata['place_currently_playing']);

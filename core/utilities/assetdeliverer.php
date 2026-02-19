@@ -109,14 +109,14 @@
 					
 					$client = ClientDetector::DetectClient();
 
-					if($serverplace->year == PlaceYear::Y2013 || $client == Client::C2013) {
+					if($serverplace->year == AssetYear::Y2013 || $client == Client::C2013) {
 						if(str_contains($contents, "Accoutrement") || str_contains($contents, "Accessory")) {
-							die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
+							die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/templates/nothing.rbxm"));
 						}
 					}
 					
 					if(!$serverplace->gears_enabled && $asset->type == AssetType::GEAR && intval($_GET['serverplaceid']) != 0) {
-						die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/nothing.rbxm"));
+						die(file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/templates/nothing.rbxm"));
 					}
 					
 					$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];

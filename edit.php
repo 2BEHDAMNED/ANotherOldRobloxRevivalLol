@@ -131,7 +131,7 @@
 				}
 
 				//$year = $asset->year->ordinal();
-				$year = PlaceYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
+				$year = AssetYear::index($_POST['ANORRL$EditItem$Place$Year'])->ordinal();
 
 				$stmt = $con->prepare('UPDATE `asset_places` SET `place_year` = ?, `place_copylocked` = ?, `place_serversize` = ?, `place_original` = ?, `place_gears_enabled` = ? WHERE `place_id` = ?;');
 				$stmt->bind_param('siiiii', $year, $copylocked, $server_size, $original, $gears, $id);

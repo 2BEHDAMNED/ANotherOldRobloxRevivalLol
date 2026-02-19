@@ -195,15 +195,15 @@
 
 			if($place != null && ($user->id == $place->creator->id || !$place->copylocked || ($place->teamcreate_enabled && $place->IsCloudEditor($user)))) {
 				$placeID = $place->id;
-				if($place->year == PlaceYear::Y2010) {
+				if($place->year == AssetYear::Y2010) {
 					die("anorrl-2010-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:play+gameinfo:0");	
 				}
-				if($place->year == PlaceYear::Y2013) {
+				if($place->year == AssetYear::Y2013) {
 					$clientticket = base64_encode($user->security_key);
 					die("anorrl-2013-studio:1+script:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:edit+gameinfo:$clientticket");	
 				}
 
-				if($place->year == PlaceYear::Y2016) {
+				if($place->year == AssetYear::Y2016) {
 					$clientticket = base64_encode(string: $user->security_key);
 					die("anorrl-studio-lambda:1+script:http%3A%2F%2Farl.lambda.cam%2Fgame%2Fedit.ashx?placeId=$placeID+placeid:$placeID+launchmode:edit+gameinfo:$clientticket");	
 				}
@@ -224,7 +224,7 @@
 					
 					
 					$placeID = $place->id;
-					if($place->year == PlaceYear::Y2016) {
+					if($place->year == AssetYear::Y2016) {
 						if(isUserInAGame($user->id)) {
 							include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 							$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
@@ -246,7 +246,7 @@
 						$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 						$stmt_createnewsession->execute();
 						die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
-					} elseif($place->year == PlaceYear::Y2013) {
+					} elseif($place->year == AssetYear::Y2013) {
 						$joinData = findAndStartOtherGame("2013", $place, $user);
 						
 						if($joinData != null) {
@@ -257,7 +257,7 @@
 						} else {
 							die("server failed to create....");
 						}
-					} else if($place->year == PlaceYear::Y2010) {
+					} else if($place->year == AssetYear::Y2010) {
 						$joinData = findAndStartOtherGame("2010", $place, $user);
 						
 						if($joinData != null) {
@@ -288,7 +288,7 @@
 						
 						
 						$placeID = $place->id;
-						if($place->year == PlaceYear::Y2016) {
+						if($place->year == AssetYear::Y2016) {
 							if(isUserInAGame($user->id)) {
 								include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 								$stmt_createnewsession = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ?");
@@ -310,7 +310,7 @@
 							$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 							$stmt_createnewsession->execute();
 							die("anorrl-player:1+placelauncherurl:http%3A%2F%2Farl.lambda.cam%2Fgame%2FPlaceLauncher.ashx?sessionID=$sessionID+placeid:$placeID+launchmode:play+gameinfo:0");
-						} elseif($place->year == PlaceYear::Y2013) {
+						} elseif($place->year == AssetYear::Y2013) {
 							$joinData = findAndStartOtherGame("2013", $place, $user);
 							
 							if($joinData != null) {

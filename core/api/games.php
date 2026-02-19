@@ -60,7 +60,7 @@
 						"activeplayercount" => $asset->current_playing_count,
 						"visitcount" => $asset->visit_count,
 						"original" => $asset->is_original,
-						"year" => $asset->year->ordinal()
+						"year" => $asset->year->label()
 					]);
 				}
 			}

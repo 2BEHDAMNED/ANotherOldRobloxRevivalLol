@@ -32,17 +32,17 @@
 		
 		$client = ClientDetector::DetectClient();
 
-		$year = PlaceYear::Y2016;
+		$year = AssetYear::Y2016;
 
 		switch($client) {
 			case Client::C2010:
-				$year = PlaceYear::Y2010;
+				$year = AssetYear::Y2010;
 				break;
 			case Client::C2013:
-				$year = PlaceYear::Y2013;
+				$year = AssetYear::Y2013;
 				break;
 			case Client::C2016:
-				$year = PlaceYear::Y2016;
+				$year = AssetYear::Y2016;
 				break;
 			case Client::Unknown:
 				die("Hey something isn't right here... You sure you're using the right studio?");
