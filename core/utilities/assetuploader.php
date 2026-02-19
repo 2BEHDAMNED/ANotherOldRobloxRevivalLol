@@ -246,8 +246,8 @@
 				$md5 = self::GetMD5OfData($data);
 				$new_versionid = count($asset->GetAllVersions())+1;
 
-				$stmt = $con->prepare('INSERT INTO `assetversions`(`version_assetid`, `version_md5sig`, `version_assettype`, `version_subid`) VALUES (?, ?, ?, ?)');
-				$stmt->bind_param('isii', $id, $md5, $parsed_type, $new_versionid);
+				$stmt = $con->prepare('INSERT INTO `assetversions`(`version_assetid`, `version_md5sig`, `version_md5thumb`, `version_assettype`, `version_subid`) VALUES (?, ?, ?, ?, ?)');
+				$stmt->bind_param('issii', $id, $md5, $md5, $parsed_type, $new_versionid);
 				try {
 					if(!$stmt->execute()) {
 						return INTERNALERROR;
