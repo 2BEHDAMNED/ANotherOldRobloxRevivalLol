@@ -236,6 +236,10 @@
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
 			$id = $asset->id;
+			$parsed_public          = intval($public);
+			$parsed_onsale          = intval($on_sale);
+			$parsed_commentsenabled = intval($comments_enabled);
+			$parsed_year            = $asset->year->ordinal();
 
 			if($data != null) {
 				$md5 = self::GetMD5OfData($data);
@@ -255,10 +259,7 @@
 				}
 			}
 
-			$parsed_public          = intval($public);
-			$parsed_onsale          = intval($on_sale);
-			$parsed_commentsenabled = intval($comments_enabled);
-			$parsed_year            = $asset->year->ordinal();
+			
 
 			$versionid = $con->insert_id;
 
