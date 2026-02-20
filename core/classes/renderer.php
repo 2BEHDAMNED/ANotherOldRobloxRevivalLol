@@ -21,7 +21,7 @@
 		public static bool $cantuserenderer = false;
 
 		private static function RequestA(string $endpoint, array $data): ?string {
-			$ch = curl_init("http://192.168.0.202:7000" . $endpoint);
+			$ch = curl_init("http://37.114.46.52:7000" . $endpoint);
 
 			curl_setopt_array($ch, [
 				CURLOPT_RETURNTRANSFER => true,
