@@ -53,7 +53,7 @@
 					header("Content-Type: image/webp");
 					ob_start("ob_gzhandler");
 					header("Content-Encoding: gzip");
-					imagewebp($resizedimage, null, 35);
+					imagewebp($resizedimage, null, 50);
 					ob_end_flush();
 				} else {
 					header("Content-Type: image/png");
