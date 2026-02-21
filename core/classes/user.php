@@ -1113,9 +1113,20 @@ EOT;
 						$place_name = $place->name;
 						$place_id = $place->id;
 
-						return <<<EOT
-						[ In Game: <a href="/$place_stubname-place?id=$place_id">$place_name</a> ]
-						EOT;
+						if($place->public) {
+							if($server_details['server_teamcreate'] == 1) {
+								return <<<EOT
+								[ In TeamCreate: <a href="/$place_stubname-place?id=$place_id">$place_name</a> ]
+								EOT;
+							} else {
+								return <<<EOT
+								[ In Game: <a href="/$place_stubname-place?id=$place_id">$place_name</a> ]
+								EOT;
+							}
+						}
+
+						
+						
 					}
 				} else {
 					$stmt_getsessiondetails = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ? AND `session_status` = 1;");
