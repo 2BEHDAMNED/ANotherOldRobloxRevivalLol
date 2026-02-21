@@ -79,7 +79,7 @@
 								
 								$profile = $friendo->setprofilepicture ? "profile" : "headshot";
 
-								if(!UserSettings::Get($user)->headshots_enabled) {
+								if(UserSettings::Get($user)->headshots_enabled) {
 									$profile = "headshot";
 								}
 

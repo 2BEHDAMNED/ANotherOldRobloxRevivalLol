@@ -40,7 +40,7 @@
 			if($user instanceof User) {
 				$profile = ($user->setprofilepicture ? "profile":"headshot");
 
-				if(!UserSettings::Get($suser)->headshots_enabled) {
+				if(UserSettings::Get($suser)->headshots_enabled) {
 					$profile = "headshot";
 				}
 

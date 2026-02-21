@@ -65,7 +65,7 @@
 											$user_id = $user->id;
 											$user_name = $user->name;
 											$profile = $user->setprofilepicture ? "profile" : "headshot";
-											if(!UserSettings::Get(UserUtils::RetrieveUser())->headshots_enabled && UserUtils::RetrieveUser() != null) {
+											if(UserSettings::Get(UserUtils::RetrieveUser())->headshots_enabled && UserUtils::RetrieveUser() != null) {
 												$profile = "headshot";
 											}
 											echo <<<EOT
@@ -98,7 +98,7 @@
 											$user_id = $user->id;
 											$user_name = $user->name;
 											$profile = $user->setprofilepicture ? "profile" : "headshot";
-											if(!UserSettings::Get(UserUtils::RetrieveUser())->headshots_enabled && UserUtils::RetrieveUser() != null) {
+											if(UserSettings::Get(UserUtils::RetrieveUser())->headshots_enabled && UserUtils::RetrieveUser() != null) {
 												$profile = "headshot";
 											}
 											echo <<<EOT

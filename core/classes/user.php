@@ -1274,7 +1274,7 @@ EOT;
 					"settings_teto" => 1,
 					"settings_emotesounds" => 1,
 					"settings_accessbility" => 0,
-					"settings_headshots" => 1,
+					"settings_headshots" => 0,
 				]);
 			}
 
