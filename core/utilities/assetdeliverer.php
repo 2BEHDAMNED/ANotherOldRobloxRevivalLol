@@ -143,7 +143,7 @@
 				}
 			}
 
-			header("Content-Type: ".checkMimeType($contents));
+			header("Content-Type: application/octet-stream");
 			die($contents);
 			
 		} else {
