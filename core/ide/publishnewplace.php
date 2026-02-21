@@ -56,16 +56,18 @@
 			$server_size = $allUsersCount;
 		}
 
-		$isPublic = isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
+		$isPublic =        isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 		$commentsEnabled = isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
-		$isCopylocked = isset($_POST['ANORRL$IDE$Publish$Place$Copylocked']);
+		$isCopylocked =    isset($_POST['ANORRL$IDE$Publish$Place$Copylocked']);
+		$gears =           isset($_POST['ANORRL$IDE$Publish$Place$GearsEnabled']);
+		$original =        isset($_POST['ANORRL$IDE$Publish$Place$IsOriginal']);
 		
 
 		if(strlen($name) < 4) {
 			die("Name must not be less than 4 characters!");
 		}
 	
-		$result = AssetUploader::CreatePlace($name, $description, $isPublic, $commentsEnabled, $year, $server_size, $isCopylocked, $user);
+		$result = AssetUploader::CreatePlace($name, $description, $isPublic, $commentsEnabled, $year, $server_size, $isCopylocked, $gears, $original, $user);
 		
 		if(!$result['error']) {
 			$place_verified_id = $result['id'];
@@ -131,6 +133,14 @@
 										<tr>
 											<td>Copylocked</td>
 											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$Copylocked" checked></td>
+										</tr>
+										<tr>
+											<td>Gears Enabled</td>
+											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$GearsEnabled"></td>
+										</tr>
+										<tr>
+											<td>Original</td>
+											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$IsOriginal"></td>
 										</tr>
 									</table>
 									<input type="submit" value="Publish" name="ANORRL$IDE$Publish$Place$Submit" style="text-align: center">

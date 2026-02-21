@@ -1,5 +1,5 @@
 <?php
-	if(!isset($_GET['id']) && !isset($_GET['ID'])) {
+	if(!isset($_GET['id']) && !isset($_GET['ID']) && !isset($_GET['Id'])) {
 		die(http_response_code(500));
 	}
 
@@ -7,6 +7,8 @@
 		$id = intval($_GET["id"]);
 	} else if(isset($_GET['ID'])) {
 		$id = intval($_GET["ID"]);
+	} else if(isset($_GET['Id'])) {
+		$id = intval($_GET["Id"]);
 	}
 
 	function checkMimeType($contents) {

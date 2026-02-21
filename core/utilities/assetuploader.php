@@ -406,16 +406,20 @@
 			AssetYear $year,
 			int $server_size = 12,
 			bool $copylocked = true,
+			bool $gears_enabled = false,
+			bool $original = false,
 			User|null $user = null
 		): array {
 			$result = self::UploadAsset(null, AssetType::PLACE, $name, $description, $year, $public, false, $comments_enabled, $user);
 
 			if(!$result['error']) {
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
-				$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`, `place_copylocked`, `place_serversize`) VALUES (?, ?, ?)");
+				$stmt_addplace = $con->prepare("INSERT INTO `asset_places`(`place_id`, `place_copylocked`, `place_serversize`, `place_gears_enabled`, `place_original`) VALUES (?, ?, ?, ?, ?)");
 				
 				$place_copylocked = $copylocked ? 1 : 0;
-				$stmt_addplace->bind_param('iii', $result['id'], $place_copylocked, $server_size);
+				$place_gears = $gears_enabled ? 1 : 0;
+				$place_original = $original ? 1 : 0;
+				$stmt_addplace->bind_param('iiiii', $result['id'], $place_copylocked, $server_size, $place_gears, $place_original);
 				if(!$stmt_addplace->execute()) {
 					$stmt = $con->prepare('DELETE FROM `assets` WHERE `asset_id` = ?;');
 					$stmt->bind_param('i', $result['id']);
