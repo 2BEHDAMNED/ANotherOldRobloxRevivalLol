@@ -33,16 +33,17 @@
 	$users = UserUtils::GetAllUsersPaged($page, 10, $query);
 
 	$users_raw = [];
-	
-	$profile = ($user->setprofilepicture ? "profile":"headshot");
 
-	if(!UserSettings::Get($suser)->headshots_enabled) {
-		$profile = "headshot";
-	}
 
 	if(count($users) != 0) {
 		foreach($users as $user) {
 			if($user instanceof User) {
+				$profile = ($user->setprofilepicture ? "profile":"headshot");
+
+				if(!UserSettings::Get($suser)->headshots_enabled) {
+					$profile = "headshot";
+				}
+
 				array_push($users_raw, [
 					"id" => $user->id,
 					"name" => $user->name,
