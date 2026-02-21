@@ -1116,7 +1116,7 @@ EOT;
 						if($place->public) {
 							if($server_details['server_teamcreate'] == 1) {
 								return <<<EOT
-								[ In TeamCreate: <a href="/$place_stubname-place?id=$place_id">$place_name</a> ]
+								[ In Team Create: <a href="/$place_stubname-place?id=$place_id">$place_name</a> ]
 								EOT;
 							} else {
 								return <<<EOT
@@ -1124,9 +1124,6 @@ EOT;
 								EOT;
 							}
 						}
-
-						
-						
 					}
 				} else {
 					$stmt_getsessiondetails = $con->prepare("DELETE FROM `active_players` WHERE `session_playerid` = ? AND `session_status` = 1;");
@@ -1267,6 +1264,7 @@ EOT;
 		public bool $teto_enabled;
 		public bool $emotesounds_enabled;
 		public bool $accessibility_enabled;
+		public bool $headshots_enabled;
 
 		public static function Get(User|null $user = null) {
 			if($user == null) {
@@ -1276,6 +1274,7 @@ EOT;
 					"settings_teto" => 1,
 					"settings_emotesounds" => 1,
 					"settings_accessbility" => 0,
+					"settings_headshots" => 1,
 				]);
 			}
 
@@ -1301,6 +1300,7 @@ EOT;
 			$this->teto_enabled = boolval($rowdata['settings_teto']);
 			$this->emotesounds_enabled = boolval($rowdata['settings_emotesounds']);
 			$this->accessibility_enabled = boolval($rowdata['settings_accessbility']);
+			$this->headshots_enabled = boolval($rowdata['settings_accessbility']);
 		}
 
 		function SetRandomsEnabled(bool $value) {
@@ -1341,6 +1341,16 @@ EOT;
 			$stmt_updatesetting->bind_param('ii', $stmt_value, $this->user->id);
 			$stmt_updatesetting->execute();
 			$this->accessibility_enabled = $value;
+		}
+
+		function SetHeadshotsEnabled(bool $value) {
+			$stmt_value = $value ? 1 : 0;
+
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_updatesetting = $con->prepare("UPDATE `users_settings` SET `settings_headshots` = ? WHERE `settings_userid` = ?;");
+			$stmt_updatesetting->bind_param('ii', $stmt_value, $this->user->id);
+			$stmt_updatesetting->execute();
+			$this->headshots_enabled = $value;
 		}
 		
 		

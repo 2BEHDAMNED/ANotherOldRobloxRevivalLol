@@ -4,7 +4,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/asset.php";
 
-	$user = UserUtils::RetrieveUser();
+	$suser = UserUtils::RetrieveUser();
 
 	$page = 1;
 	if(isset($_GET['p'])) {
@@ -33,6 +33,12 @@
 	$users = UserUtils::GetAllUsersPaged($page, 10, $query);
 
 	$users_raw = [];
+	
+	$profile = ($user->setprofilepicture ? "profile":"headshot");
+
+	if(!UserSettings::Get($suser)->headshots_enabled) {
+		$profile = "headshot";
+	}
 
 	if(count($users) != 0) {
 		foreach($users as $user) {
@@ -43,7 +49,7 @@
 					"blurb" => htmlspecialchars($user->blurb, ENT_QUOTES),
 					"online" => $user->IsOnline(),
 					"status" => $user->GetOnlineActivity(),
-					"thumbnail" => "/thumbs/".($user->setprofilepicture ? "profile":"headshot")."?id=".$user->id."&sxy=64"
+					"thumbnail" => "/thumbs/$profile?id=".$user->id."&sxy=64"
 				]);
 			}
 		}

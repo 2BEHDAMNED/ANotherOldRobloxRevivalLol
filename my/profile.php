@@ -47,11 +47,13 @@
 		$teto_enabled = isset($_POST['ANORRL$Update$Settings$TetoEnabled']);
 		$emotesounds_enabled = isset($_POST['ANORRL$Update$Settings$EmoteSoundsEnabled']);
 		$accessibility_enabled = isset($_POST['ANORRL$Update$Settings$AccessibilityEnabled']);
+		$headshots_enabled = isset($_POST['ANORRL$Update$Settings$HeadshotsEnabled']);
 
 		$settings->SetRandomsEnabled($randoms_enabled);
 		$settings->SetTetoEnabled($teto_enabled);
 		$settings->SetEmoteSoundsEnabled($emotesounds_enabled);
 		$settings->SetAccessibilityEnabled($accessibility_enabled);
+		$settings->SetHeadshotsEnabled($headshots_enabled);
 
 		die(header("Location: /my/profile"));
 	}
@@ -126,6 +128,12 @@
 										<td>Accessibility</td>
 										<td>
 											<input name="ANORRL$Update$Settings$AccessibilityEnabled" type="checkbox" <?php if($settings->accessibility_enabled): ?>checked<?php endif ?>>
+										</td>
+									</tr>
+									<tr>
+										<td>Headshots</td>
+										<td>
+											<input name="ANORRL$Update$Settings$HeadshotsEnabled" type="checkbox" <?php if($settings->headshots_enabled): ?>checked<?php endif ?>>
 										</td>
 									</tr>
 								</table>
