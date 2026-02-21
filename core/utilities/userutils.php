@@ -216,7 +216,7 @@
 				"Stuff"                             => "/my/stuff.php",
 				"Create Panel"                      => "/create.php",
 				"Changing their profile info"       => "/my/profile.php",
-				"People"                            => "/people.php",
+				"Vandals"                           => "/vandals.php",
 				"Browsing games"                    => "/games.php",
 				"Catalog"						    => "/catalog.php",
 				"Frontpage"                  	    => "/index.php",

@@ -10,8 +10,6 @@
 	$asset = Asset::FromID($id);
 	$user = UserUtils::RetrieveUser();
 
-
-
 	if($asset != null) {
 
 		if($asset->notcatalogueable && $asset->type == AssetType::AUDIO) {
@@ -120,6 +118,7 @@
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/item/item.css">
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
+		<link rel="stylesheet" href="/css/new/my/home.css?v=2">
 
 		<meta name="title" content="<?= htmlspecialchars($asset->name, ENT_QUOTES) ?>">
 		<meta name="description" content="<?= htmlspecialchars(substr($asset->description, 0, 128), ENT_QUOTES) ?>"><!-- Max 128 chars -->
@@ -334,7 +333,30 @@
 							<h3>Users who bought this!</h3>
 							<div id="CommentSection">
 								<?php if($asset->sales_count > 0): ?>
-									<div id="CommentsDisabled">Unfortunately this hasn't been implemented yet...</div>		
+									<div id="FriendsContainer">
+										<ul id="Friends" style="width: 848px;border: 0px;background: none;padding: 0px;">
+											<?php 
+												$users = $asset->GetSales();
+
+												foreach($users as $u) {
+													if($u instanceof User) {
+														
+														$fID = $u->id;
+														$fName = $u->name;
+														echo <<<EOT
+														<li class="Friend">
+															<a id="ProfileLink" href="/users/$fID/profile">
+																<img id="Profile" src="/thumbs/headshot?id=$fID&sxy=100">
+																<div id="Name">$fName</div>
+															</a>
+														</li>
+														EOT;
+													}
+													
+												}
+											?>
+										</ul>
+									</div>
 								<?php else: ?>
 									<div id="CommentsDisabled">Aw man! No one bothered to take this <?= strtolower($asset->type->label()) ?> yet!</div>	
 								<?php endif ?>

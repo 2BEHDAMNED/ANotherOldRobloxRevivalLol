@@ -2,7 +2,7 @@
 	session_start();
 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
-	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/assetuploader_new.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/assetuploader.php';
 	$user = UserUtils::RetrieveUser();
 
 	$type = "none";
@@ -49,24 +49,37 @@
 		if(in_array($type, $validtypes)) {
 			if(isset($_POST['ANORRL$CreateAsset$Name']) &&
 				isset($_POST ['ANORRL$CreateAsset$Description']) &&
-				isset($_FILES['ANORRL$CreateAsset$File'])) {
+				isset($_FILES['ANORRL$CreateAsset$File']) &&
+				isset($_POST['ANORRL$CreateAsset$Year'])
+			) {
 				
-				if($user->IsAdmin()) {
-					$result = null;
-					$name = trim($_POST['ANORRL$CreateAsset$Name']);
+				//if($user->IsAdmin()) {
+				$result = null;
+				$name = trim($_POST['ANORRL$CreateAsset$Name']);
 
-					$description = trim($_POST['ANORRL$CreateAsset$Description']);
-					$public = isset($_POST['ANORRL$CreateAsset$Public']);
-					$comments_enabled = isset($_POST['ANORRL$CreateAsset$CommentsEnabled']);
-					$on_sale = isset($_POST['ANORRL$CreateAsset$OnSale']);
+				$description = trim($_POST['ANORRL$CreateAsset$Description']);
+				$public = isset($_POST['ANORRL$CreateAsset$Public']);
+				$comments_enabled = isset($_POST['ANORRL$CreateAsset$CommentsEnabled']);
+				$on_sale = isset($_POST['ANORRL$CreateAsset$OnSale']);
+				
+				$int_year = intval($_POST['ANORRL$CreateAsset$Year']);
+				if($int_year < 0) {
+					$int_year = 0;
+				}
 
-					$result = NewAssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, AssetYear::All, $public, $on_sale, $comments_enabled);
-				} else {
+				if($int_year > 3) {
+					$int_year = 0;
+				}
+				$year = AssetYear::index($int_year);
+
+				$result = AssetUploader::UploadAsset($_FILES['ANORRL$CreateAsset$File'], $types[$type], $name, $description, $year, $public, $on_sale, $comments_enabled);
+				
+				/*} else {
 					$result = [
 						"error" => true,
 						"reason" => "Hey so this is temporarily disabled for non admins... Testing new uploader system :P"
 					];
-				}
+				}*/
 				
 				if(isset($result)) {
 					if($result['error']) {
@@ -99,7 +112,7 @@
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=1771413807"></script>
-		<script src="/js/create.js?t=1771413807"></script>
+		<script src="/js/create.js?t=1771701183"></script>
 	</head>
 	<body>
 		<div class="Asset" template>
@@ -147,7 +160,6 @@
 							
 							<div id="UploadPanel">
 								<h3>Upload <span id="TypaLabel"></span></h3>
-								<div id="InfoWarning" style="display: none;">Must be in XML format NOT BINARY.</div>
 								<?php if(isset($_SESSION['ANORRL$CreateAsset$Error']) && isset($_SESSION['ANORRL$CreateAsset$Result'])): ?>
 									<?php if($_SESSION['ANORRL$CreateAsset$Error']): ?>
 									<div id="ErrorTime">Error: <span id="Message"><?= $_SESSION['ANORRL$CreateAsset$Result'] ?></span></div>
@@ -155,6 +167,40 @@
 									<div id="SuccessTime">Success! <span id="Message"><?= "Check it out <a href=\"/".Asset::FromID($_SESSION['ANORRL$CreateAsset$Result'])->GetURLTitle()."-item?id=". $_SESSION['ANORRL$CreateAsset$Result']."\">here!</a>"?></span></div>
 									<?php endif ?>
 								<?php endif ?>
+								<style>
+									.Rules {
+										background: #1a1a1a;
+										padding-bottom: 5px;
+										border-bottom: 2px solid black;
+									}
+
+									.Rules h4 {
+										margin: 0px;
+										width: 636px;
+										background: #111;
+										border-bottom: 2px solid black;
+									}
+
+									.Rules ul {
+										margin-bottom: 0px;
+									}
+								</style>
+								<div id="HatUploadRules" class="Rules">
+									<h4>Hat Uploading Rules:</h4>
+									<ol>
+										<li>do not use this to upload gears</li>
+										<li>do not make a hat that alters the gameplay that can give you an advantage</li>
+										<li>if you are adding particle effects, DO NOT HAVE IT BE SUPER OBSTRUCTIVE</li>
+										<li>don't use the uploader to upload character meshes</li>
+									</ol>
+								</div>
+								<div id="GearUploadRules" class="Rules">
+									<h4>Gear Uploading Rules:</h4>
+									<ol>
+										<li>do not upload gears that actively damage a game e.g build tools</li>
+										<li>do not upload gears that actively harm players e.g swords or guns</li>
+									</ol>
+								</div>
 								<form method="POST" enctype="multipart/form-data">
 									<table>
 										<tr>
@@ -180,6 +226,20 @@
 										<tr>
 											<td>On Sale</td>
 											<td><input name="ANORRL$CreateAsset$OnSale" type="checkbox"></td>
+										</tr>
+										<tr id="AssetYear">
+											<td style="vertical-align: middle;">For Client</td>
+											<td>
+												<select name="ANORRL$CreateAsset$Year">
+													<option value="0">Any</option>
+													<option value="3">ANORRL (2016)</option>
+													<!--<option value="2008">2008 (Gamma)</option>-->
+													<option value="2">2013</option>
+													<option value="1">2010</option>
+													<!--<option value="2012">2012</option>-->
+													
+												</select>
+											</td>
 										</tr>
 										<tr>
 											<td><input type="submit" value="Upload" style="margin-top:10px" name="ANORRL$CreateAsset$Submit" onclick="$(this).attr('disabled', 'true'); document.forms[0].submit()"></td>

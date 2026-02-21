@@ -28,7 +28,7 @@
 		case PACKAGE;
 		case GAMEPASS;
 
-		public static function index(?int $ordinal): AssetType {
+		public static function index(int $ordinal): AssetType {
 			return match($ordinal) {
 				1 => AssetType::IMAGE,
 				2 => AssetType::TSHIRT,
@@ -147,6 +147,128 @@
 		}
 	}
 
+
+	class AssetTypeUtils {
+
+		public static function IsRBX(AssetType $type) {
+			return match($type) {
+				AssetType::GEAR => true,
+				AssetType::HAT => true,
+				AssetType::MODEL => true,
+				AssetType::PLACE => true,
+				AssetType::ANIMATION => true,
+				default => false,
+			};
+		}
+
+		public static function IsRenderable(AssetType $type) {
+			return match($type) {
+				/** Accessories */
+				AssetType::GEAR => true,
+				AssetType::HAT => true,
+				AssetType::SHIRT => true,
+				AssetType::PANTS => true,
+				/** Development */
+				AssetType::MODEL => true,
+				AssetType::PLACE => true,
+				AssetType::MESH => true,
+				/** Avatar */
+				AssetType::HEAD => true,
+				AssetType::TORSO => true,
+				AssetType::LEFTARM => true,
+				AssetType::RIGHTARM => true,
+				AssetType::LEFTLEG => true,
+				AssetType::RIGHTLEG => true,
+				default => false,
+			};
+		}
+
+		public static function IsHidden(AssetType $type) {
+			return match($type) {
+				AssetType::IMAGE => true,
+				AssetType::LUA => true,
+				AssetType::BADGE => true,
+				default => false,
+			};
+		}
+
+		public static function IsImage(AssetType $type) {
+			return match($type) {
+				AssetType::IMAGE => true,
+				AssetType::DECAL => true,
+				AssetType::TSHIRT => true,
+				AssetType::SHIRT => true,
+				AssetType::PANTS => true,
+				AssetType::FACE => true,
+				default => false,
+			};
+		}
+
+		public static function IsSellable(AssetType $type) {
+			return match($type) {
+				AssetType::PLACE => false,
+				AssetType::IMAGE => false,
+				AssetType::LUA => false,
+				default => true,
+			};
+		}
+
+		public static function IsUpdateable(AssetType $type) {
+			return match($type) {
+				AssetType::PLACE => true,
+				AssetType::MESH => true,
+				AssetType::MODEL => true,
+				AssetType::LUA => true,
+				AssetType::HAT => true,
+				AssetType::GEAR => true,
+				AssetType::ANIMATION => true,
+				default => false,
+			};
+		}
+
+		public static function IsYearable(AssetType $type) {
+			return match($type) {
+				AssetType::IMAGE => false,
+				AssetType::DECAL => false,
+				AssetType::AUDIO => false,
+				default => true,
+			};
+		}
+
+		private static function GetTemplate(string $filename): string {
+			return file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/templates/$filename.rbxm");
+		}
+
+		public static function Replace(string $var, mixed $val, string $data) {
+			return str_replace("{".$var."}", $val, $data);
+		}
+
+		public static function GenerateDecalRBXM(int $id, bool $face = false): string {
+			$data = self::GetTemplate("decal");
+			if($face) {
+				$data = str_replace("{name}", "face", $data);
+			}
+
+			return self::Replace("assetid", $id, $data);
+		}
+
+		public static function GenerateFaceRBXM(int $id): string {
+			return self::GenerateDecalRBXM($id, true);
+		}
+
+		public static function GenerateTShirtRBXM(int $id): string {
+			return self::Replace("assetid", $id, self::GetTemplate("tshirt"));
+		}
+		
+		public static function GenerateShirtRBXM(int $id): string {
+			return self::Replace("assetid", $id, self::GetTemplate("shirt"));
+		}
+
+		public static function GeneratePantsRBXM(int $id): string {
+			return self::Replace("assetid", $id, self::GetTemplate("pants"));
+		}
+	}
+
 	enum CharacterMeshType {
 		case HEAD;
 		case TORSO;
@@ -155,7 +277,7 @@
 		case LEFTLEG;
 		case RIGHTLEG;
 
-		public static function index(?int $ordinal): CharacterMeshType {
+		public static function index(int $ordinal): CharacterMeshType {
 			return match($ordinal) {
 				0 => CharacterMeshType::HEAD,
 				1 => CharacterMeshType::TORSO,
@@ -504,6 +626,27 @@
 			$stmt->execute();
 
 			return $stmt->get_result()->num_rows != 0;
+		}
+
+		function GetSales(): array {
+			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			$stmt = $con->prepare("SELECT * FROM `transactions` WHERE `ta_userid` != `ta_assetcreator` AND `ta_asset` = ?;");
+			$stmt->bind_param("i", $this->id);
+			$stmt->execute();
+
+			$sales = $stmt->get_result();
+
+			$result = [];
+			
+			while($row = $sales->fetch_assoc()) {
+				$user = User::FromID(intval($row['ta_userid']));
+
+				if($user != null && !$user->IsBanned()) {
+					array_push($result, $user);
+				}
+			}
+
+			return $result;
 		}
 
 		function UpdateSalesCount() {
@@ -864,6 +1007,11 @@
 			$stmt_getuser = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
 			$stmt_getuser->bind_param('si', $md5hash, $this->id);
 			$stmt_getuser->execute();
+
+			if($this->asset_type == AssetType::PLACE) {
+				// remove place thumbnail
+				unlink($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".$this->asset->id);
+			}
 		}
 
 		function SetThumbnail(Asset $asset) {
@@ -879,7 +1027,12 @@
 
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
-			$stmt_getuser->bind_param('si', $version->md5thumb, $this->id);
+			if($asset->id == $this->asset->id) {
+				$stmt_getuser->bind_param('si', $this->md5sig, $this->id);
+			} else {
+				$stmt_getuser->bind_param('si', $version->md5thumb, $this->id);
+			}
+			
 			$stmt_getuser->execute();
 		}
 

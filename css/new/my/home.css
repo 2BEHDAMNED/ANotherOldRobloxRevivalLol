@@ -50,17 +50,17 @@ h1, h2, h3, h4 {
 	width: 100%;
 }*/
 
-#HomePage #FriendsContainer {
+#FriendsContainer {
 	display: inline-block;
 	margin-top: 3px;
 	margin-left: 3px;
 }
 
-#HomePage #FriendsContainer h3 {
+#FriendsContainer h3 {
 	margin: 0px;
 }
 
-#HomePage #FriendsContainer #Friends {
+#FriendsContainer #Friends {
 	padding: 5px;
 	border: 2px solid black;
 	height: 157px;
@@ -75,7 +75,7 @@ h1, h2, h3, h4 {
 	margin: 0px;
 }
 
-#HomePage #FriendsContainer #NoFriends {
+#FriendsContainer #NoFriends {
 	display: table-cell;
 	width: 100%;
 	height: 100%;
@@ -85,7 +85,7 @@ h1, h2, h3, h4 {
 	font-size: 16px;
 }
 
-#HomePage #FriendsContainer #Friends .Friend {
+#FriendsContainer #Friends .Friend {
 	border: 2px solid #090909;
 	background: #282828;
 	width: 114px;
@@ -96,18 +96,18 @@ h1, h2, h3, h4 {
 	display: inline-block;
 }
 
-#HomePage #FriendsContainer #Friends .Friend a:hover #Name {
+#FriendsContainer #Friends .Friend a:hover #Name {
 	text-decoration: underline;
 }
 
-#HomePage #FriendsContainer #Friends .Friend img {
+#FriendsContainer #Friends .Friend img {
 	width: 100px;
 	height: 100px;
 	border: 2px solid #090909;
 	background: #1a1919;
 }
 
-#HomePage #FriendsContainer #Friends .Friend #Name {
+#FriendsContainer #Friends .Friend #Name {
 	vertical-align: middle;
 	text-align: center;
 	height: 30px;

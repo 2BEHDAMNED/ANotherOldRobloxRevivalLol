@@ -1,5 +1,5 @@
 <?php
-	if(!isset($_GET['id']) && !isset($_GET['ID'])) {
+	if(!isset($_GET['id']) && !isset($_GET['ID']) && !isset($_GET['Id'])) {
 		die(http_response_code(500));
 	}
 
@@ -7,6 +7,8 @@
 		$id = intval($_GET["id"]);
 	} else if(isset($_GET['ID'])) {
 		$id = intval($_GET["ID"]);
+	} else if(isset($_GET['Id'])) {
+		$id = intval($_GET["Id"]);
 	}
 
 	function checkMimeType($contents) {
@@ -58,7 +60,7 @@
 				
 				if($place->copylocked) {
 					$error = false;
-					if($user == null && isset($_GET['access'])) {
+					if($user == null && !isset($_GET['access'])) {
 						$error = true;
 					} 
 					
@@ -66,7 +68,7 @@
 						$error = true;
 					}
 
-					if(!$error && $user != null && $place->creator->id != $user->id && $user->IsAdmin()) {
+					if(!$error && $user != null && $place->creator->id != $user->id && !$user->IsAdmin()) {
 						$error = true;
 					}
 
@@ -76,7 +78,6 @@
 					}
 				}
 			} else{
-				// whitelist code by aria (modified heavily by me)
 				if (isset($_GET['serverplaceid'])) {
 					$serverplace = Place::FromID(intval($_GET['serverplaceid']));
 					
@@ -122,7 +123,7 @@
 					$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];
 					$whitelist = ["Keyframe", "Animation"];
 					
-					foreach($whitelist as $white) {
+					/*foreach($whitelist as $white) {
 						if(strpos($contents, $white) !== false) {
 							foreach($blacklist as $black) {
 								if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT && $asset->type != AssetType::MODEL && !(intval($_GET['serverplaceid']) == 0 && $asset->type == AssetType::GEAR))) { // hope that model whitelist aint gonna bite my ass
@@ -131,7 +132,7 @@
 								}
 							}
 						}
-					}
+					}*/
 				}
 
 				if($asset->type == AssetType::LUA && in_array($id, $sign_ids)) {
@@ -142,6 +143,7 @@
 				}
 			}
 
+			header("Content-Type: application/octet-stream");
 			die($contents);
 			
 		} else {

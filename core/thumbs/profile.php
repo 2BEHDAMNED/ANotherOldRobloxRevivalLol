@@ -52,52 +52,7 @@
 						header("Content-Type: image/webp");
 						ob_start("ob_gzhandler");
 						header("Content-Encoding: gzip");
-						imagewebp($resizedimage, null, 35);
-						ob_end_flush();
-					} else {
-						header("Content-Type: image/png");
-						imagepng($resizedimage, null, 9);
-					}
-				} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
-					$sizex = intval($_GET['sx']);
-					if($sizex < 16 || $sizex > 420) {
-						$sizex = 420;
-					}
-
-					$sizey = intval($_GET['sy']);
-					if($sizey < 16 || $sizey > 420) {
-						$sizey = 420;
-					}
-
-					$image = imagecreatefromstring($contents);
-					$width = imagesx($image);
-					$height = imagesy($image);
-
-					if($width != $height) {
-						if($width > $height) {
-							$cropSize = $height;
-						}
-
-						if($width < $height) {
-							$cropSize = $width;
-						}
-
-						$image = ImageUtils::cropAlign($image,$cropSize, $cropSize);
-						$width = $cropSize;
-						$height = $cropSize;
-					}
-
-					imagesavealpha($image, true);
-					$resizedimage = imagecreatetruecolor($sizex, $sizey);
-					imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
-					imagesavealpha($resizedimage, true);
-
-					ob_clean();
-					if(!$nocompress) {
-						header("Content-Type: image/webp");
-						ob_start("ob_gzhandler");
-						header("Content-Encoding: gzip");
-						imagewebp($resizedimage, null, 35);
+						imagewebp($resizedimage, null, 50);
 						ob_end_flush();
 					} else {
 						header("Content-Type: image/png");

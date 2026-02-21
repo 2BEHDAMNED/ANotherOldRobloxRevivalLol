@@ -3,6 +3,7 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/imageutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/clientdetect.php";
 
 	$user = UserUtils::RetrieveUser();
 
@@ -11,7 +12,7 @@
 
 		$specialcase = false;
 
-		$nocompress = isset($_GET['nocompress']);
+		$nocompress = isset($_GET['nocompress']) || ClientDetector::DetectClient() != Client::Unknown;
 
 		$asset = Asset::FromID($id);
 		if($asset != null) {
@@ -27,24 +28,26 @@
 			if($stmt_result->num_rows == 0 && $asset->type == AssetType::PLACE) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/noassets.png");
 			} else {
-				$md5hash = $stmt_result->fetch_assoc()['version_md5thumb'];
+				$version = $stmt_result->fetch_assoc();
+				$md5hash = $version['version_md5sig'];
+				$thumbsmd5hash = $version['version_md5thumb'];
 
-				if($md5hash == "sound" && $asset->type == AssetType::AUDIO) {
+				if($asset->type == AssetType::AUDIO && ($thumbsmd5hash == "sound" || $md5hash == $thumbsmd5hash)) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
 				} else if($asset->type == AssetType::LUA) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/script.png");
 				} else if($asset->type == AssetType::ANIMATION) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/animation.png");
-				} else if($md5hash == "placeholder" || !$asset->IsUsable()) {
-					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/noassets.png");
+				} else if($thumbsmd5hash == "placeholder" || !$asset->IsUsable()) {
+					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.png");
 				} else {
-					if(count($asset->GetRelatedAssets()) != 0 || $asset->type == AssetType::IMAGE) {
-						if(count($asset->GetRelatedAssets()) == 1 && $asset->GetRelatedAssets()[0]->type == AssetType::IMAGE) {
-							$md5hash = $asset->GetRelatedAssets()[0]->GetLatestVersionDetails()->md5sig;
+					if(count($asset->GetRelatedAssets()) != 0 && ($asset->type == AssetType::DECAL || $asset->type == AssetType::FACE) || $asset->type == AssetType::IMAGE) {
+						if(count($asset->GetRelatedAssets()) == 1 && $asset->GetRelatedAssets()[0]->type == AssetType::IMAGE && ($asset->type == AssetType::DECAL || $asset->type == AssetType::FACE)) {
+							$thumbsmd5hash = $asset->GetRelatedAssets()[0]->GetLatestVersionDetails()->md5sig;
 						}
 						
-						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash")) {
-							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$md5hash");
+						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/$thumbsmd5hash")) {
+							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/$thumbsmd5hash");
 							$specialcase = true;
 						} else {
 							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");
@@ -53,8 +56,8 @@
 						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id")) {
 							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$id");
 						}
-						else if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash")) {
-							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$md5hash");
+						else if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$thumbsmd5hash")) {
+							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/$thumbsmd5hash");
 						}
 						else {
 							$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/unavailable.jpg");

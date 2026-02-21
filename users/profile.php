@@ -102,7 +102,7 @@
 							<h2 style="margin: 5px 0px; width: 830px;"><?= $get_user->name ?>'s Profile</h2>
 							<div id="ProfileImage">
 								<div id="ImageContainer">
-									<img id="ProfilePictureYeah" src="/thumbs/<?= $get_user->setprofilepicture ? "profile" : "headshot" ?>?id=<?= $get_user->id ?>">
+									<img id="ProfilePictureYeah" src="/thumbs/<?= $get_user->setprofilepicture ? "profile" : "headshot" ?>?id=<?= $get_user->id ?>&nocompress">
 								</div>
 								
 								<div id="Controls">
@@ -213,7 +213,7 @@
 							<div id="AvatarRender">
 								<a href="javascript:flipRenders()" style="position: absolute;z-index: 2;bottom: 5px;right: 5px;"><img src="/images/icons/switch.png" style="width: 30px;image-rendering: pixelated;"></a>
 									
-								<img id="AvatarRenderYeah" src="/thumbs/player?id=<?= $get_user->id ?>&sxy=200">
+								<img id="AvatarRenderYeah" src="/thumbs/player?id=<?= $get_user->id ?>&sxy=200&nocompress">
 							</div>
 							<br id="Clearer">
 						</div>

@@ -56,33 +56,27 @@
 			$server_size = $allUsersCount;
 		}
 
-		$isPublic = isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
+		$isPublic =        isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
 		$commentsEnabled = isset($_POST['ANORRL$IDE$Publish$Place$ServerSize']);
-		$isCopylocked = isset($_POST['ANORRL$IDE$Publish$Place$Copylocked']);
+		$isCopylocked =    isset($_POST['ANORRL$IDE$Publish$Place$Copylocked']);
+		$gears =           isset($_POST['ANORRL$IDE$Publish$Place$GearsEnabled']);
+		$original =        isset($_POST['ANORRL$IDE$Publish$Place$IsOriginal']);
 		
 
 		if(strlen($name) < 4) {
 			die("Name must not be less than 4 characters!");
 		}
-
-		$timer = 31;
-		if($user->GetLatestAssetUploaded() != null) {
-			$difference = (time()-($user->GetLatestAssetUploaded()->created_at->getTimestamp()-3600));
-			$timer = $difference;
-		}
-
-		if($timer < 30) {
-			die("You are uploading too many assets! Wait a bit!");
-		}
 	
-		$result = AssetUploader::CreatePlace($name, $description, $isPublic, $isCopylocked, $commentsEnabled, $server_size, $year, $user);
+		$result = AssetUploader::CreatePlace($name, $description, $isPublic, $commentsEnabled, $year, $server_size, $isCopylocked, $gears, $original, $user);
 		
-		if($result['error'] == false) {
+		if(!$result['error']) {
 			$place_verified_id = $result['id'];
 			$verifiedcrap = true;
 		} else {
+
 			$errorReason = $result['reason'];
-			die("<script>window.alert(\"$errorReason\")</script>");
+			$verifiedcrap = false;
+			die("<script>window.alert(\"$errorReason\");</script>");
 		}
 		
 	}
@@ -139,6 +133,14 @@
 										<tr>
 											<td>Copylocked</td>
 											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$Copylocked" checked></td>
+										</tr>
+										<tr>
+											<td>Gears Enabled</td>
+											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$GearsEnabled"></td>
+										</tr>
+										<tr>
+											<td>Original</td>
+											<td><input type="checkbox" name="ANORRL$IDE$Publish$Place$IsOriginal"></td>
 										</tr>
 									</table>
 									<input type="submit" value="Publish" name="ANORRL$IDE$Publish$Place$Submit" style="text-align: center">

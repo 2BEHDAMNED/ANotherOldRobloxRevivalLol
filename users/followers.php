@@ -70,6 +70,10 @@
 								
 								$profile = $friendo->setprofilepicture ? "profile" : "headshot";
 
+								if(UserSettings::Get($user)->headshots_enabled) {
+									$profile = "headshot";
+								}
+
 								$status = $friendo->IsOnline() ? "Online" : "Offline";
 								
 								$fname = $friendo->name;

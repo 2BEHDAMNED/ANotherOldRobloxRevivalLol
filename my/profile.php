@@ -47,11 +47,13 @@
 		$teto_enabled = isset($_POST['ANORRL$Update$Settings$TetoEnabled']);
 		$emotesounds_enabled = isset($_POST['ANORRL$Update$Settings$EmoteSoundsEnabled']);
 		$accessibility_enabled = isset($_POST['ANORRL$Update$Settings$AccessibilityEnabled']);
+		$headshots_enabled = isset($_POST['ANORRL$Update$Settings$HeadshotsEnabled']);
 
 		$settings->SetRandomsEnabled($randoms_enabled);
 		$settings->SetTetoEnabled($teto_enabled);
 		$settings->SetEmoteSoundsEnabled($emotesounds_enabled);
 		$settings->SetAccessibilityEnabled($accessibility_enabled);
+		$settings->SetHeadshotsEnabled($headshots_enabled);
 
 		die(header("Location: /my/profile"));
 	}
@@ -128,6 +130,12 @@
 											<input name="ANORRL$Update$Settings$AccessibilityEnabled" type="checkbox" <?php if($settings->accessibility_enabled): ?>checked<?php endif ?>>
 										</td>
 									</tr>
+									<tr>
+										<td>Headshots</td>
+										<td>
+											<input name="ANORRL$Update$Settings$HeadshotsEnabled" type="checkbox" <?php if($settings->headshots_enabled): ?>checked<?php endif ?>>
+										</td>
+									</tr>
 								</table>
 
 								<input type="submit" value="Update" name="ANORRL$Update$Settings$Submit">
@@ -141,7 +149,7 @@
 								<span style="display: block;margin-bottom: 10px;font-size: 10px;color: #999;font-style: italic;">Thanks gamma for the template and letting my ass scrutinise it :sob:</span>
 								<div style="width:294px;margin: 0 auto;">
 									<h4 style="margin: 0;width: 254px;">This what you look like right now...</h4>
-									<img style="width: 290px;border: 2px solid black;background: #1a1a1a;" src="/thumbs/profile?id=<?= $user->id ?>&sxy=290">
+									<img style="width: 290px;border: 2px solid black;background: #1a1a1a;" src="/thumbs/profile?id=<?= $user->id ?>&sxy=290&nocompress">
 									<div class="FilePicker" style="display: block;margin-top: 10px;">
 										<label for="thumbfiles">Choose file</label>
 										<input id="thumbfiles" type="file" name="ANORRL$Update$Profile$Picture" accept="image/*">
