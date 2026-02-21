@@ -1300,7 +1300,7 @@ EOT;
 			$this->teto_enabled = boolval($rowdata['settings_teto']);
 			$this->emotesounds_enabled = boolval($rowdata['settings_emotesounds']);
 			$this->accessibility_enabled = boolval($rowdata['settings_accessbility']);
-			$this->headshots_enabled = boolval($rowdata['settings_accessbility']);
+			$this->headshots_enabled = boolval($rowdata['settings_headshots']);
 		}
 
 		function SetRandomsEnabled(bool $value) {
