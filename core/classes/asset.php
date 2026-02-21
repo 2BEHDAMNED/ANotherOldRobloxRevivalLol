@@ -28,7 +28,7 @@
 		case PACKAGE;
 		case GAMEPASS;
 
-		public static function index(?int $ordinal): AssetType {
+		public static function index(int $ordinal): AssetType {
 			return match($ordinal) {
 				1 => AssetType::IMAGE,
 				2 => AssetType::TSHIRT,
@@ -204,6 +204,36 @@
 			};
 		}
 
+		public static function IsSellable(AssetType $type) {
+			return match($type) {
+				AssetType::PLACE => false,
+				AssetType::IMAGE => false,
+				AssetType::LUA => false,
+				default => true,
+			};
+		}
+
+		public static function IsUpdateable(AssetType $type) {
+			return match($type) {
+				AssetType::PLACE => true,
+				AssetType::MESH => true,
+				AssetType::MODEL => true,
+				AssetType::LUA => true,
+				AssetType::HAT => true,
+				AssetType::GEAR => true,
+				AssetType::ANIMATION => true,
+				default => false,
+			};
+		}
+
+		public static function IsYearable(AssetType $type) {
+			return match($type) {
+				AssetType::IMAGE => false,
+				AssetType::DECAL => false,
+				default => true,
+			};
+		}
+
 		private static function GetTemplate(string $filename): string {
 			return file_get_contents($_SERVER['DOCUMENT_ROOT']."/core/templates/$filename.rbxm");
 		}
@@ -246,7 +276,7 @@
 		case LEFTLEG;
 		case RIGHTLEG;
 
-		public static function index(?int $ordinal): CharacterMeshType {
+		public static function index(int $ordinal): CharacterMeshType {
 			return match($ordinal) {
 				0 => CharacterMeshType::HEAD,
 				1 => CharacterMeshType::TORSO,

@@ -12,7 +12,7 @@
 
 		$specialcase = false;
 
-		$nocompress = isset($_GET['nocompress']);
+		$nocompress = isset($_GET['nocompress']) || ClientDetector::DetectClient() != Client::Unknown;
 
 		$asset = Asset::FromID($id);
 		if($asset != null) {

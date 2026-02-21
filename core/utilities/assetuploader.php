@@ -410,6 +410,10 @@
 			bool $original = false,
 			User|null $user = null
 		): array {
+			if($year == AssetYear::All) {
+				$year = AssetYear::Y2016;
+			}
+
 			$result = self::UploadAsset(null, AssetType::PLACE, $name, $description, $year, $public, false, $comments_enabled, $user);
 
 			if(!$result['error']) {
@@ -625,7 +629,9 @@
 									ob_end_clean();
 								}
 
-								$result = self::CommitAsset($data, AssetType::IMAGE, $name, "", false, false, $comments_enabled, $year, $user);
+
+
+								$result = self::CommitAsset($data, AssetType::IMAGE, $name, "", false, false, $comments_enabled, AssetYear::All, $user);
 								if($result["error"]) {
 									return $result;
 								}
@@ -698,7 +704,7 @@
 									return ["error" => true, "reason" => "Audio file was not a valid format!"];
 								}
 
-								return self::CommitAsset($data, $type, $name, $description, $public, $on_sale, $comments_enabled, $year, $user);
+								return self::CommitAsset($data, $type, $name, $description, $public, $on_sale, $comments_enabled, AssetYear::All, $user);
 
 							} else {
 								return ["error" => true, "reason" => "Invalid asset type found!"];

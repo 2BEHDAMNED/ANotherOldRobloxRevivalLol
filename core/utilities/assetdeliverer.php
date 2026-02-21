@@ -78,7 +78,6 @@
 					}
 				}
 			} else{
-				// whitelist code by aria (modified heavily by me)
 				if (isset($_GET['serverplaceid'])) {
 					$serverplace = Place::FromID(intval($_GET['serverplaceid']));
 					
@@ -124,7 +123,7 @@
 					$blacklist = ["MeshId", "Script", "Remote", "Service", "Model"];
 					$whitelist = ["Keyframe", "Animation"];
 					
-					foreach($whitelist as $white) {
+					/*foreach($whitelist as $white) {
 						if(strpos($contents, $white) !== false) {
 							foreach($blacklist as $black) {
 								if(strpos($contents, $black) !== false && (intval($_GET['serverplaceid']) != 0 && $asset->type != AssetType::HAT && $asset->type != AssetType::MODEL && !(intval($_GET['serverplaceid']) == 0 && $asset->type == AssetType::GEAR))) { // hope that model whitelist aint gonna bite my ass
@@ -133,7 +132,7 @@
 								}
 							}
 						}
-					}
+					}*/
 				}
 
 				if($asset->type == AssetType::LUA && in_array($id, $sign_ids)) {

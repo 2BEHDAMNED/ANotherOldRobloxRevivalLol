@@ -34,21 +34,6 @@
 		return str_replace($blockedchars, '', trim($contents));
 	}
 
-	$not_selling_types = [
-		AssetType::PLACE,
-		AssetType::LUA,
-	];
-
-	$versioning_types = [
-		AssetType::PLACE,
-		AssetType::MESH,
-		AssetType::MODEL,
-		AssetType::LUA,
-		AssetType::HAT,
-		AssetType::GEAR,
-		AssetType::ANIMATION
-	];
-
 	function CheckMimeType($contents) {
 		$file_info = new finfo(FILEINFO_MIME_TYPE);
 		return $file_info->buffer($contents);
@@ -162,7 +147,7 @@
 	} else if(isset($_FILES['ANORRL$PublishAsset$File']) &&
 	   isset($_POST['ANORRL$PublishAsset$Submit'])) {
 
-		if(in_array($asset->type, $versioning_types)) {
+		if(AssetTypeUtils::IsUpdateable($asset->type)) {
 			$result = AssetUploader::UpdateAsset($asset, $_FILES['ANORRL$PublishAsset$File']);
 			
 			if($result['error']) {
@@ -240,7 +225,7 @@
 												<td>Public</td>
 												<td><input type="checkbox" name="ANORRL$EditItem$PublicBox" <?php if($asset->public): ?>checked<?php endif ?>></td>
 											</tr>
-											<?php if(!in_array($asset->type, $not_selling_types)): ?>
+											<?php if(AssetTypeUtils::IsSellable($asset->type)): ?>
 											<tr>
 												<td><label for="OnSaleCheckbox">On Sale</label></td>
 												<td><input id="OnSaleCheckbox" name="ANORRL$EditItem$OnSaleBox" type="checkbox" <?php if($asset->onsale): ?>checked<?php endif ?>></td>
@@ -254,12 +239,12 @@
 												<td style="vertical-align: middle;">Year</td>
 												<td>
 													<select name="ANORRL$EditItem$Year">
-														<option value="2016">ANORRL (2016)</option>
-														<!--<option value="2008">2008 (Gamma)</option>-->
-														<option value="2013">2013</option>
-														<option value="2010">2010</option>
-														<!--<option value="2012">2012</option>-->
-														
+														<?php if($asset->type != AssetType::PLACE && AssetTypeUtils::IsYearable($asset->type)): ?>
+														<option value="0" <?php if($asset->year->ordinal() == 0): ?>selected<?php endif ?>>Any</option>
+														<?php endif ?>
+														<option value="3" <?php if($asset->year->ordinal() == 3): ?>selected<?php endif ?>>ANORRL (2016)</option>
+														<option value="2" <?php if($asset->year->ordinal() == 2): ?>selected<?php endif ?>>2013</option>
+														<option value="1" <?php if($asset->year->ordinal() == 1): ?>selected<?php endif ?>>2010</option>
 													</select>
 												</td>
 											</tr>
@@ -324,7 +309,7 @@
 								</div>
 							</form>
 							<?php endif ?>
-							<?php if(in_array($asset->type, $versioning_types)): ?>
+							<?php if(AssetTypeUtils::IsUpdateable($asset->type)): ?>
 							<form method="POST" id="DetailStack" enctype="multipart/form-data">
 								<h4 style="margin-top: 10px">Publish Version</h4>
 								<table style="padding-bottom: 37px;" id="Table">
