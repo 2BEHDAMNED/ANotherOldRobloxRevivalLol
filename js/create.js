@@ -29,9 +29,13 @@ var categoryFileTypes = {
 	24: ".rbxm,.rbxmx",
 }
 
+var versionshit = [
+	1, 3, 13
+];
+
 const regex = /[^A-Za-z0-9 ]/g;
 
-ANORRL.Create  = {
+ANORRL.Create = {
 	CurrentPage: 1,
 	CurrentCategory: 11,
 	CurrentlyLoadingCrapBruh: false,
@@ -62,6 +66,24 @@ ANORRL.Create  = {
 		}
 		if(page === undefined) {
 			page = this.CurrentPage;
+		}
+
+		if(versionshit.includes(Number(category))) {
+			$("#AssetYear").css("display", "none");
+		} else {
+			$("#AssetYear").css("display", "table-row");
+		}
+
+		if(category != 8) {
+			$("#HatUploadRules").css("display", "none");
+		} else {
+			$("#HatUploadRules").css("display", "block");
+		}
+		
+		if(category != 19) {
+			$("#GearUploadRules").css("display", "none");
+		} else {
+			$("#GearUploadRules").css("display", "block");
 		}
 
 		var feedscontainer = $("#AssetsContainer > table");
@@ -113,8 +135,6 @@ ANORRL.Create  = {
 			ANORRL.Create.CurrentPage = data['page'];
 			var current_page = ANORRL.Create.CurrentPage;
 			var total_pages = data['total_pages'];
-
-			
 
 			if(assets.length == 0) {
 				if(pagercontainer.css("display") == "block") {

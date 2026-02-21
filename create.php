@@ -112,7 +112,7 @@
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=1771413807"></script>
-		<script src="/js/create.js?t=1771413807"></script>
+		<script src="/js/create.js?t=1771701183"></script>
 	</head>
 	<body>
 		<div class="Asset" template>
@@ -160,7 +160,6 @@
 							
 							<div id="UploadPanel">
 								<h3>Upload <span id="TypaLabel"></span></h3>
-								<div id="InfoWarning" style="display: none;">Must be in XML format NOT BINARY.</div>
 								<?php if(isset($_SESSION['ANORRL$CreateAsset$Error']) && isset($_SESSION['ANORRL$CreateAsset$Result'])): ?>
 									<?php if($_SESSION['ANORRL$CreateAsset$Error']): ?>
 									<div id="ErrorTime">Error: <span id="Message"><?= $_SESSION['ANORRL$CreateAsset$Result'] ?></span></div>
@@ -168,6 +167,40 @@
 									<div id="SuccessTime">Success! <span id="Message"><?= "Check it out <a href=\"/".Asset::FromID($_SESSION['ANORRL$CreateAsset$Result'])->GetURLTitle()."-item?id=". $_SESSION['ANORRL$CreateAsset$Result']."\">here!</a>"?></span></div>
 									<?php endif ?>
 								<?php endif ?>
+								<style>
+									.Rules {
+										background: #1a1a1a;
+										padding-bottom: 5px;
+										border-bottom: 2px solid black;
+									}
+
+									.Rules h4 {
+										margin: 0px;
+										width: 636px;
+										background: #111;
+										border-bottom: 2px solid black;
+									}
+
+									.Rules ul {
+										margin-bottom: 0px;
+									}
+								</style>
+								<div id="HatUploadRules" class="Rules">
+									<h4>Hat Uploading Rules:</h4>
+									<ol>
+										<li>do not use this to upload gears</li>
+										<li>do not make a hat that alters the gameplay that can give you an advantage</li>
+										<li>if you are adding particle effects, DO NOT HAVE IT BE SUPER OBSTRUCTIVE</li>
+										<li>don't use the uploader to upload character meshes</li>
+									</ol>
+								</div>
+								<div id="GearUploadRules" class="Rules">
+									<h4>Gear Uploading Rules:</h4>
+									<ol>
+										<li>do not upload gears that actively damage a game e.g build tools</li>
+										<li>do not upload gears that actively harm players e.g swords or guns</li>
+									</ol>
+								</div>
 								<form method="POST" enctype="multipart/form-data">
 									<table>
 										<tr>
@@ -194,7 +227,7 @@
 											<td>On Sale</td>
 											<td><input name="ANORRL$CreateAsset$OnSale" type="checkbox"></td>
 										</tr>
-										<tr id="PlaceYear">
+										<tr id="AssetYear">
 											<td style="vertical-align: middle;">For Client</td>
 											<td>
 												<select name="ANORRL$CreateAsset$Year">

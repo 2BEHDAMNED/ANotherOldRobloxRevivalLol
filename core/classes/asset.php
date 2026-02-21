@@ -230,6 +230,7 @@
 			return match($type) {
 				AssetType::IMAGE => false,
 				AssetType::DECAL => false,
+				AssetType::AUDIO => false,
 				default => true,
 			};
 		}

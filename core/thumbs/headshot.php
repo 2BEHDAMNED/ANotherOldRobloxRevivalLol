@@ -59,55 +59,6 @@
 					header("Content-Type: image/png");
 					imagepng($resizedimage, null, 9);
 				}
-			} else if(isset($_GET['sx']) && isset($_GET['sy'])) {
-				$sizex = intval($_GET['sx']);
-				if($sizex < 16 || $sizex > 1080) {
-					$sizex = 420;
-				}
-
-				$sizey = intval($_GET['sy']);
-				if($sizey < 16 || $sizey > 1080) {
-					$sizey = 420;
-				}
-
-				$image = imagecreatefromstring($contents);
-				$width = imagesx($image);
-				$height = imagesy($image);
-
-				if($width != $height) {
-					if($width > $height) {
-						$cropSize = $height;
-					}
-
-					if($width < $height) {
-						$cropSize = $width;
-					}
-
-					$image = ImageUtils::cropAlign($image,$cropSize, $cropSize);
-					$width = $cropSize;
-					$height = $cropSize;
-				}
-
-				imagesavealpha($image, true);
-				
-
-				$resizedimage = imagecreatetruecolor($sizex, $sizey);
-				imagesavealpha($resizedimage, true);
-				$trans_colour = imagecolorallocatealpha($resizedimage, 0, 0, 0, 127);
-				imagefill($resizedimage, 0, 0, $trans_colour);
-				imagecopyresampled($resizedimage, $image, 0, 0, 0, 0, $sizex, $sizey, $width, $height);
-
-				ob_clean();
-				if(!$nocompress) {
-					header("Content-Type: image/webp");
-					ob_start("ob_gzhandler");
-					header("Content-Encoding: gzip");
-					imagewebp($resizedimage, null, 50);
-					ob_end_flush();
-				} else {
-					header("Content-Type: image/png");
-					imagepng($resizedimage, null, 9);
-				}
 			} else {
 				$file_info = new finfo(FILEINFO_MIME_TYPE);
 				$mime = $file_info->buffer($contents);
