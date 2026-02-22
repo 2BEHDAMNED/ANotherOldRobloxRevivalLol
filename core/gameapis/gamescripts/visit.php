@@ -88,7 +88,7 @@ function doVisit()
 	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", game:GetService("NetworkServer").Port) end)
 	if not playerConnectSuccess then
 		warn("FAILED TO CONNECT!")
-		return
+		return false, "Failed to connect"
 	end
 
 	player:SetSuperSafeChat(false)
@@ -104,7 +104,7 @@ end
 
 success, err = pcall(doVisit)
 
-if not addedBuildTools then
+if not addedBuildTools and success then
 	local playerName = Instance.new("StringValue")
 	playerName.Name = "PlayerName"
 	playerName.Value = player.Name
