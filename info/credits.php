@@ -45,6 +45,11 @@
 		<link rel="stylesheet" href="/css/new/credits.css">
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=1771413807"></script>
+		<style>
+			table tr {
+				vertical-align: top;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="Container">
@@ -91,8 +96,6 @@
 									5,
 									"Created the emote music for dywec, californiagurls and caramelldansen!!!"
 								); ?>
-							</tr>
-							<tr>
 								<?php CreateProfile(
 									48,
 									"Created the badge icons you see on the site!"
