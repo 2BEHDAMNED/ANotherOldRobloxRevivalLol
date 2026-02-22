@@ -565,6 +565,17 @@
 			return $row["version_md5sig"];
 		}
 
+		function SetVersion(AssetVersion|null $version) {
+			if($version != null && $version->asset->id == $this->id) {
+				if($version->sub_id != $this->current_version) {
+					include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+					$stmt = $con->prepare("UPDATE `assets` SET `asset_currentversion` = ? WHERE `asset_id` = ?");
+					$stmt->bind_param("ii", $version->sub_id, $this->id);
+					$stmt->execute();
+				}
+			}
+		}
+
 		function Favourite(User|int $user) {
 			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
@@ -948,10 +959,25 @@
 
 		public int $id;
 		public Asset $asset;
+		public int $sub_id;
 		public string $md5sig;
 		public string $md5thumb;
 		public AssetType $asset_type;
 		public DateTime $publish_date;
+
+		public static function GetVersionFromID(int $versionid) {
+			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+			$stmt_getuser = $con->prepare("SELECT * FROM `assetversions` WHERE `version_id` = ?");
+			$stmt_getuser->bind_param('i', $versionid);
+			$stmt_getuser->execute();
+			$result = $stmt_getuser->get_result();
+
+			if($result->num_rows == 1) {
+				return new self($result->fetch_assoc());
+			} else {
+				return null;
+			}
+		}
 
 		public static function GetLatestVersionOf(Asset|int $asset): AssetVersion|null {
 			if($asset instanceof Asset) {
@@ -984,6 +1010,7 @@
 		function __construct($rowdata) {
 			$this->id = intval($rowdata['version_id']);
 			$this->asset = Asset::FromID(intval($rowdata['version_assetid']));
+			$this->sub_id = intval($rowdata['version_subid']);
 			$this->asset_type = AssetType::index(intval($rowdata['version_assettype']));
 			$this->md5sig = strval($rowdata['version_md5sig']);
 			$this->md5thumb = strval($rowdata['version_md5thumb']);

@@ -44,6 +44,25 @@
 		$_POST["action"] == 'ANORRL$EditItem$ResetThumbnail'
 	) {
 		AssetVersion::GetLatestVersionOf($asset)->ResetThumbnail();
+		die("Alright");
+	}
+
+
+	if(
+		isset($_POST['action']) &&
+		$_POST["action"] == 'ANORRL$EditItem$SelectVersion' &&
+		isset($_POST['versionid'])
+	) {
+		if(is_numeric($_GET['versionid'])) {
+			$version_id = intval($_GET['versionid']);
+			
+			$version = AssetVersion::GetVersionFromID($version_id);
+
+			if($version != null && $version->asset->id == $asset->id) {
+				$asset->SetVersion($version);
+				die("Alright");
+			}
+		}
 	}
 
 	if(
@@ -182,7 +201,9 @@
 				$(".VersionPicker").each(function() {
 					$(this).attr("title", "click to make this the current version");
 					$(this).on("click", function() {
-						alert("later...");
+						$.post("", {"action": "ANORRL$EditItem$SelectVersion", "versionid": $(this).attr("assetvid")}, function() {
+							window.location.reload();
+						})
 					})
 				})
 			})
@@ -356,10 +377,10 @@
 												if($version instanceof AssetVersion) {
 													
 													$version_date = $version->publish_date->format('d/m/Y H:i:s A');
-													
+													$vid = $version->id;
 													// TODO: TODO...
 													$versionpicker = <<<EOT
-													<td><a class="VersionPicker" href="">[ Make Current ]</a></td>
+													<td><a class="VersionPicker" assetvid="$vid" href="">[ Make Current ]</a></td>
 													EOT; 
 
 													if($current_version == $version_id) {
