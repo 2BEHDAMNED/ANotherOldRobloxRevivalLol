@@ -74,7 +74,7 @@ function doVisit()
 	message.Text = "Loading Game"
 	pcall(function() visit:SetUploadUrl("") end)
 
-	game:GetService("NetworkServer"):Start(53640)
+	game:GetService("NetworkServer"):Start(2048)
 
 	message.Text = "Running"
 	game:GetService("RunService"):Run()
@@ -85,7 +85,7 @@ function doVisit()
 
 	client.Ticket = ""	
 	
-	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", game:GetService("NetworkServer").Port) end)
+	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", 2048) end)
 	if not playerConnectSuccess then
 		warn("FAILED TO CONNECT!")
 		return false, "Failed to connect"
