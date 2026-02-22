@@ -3,6 +3,9 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/assetutils.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
+	if(isset($_GET['headshot'])) {
+		die(include $_SERVER['DOCUMENT_ROOT']."/core/thumbs/headshot.php");
+	}
 	if(isset($_GET['id']) || isset($_GET['userId'])) {
 		if(isset($_GET['id'])) {
 			$id = intval($_GET['id']);
