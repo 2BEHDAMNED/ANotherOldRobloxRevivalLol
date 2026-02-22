@@ -81,7 +81,20 @@ function doVisit()
 
 	message.Text = "Creating Player"
 
-	game:GetService("NetworkClient"):PlayerConnect()
+	local client = game:GetService("NetworkClient")
+
+	client.Ticket = ""	
+	
+	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", game:GetService("NetworkServer").Port) end)
+	if not playerConnectSuccess then
+		warn("FAILED TO CONNECT!")
+		return
+	end
+
+	player:SetSuperSafeChat(false)
+	pcall(function() player:SetUnder13(false) end)
+	pcall(function() player:SetMembershipType(Enum.MembershipType.None) end)
+	pcall(function() player:SetAccountAge(0) end)
 
 	message.Text = "Setting GUI"
 	player:SetSuperSafeChat(true)
