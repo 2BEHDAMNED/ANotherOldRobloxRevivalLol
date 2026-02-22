@@ -92,6 +92,12 @@
 									"Created the emote music for dywec, californiagurls and caramelldansen!!!"
 								); ?>
 							</tr>
+							<tr>
+								<?php CreateProfile(
+									48,
+									"Created the badge icons you see on the site!"
+								); ?>
+							</tr>
 						</table>
 						<hr>
 						<p>But these aren't the only ones, no.</p>

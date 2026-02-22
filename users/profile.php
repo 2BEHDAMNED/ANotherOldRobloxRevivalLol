@@ -289,8 +289,8 @@
 												echo <<<EOT
 												<td>
 													<div class="Badge">
-														<a href="/badges#badge$badgeid">
-															<img src="/images/Badges/$badgenamefile.png?v=1" alt="$badgedesc">
+														<a href="/badges#badge$badgeid" title="$badgedesc">
+															<img src="/images/Badges/$badgenamefile.png?v=1" title="icon made by ignisole">
 															<span>$badgename</span>
 														</a>
 													</div>
