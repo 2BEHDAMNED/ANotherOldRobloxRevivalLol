@@ -95,7 +95,7 @@
 								<div id="RenderContainer">
 									<img id="PlayerRender" src="/thumbs/player?id=<?= $user->id ?>" width="260">
 									<div style="margin-top: -10px;margin-bottom: 5px">
-										<button style="width: 105px;">Create Outfit</button>
+										<!--<button style="width: 105px;">Create Outfit</button>-->
 										<button style="width: 90px;" onclick="ANORRL.Character.RenderPlayer(true);">Re-Render</button>
 									</div>
 								</div>

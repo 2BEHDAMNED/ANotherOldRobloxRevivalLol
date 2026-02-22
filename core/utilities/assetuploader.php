@@ -41,7 +41,7 @@
 		private static function IsValidXML(string $data, bool $legacy = false): bool {
 			$trimmed_data = trim($data);
 
-			if(!str_starts_with($trimmed_data, "<roblox")) {
+			if(!str_starts_with($trimmed_data, "<roblox") && !str_ends_with($trimmed_data, "</roblox>")) {
 				return false;
 			}
 
@@ -367,8 +367,7 @@
 
 					return $result;
 				} else if($asset->type == AssetType::MESH) {
-					$legacy = $year == AssetYear::Y2010 || $year == AssetYear::Y2013 || $year == AssetYear::All;
-					if(!self::IsValidMesh($data, $legacy)) {
+					if(!self::IsValidMesh($data)) {
 						return INVALIDFILE;
 					}
 
@@ -383,10 +382,6 @@
 					return $result;
 
 				} else if($asset->type == AssetType::LUA) {
-					if(!self::IsValidMesh($data)) {
-						return INVALIDFILE;
-					}
-
 					return self::CommitUpdateAsset($asset, $data, $name, $description, $public, $on_sale, $comments_enabled, $year, $user);
 
 				} else {
@@ -678,8 +673,7 @@
 
 								return $result;
 							} else if($type == AssetType::MESH) {
-								$legacy = $year == AssetYear::Y2010  || $year == AssetYear::Y2013 || $year == AssetYear::All;
-								if(!self::IsValidMesh($data, $legacy)) {
+								if(!self::IsValidMesh($data)) {
 									return INVALIDFILE;
 								}
 
