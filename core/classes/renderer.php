@@ -32,7 +32,7 @@
 					"Content-Type: application/json",
 					"User-Agent: ANORRL/1.0"
 				],
-				CURLOPT_TIMEOUT => 15
+				CURLOPT_TIMEOUT => 60
 			]);
 
 			$response = curl_exec($ch);
