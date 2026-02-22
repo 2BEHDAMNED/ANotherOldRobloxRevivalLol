@@ -64,6 +64,7 @@ pcall(function() settings()["Task Scheduler"].PriorityMethod = Enum.PriorityMeth
 
 game:GetService("ChangeHistoryService"):SetEnabled(false)
 pcall(function() game:GetService("Players"):SetBuildUserPermissionsUrl("http://arl.lambda.cam//Game/BuildActionPermissionCheck.ashx?assetId=0&userId=%d&isSolo=true") end)
+pcall(function() game:GetService("Players"):SetChatStyle(Enum.ChatStyle.ClassicAndBubble) end)
 
 workspace:SetPhysicsThrottleEnabled(true)
 
