@@ -113,9 +113,11 @@ if success then
 		warn("PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!")
 	end
 
-	for i=0, 5 do
-		game:GetService("Chat"):Chat(player.Character, "PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!", Enum.ChatColor.Red)
-	end
+	player.CharacterLoaded:connect(function(char)
+		wait()
+		game:GetService("Chat"):Chat(char, "PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!", Enum.ChatColor.Red)
+	end)
+
 	message.Parent = nil
 else
 	print(err)
