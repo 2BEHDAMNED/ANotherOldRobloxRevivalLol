@@ -6,7 +6,14 @@ function ifSeleniumThenSetCookie(key, value)
 end
 
 ifSeleniumThenSetCookie("SeleniumTest1", "Inside the visit lua script")
-pcall(function() game:SetPlaceID(0) end)
+
+if true then
+	pcall(function() game:SetPlaceID(0) end)
+else
+	if 0>0 then
+		pcall(function() game:SetPlaceID(0) end)
+	end
+end
 
 visit = game:GetService("Visit")
 
@@ -39,24 +46,26 @@ ifSeleniumThenSetCookie("SeleniumTest3", "Set creator ID")
 pcall(function() game:SetScreenshotInfo("") end)
 pcall(function() game:SetVideoInfo("") end)
 
+function registerPlay(key)
+	if true and game:GetService("CookiesService"):GetCookieValue(key) == "" then
+		game:GetService("CookiesService"):SetCookieValue(key, "{ \"userId\" : 0, \"placeId\" : 0, \"os\" : \"" .. settings().Diagnostics.OsPlatform .. "\"}")
+	end
+end
+
+pcall(function()
+	registerPlay("rbx_evt_ftp")
+	delay(60*5, function() registerPlay("rbx_evt_fmp") end)
+end)
 
 ifSeleniumThenSetCookie("SeleniumTest4", "Exiting SingleplayerSharedScript")-- SingleplayerSharedScript.lua inserted here --
 
-pcall(function() settings().Network.UseInstancePacketCache = true end)
-pcall(function() settings().Network.UsePhysicsPacketCache = true end)
+pcall(function() settings().Rendering.EnableFRM = true end)
 pcall(function() settings()["Task Scheduler"].PriorityMethod = Enum.PriorityMethod.AccumulatedError end)
-
-
-settings().Network.PhysicsSend = Enum.PhysicsSendMethod.TopNErrors
-settings().Network.ExperimentalPhysicsEnabled = true
-settings().Network.WaitingForCharacterLogRate = 100
-pcall(function() settings().Diagnostics:LegacyScriptMode() end)
 
 game:GetService("ChangeHistoryService"):SetEnabled(false)
 pcall(function() game:GetService("Players"):SetBuildUserPermissionsUrl("http://arl.lambda.cam//Game/BuildActionPermissionCheck.ashx?assetId=0&userId=%d&isSolo=true") end)
 
 workspace:SetPhysicsThrottleEnabled(true)
-pcall(function() game:GetService("NetworkServer"):SetIsPlayerAuthenticationRequired(false) end)
 
 local addedBuildTools = false
 local screenGui = game:GetService("CoreGui"):FindFirstChild("RobloxGui")
@@ -65,34 +74,29 @@ function doVisit()
 	message.Text = "Loading Game"
 	pcall(function() visit:SetUploadUrl("") end)
 
-	game:GetService("NetworkServer"):Start(53640)
-
 	message.Text = "Running"
 	game:GetService("RunService"):Run()
 
 	message.Text = "Creating Player"
+	player = game:GetService("Players"):CreateLocalPlayer(0)
+	player.CharacterAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId={userid}&placeId=0"
+	local propExists, canAutoLoadChar = false
+	propExists = pcall(function()  canAutoLoadChar = game.Players.CharacterAutoLoads end)
 
-	local client = game:GetService("NetworkClient")
-
-	client.Ticket = ""	
-	
-	playerConnectSuccess, player = pcall(function() return client:PlayerConnect(0, "localhost", 53640) end)
-	if not playerConnectSuccess then
-		warn("FAILED TO CONNECT!")
-		return false, "Failed to connect"
+	if (propExists and canAutoLoadChar) or (not propExists) then
+		player:LoadCharacter()
 	end
 
-	player:SetSuperSafeChat(false)
-	pcall(function() player:SetUnder13(false) end)
-	pcall(function() player:SetMembershipType(Enum.MembershipType.None) end)
-	pcall(function() player:SetAccountAge(0) end)
 
 	message.Text = "Setting GUI"
+	player:SetSuperSafeChat(true)
+	pcall(function() player:SetMembershipType(Enum.MembershipType.None) end)
+	pcall(function() player:SetAccountAge(0) end)
 end
 
 success, err = pcall(doVisit)
 
-if not addedBuildTools and success then
+if not addedBuildTools then
 	local playerName = Instance.new("StringValue")
 	playerName.Name = "PlayerName"
 	playerName.Value = player.Name
@@ -104,6 +108,9 @@ if not addedBuildTools and success then
 end
 
 if success then
+	for i=0, 100 do
+		warn("PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!")
+	end
 	message.Parent = nil
 else
 	print(err)
