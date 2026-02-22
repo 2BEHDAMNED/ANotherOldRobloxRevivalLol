@@ -109,8 +109,12 @@ if not addedBuildTools then
 end
 
 if success then
-	for i=0, 25 do
+	for i=0, 10 do
 		warn("PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!")
+	end
+
+	for i=0, 5 do
+		game:GetService("Chat"):Chat(player.Character, "PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!", Enum.ChatColor.Red)
 	end
 	message.Parent = nil
 else
