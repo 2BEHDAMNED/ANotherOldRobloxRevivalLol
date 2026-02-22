@@ -74,7 +74,7 @@ function doVisit()
 	message.Text = "Loading Game"
 	pcall(function() visit:SetUploadUrl("") end)
 
-	game:GetService("NetworkServer"):Start()
+	game:GetService("NetworkServer"):Start(53640)
 
 	message.Text = "Running"
 	game:GetService("RunService"):Run()
