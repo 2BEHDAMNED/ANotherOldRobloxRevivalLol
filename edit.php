@@ -53,13 +53,15 @@
 		$_POST["action"] == 'ANORRL$EditItem$SelectVersion' &&
 		isset($_POST['versionid'])
 	) {
-		$version_id = intval($_GET['versionid']);
+		if(is_numeric($_GET['versionid'])) {
+			$version_id = intval($_GET['versionid']);
 			
-		$version = AssetVersion::GetVersionFromID($version_id);
+			$version = AssetVersion::GetVersionFromID($version_id);
 
-		if($version != null && $version->asset->id == $asset->id) {
-			$asset->SetVersion($version);
-			die("Alright");
+			if($version != null && $version->asset->id == $asset->id) {
+				$asset->SetVersion($version);
+				die("Alright");
+			}
 		}
 	}
 
@@ -197,9 +199,10 @@
 		<script>
 			$(function() {
 				$(".VersionPicker").each(function() {
+					var vid = $(this).attr("assetvid");
 					$(this).attr("title", "click to make this the current version");
 					$(this).on("click", function() {
-						$.post("", {"action": "ANORRL$EditItem$SelectVersion", "versionid": $(this).attr("assetvid")}, function() {
+						$.post("", {"action": "ANORRL$EditItem$SelectVersion", "versionid": vid}, function() {
 							window.location.reload();
 						})
 					})
@@ -378,7 +381,7 @@
 													$vid = $version->id;
 													// TODO: TODO...
 													$versionpicker = <<<EOT
-													<td><a class="VersionPicker" assetvid="$vid" href="">[ Make Current ]</a></td>
+													<td><a class="VersionPicker" assetvid="$vid" href="#">[ Make Current ]</a></td>
 													EOT; 
 
 													if($current_version == $version_id) {
