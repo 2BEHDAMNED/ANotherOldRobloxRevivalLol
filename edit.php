@@ -53,15 +53,13 @@
 		$_POST["action"] == 'ANORRL$EditItem$SelectVersion' &&
 		isset($_POST['versionid'])
 	) {
-		if(is_numeric($_GET['versionid'])) {
-			$version_id = intval($_GET['versionid']);
+		$version_id = intval($_GET['versionid']);
 			
-			$version = AssetVersion::GetVersionFromID($version_id);
+		$version = AssetVersion::GetVersionFromID($version_id);
 
-			if($version != null && $version->asset->id == $asset->id) {
-				$asset->SetVersion($version);
-				die("Alright");
-			}
+		if($version != null && $version->asset->id == $asset->id) {
+			$asset->SetVersion($version);
+			die("Alright");
 		}
 	}
 
