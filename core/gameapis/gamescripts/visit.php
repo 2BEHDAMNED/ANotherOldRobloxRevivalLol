@@ -89,9 +89,9 @@ function doVisit()
 
 
 	message.Text = "Setting GUI"
-	player:SetSuperSafeChat(true)
+	player:SetSuperSafeChat(false)
 	pcall(function() player:SetMembershipType(Enum.MembershipType.None) end)
-	pcall(function() player:SetAccountAge(0) end)
+	pcall(function() player:SetAccountAge({accountage}) end)
 end
 
 success, err = pcall(doVisit)
@@ -108,7 +108,7 @@ if not addedBuildTools then
 end
 
 if success then
-	for i=0, 100 do
+	for i=0, 25 do
 		warn("PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!")
 	end
 	message.Parent = nil
@@ -136,6 +136,7 @@ end
 
 	$script = "\r\n" . ob_get_clean();
 	$script = str_replace("{userid}", strval($userid), $script);
+	$script = str_replace("{accountage}", strval($user->GetAccountAge()), $script);
 	$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 	$signature = get_signature($script);
 
