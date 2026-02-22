@@ -53,15 +53,13 @@
 		$_POST["action"] == 'ANORRL$EditItem$SelectVersion' &&
 		isset($_POST['versionid'])
 	) {
-		if(is_numeric($_GET['versionid'])) {
-			$version_id = intval($_GET['versionid']);
-			
-			$version = AssetVersion::GetVersionFromID($version_id);
+		$version_id = intval($_GET['versionid']);
+		
+		$version = AssetVersion::GetVersionFromID($version_id);
 
-			if($version != null && $version->asset->id == $asset->id) {
-				$asset->SetVersion($version);
-				die("Alright");
-			}
+		if($version != null && $version->asset->id == $asset->id) {
+			header("Content-Type: application/json");
+			die(json_encode($asset->SetVersion($version)));
 		}
 	}
 
@@ -202,7 +200,10 @@
 					var vid = $(this).attr("assetvid");
 					$(this).attr("title", "click to make this the current version");
 					$(this).on("click", function() {
-						$.post("", {"action": "ANORRL$EditItem$SelectVersion", "versionid": vid}, function() {
+						$.post("", {"action": "ANORRL$EditItem$SelectVersion", "versionid": vid}, function(data) {
+							if(data['error']) {
+								alert(data['reason']);
+							}
 							window.location.reload();
 						})
 					})

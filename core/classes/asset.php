@@ -572,8 +572,14 @@
 					$stmt = $con->prepare("UPDATE `assets` SET `asset_currentversion` = ? WHERE `asset_id` = ?");
 					$stmt->bind_param("ii", $version->sub_id, $this->id);
 					$stmt->execute();
+
+					return ["error" => false];
 				}
+
+				return ["error" => true, "reason" => "Version is already set to this?"];
 			}
+
+			return ["error" => true, "reason" => "Version was not found and cannot be applied!"];
 		}
 
 		function Favourite(User|int $user) {
