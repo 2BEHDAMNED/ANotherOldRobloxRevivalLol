@@ -74,19 +74,14 @@ function doVisit()
 	message.Text = "Loading Game"
 	pcall(function() visit:SetUploadUrl("") end)
 
+	game:GetService("NetworkServer"):Start()
+
 	message.Text = "Running"
 	game:GetService("RunService"):Run()
 
 	message.Text = "Creating Player"
-	player = game:GetService("Players"):CreateLocalPlayer(0)
-	player.CharacterAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId={userid}&placeId=0"
-	local propExists, canAutoLoadChar = false
-	propExists = pcall(function()  canAutoLoadChar = game.Players.CharacterAutoLoads end)
 
-	if (propExists and canAutoLoadChar) or (not propExists) then
-		player:LoadCharacter()
-	end
-
+	game:GetService("NetworkClient"):PlayerConnect()
 
 	message.Text = "Setting GUI"
 	player:SetSuperSafeChat(true)
