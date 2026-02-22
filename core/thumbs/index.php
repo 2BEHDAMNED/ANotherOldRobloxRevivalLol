@@ -16,21 +16,14 @@
 
 		$asset = Asset::FromID($id);
 		if($asset != null) {
-			include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+			
+			$version = AssetVersion::GetLatestVersionOf($asset);
 
-				
-			$stmt = $con->prepare('SELECT * FROM `assetversions` WHERE `version_assetid` = ? ORDER BY `version_id` DESC');
-			$stmt->bind_param('i', $id);
-			$stmt->execute();
-
-			$stmt_result = $stmt->get_result();
-
-			if($stmt_result->num_rows == 0 && $asset->type == AssetType::PLACE) {
+			if($version == null && $asset->type == AssetType::PLACE) {
 				$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/noassets.png");
 			} else {
-				$version = $stmt_result->fetch_assoc();
-				$md5hash = $version['version_md5sig'];
-				$thumbsmd5hash = $version['version_md5thumb'];
+				$md5hash = $version->md5sig;
+				$thumbsmd5hash = $version->md5thumb;
 
 				if($asset->type == AssetType::AUDIO && ($thumbsmd5hash == "sound" || $md5hash == $thumbsmd5hash)) {
 					$contents = file_get_contents($_SERVER['DOCUMENT_ROOT']."/images/audio.png");
