@@ -105,6 +105,12 @@
 									"Created the badge icons you see on the site!"
 								); ?>
 							</tr>
+							<tr>
+								<?php CreateProfile(
+									72,
+									"Created the topbar icons you see in the client!"
+								); ?>
+							</tr>
 						</table>
 						<hr>
 						<p>But these aren't the only ones, no.</p>
