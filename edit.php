@@ -53,7 +53,7 @@
 		$_POST["action"] == 'ANORRL$EditItem$SelectVersion' &&
 		isset($_POST['versionid'])
 	) {
-		$version_id = intval($_GET['versionid']);
+		$version_id = intval($_POST['versionid']);
 		
 		$version = AssetVersion::GetVersionFromID($version_id);
 
