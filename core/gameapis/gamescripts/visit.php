@@ -113,7 +113,7 @@ if success then
 		warn("PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!")
 	end
 
-	player.CharacterLoaded:connect(function(char)
+	player.CharacterAdded:connect(function(char)
 		wait()
 		game:GetService("Chat"):Chat(char, "PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!", Enum.ChatColor.Red)
 	end)
