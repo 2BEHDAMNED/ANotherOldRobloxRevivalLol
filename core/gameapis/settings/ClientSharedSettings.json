@@ -139,6 +139,7 @@
 	"FFlagRenderAnisotropy": "True",
 	"FFlagStudioInitializeViewOnPaint": "True",
 	"DFFlagPartsStreamingEnabled": "True",
+	"FFlagLuaDebugger": "True",
 	"FFlagStudioLuaDebugger": "True",
 	"FFlagStudioLocalSpaceDragger": "True",
 	"FFlagGuiRotationEnabled": "True",

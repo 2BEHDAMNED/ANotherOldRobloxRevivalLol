@@ -1224,6 +1224,7 @@
 	"FFlagStudioLocalSpaceDragger": "True",
 	"FFlagStudioLockScriptsWithoutBlocking": "True",
 	"FFlagStudioLockServiceParents": "True",
+	"FFlagLuaDebugger": "True",
 	"FFlagStudioLuaDebugger": "True",
 	"FFlagStudioLuaDebuggerGA": "True",
 	"FFlagStudioMacAddressValidationEnabled": "True",
