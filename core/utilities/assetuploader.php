@@ -549,22 +549,25 @@
 									if(is_bool($original_image) && !$original_image) {
 										return INVALIDFILE; 
 									}
+									imagesavealpha($original_image, true);
 									$width = imagesx($original_image);
 									$height = imagesy($original_image);
+
+									if($width != 585 || $height != 559) {
+										return ["error" => true, "reason" => "Image size was not correct! Did you mean to upload a t-shirt or decal? Expected: 585 x 559."];
+									}
 
 									ob_start();
 									imagepng($original_image);
 									$data = ob_get_contents();
 									ob_end_clean();
-
-									if($width != 585 || $height != 559) {
-										return ["error" => true, "reason" => "Image size was not correct! Did you mean to upload a t-shirt or decal? Expected: 585 x 559."];
-									}
 								} else if($type == AssetType::TSHIRT) {
 									$original_image = imagecreatefromstring($data);
 									if(is_bool($original_image) && !$original_image) {
 										return INVALIDFILE; 
 									}
+									imagesavealpha($original_image, true);
+									
 									$width = imagesx($original_image);
 									$height = imagesy($original_image);
 
