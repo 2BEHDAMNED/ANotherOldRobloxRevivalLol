@@ -633,44 +633,46 @@
 								if($result["error"]) {
 									return $result;
 								}
+								
+								if($type != AssetType::IMAGE) {
+									$image_id = $result['id'];
 
-								$image_id = $result['id'];
+									$data = match($type) {
+										AssetType::DECAL => AssetTypeUtils::GenerateDecalRBXM($image_id),
+										AssetType::FACE => AssetTypeUtils::GenerateFaceRBXM($image_id),
+										AssetType::SHIRT => AssetTypeUtils::GenerateShirtRBXM($image_id),
+										AssetType::PANTS => AssetTypeUtils::GeneratePantsRBXM($image_id),
+										AssetType::TSHIRT => AssetTypeUtils::GenerateTShirtRBXM($image_id),
+									};
 
-								$data = match($type) {
-									AssetType::DECAL => AssetTypeUtils::GenerateDecalRBXM($image_id),
-									AssetType::FACE => AssetTypeUtils::GenerateFaceRBXM($image_id),
-									AssetType::SHIRT => AssetTypeUtils::GenerateShirtRBXM($image_id),
-									AssetType::PANTS => AssetTypeUtils::GeneratePantsRBXM($image_id),
-									AssetType::TSHIRT => AssetTypeUtils::GenerateTShirtRBXM($image_id),
-								};
+									$data = AssetTypeUtils::Replace("name", str_replace("<", "&lt;", str_replace(">", "&gt;", str_replace("\"", "&quot;", $name))), $data);
 
-								$data = AssetTypeUtils::Replace("name", str_replace("<", "&lt;", str_replace(">", "&gt;", str_replace("\"", "&quot;", $name))), $data);
+									$result = self::CommitAsset($data, $type, $name, $description, $public, $on_sale, $comments_enabled, $year, $user);
 
-								$result = self::CommitAsset($data, $type, $name, $description, $public, $on_sale, $comments_enabled, $year, $user);
+									if(!$result['error']) {
+										include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
-								if(!$result['error']) {
-									include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+										$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
+										$stmt->bind_param('ii', $result['id'], $image_id);
+										$stmt->execute();
 
-									$stmt = $con->prepare("UPDATE `assets` SET `asset_relatedid` = ? WHERE `asset_id` = ?;");
-									$stmt->bind_param('ii', $result['id'], $image_id);
-									$stmt->execute();
+										if($type == AssetType::DECAL || $type == AssetType::FACE) {
+											/*$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
+											$stmt->bind_param('si', $md5hashfile, $result['id']);
+											$stmt->execute();*/
+										}
 
-									if($type == AssetType::DECAL || $type == AssetType::FACE) {
-										/*$stmt = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_assetid` = ?");
-										$stmt->bind_param('si', $md5hashfile, $result['id']);
-										$stmt->execute();*/
-									}
+										if($type == AssetType::TSHIRT) {
+											$directory = $_SERVER['DOCUMENT_ROOT'];
+											$md5hashfile = md5($data);
+											$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
+											imagesavealpha($tshirt, true);
+											imagepng($tshirt, $assetsdir);
+										}
 
-									if($type == AssetType::TSHIRT) {
-										$directory = $_SERVER['DOCUMENT_ROOT'];
-										$md5hashfile = md5($data);
-										$assetsdir = "$directory/../assets/thumbs/$md5hashfile";
-										imagesavealpha($tshirt, true);
-										imagepng($tshirt, $assetsdir);
-									}
-
-									if(AssetTypeUtils::IsRenderable($type)) {
-										self::ExecuteRender($result['id'], $type, $data);
+										if(AssetTypeUtils::IsRenderable($type)) {
+											self::ExecuteRender($result['id'], $type, $data);
+										}
 									}
 								}
 
