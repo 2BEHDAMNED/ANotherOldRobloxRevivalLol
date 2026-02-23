@@ -17,7 +17,7 @@
 	class ClientDetector {
 
 		public static function DetectClient(): Client {
-			if(str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRLStudio/0.235.0.2025")) {
+			if(str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRLStudio")) {
 				return Client::C2016;
 			}
 			else if(str_contains($_SERVER['HTTP_USER_AGENT'], "RobloxStudio/2013. 8. 13. 2") || str_contains($_SERVER['HTTP_USER_AGENT'], "ANORRL/13nInet")) {

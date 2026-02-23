@@ -1063,7 +1063,7 @@
 			if($asset->id == $this->asset->id) {
 				$stmt_getuser->bind_param('si', $this->md5sig, $this->id);
 			} else {
-				$stmt_getuser->bind_param('si', $version->md5thumb, $this->id);
+				$stmt_getuser->bind_param('si', $version->md5sig, $this->id);
 			}
 			
 			$stmt_getuser->execute();
