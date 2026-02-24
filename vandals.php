@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Vandalizers - ANORRL</title>
+		<title>Vandals - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
 		<link rel="stylesheet" href="/css/new/forms.css">
@@ -23,7 +23,7 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-					<h2 style="margin: 0; margin-top: 10px;">Vandalizers</h2>
+					<h2 style="margin: 0; margin-top: 10px;">Vandals</h2>
 					<div id="Users">
 						<div method="GET" id="FormPanel">
 							<input id="SearchBox" name="query" type="text" placeholder="Look for users lol">
