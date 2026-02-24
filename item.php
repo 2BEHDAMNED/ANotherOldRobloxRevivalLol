@@ -209,11 +209,6 @@
 				margin-bottom: -4px;
 				text-overflow: ellipsis;
 			}
-
-			#AssetName:hover {
-				width: unset;
-				overflow: visible;
-			}
 		</style>
 	</head>
 	<body>
@@ -283,7 +278,7 @@
 						<h4>ANORRL <?= $asset->type->label(); ?></h4>
 						<h2 style="padding: 5px 30px;">
 							<a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a>
-							<span id="AssetName"><?= $asset->name ?></span>
+							<span id="AssetName" title="<?= $asset->name ?>"><?= $asset->name ?></span>
 							<a href="javascript:copyToClipboard('<?= $get_related_id ?>')">(Copy Asset ID)</a>
 						</h2>
 						<div id="ItemDetails">
