@@ -247,6 +247,11 @@
 
 			if($data != null) {
 				$md5 = self::GetMD5OfData($data);
+
+				if($md5 == $asset->GetLatestVersionDetails()->md5sig) { 
+					return ["error" => true, "reason" => "I'm pretty sure you've already uploaded this?"];
+				}
+
 				$new_versionid = count($asset->GetAllVersions())+1;
 
 				$stmt = $con->prepare('INSERT INTO `assetversions`(`version_assetid`, `version_md5sig`, `version_md5thumb`, `version_assettype`, `version_subid`) VALUES (?, ?, ?, ?, ?)');
