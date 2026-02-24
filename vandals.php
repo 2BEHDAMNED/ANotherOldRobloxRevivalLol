@@ -36,8 +36,6 @@
 								<th style="border:0; width: 600px; max-width: 600px;">Blurb</th>
 								<th width="150" style="border:0">Active</th>
 							</tr>
-
-							
 						</table>
 						<div id="UsersNavLinks">
 							<a id="BackPager" href="javascript:ANORRL.People.DeadvanceFeed()">&lt;&lt; Back</a> <input maxlength="4" id="NumberPutter"> of <span id="Counter"></span> <a id="NextPager" href="javascript:ANORRL.People.AdvanceFeed()">Next &gt;&gt;</a>

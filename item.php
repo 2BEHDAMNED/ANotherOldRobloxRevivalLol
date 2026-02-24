@@ -200,6 +200,21 @@
 				window.alert("Link has been copied!");
 			}
 		</script>
+		<style>
+			#AssetName {
+				width: 612px;
+				display: inline-block;
+				overflow: hidden;
+				margin-right: 10px;
+				margin-bottom: -4px;
+				text-overflow: ellipsis;
+			}
+
+			#AssetName:hover {
+				width: unset;
+				overflow: visible;
+			}
+		</style>
 	</head>
 	<body>
 		<?php if($asset->onsale): ?>
@@ -266,7 +281,11 @@
 				<div id="BodyContainer">
 					<div id="ItemContainer">
 						<h4>ANORRL <?= $asset->type->label(); ?></h4>
-						<h2 style="padding: 5px 30px;"><a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a><?= $asset->name ?> <a href="javascript:copyToClipboard('<?= $get_related_id ?>')">(Copy Asset ID)</a></h2>
+						<h2 style="padding: 5px 30px;">
+							<a class="FavouriteButton" href="#" data-assetid="<?= $asset->id ?>" <?= $is_favourited ? 'favourited="true"' : "" ?>></a>
+							<span id="AssetName"><?= $asset->name ?></span>
+							<a href="javascript:copyToClipboard('<?= $get_related_id ?>')">(Copy Asset ID)</a>
+						</h2>
 						<div id="ItemDetails">
 							<div id="Content">
 								<?php if($asset->type == AssetType::AUDIO): ?>
