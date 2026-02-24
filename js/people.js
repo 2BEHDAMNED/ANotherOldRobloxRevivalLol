@@ -57,6 +57,7 @@ ANORRL.People = {
 			$userbio.html("<b>No blurb set</b>");
 		} else {
 			$userbio.html(data['blurb']);
+			$userbio.find("a").attr("style","width: 180px;display: inline-block;text-overflow: ellipsis;overflow: hidden;");
 		}
 		
 		var $userstatus = $("<td></td>");
