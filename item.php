@@ -202,7 +202,7 @@
 		</script>
 		<style>
 			#AssetName {
-				width: 612px;
+				width: 600px;
 				display: inline-block;
 				overflow: hidden;
 				margin-right: 10px;
