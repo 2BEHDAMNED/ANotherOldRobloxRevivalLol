@@ -62,7 +62,7 @@ ANORRL.People = {
 		var $userstatus = $("<td></td>");
 		$userstatus.css("text-align", "center");
 		$userstatus.html(data['online'] ? data['status'] : "Offline");
-		if($userstatus.html().includes("In Game") || $userstatus.html().includes("In Team Create")) {
+		if($userstatus.html().includes("In Game") || $userstatus.html().includes("In Team Create") || $userstatus.html().includes("'s profile")) {
 
 		} else {
 			$userstatus.find("a").attr("style","width: 180px;display: inline-block;text-overflow: ellipsis;overflow: hidden;");

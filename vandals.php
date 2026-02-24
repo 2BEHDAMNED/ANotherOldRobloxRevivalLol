@@ -16,7 +16,7 @@
 		<link rel="stylesheet" href="/css/new/people.css">
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=1771413807"></script>
-		<script src="/js/people.js?t=1771933380"></script>
+		<script src="/js/people.js?t=1771933381"></script>
 	</head>
 	<body>
 		<div id="Container">
