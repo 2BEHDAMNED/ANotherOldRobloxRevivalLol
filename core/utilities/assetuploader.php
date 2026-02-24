@@ -57,9 +57,6 @@
 		}
 
 		private static function IsValidMesh(string $data, bool $legacy = false): bool {
-			if($legacy && !str_starts_with(trim($data), "version 1.0")) {
-				return false;
-			}
 			return str_starts_with(trim($data), "version 1.0") || str_starts_with(trim($data), "version 2.0");
 		}
 
