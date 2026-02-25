@@ -61,7 +61,7 @@
 							<h4>Filters</h4>
 							<div style="text-align: center;margin: 5px;border: 2px solid black;padding: 5px;padding-top: 3px;background: #111;color: #ffc63f;text-decoration: none;color: #ffa634;">
 								<label for="ANORRL_Games_OriginalGamesInput">Original Only</label>
-								<input id="ANORRL_Games_OriginalGamesInput" type="checkbox" checked>
+								<input id="ANORRL_Games_OriginalGamesInput" type="checkbox">
 							</div>
 							<ul>
 								<li data_filter="7"><a>Most Popular</a></li>
