@@ -170,11 +170,6 @@
 
 			$script = "\r\n" . ob_get_clean();
 			$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
-			// this fixes a crash bug from chetoz
-			// i dont know how and i dont wanna know why but this works..
-			if ($playerid == 72) {
-				$playerid = -72;
-			}
 			$script = str_replace("{playerid}",$playerid, $script);
 			$script = str_replace("{playerage}",$player->GetAccountAge(), $script);
 			$script = str_replace("{playername}",$playername, $script);
