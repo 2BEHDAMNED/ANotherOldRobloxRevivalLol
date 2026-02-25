@@ -240,7 +240,7 @@
 			$parsed_public          = intval($public);
 			$parsed_onsale          = intval($on_sale);
 			$parsed_commentsenabled = intval($comments_enabled);
-			$parsed_year            = $asset->year->ordinal();
+			$parsed_year            = $year->ordinal();
 			$parsed_type            = $asset->type->ordinal();
 
 			$new_versionid = count($asset->GetAllVersions());
