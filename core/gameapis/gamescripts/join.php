@@ -144,7 +144,7 @@
 
 	$serverToken = $_GET['serverToken'];
 	$sessionToken = $_GET['sessionToken'];
-	$server = $_GET['server'] ?? "86.20.118.158";
+	$server = $_GET['server'];
 
 	$serverDetails = getServerDetails($serverToken);
 	$sessionDetails = getSessionDetails($sessionToken);
@@ -174,6 +174,8 @@
 			if ($playerid == 72) {
 				$playerid = -72;
 				$script = str_replace("{SuperSafeChat}", "true", $script);
+			} else {
+				$script = str_replace("{SuperSafeChat}", "false", $script);
 			}
 			$script = str_replace("{playerid}",$playerid, $script);
 			$script = str_replace("{playerage}",$player->GetAccountAge(), $script);
