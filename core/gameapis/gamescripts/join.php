@@ -172,6 +172,7 @@
 			// this fixes a crash bug from chetoz
 			// i dont know how and i dont wanna know why but this works..
 			if ($playerid == 72) {
+				$playerid = -72;
 				$script = str_replace("{SuperSafeChat}", "true", $script);
 			}
 			$script = str_replace("{playerid}",$playerid, $script);
