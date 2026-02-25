@@ -47,14 +47,13 @@
 	"UserName":"Player",
 	"SeleniumTestMode":true,
 	"UserId":0,
-	"SuperSafeChat":true,
+	"SuperSafeChat":{SuperSafeChat},
 	"CharacterAppearance":"http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=1&placeId=0",
 	"ClientTicket":"",
 	"GameId":"00000000-0000-0000-0000-000000000000",
 	"PlaceId":0,
 	"MeasurementUrl":"",
-	"WaitingForCharacterGuid":
-	"16be1dd8-5462-4ca5-a997-0725d997708b",
+	"WaitingForCharacterGuid":"16be1dd8-5462-4ca5-a997-0725d997708b",
 	"BaseUrl":"http://arl.lambda.cam/",
 	"ChatStyle":"ClassicAndBubble",
 	"VendorId":0,
@@ -103,7 +102,7 @@
 	"UserName":"{playername}",
 	"SeleniumTestMode":false,
 	"UserId": {playerid},
-	"SuperSafeChat":false,
+	"SuperSafeChat":{SuperSafeChat},
 	"CharacterAppearance":"http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId={playerid}",
 	"ClientTicket":"{sessionid}",
 	"GameId":"00000000-0000-0000-0000-000000000000",
@@ -170,6 +169,11 @@
 
 			$script = "\r\n" . ob_get_clean();
 			$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
+			// this fixes a crash bug from chetoz
+			// i dont know how and i dont wanna know why but this works..
+			if ($playerid == 72) {
+				$script = str_replace("{SuperSafeChat}", "true", $script);
+			}
 			$script = str_replace("{playerid}",$playerid, $script);
 			$script = str_replace("{playerage}",$player->GetAccountAge(), $script);
 			$script = str_replace("{playername}",$playername, $script);
