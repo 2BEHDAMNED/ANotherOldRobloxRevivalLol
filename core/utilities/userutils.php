@@ -242,43 +242,48 @@
 			];
 
 			if($user != null) {
-				if(!in_array($_SERVER['SCRIPT_NAME'], $pages) && !self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
+				if(!in_array($_SERVER['SCRIPT_NAME'], $pages) && !self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME']) && !str_starts_with($_SERVER['SCRIPT_NAME'], "/Admi/")) {
 					die($_SERVER['SCRIPT_NAME']);
 				} else {
-					if(!self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
-						$page = array_search($_SERVER['SCRIPT_NAME'], $pages);
-						if($data instanceof User) {
-							if($data->id != $user->id) {
-								$user_id = $data->id;
-								$user_name = $data->name;
-								$page = str_replace("{username}", "<a href='/users/$user_id/profile'>$user_name</a>", $page);
-							} else {
-								$page = "Looking at their own profile";
+					if(str_ends_with($_SERVER['SCRIPT_NAME'], "/Admi/")) {
+						$page = "Doing secret admin stuff...";
+					} else {
+						if(!self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME'])) {
+							$page = array_search($_SERVER['SCRIPT_NAME'], $pages);
+							if($data instanceof User) {
+								if($data->id != $user->id) {
+									$user_id = $data->id;
+									$user_name = $data->name;
+									$page = str_replace("{username}", "<a href='/users/$user_id/profile'>$user_name</a>", $page);
+								} else {
+									$page = "Looking at their own profile";
+								}
 							}
+
+							if($data instanceof Asset) {
+								$asset_id = $data->id;
+								$asset_name = $data->name;
+								$asset_urlname = $data->GetURLTitle();
+								$asset_link = "<a href='/$asset_urlname-item?id=$asset_id'>$asset_name</a>";
+
+								$page = str_replace("{item}", $asset_link, $page);
+								
+							}
+
+							if($data instanceof Place) {
+								$asset_id = $data->id;
+								$asset_name = $data->name;
+								$asset_urlname = $data->GetURLTitle();
+								$asset_link = "<a href='/$asset_urlname-place?id=$asset_id'>$asset_name</a>";
+
+								$page = str_replace("{place}", $asset_link, $page);
+								
+							}
+
+							self::RegisterAction($user, $page);
 						}
-
-						if($data instanceof Asset) {
-							$asset_id = $data->id;
-							$asset_name = $data->name;
-							$asset_urlname = $data->GetURLTitle();
-							$asset_link = "<a href='/$asset_urlname-item?id=$asset_id'>$asset_name</a>";
-
-							$page = str_replace("{item}", $asset_link, $page);
-							
-						}
-
-						if($data instanceof Place) {
-							$asset_id = $data->id;
-							$asset_name = $data->name;
-							$asset_urlname = $data->GetURLTitle();
-							$asset_link = "<a href='/$asset_urlname-place?id=$asset_id'>$asset_name</a>";
-
-							$page = str_replace("{place}", $asset_link, $page);
-							
-						}
-
-						self::RegisterAction($user, $page);
 					}
+					
 					
 				}
 				
