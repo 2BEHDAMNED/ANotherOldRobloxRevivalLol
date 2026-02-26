@@ -47,7 +47,7 @@
 	"UserName":"Player",
 	"SeleniumTestMode":true,
 	"UserId":0,
-	"SuperSafeChat":{SuperSafeChat},
+	"SuperSafeChat":false,
 	"CharacterAppearance":"http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId=1&placeId=0",
 	"ClientTicket":"",
 	"GameId":"00000000-0000-0000-0000-000000000000",
