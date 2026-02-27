@@ -10,6 +10,8 @@
 	$access = $settings['asset']['ACCESSKEY'];
 	$rcc_ip = $rcc_settings['RCCGAMEIP'];
 
+	$arbiter_ip = "192.168.0.202";// "37.114.46.52";
+
 	if(isset($_GET['access']) && isset($_GET['jobID'])) {
 		if($_GET['access'] == $access) {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
@@ -29,7 +31,7 @@
 							"pid" => $row['server_pid']
 						]);
 
-						$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver/kill");
+						$ch = curl_init("http://$arbiter_ip_ip:7000/api/v1/gameserver/kill");
 						curl_setopt($ch, CURLOPT_HTTPHEADER, [
 							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
 							"Content-Type: application/json",

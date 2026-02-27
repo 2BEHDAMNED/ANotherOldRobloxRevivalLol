@@ -171,7 +171,7 @@
 				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
 				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 				$stmt_createnewsession->execute();
-                $arbiter_ip = "37.114.46.52";
+                $arbiter_ip = "86.20.118.158"; //"37.114.46.52";
 				$dont_load = false;
 				if(getActiveServersCount($place->id) == 0) {
 					try {
@@ -182,7 +182,7 @@
 							"TeamCreate" => false
 						]);
 
-						$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver");
+						$ch = curl_init("http://192.168.0.202:7000/api/v1/gameserver");
 
 						curl_setopt($ch, CURLOPT_HTTPHEADER, [
 							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
@@ -302,7 +302,7 @@
 							"TeamCreate" => true
 						]);
 
-						$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver");
+						$ch = curl_init("http://192.168.0.202:7000/api/v1/gameserver");
 
 						curl_setopt($ch, CURLOPT_HTTPHEADER, [
 							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
@@ -368,7 +368,7 @@
 							"status" => 2,
 							"settings" => [
 									"ClientPort" => 0,
-									"MachineAddress" => "37.114.46.52",
+									"MachineAddress" => "86.20.118.158",//"37.114.46.52",
 									"ServerPort" => intval($port),
 									"PingUrl" => "",
 									"PingInterval" => 120,
@@ -429,7 +429,7 @@
 					UserUtils::SetCookies($user->security_key);
 				}
 				$dont_load = false;
-                $arbiter_ip = "37.114.46.52";
+                $arbiter_ip = "86.20.118.158";//"37.114.46.52";
 				if(getActiveServersCount($place->id) == 0) {
 					try {
 						$placeId = $place->id;
@@ -439,7 +439,7 @@
 							"TeamCreate" => false
 						]);
 
-						$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver");
+						$ch = curl_init("http://192.168.0.202:7000/api/v1/gameserver");
 
 						curl_setopt($ch, CURLOPT_HTTPHEADER, [
 							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
