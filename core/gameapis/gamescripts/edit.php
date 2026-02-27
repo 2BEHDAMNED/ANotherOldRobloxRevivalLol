@@ -86,11 +86,7 @@ game:GetService("ChangeHistoryService"):SetEnabled(true)
 					$script = str_replace("{uploadurl}", $uploadurl, $script);
 					$script = str_replace("{creatorid}", "".$place->creator->id, $script);
 					$signature = get_signature($script);
-					if($place->year != AssetYear::Y2010) {
-						die("--rbxsig%". $signature . "%" . $script);
-					} else {
-						die("%". $signature . "%" . $script);
-					}
+					die("--rbxsig%". $signature . "%" . $script);
 					
 				}
 			}

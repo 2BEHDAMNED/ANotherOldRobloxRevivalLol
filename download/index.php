@@ -70,15 +70,6 @@
 											</a>
 										</div>
 									</td>
-
-									<td>
-										<div title="Icon created by Cu-bp!">
-											<a href="2010/ANORRL2010AppLauncher.exe">
-												<img src="/images/download/2010.png">
-												<span>2010</span>
-											</a>
-										</div>
-									</td>
 								</tr>
 							</table>
 						</div>

@@ -35,9 +35,6 @@
 		$year = AssetYear::Y2016;
 
 		switch($client) {
-			case Client::C2010:
-				$year = AssetYear::Y2010;
-				break;
 			case Client::C2013:
 				$year = AssetYear::Y2013;
 				break;

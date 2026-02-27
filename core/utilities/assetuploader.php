@@ -356,7 +356,7 @@
 				}
 
 				if(AssetTypeUtils::IsRBX($type)) {
-					$legacy = $year == AssetYear::Y2010 || $year == AssetYear::All;
+					$legacy = $year == AssetYear::All || $year == AssetYear::Y2013;
 					if(!self::IsValidXML($data, $legacy)) {
 						return INVALIDFILE;
 					}
@@ -495,7 +495,7 @@
 
 					if($data != null) {
 						if(AssetTypeUtils::IsRBX($type)) {
-							$legacy = $year == AssetYear::Y2010 || $year == AssetYear::All;
+							$legacy = $year == AssetYear::Y2013 || $year == AssetYear::All;
 							if(!self::IsValidXML($data, $legacy)) {
 								return INVALIDFILE;
 							}

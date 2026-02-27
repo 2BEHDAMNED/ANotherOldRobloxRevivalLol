@@ -10,7 +10,7 @@
 	$access = $settings['asset']['ACCESSKEY'];
 	$rcc_ip = $rcc_settings['RCCGAMEIP'];
 
-	$arbiter_ip = "192.168.0.202";// "37.114.46.52";
+	$arbiter_ip = "37.114.46.52";// "37.114.46.52";
 
 	if(isset($_GET['access']) && isset($_GET['jobID'])) {
 		if($_GET['access'] == $access) {
@@ -31,7 +31,7 @@
 							"pid" => $row['server_pid']
 						]);
 
-						$ch = curl_init("http://$arbiter_ip_ip:7000/api/v1/gameserver/kill");
+						$ch = curl_init("http://$arbiter_ip:7000/api/v1/gameserver/kill");
 						curl_setopt($ch, CURLOPT_HTTPHEADER, [
 							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
 							"Content-Type: application/json",
@@ -49,8 +49,6 @@
 						}
 					} else if($row['server_year'] == "2013") {
 						file_get_contents("http://$rcc_ip:64209/2013/StopServer?serverId=".$row['server_id']."&placeId=".$row['server_placeid']);
-					} else {
-						file_get_contents("http://$rcc_ip:64209/2010/StopServer?serverId=".$row['server_id']."&placeId=".$row['server_placeid']);
 					}
 				}
 

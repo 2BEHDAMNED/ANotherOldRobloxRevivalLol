@@ -67,11 +67,6 @@
 	RewriteRule ^game/2013/join.ashx$       /core/gameapis/gamescripts/2013/join.php			[END]
 	RewriteRule ^game/2013join.ashx$        /core/gameapis/gamescripts/2013/join.php			[END]
 	RewriteRule ^game/2013/gameserver.ashx$ /core/gameapis/gamescripts/2013/gameserver.php	[END]
-
-	RewriteRule ^game/2010/host.ashx$       /core/gameapis/gamescripts/2010/host.php			[END]
-	RewriteRule ^game/2010/join.ashx$       /core/gameapis/gamescripts/2010/join.php			[END]
-	RewriteRule ^game/2010/visit.ashx$       /core/gameapis/gamescripts/2010/visit.php			[END]
-	RewriteRule ^game/2010/gameserver.ashx$ /core/gameapis/gamescripts/2010/gameserver.php	[END]
 	
 	RewriteRule ^Game/LuaWebService/HandleSocialRequest.ashx /core/gameapis/social/socialrequests.php [END]
 	RewriteRule ^userblock/getblockedusers /core/gameapis/social/getblockedusers.php [END]

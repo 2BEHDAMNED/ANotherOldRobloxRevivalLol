@@ -232,10 +232,9 @@
 											<td>
 												<select name="ANORRL$CreateAsset$Year">
 													<option value="0">Any</option>
-													<option value="3">ANORRL (2016)</option>
+													<option value="2">ANORRL (2016)</option>
 													<!--<option value="2008">2008 (Gamma)</option>-->
-													<option value="2">2013</option>
-													<option value="1">2010</option>
+													<option value="1">2013</option>
 													<!--<option value="2012">2012</option>-->
 													
 												</select>

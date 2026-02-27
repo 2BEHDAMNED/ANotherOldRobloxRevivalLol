@@ -325,7 +325,6 @@
 
 	enum AssetYear {
 		case All;
-		case Y2010;
 		case Y2013;
 		case Y2016;
 
@@ -333,14 +332,12 @@
 			if(is_int($ordinal)) {
 				return match($ordinal) {
 					0 => AssetYear::All,
-					1 => AssetYear::Y2010,
 					2 => AssetYear::Y2013,
 					3 => AssetYear::Y2016,
 					default => AssetYear::Y2016
 				};
 			} else {
 				return match($ordinal) {
-					"2010" => AssetYear::Y2010,
 					"2013" => AssetYear::Y2013,
 					"2016" => AssetYear::Y2016,
 					default => AssetYear::Y2016
@@ -352,7 +349,6 @@
 		public function ordinal(): int {
 			return match($this) {
 				AssetYear::All 	    => 0,
-				AssetYear::Y2010 	=> 1,
 				AssetYear::Y2013 	=> 2,
 				AssetYear::Y2016	=> 3,
 			};
@@ -361,7 +357,6 @@
 		public function label(): string {
 			return match($this) {
 				AssetYear::All   	=> "All",
-				AssetYear::Y2010 	=> "2010",
 				AssetYear::Y2013 	=> "2013",
 				AssetYear::Y2016	=> "2016",
 			};
@@ -835,7 +830,7 @@
 						"pid" => $row['server_pid']
 					]);
 
-					$ch = curl_init("http://192.168.0.202:7000/api/v1/gameserver/kill"); //37.114.46.52
+					$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver/kill"); //37.114.46.52
 					curl_setopt($ch, CURLOPT_HTTPHEADER, [
 						"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
 						"Content-Type: application/json",
