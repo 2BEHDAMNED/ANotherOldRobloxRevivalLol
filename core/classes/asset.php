@@ -332,8 +332,8 @@
 			if(is_int($ordinal)) {
 				return match($ordinal) {
 					0 => AssetYear::All,
-					2 => AssetYear::Y2013,
-					3 => AssetYear::Y2016,
+					1 => AssetYear::Y2013,
+					2 => AssetYear::Y2016,
 					default => AssetYear::Y2016
 				};
 			} else {
@@ -349,8 +349,8 @@
 		public function ordinal(): int {
 			return match($this) {
 				AssetYear::All 	    => 0,
-				AssetYear::Y2013 	=> 2,
-				AssetYear::Y2016	=> 3,
+				AssetYear::Y2013 	=> 1,
+				AssetYear::Y2016	=> 2,
 			};
 		}
 
