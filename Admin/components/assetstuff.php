@@ -117,8 +117,10 @@
 
 					if($render != null) {
 						$data = base64_decode($render);
+						
 						AssetVersion::GetLatestVersionOf($asset)->SetThumbnail($asset);
-						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb, $data);
+
+						file_put_contents($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5sig, $data);
 					} else {
 						if(file_exists($_SERVER['DOCUMENT_ROOT']."/../assets/thumbs/".AssetVersion::GetLatestVersionOf($asset)->md5thumb)) {
 

@@ -1057,10 +1057,6 @@
 				return;
 			}
 
-			if($this->asset_type != AssetType::AUDIO && $this->asset_type != AssetType::PLACE) {
-				return;
-			}
-
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("UPDATE `assetversions` SET `version_md5thumb` = ? WHERE `version_id` = ?");
 			if($asset->id == $this->asset->id) {
