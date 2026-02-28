@@ -24,8 +24,10 @@
 		public static bool $cantuserenderer = false;
 
 		private static function RequestA(string $endpoint, array $data): ?string {
+			self::UpdateAndSetConfig();
 			$arb_ip = self::$arbiter_ip;
 			$ch = curl_init("http://$arb_ip:7000" . $endpoint);//37.114.46.52
+			error_log("http://$arb_ip:7000" . $endpoint);
 
 			curl_setopt_array($ch, [
 				CURLOPT_RETURNTRANSFER => true,
