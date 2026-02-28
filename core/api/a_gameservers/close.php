@@ -10,7 +10,7 @@
 	$access = $settings['asset']['ACCESSKEY'];
 	$rcc_ip = $rcc_settings['RCCGAMEIP'];
 
-	$arbiter_ip = "37.114.46.52";// "37.114.46.52";
+	$arbiter_ip = $settings['arbiter']['LOC'];// "37.114.46.52";
 
 	if(isset($_GET['access']) && isset($_GET['jobID'])) {
 		if($_GET['access'] == $access) {

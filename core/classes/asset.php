@@ -830,7 +830,10 @@
 						"pid" => $row['server_pid']
 					]);
 
-					$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver/kill"); //37.114.46.52
+					$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+					$arbiter_ip = $settings['arbiter']['LOC'];
+
+					$ch = curl_init("http://$arbiter_ip/api/v1/gameserver/kill");
 					curl_setopt($ch, CURLOPT_HTTPHEADER, [
 						"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
 						"Content-Type: application/json",

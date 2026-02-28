@@ -130,6 +130,9 @@
 		return null;
 	}
 
+	$arbiter_ip = $settings['arbiter']['LOC']; //"37.114.46.52";
+    $arbiter_pub_ip = $settings['arbiter']['PUB_LOC']; //"37.114.46.52";
+
 	//
 	// request=RequestGame
 	// placeId=1818
@@ -171,7 +174,7 @@
 				$stmt_createnewsession = $con->prepare("INSERT INTO `active_players`(`session_id`, `session_serverid`, `session_playerid`, `session_status`) VALUES (?,?,?,0)");
 				$stmt_createnewsession->bind_param("ssi", $sessionID, $serverID, $playerID);
 				$stmt_createnewsession->execute();
-                $arbiter_ip = "37.114.46.52"; //"37.114.46.52";
+
 				$dont_load = false;
 				if(getActiveServersCount($place->id) == 0) {
 					try {
@@ -182,7 +185,7 @@
 							"TeamCreate" => false
 						]);
 
-						$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver");
+						$ch = curl_init("http://$arbiter_ip:7000/api/v1/gameserver");
 
 						curl_setopt($ch, CURLOPT_HTTPHEADER, [
 							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
@@ -252,7 +255,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$arbiter_ip",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionID&server=$arbiter_pub_ip",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionID",
 							"message" => "HELLOOOOOOOO!!!!!"
@@ -302,7 +305,7 @@
 							"TeamCreate" => true
 						]);
 
-						$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver");
+						$ch = curl_init("http://$arbiter_ip:7000/api/v1/gameserver");
 
 						curl_setopt($ch, CURLOPT_HTTPHEADER, [
 							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
@@ -368,7 +371,7 @@
 							"status" => 2,
 							"settings" => [
 									"ClientPort" => 0,
-									"MachineAddress" => "37.114.46.52",//"37.114.46.52",
+									"MachineAddress" => $arbiter_pub_ip,
 									"ServerPort" => intval($port),
 									"PingUrl" => "",
 									"PingInterval" => 120,
@@ -429,8 +432,7 @@
 					UserUtils::SetCookies($user->security_key);
 				}
 				$dont_load = false;
-                $arbiter_ip = "37.114.46.52";//"37.114.46.52";
-				if(getActiveServersCount($place->id) == 0) {
+                if(getActiveServersCount($place->id) == 0) {
 					try {
 						$placeId = $place->id;
 						
@@ -439,7 +441,7 @@
 							"TeamCreate" => false
 						]);
 
-						$ch = curl_init("http://37.114.46.52:7000/api/v1/gameserver");
+						$ch = curl_init("http://$arbiter_ip:7000/api/v1/gameserver");
 
 						curl_setopt($ch, CURLOPT_HTTPHEADER, [
 							"Authorization: Bearer 427803B4BD7DE917C017D5B7D9DC49CDF9E2B8BF547D1E28FC5C965FA3B3D285",
@@ -501,7 +503,7 @@
 						[
 							"jobId" => "$jobIDThingy",
 							"status" => 2,
-							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=$arbiter_ip",//",
+							"joinScriptUrl" => "http://arl.lambda.cam/game/join.ashx?serverToken=$serverid&sessionToken=$sessionToken&server=$arbiter_pub_ip",//",
 							"authenticationUrl" => "https://arl.lambda.cam/Login/Negotiate.ashx",
 							"authenticationTicket" => "$sessionToken",
 							"message" => "HELLOOOOOOOO!!!!!"

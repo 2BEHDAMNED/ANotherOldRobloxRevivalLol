@@ -14,14 +14,18 @@
 		require $directory.$file;
 	}
 
+	$settings = parse_ini_file($_SERVER['DOCUMENT_ROOT']."/core/settings.env", true);
+	
+
 
 	class TheFuckingRenderer {
 
-		public static string $domain = "";
+		public static string $arbiter_ip = "";
 		public static bool $cantuserenderer = false;
 
 		private static function RequestA(string $endpoint, array $data): ?string {
-			$ch = curl_init("http://37.114.46.52:7000" . $endpoint);//37.114.46.52
+			$arb_ip = self::$arbiter_ip;
+			$ch = curl_init("http://$arb_ip:7000" . $endpoint);//37.114.46.52
 
 			curl_setopt_array($ch, [
 				CURLOPT_RETURNTRANSFER => true,
@@ -59,6 +63,10 @@
 			if(self::$cantuserenderer != boolval($renderer_settings['DISABLED'])) {
 				self::$cantuserenderer = boolval($renderer_settings['DISABLED']);
 			}
+
+			if(self::$arbiter_ip != $settings['arbiter']['LOC']) {
+				self::$arbiter_ip != $settings['arbiter']['LOC'];
+			}
 		}
 
 		public static function RenderPlayer(int $id = 0) {
@@ -68,7 +76,7 @@
 			if(self::$cantuserenderer) {
 				return null;
 			}
-
+			
 			$data = self::RequestA("/api/v1/avatar-render", ["UserId" => $id, "IsHeadshot" => false, "IsClothing" => true]);
 
 			if(!$data) {
