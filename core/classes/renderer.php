@@ -67,7 +67,7 @@
 			}
 
 			if(self::$arbiter_ip != $settings['arbiter']['LOC']) {
-				self::$arbiter_ip != $settings['arbiter']['LOC'];
+				self::$arbiter_ip = $settings['arbiter']['LOC'];
 			}
 		}
 
