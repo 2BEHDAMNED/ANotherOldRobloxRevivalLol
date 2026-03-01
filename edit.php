@@ -100,7 +100,7 @@
 		$public = isset($_POST['ANORRL$EditItem$PublicBox']);
 		$comments_enabled = isset($_POST['ANORRL$EditItem$CommentsBox']);
 		$on_sale = isset($_POST['ANORRL$EditItem$OnSaleBox']);
-		$year = AssetYear::index($_POST['ANORRL$EditItem$Year']);
+		$year = AssetYear::index(intval($_POST['ANORRL$EditItem$Year']));
 
 		$result = AssetUploader::EditAsset($asset, $name, $description, $public, $on_sale, $comments_enabled, $year);
 		
