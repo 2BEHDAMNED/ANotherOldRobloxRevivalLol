@@ -66,6 +66,7 @@
 				"\r\ntransform",
 				"\ntransform",
 				"\rtransform",
+				"border",
 				"@keyframes",
 			];
 
