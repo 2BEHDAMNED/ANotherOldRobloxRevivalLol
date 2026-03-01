@@ -2,6 +2,8 @@
 
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/classes/status.php";
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/utilutils.php";
+	require_once $_SERVER['DOCUMENT_ROOT']."/core/vendor/autoload.php";
+	use CSSValidator\CSSValidator;
 
 	/**
 	 *  Core Profile Badges.
@@ -66,6 +68,7 @@
 		 */
 		public bool $setprofilepicture;
 		public string $currentoutfitmd5;
+		public string $usercss;
 		public DateTime $join_date;
 		
 		/**
@@ -144,13 +147,14 @@
 			$this->last_update = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['user_lastprofileupdate']);
 			$this->setprofilepicture = boolval($rowdata['user_setprofilepicture']);
 			$this->currentoutfitmd5 = strval($rowdata['user_currentappearancemd5']);
+			$this->usercss = strval($rowdata['user_css']);
 			$this->join_date = DateTime::createFromFormat("Y-m-d H:i:s", $rowdata['user_joindate']);
 			
 			$this->password = strval($rowdata['user_password']);
 			$this->security_key = strval($rowdata['user_security']);
 		}
 
-				function GetFriends(): array {
+		function GetFriends(): array {
 			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
 			$stmt_getuser = $con->prepare("SELECT * FROM `friends` WHERE (`sender` LIKE ? OR `reciever` LIKE ?) AND `status` = 1;");
 			$stmt_getuser->bind_param('ii', $this->id, $this->id);
@@ -1255,6 +1259,33 @@ EOT;
 			$later = new DateTime();
 
 			return intval($later->diff($earlier)->format("%a"));
+		}
+
+		function SetUserCSS(string $data) {
+			$validator = new CSSValidator();
+
+			$result = $validator->validateFragment($data);
+
+			if($result->isValid()) {
+
+				if(str_contains($data, "url(") || str_contains($data, "base64")) {
+					return false;
+				}
+
+				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
+
+				$stmt_updateuser = $con->prepare("UPDATE `users` SET `user_css` = ? WHERE `user_id` = ?;");
+				$stmt_updateuser->bind_param("si", $data, $this->id);
+				$stmt_updateuser->execute();
+
+				return true;
+			}
+
+			return false;
+		}
+
+		function GetUserCSS() {
+			return $this->usercss;
 		}
 	}
 

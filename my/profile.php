@@ -24,6 +24,20 @@
 		}
 	}
 
+	if(isset($_POST['ANORRL$Update$Profile$CSS']) &&
+	   isset($_POST['ANORRL$Update$Profile$CSS$Submit'])) {
+		
+		$result = $user->SetUserCSS(trim($_POST['ANORRL$Update$Profile$CSS']));
+
+		if(!$result) {
+			$_SESSION['ANORRL$Update$ProfileError'] = true;
+			$_SESSION['ANORRL$Update$ProfileResult'] = "That was invalid css!";
+			die(header("Location: /my/profile"));
+		} else {
+			die(header("Location: /users/".$user->id."/profile"));
+		}
+	}
+
 	if(isset($_FILES['ANORRL$Update$Profile$Picture'])) {
 		$file = $_FILES['ANORRL$Update$Profile$Picture'];
 
@@ -98,6 +112,16 @@
 								<span>Who are you? What do you like etc etc</span>
 								<textarea name="ANORRL$Update$Profile$Bio"><?= $user->blurb ?></textarea>
 								<input type="submit" value="Update" name="ANORRL$Update$Profile$Submit">
+							</div>
+						</div>
+					</form>
+					<form method="POST" class="FormBox">
+						<div id="DetailsBox">
+							<h3>User Profile CSS</h3>
+							<div id="FormStuff">
+								<span>Ok so this is where you can change your profile stuff... have a go i guess?</span>
+								<textarea name="ANORRL$Update$Profile$CSS"><?= $user->GetUserCSS() ?></textarea>
+								<input type="submit" value="Update" name="ANORRL$Update$Profile$CSS$Submit">
 							</div>
 						</div>
 					</form>

@@ -71,6 +71,7 @@
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<link rel="stylesheet" href="/css/new/my/profile.css?v=7">
+		<link rel="stylesheet" href="/users/<?= $get_user->id ?>/css?t=<?= time() ?>">
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=1771413807"></script>
 		<script src="/js/placelauncher.js?t=1771413807"></script>
