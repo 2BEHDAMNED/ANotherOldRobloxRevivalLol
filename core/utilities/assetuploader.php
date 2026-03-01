@@ -243,7 +243,7 @@
 			$parsed_year            = $year->ordinal();
 			$parsed_type            = $asset->type->ordinal();
 
-			$new_versionid = count($asset->GetAllVersions());
+			$new_versionid = $asset->current_version;
 
 			if($data != null) {
 				$md5 = self::GetMD5OfData($data);
