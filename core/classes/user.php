@@ -253,24 +253,25 @@
 			$result = [];
 
 			$teamcreatedplaces = [];
+			
+			if($teamcreate) {
+				include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
+				$stmt_checkiseditor = $con->prepare('SELECT * FROM `cloudeditors` WHERE `cloudeditor_userid` = ?;');
+				$stmt_checkiseditor->bind_param('i', $this->id);
+				$stmt_checkiseditor->execute();
 
-			include $_SERVER["DOCUMENT_ROOT"]."/core/connection.php";
-			$stmt_checkiseditor = $con->prepare('SELECT * FROM `cloudeditors` WHERE `cloudeditor_userid` = ?;');
-			$stmt_checkiseditor->bind_param('i', $this->id);
-			$stmt_checkiseditor->execute();
+				$result_checkiseditor = $stmt_checkiseditor->get_result();
 
-			$result_checkiseditor = $stmt_checkiseditor->get_result();
+				if($result_checkiseditor->num_rows != 0) {
+					while($row = $result_checkiseditor->fetch_assoc()) {
+						$place = Place::FromID(intval($row['cloudeditor_placeid']));
 
-			if($result_checkiseditor->num_rows != 0) {
-				while($row = $result_checkiseditor->fetch_assoc()) {
-					$place = Place::FromID(intval($row['cloudeditor_placeid']));
-
-					if($place != null && $place->creator->id != $this->id) {
-						array_push($teamcreatedplaces, $place);
+						if($place != null && $place->creator->id != $this->id) {
+							array_push($teamcreatedplaces, $place);
+						}
 					}
 				}
 			}
-
 
 			
 			foreach($grabbedplaces as $asset) {
