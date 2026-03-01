@@ -263,10 +263,10 @@
 												<td>
 													<select name="ANORRL$EditItem$Year">
 														<?php if($asset->type != AssetType::PLACE && AssetTypeUtils::IsYearable($asset->type)): ?>
-														<option value="0" <?php if($asset->year->ordinal() == 0): ?>selected<?php endif ?>>Any</option>
+														<option value="0" <?php if($asset->year == AssetYear::All): ?>selected<?php endif ?>>Any</option>
 														<?php endif ?>
-														<option value="2" <?php if($asset->year->ordinal() == 3): ?>selected<?php endif ?>>ANORRL (2016)</option>
-														<option value="1" <?php if($asset->year->ordinal() == 2): ?>selected<?php endif ?>>2013</option>
+														<option value="2" <?php if($asset->year == AssetYear::Y2016): ?>selected<?php endif ?>>ANORRL (2016)</option>
+														<option value="1" <?php if($asset->year == AssetYear::Y2013): ?>selected<?php endif ?>>2013</option>
 													</select>
 												</td>
 											</tr>
