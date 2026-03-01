@@ -60,7 +60,8 @@
 				"WrapperBody",
 				"filter",
 				"em",
-				"\\"
+				"\\",
+				"transform"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
