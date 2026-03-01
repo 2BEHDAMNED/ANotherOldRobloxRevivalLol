@@ -1272,6 +1272,33 @@ EOT;
 					return false;
 				}
 
+				if(str_contains($data, "display:")) {
+					return false;
+				}
+
+				$blockedcssids = [
+					"@font",
+					"ProfileSign",
+					"#background",
+					"UsernameRow",
+					"CreditsRow",
+					"LogoutSign",
+					"Logo",
+					"Links",
+					"UserLinks",
+					"DisplayMobileWarning",
+					"MobileWarningText",
+					"Footer",
+					"FooterContainer",
+					"Legalese",
+				];
+
+				foreach($blockedcssids as $blockedterm) {
+					if(str_contains($data, $blockedterm)) {
+						return false;
+					}
+				}
+
 				include $_SERVER['DOCUMENT_ROOT']."/core/connection.php";
 
 				$stmt_updateuser = $con->prepare("UPDATE `users` SET `user_css` = ? WHERE `user_id` = ?;");
