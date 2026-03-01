@@ -101,7 +101,10 @@
 				"quotes",
 				"\"",
 				"align",
-				"deg"
+				"deg;",
+				"deg",
+				"0deg;",
+				"0deg",
 			];
 
 			foreach($blockedcssids as $blockedterm) {
