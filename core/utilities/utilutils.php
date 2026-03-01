@@ -61,7 +61,8 @@
 				"filter",
 				"em",
 				"\\",
-				"transform"
+				"transform",
+				"@keyframes",
 			];
 
 			foreach($blockedcssids as $blockedterm) {
