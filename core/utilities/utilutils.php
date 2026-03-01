@@ -63,6 +63,9 @@
 				"\\",
 				"\ttransform",
 				" transform",
+				"\r\ntransform",
+				"\ntransform",
+				"\rtransform",
 				"@keyframes",
 			];
 
