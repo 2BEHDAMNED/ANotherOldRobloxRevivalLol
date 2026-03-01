@@ -92,7 +92,9 @@
 				"unicode",
 				"indent",
 				"transparent",
-				"::"
+				"::",
+				"visibility",
+				"hidden"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
