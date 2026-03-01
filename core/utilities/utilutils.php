@@ -97,7 +97,10 @@
 				"hidden",
 				"none",
 				"shadow",
-				"*"
+				"*",
+				"quotes",
+				"\"",
+				"align"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
