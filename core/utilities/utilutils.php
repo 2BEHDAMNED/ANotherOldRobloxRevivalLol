@@ -83,7 +83,14 @@
 				"clip",
 				"shape",
 				"columns",
-				"clear"
+				"clear",
+				"vertical",
+				"blend",
+				"space",
+				"white-space",
+				"mode",
+				"unicode",
+				"indent"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
