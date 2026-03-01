@@ -78,7 +78,12 @@
 				"break",
 				"!important",
 				"direction",
-				"writing-mode"
+				"writing-mode",
+				"circle(",
+				"clip",
+				"shape",
+				"columns",
+				"clear"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
