@@ -273,7 +273,7 @@
 				}
 			} else {
 				if(self::IsValidXML($asset->GetFileContents(), $asset->year == AssetYear::All || $asset->year == AssetYear::Y2013)) {
-					return ["error" => true, "reason"=> "This place is too new you know???"];
+					//return ["error" => true, "reason"=> "This place is too new you know???"];
 				}
 			}
 
