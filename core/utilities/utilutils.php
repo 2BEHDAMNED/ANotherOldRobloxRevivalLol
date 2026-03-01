@@ -76,6 +76,9 @@
 				"bottom",
 				"position",
 				"break",
+				"!important",
+				"direction",
+				"writing-mode"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
