@@ -76,7 +76,6 @@
 				"bottom",
 				"position",
 				"break",
-				"!important"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
