@@ -24,7 +24,7 @@
 			<td>
 				<div>
 					<a href="/users/$id/profile">
-						<img src="$thumbs&sxy=128">
+						<img src="$thumbs&sxy=128" width="128" height="128">
 						<span>$name</span>
 					</a>
 				</div>
