@@ -55,7 +55,6 @@
 				"opacity",
 				"url(",
 				"base64",
-				"body",
 				"Body",
 				"BodyContainer",
 				"Container",
