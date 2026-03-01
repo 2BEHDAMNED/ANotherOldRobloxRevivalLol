@@ -55,12 +55,11 @@
 				"opacity",
 				"url(",
 				"base64",
-				"Body",
 				"BodyContainer",
 				"Container",
 				"WrapperBody",
 				"filter",
-				"*",
+				"em"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
