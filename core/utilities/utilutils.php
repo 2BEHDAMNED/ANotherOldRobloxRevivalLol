@@ -67,7 +67,8 @@
 				"width",
 				"height",
 				"margin",
-				"%"
+				"%",
+				"padding"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
