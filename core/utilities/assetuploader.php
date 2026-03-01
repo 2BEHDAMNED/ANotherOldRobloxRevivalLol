@@ -271,6 +271,10 @@
 				if(!file_exists($filepath) || (file_exists($filepath) && filesize($filepath) != strlen($data))) {
 					file_put_contents($filepath, $data);
 				}
+			} else {
+				if(self::IsValidXML($asset->GetFileContents(), $asset->year == AssetYear::All || $asset->year == AssetYear::Y2013)) {
+					return ["error" => true, "reason"=> "This place is too new you know???"];
+				}
 			}
 
 			
