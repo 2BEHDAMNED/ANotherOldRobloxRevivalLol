@@ -22,7 +22,7 @@
         "symfony/http-client-implementation": "3.0"
     },
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.2",
         "psr/log": "^1|^2|^3",
         "symfony/http-client-contracts": "~3.4.4|^3.5.2",
         "symfony/service-contracts": "^2.5|^3"
