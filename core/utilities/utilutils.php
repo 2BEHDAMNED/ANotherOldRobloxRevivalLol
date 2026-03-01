@@ -62,6 +62,7 @@
 				"em",
 				"\\",
 				"\ttransform",
+				" transform",
 				"@keyframes",
 			];
 
