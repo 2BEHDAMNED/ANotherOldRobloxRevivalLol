@@ -95,7 +95,8 @@
 				"::",
 				"visibility",
 				"hidden",
-				"none"
+				"none",
+				"shadow"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
