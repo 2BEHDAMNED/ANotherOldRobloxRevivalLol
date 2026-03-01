@@ -1,5 +1,6 @@
 <?php
 	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/userutils.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/core/utilities/utilutils.php';
 
 	function IsRewrite() {
 		if(!empty($_SERVER['IIS_WasUrlRewritten']))
@@ -31,5 +32,9 @@
 	$header_data = $get_user;
 
 	header("Content-Type: text/css");
-	die($get_user->GetUserCSS());
+	if(UtilUtils::IsValidCSS($get_user->GetUserCSS())) {
+		die($get_user->GetUserCSS());
+	}
+	die();
+	
 ?>

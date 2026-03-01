@@ -33,4 +33,42 @@
 			return $result;
 		}
 
+		public static function IsValidCSS(string $data) {
+			$blockedcssids = [
+				"@font",
+				"ProfileSign",
+				"#background",
+				"UsernameRow",
+				"CreditsRow",
+				"LogoutSign",
+				"Logo",
+				"Links",
+				"UserLinks",
+				"DisplayMobileWarning",
+				"MobileWarningText",
+				"Footer",
+				"FooterContainer",
+				"Legalese",
+				"font-size",
+				"line-height",
+				"display:",
+				"opacity",
+				"url(",
+				"base64",
+				"body",
+				"Body",
+				"BodyContainer",
+				"Container",
+				"WrapperBody"
+			];
+
+			foreach($blockedcssids as $blockedterm) {
+				if(str_contains($data, $blockedterm)) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
     }
