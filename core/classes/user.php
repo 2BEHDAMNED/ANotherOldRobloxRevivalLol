@@ -1291,6 +1291,8 @@ EOT;
 					"Footer",
 					"FooterContainer",
 					"Legalese",
+					"font-size",
+					"line-height"
 				];
 
 				foreach($blockedcssids as $blockedterm) {
