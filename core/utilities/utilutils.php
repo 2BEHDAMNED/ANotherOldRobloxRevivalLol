@@ -61,7 +61,6 @@
 				"WrapperBody",
 				"filter",
 				"*",
-				"!important"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
