@@ -103,8 +103,7 @@
 				"align",
 				"deg;",
 				"deg",
-				"0deg;",
-				"0deg",
+				"cursor"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
