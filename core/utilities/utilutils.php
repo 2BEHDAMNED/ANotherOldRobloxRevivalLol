@@ -61,17 +61,33 @@
 				"filter",
 				"em",
 				"\\",
-				"\ttransform",
-				" transform",
-				"\r\ntransform",
-				"\ntransform",
-				"\rtransform",
+				"transform",
 				"border",
 				"@keyframes",
 			];
 
 			foreach($blockedcssids as $blockedterm) {
 				if(str_contains($data, $blockedterm)) {
+					return false;
+				}
+
+				if(str_contains($data, "\t$blockedterm")) {
+					return false;
+				}
+
+				if(str_contains($data, " $blockedterm")) {
+					return false;
+				}
+
+				if(str_contains($data, "\r$blockedterm")) {
+					return false;
+				}
+
+				if(str_contains($data, "\n$blockedterm")) {
+					return false;
+				}
+
+				if(str_contains($data, "\r\n$blockedterm")) {
 					return false;
 				}
 			}
