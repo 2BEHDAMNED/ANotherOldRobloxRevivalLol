@@ -68,7 +68,7 @@
 		<title><?= $get_user->name ?> - ANORRL</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/users/<?= $get_user->id ?>/css?t=<?= time() ?>">
-		<link rel="stylesheet" href="/css/new/main.css">
+		<link rel="stylesheet" href="/css/new/main.css?v=1">
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
 		<link rel="stylesheet" href="/css/new/my/profile.css?v=7">
