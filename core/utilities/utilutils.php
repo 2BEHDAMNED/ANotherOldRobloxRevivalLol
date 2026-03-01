@@ -61,7 +61,7 @@
 				"filter",
 				"em",
 				"\\",
-				"transform",
+				"\ttransform",
 				"@keyframes",
 			];
 
