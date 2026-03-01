@@ -73,7 +73,8 @@
 				"top",
 				"left",
 				"right",
-				"bottom"
+				"bottom",
+				"position"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
