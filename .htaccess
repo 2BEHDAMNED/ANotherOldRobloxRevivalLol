@@ -16,6 +16,7 @@
 	RewriteRule ^users/([0-9]+)/followers$ /users/followers.php?id=$1  [END]
 	RewriteRule ^users/([0-9]+)/following$ /users/following.php?id=$1  [END]
 	RewriteRule ^users/([0-9]+)/css$ /users/css.php?id=$1  [END]
+	RewriteRule ^users/([0-9]+)/css/force$ /users/css.php?id=$1&force [END]
 
 
 	RewriteRule ^users/([0-9]+)/canmanage/([0-9]+)$ /users/api/canmanage.php?userId=$1&placeId=$2  [END]

@@ -32,6 +32,7 @@
 	$header_data = $get_user;
 
 	header("Content-Type: text/css");
+	
 	if(UtilUtils::IsValidCSS($get_user->GetUserCSS()) || isset($_GET['force'])) {
 		die($get_user->GetUserCSS());
 	}
