@@ -59,7 +59,9 @@
 				"Body",
 				"BodyContainer",
 				"Container",
-				"WrapperBody"
+				"WrapperBody",
+				"filter",
+				"*"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
