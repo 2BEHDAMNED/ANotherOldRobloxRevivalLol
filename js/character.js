@@ -393,6 +393,8 @@ ANORRL.Character  = {
 	WearAsset: function(assetid) {
 		$.post("/api/character?r=wear", { assetid: assetid }, function(data) {
 			if(!data['error']) {
+				ANORRL.Character.LoadWardrobe();
+				ANORRL.Character.LoadCurrentlyWearing();
 				ANORRL.Character.RenderPlayer();
 				// Render
 			} else {
@@ -403,6 +405,8 @@ ANORRL.Character  = {
 	RemoveAsset: function(assetid) {
 		$.post("/api/character?r=remove", { assetid: assetid }, function(data) {
 			if(!data['error']) {
+				ANORRL.Character.LoadWardrobe();
+				ANORRL.Character.LoadCurrentlyWearing();
 				ANORRL.Character.RenderPlayer();
 				// Render
 			} else {
@@ -501,8 +505,8 @@ ANORRL.Character  = {
 				alert(data['reason']);
 			}
 
-			ANORRL.Character.LoadWardrobe();
-			ANORRL.Character.LoadCurrentlyWearing();
+			//ANORRL.Character.LoadWardrobe();
+			//ANORRL.Character.LoadCurrentlyWearing();
 			
 			$("#PlayerRender").attr("src",ANORRL.Character.PlayerRenderUrl+"&t="+Date.now());
 			ANORRL.Character.IsRendering = false;

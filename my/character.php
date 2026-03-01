@@ -20,7 +20,7 @@
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/core/jquery-modal.js"></script>
 		<script src="/js/main.js?t=1771413807"></script>
-		<script src="/js/character.js?t=1771413807"></script>
+		<script src="/js/character.js?t=1771413909"></script>
 	</head>
 	<body>
 		<div id="Colours">
