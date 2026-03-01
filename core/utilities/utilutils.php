@@ -64,6 +64,10 @@
 				"transform",
 				"border",
 				"@keyframes",
+				"width",
+				"height",
+				"margin",
+				"%"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
