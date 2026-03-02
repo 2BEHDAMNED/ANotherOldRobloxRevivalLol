@@ -104,7 +104,8 @@
 				"deg;",
 				"deg",
 				"img",
-				"00;"
+				"00;",
+				"div"
 			];
 
 			foreach($blockedcssids as $blockedterm) {
