@@ -58,7 +58,13 @@
 				"BodyContainer",
 				"#Container",
 				"WrapperBody",
+				"\\",
+				"em",
 				"filter",
+				"@keyframes",
+				"transform",
+				"::"
+				/*"filter",
 				"em",
 				"\\",
 				"transform",
@@ -105,7 +111,8 @@
 				"deg",
 				"img",
 				"00;",
-				"div"
+				"div",
+				*/
 			];
 
 			foreach($blockedcssids as $blockedterm) {
