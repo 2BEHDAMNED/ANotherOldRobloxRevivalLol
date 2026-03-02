@@ -63,7 +63,11 @@
 				"filter",
 				"@keyframes",
 				"transform",
-				"::"
+				"::",
+				"deg",
+				"\"",
+				"'",
+				
 				/*"filter",
 				"em",
 				"\\",
