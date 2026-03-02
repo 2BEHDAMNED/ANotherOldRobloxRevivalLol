@@ -79,15 +79,15 @@ function doVisit()
 	game:GetService("RunService"):Run()
 
 	message.Text = "Creating Player"
-	player = game:GetService("Players"):CreateLocalPlayer(0)
+	player = game:GetService("Players"):CreateLocalPlayer({userid})
+	pcall(function() player.Name = "{username}" end)
 	player.CharacterAppearance = "http://arl.lambda.cam/Asset/CharacterFetch.ashx?userId={userid}&placeId=0"
 	local propExists, canAutoLoadChar = false
 	propExists = pcall(function()  canAutoLoadChar = game.Players.CharacterAutoLoads end)
-
+	
 	if (propExists and canAutoLoadChar) or (not propExists) then
 		player:LoadCharacter()
 	end
-
 
 	message.Text = "Setting GUI"
 	player:SetSuperSafeChat(false)
@@ -132,15 +132,18 @@ end
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/userutils.php";
 
 	$user = UserUtils::RetrieveUser();
+	$username = "Player";
 	$userid = 1;
 	$userage = 0;
 	if($user != null) {
+		$username = $user->name;
 		$userid = $user->id;
 		$userage = $user->GetAccountAge();
 	}
 
 	$script = "\r\n" . ob_get_clean();
 	$script = str_replace("{userid}", strval($userid), $script);
+	$script = str_replace("{username}", $username, $script);
 	$script = str_replace("{accountage}", strval($userage), $script);
 	$script = str_replace("arl.lambda.cam",$_SERVER['SERVER_NAME'], $script);
 	$signature = get_signature($script);

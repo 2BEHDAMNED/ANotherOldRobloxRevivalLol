@@ -49,7 +49,6 @@
 				"Footer",
 				"FooterContainer",
 				"Legalese",
-				"font-size",
 				"line-height",
 				"display:",
 				"opacity",
@@ -60,15 +59,15 @@
 				"WrapperBody",
 				"\\",
 				"em",
-				"filter",
+				/*"filter",
 				"@keyframes",
 				"transform",
 				"::",
-				"deg",
+				"deg",*/
 				"\"",
 				"'",
-				"none",
-				"hidden"
+				/*"none",
+				"hidden"*/
 				/*"filter",
 				"em",
 				"\\",

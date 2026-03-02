@@ -182,6 +182,7 @@
 
 						$data = json_encode([
 							"PlaceId" => $placeId,
+							"MaxPlayers" => $place->server_size,
 							"TeamCreate" => false
 						]);
 
@@ -302,6 +303,7 @@
 						
 						$data = json_encode([
 							"PlaceId" => $placeId,
+							"MaxPlayers" => 100,
 							"TeamCreate" => true
 						]);
 
@@ -438,6 +440,7 @@
 						
 						$data = json_encode([
 							"PlaceId" => $placeId,
+							"MaxPlayers" => $place->server_size,
 							"TeamCreate" => false
 						]);
 
