@@ -67,7 +67,8 @@
 				"deg",
 				"\"",
 				"'",
-				
+				"none",
+				"hidden"
 				/*"filter",
 				"em",
 				"\\",
