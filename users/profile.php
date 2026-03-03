@@ -69,7 +69,7 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/comments.css?v=1">
 		<link rel="stylesheet" href="/css/new/stuff.css?v=1">
-		<link rel="stylesheet" href="/css/new/my/profile.css?v=8">
+		<link rel="stylesheet" href="/css/new/my/profile.css?v=9">
 		<link rel="stylesheet" href="/css/new/main.css?v=6">
 		<link rel="stylesheet" href="/users/<?= $get_user->id ?>/css?t=<?= time() ?>">
 	
@@ -102,7 +102,7 @@
 				<div id="Body">
 					<div id="UserInfoContainer">
 						<div id="PaddingContainer">
-							<h2 style="margin: 5px 0px; width: 830px;"><?= $get_user->name ?>'s Profile</h2>
+							<h2 style="margin: 5px 0px; width: 825px;"><?= $get_user->name ?>'s Profile</h2>
 							<div id="ProfileImage">
 								<div id="ImageContainer">
 									<img id="ProfilePictureYeah" src="/thumbs/<?= $get_user->setprofilepicture ? "profile" : "headshot" ?>?id=<?= $get_user->id ?>&nocompress">
