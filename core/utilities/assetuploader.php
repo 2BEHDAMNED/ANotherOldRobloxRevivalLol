@@ -6,7 +6,8 @@
 	require_once $_SERVER['DOCUMENT_ROOT']."/core/utilities/transactionutils.php";
 
 	define("INVALIDFILE", ["error" => true, "reason" => "File format not valid!"]);
-	define("INTERNALERROR", ["error" => true, "reason" => "Something went wrong idfk bitch about it to grace..."]);
+	define("INTERNALERROR", ["error" => true, "reason" => "Something went wrong idfk bitch about it to grace... (FILE UPLOAD ERROR)"]);
+	define("INTERNALSQLERROR", ["error" => true, "reason" => "Something went wrong idfk bitch about it to grace... (SQL ERROR!)"]);
 
 	class AssetUploader {
 		
@@ -157,7 +158,7 @@
 			$stmt = $con->prepare("INSERT INTO `assets`(`asset_name`, `asset_description`, `asset_creator`, `asset_type`, `asset_public`, `asset_onsale`, `asset_comments_enabled`, `asset_nevershow`, `asset_year`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
 			$stmt->bind_param('ssiiiiiii', $name, $description, $parsed_userid, $parsed_type, $parsed_public, $parsed_onsale, $parsed_commentsenabled, $parsed_hidden, $parsed_year);
 			if(!$stmt->execute()) {
-				return INTERNALERROR;
+				return INTERNALSQLERROR;
 			}
 
 			$id = $con->insert_id;
@@ -179,7 +180,7 @@
 					$stmt->bind_param('i', $id);
 					$stmt->execute();
 
-					return INTERNALERROR;
+					return INTERNALSQLERROR;
 				}
 			}
 
@@ -258,10 +259,10 @@
 				$stmt->bind_param('issii', $id, $md5, $md5, $parsed_type, $new_versionid);
 				try {
 					if(!$stmt->execute()) {
-						return INTERNALERROR;
+						return INTERNALSQLERROR;
 					}
 				} catch(mysqli_sql_exception $e) {
-					return INTERNALERROR;
+					return INTERNALSQLERROR;
 				}
 				
 
@@ -285,10 +286,10 @@
 			$stmt->bind_param('issiiiii', $new_versionid, $name, $description, $parsed_public, $parsed_onsale, $parsed_commentsenabled, $parsed_year, $id);
 			try {
 				if(!$stmt->execute()) {
-					return INTERNALERROR;
+					return INTERNALSQLERROR;
 				}
 			} catch(mysqli_sql_exception $e) {
-				return INTERNALERROR;
+				return INTERNALSQLERROR;
 			}
 		
 			return ["error" => false, "versionid" => $versionid];
@@ -430,7 +431,7 @@
 					$stmt->bind_param('i', $result['id']);
 					$stmt->execute();
 
-					return INTERNALERROR;
+					return INTERNALSQLERROR;
 				}
 			}
 
