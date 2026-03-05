@@ -6,7 +6,7 @@ class RCCServiceSoap {
 	public $url;
 	public $renderFix;
 
-	function __construct($ip = "127.0.0.1", $port = 64988, $url = "arl.lambda.cam", $renderFix = true) {
+	function __construct($ip = "127.0.0.1", $port = 64989, $url = "roblox.com", $renderFix = true) {
 		$this->ip = $ip;
 		$this->port = $port;
 		$this->url = $url;
@@ -59,8 +59,9 @@ class RCCServiceSoap {
 			xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 			xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+			xmlns:ns2="http://$url/RCCServiceSoap"
 			xmlns:ns1="http://$url/" 
-			xmlns:ns2="http://$url/RCCServiceSoap12">
+			xmlns:ns3="http://$url/RCCServiceSoap12">
 			<SOAP-ENV:Body>
 				<ns1:OpenJob>
 					<ns1:job>

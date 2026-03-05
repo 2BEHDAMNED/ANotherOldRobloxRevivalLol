@@ -1,88 +1,6 @@
-#IntroductionBox {
-	width: 500px;
-}
-
-#IntroductionBox h2 {
-	margin-bottom: 8px;
-}
-
-#IntroductionBox h3 {
-	margin-bottom: 0px;
-	margin-top: 0px;
-	margin-left: 10px;
-	font-size: 16px;
-}
-
-#IntroductionBox p {
-	margin-left: 15px;
-	margin-top: 5px;
-	margin-bottom: 10px;
-}
-
-#ShowcaseContainer {
-	margin-top: -230px;
-	float: right;
-}
-
-#ShowcaseContainer h3 {
-	margin: 0;
-}
-
-#ShowcaseBox {
-	border: 2px solid black;
-	background: #282828;
-	width: 355px;
-	padding: 10px;
-}
-
-#ShowcaseBox #Showcase {
-	width: 327px;
-	height: 184px;
-	background: #1a1919;
-	border: 2px solid #090909;
-	margin: 0 auto; 
-	display:block;
-	object-fit: contain;
-}
-
-#ShowcaseBox #Carousel {
-	border: 2px solid #090909;
-	border-top: none;
-	margin: 0 auto;
-	width:fit-content;
-	width:initial\9;
-	height:42px;
-	text-align: center;
-	background: #171717;
-	
-}
-
-#ShowcaseBox #Carousel img {
-	display:inline;
-	width:42px;
-	height:42px;
-	object-fit: cover;
-	cursor: pointer;
-	background: #444;
-	border: 1px solid black;	
-}
-
-#ShowcaseBox #Carousel img:hover {
-	filter: brightness(1.15);
-	border: 1px solid white;
-}
-
-#ShowcaseBox #Carousel img.selected {
-	filter: brightness(1.5);
-	border: 1px solid gray;
-}
-
-#ShowcaseBox #Carousel img.selected:hover {
-	border: 1px solid white
-}
-
 #NewUsersContainer {
 	margin-top: -35px;
+	margin: 10px;
 }
 
 #NewUsersContainer h3 {
@@ -160,94 +78,126 @@
 	height: 28px;
 }
 
-#PopularGamesContainer h3 {
-	margin-bottom: 0px;
-	margin-left: 15px;
-	width: 150px;
+#IntroductoryArea {
+	margin-bottom: 15px;
 }
 
-#PopularGamesContainer	#PopularGamesBox {
-	border: 2px solid #090909;
-	margin: 0 auto;
-	background: #171717;
-	padding: 10px;
-	padding-left: 15px;
-	width: 100%;
+#IntroductoryArea > h2 {
+	margin: 0px;
+	width: calc(100% - 48px);
+	margin-bottom: 20px;
+	text-align: center;
+	background: none repeat-x;
+	background-size: 49px auto;
+	border: 4px solid black;
+	height: 21px;
+	background-blend-mode: difference;
+	background-image: linear-gradient(#ffb300,#ffb300),url(/images/header/navbar.jpg);
 }
 
-.PopularGame img {
-	width: 300px;
-	height: 169px;
-	border: 2px solid #090909;
-}
-
-.PopularGame #Play {
-	width: 212px;
-	height: 54px;
-	background: url("/images/buttons/Play.png");
-	display: inline-block;
-}
-
-.PopularGame #Play:hover {
-	background-position: 0 54px;
-}
-
-.PopularGame #ShowcaseBigImages {
-	display: table-cell;
-	vertical-align: top;
-	width:304px;
-	text-align:center;
-}
-
-.PopularGame #ShowcaseBigImages img {
-	background:	#282828
-}
-
-.PopularGame #ShowcaseDetails {
-	display: table-cell;
-	vertical-align: top;
-
-	width: 282px;
-	height: 225px;
-}
-
-.PopularGame #ShowcaseDetails #NameAndCreator {
-	margin-left: 0px;
-	margin-top: 0px;
-	font-size:15px;
-	width: 270px;
+#IntroductoryArea #LogoPitch {
 	background: black;
+	width: 290px;
+	height: 216px;
+	transform: rotate(4deg);
+	margin-left: 7px;
+	float: left;
+}
+
+#IntroductoryArea #LogoPitch img {
+	width: 100%;
+	transform: rotate(-8deg);
+	margin-top: -4px;
+}
+
+#IntroductoryArea #TeapotsMayhem {
+	background: black;
+	width: 500px;
+	height: 234px;
+	transform: rotate(-2deg);
+	float: left;
+	margin-left: 55px;
+	margin-top: 11px;
+	margin-bottom: 15px;
+}
+
+#IntroductoryArea #TeapotsMayhem img {
+	width: 100%;
+	transform: rotate(4deg);
+	margin-top: -14px;
+}
+
+#IntroductoryArea #GracingIt {
+	background: black;
+	width: 234px;
+	height: 234px;
+	transform: rotate(2deg);
+	margin-left: 15px;
+	float: left;
+}
+
+#IntroductoryArea #GracingIt img {
+	position: relative;
+	margin-top: -4px;
+	width: 100%;
+	transform: rotate(-4deg);
+	z-index: 5;
+}
+
+#IntroductoryArea #GracingIt #Label {
 	font-family: punk;
 	font-weight: bold;
-	padding: 5px;
-	padding-left: 15px;
-	padding-top: 10px;
+	font-size: 18px;
+	padding: 5px 10px;
+	width:100%;
+	transform: rotate(-2deg);
+	background: black;
+	text-align: center;
+	margin-top: -5px;
+	margin-left: -8px;
+	z-index: 0;
+	letter-spacing: 5px;
 }
 
-.PopularGame #ShowcaseDetails #NameAndCreator a {
-	display: block;
-	color: white;
-}
-
-.PopularGame #ShowcaseDetails #NameAndCreator #Creator {
+#IntroductoryArea #GracingIt #Label #Notice {
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
+	padding: 5px;
+	padding-top: 2px;
+	font-style: italic;
+	color: #AAA;
+	letter-spacing: 3px;
 }
 
-.PopularGame #ShowcaseDetails code {
-	border: 2px solid black;
-	padding: 10px;
-	background: #282828;
-	height: 175px;
+#FirstRow, #SecondRow {
+	clear: both;
+}
+
+#Details {
+	margin-top: 20px;
+	margin-left: 55px;
+	width: 550px;
+	height: 240px;
+	float: left;
+	transform: rotate(3deg);
+	margin-bottom: 25px;
+}
+
+#Details h2 {
+	margin: 0px;
+	transform: rotate(-3deg);
+	padding: 5px 50px;;
+	padding-left: 50px;
+	margin-left: 15px;
+	letter-spacing: 2px;
+}
+
+#Details code {
+	margin-top:-5px;
 	display: block;
-	width: 266px;
-}
-
-#PopularGames {
-	text-align: center;margin-left: 10px;height: 195px;overflow: hidden;
-	background: #0f0f0f;
-	
-}
-
-#PopularGames img {
-	width: 227px;height: 128px;
+	background: black;
+	transform: rotate(-2deg);
+	padding: 25px;
+	margin-left: -15px;
+	font-size: 12px;
 }
