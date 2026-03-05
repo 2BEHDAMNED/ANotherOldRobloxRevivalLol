@@ -357,3 +357,31 @@ hr {
 #Controls button {
 	margin-top: 4px;
 }
+
+h1 {
+	border: 2px solid black;
+}
+
+#UserInfoContainer h3,
+#UserAvatarContainer h3,
+#UserGamesContainer h3,
+#UserStatsContainer h3,
+#NameAndCreator {
+	border-top: 2px solid black;
+	border-left: 2px solid black;
+	border-right: 2px solid black;
+}
+
+h2[style] {
+	border: 2px solid black;
+}
+
+#FollowFriendsWhatever {
+	border: 2px solid black;
+	border-bottom: none;
+}
+
+#OnlineStatusArea {
+	border-left: 2px solid black;
+	border-right: 2px solid black;
+}
