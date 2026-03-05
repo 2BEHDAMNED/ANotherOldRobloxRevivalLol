@@ -20,16 +20,16 @@
 						<h2>&nbsp;</h2>
 						<div id="FirstRow">
 							<div id="LogoPitch">
-								<img src="/images/header/logo.png">
+								<img src="/images/header/logo.png" title="welcome to anorrl!">
 							</div>
 							<div id="TeapotsMayhem">
-								<img src="/images/frontpage/gang.png">
+								<img src="/images/frontpage/gang.png" title="created by grace and power!">
 							</div>
 						</div>
 						
 						<div id="SecondRow">
 							<div id="GracingIt">
-								<img src="/images/frontpage/grace.png">
+								<img src="/images/frontpage/grace.png" title="what a bitch">
 								<div id="Label">
 									<span>Grace</span>
 									<div id="Notice">
