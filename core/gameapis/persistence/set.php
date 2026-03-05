@@ -1,6 +1,6 @@
 <?php
-	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/sqldbcon.php');
-	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/functions.php');
+//	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/sqldbcon.php');
+//	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/functions.php');
 
 	// set?placeId=331&key=Highscore2015&&type=sorted&scope=global&target=1&valueLength=1
 

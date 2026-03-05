@@ -1,6 +1,6 @@
 <?php
-	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/sqldbcon.php');
-	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/functions.php');
+//	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/sqldbcon.php');
+//	require_once($_SERVER['DOCUMENT_ROOT'] . '/include/functions.php');
 
 	// getV2?placeId=331&type=standard&scope=global
 
