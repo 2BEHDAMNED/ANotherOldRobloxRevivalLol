@@ -7,7 +7,7 @@
 		<title>Welcome to ANORRL!</title>
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
 		<link rel="stylesheet" href="/css/new/main.css">
-		<link rel="stylesheet" href="/css/new/frontpage.css?v=2">
+		<link rel="stylesheet" href="/css/new/frontpage.css?v=3">
 		<script src="/js/core/jquery.js"></script>
 		<script src="/js/main.js?t=1771413807"></script>
 	</head>
@@ -29,7 +29,7 @@
 						
 						<div id="SecondRow">
 							<div id="GracingIt">
-								<img src="/images/frontpage/grace.png" title="what a bitch">
+								<img src="/images/frontpage/grace.png" title="what a bitch!">
 								<div id="Label">
 									<span>Grace</span>
 									<div id="Notice">
@@ -38,7 +38,7 @@
 								</div>
 							</div>
 							<div id="Details">
-								<h2>So what the heck is an ANORRL?</h2>
+								<h2>So what the heck is AN ORRL?</h2>
 								<code>
 									ANORRL is an acronym stands for <b>AN</b>other <b>O</b>ld <b>R</b>oblox <b>R</b>evival <b>L</b>ol.
 									<br><br>
@@ -53,10 +53,10 @@
 						<br style="clear:both">
 
 						<div id="NewUsersContainer">
-							<h3>New Users!</h3>
+							<h3>Random Users!</h3>
 							<table id="NewUsersBox">
 								<?php 
-									$users = UserUtils::GetLatestUsers(100);
+									$users = UserUtils::GetRandomUsers(6);
 									$users_count = count($users);
 								?>
 								<tr>
@@ -82,41 +82,8 @@
 											}
 										}
 
-										if($users_count < 7) {
-											$count = 7 - $users_count;
-											for($i = 0; $i < $count; $i++) {
-												echo <<<EOT
-													<td></td>
-												EOT;
-											}
-										}
-									?>
-								</tr>
-								<tr id="Other">
-									<?php 
-										foreach($users as $user) {
-											if($user instanceof User) {
-												$user_id = $user->id;
-												$user_name = $user->name;
-												$profile = $user->setprofilepicture ? "profile" : "headshot";
-												if(UserSettings::Get(UserUtils::RetrieveUser())->headshots_enabled && UserUtils::RetrieveUser() != null) {
-													$profile = "headshot";
-												}
-												echo <<<EOT
-													<td>
-														<div class="User" title="$user_name">
-															<a href="/users/$user_id/profile">
-																<img src="/thumbs/$profile?id=$user_id&sxy=100">
-																<span>$user_name</span>
-															</a>
-														</div>
-													</td>
-												EOT;
-											}
-										}
-
-										if($users_count < 7) {
-											$count = 7 - $users_count;
+										if($users_count < 6) {
+											$count = 6 - $users_count;
 											for($i = 0; $i < $count; $i++) {
 												echo <<<EOT
 													<td></td>

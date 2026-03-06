@@ -331,6 +331,29 @@
 			setcookie("ANORRLSECURITY", "", -1, "/", ".lambda.cam");
 		}
 
+		public static function GetRandomUsers(int $count): array {
+			include $_SERVER['DOCUMENT_ROOT'].'/core/connection.php';
+			
+			$stmt = $con->prepare('SELECT * FROM `users` ORDER BY RAND() LIMIT ?');
+			$stmt->bind_param('i', $count);
+			$stmt->execute();
+
+			$result = $stmt->get_result();
+
+			if($result->num_rows != 0) {
+				$users =  [];
+
+				while(($row = $result->fetch_assoc()) != null) {
+					array_push($users, new User($row));
+				}
+
+				return $users;
+			}
+
+			return [];
+		}
+
+
 		public static function GetLatestUsers(int $count): array {
 			include $_SERVER['DOCUMENT_ROOT'].'/core/connection.php';
 			

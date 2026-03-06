@@ -6,7 +6,8 @@
 #NewUsersContainer h3 {
 	margin-bottom: 0px;
 	margin-left: 15px;
-	width: 110px;
+	width: 150px;
+	text-align: center;
 }
 
 #NewUsersContainer #NewUsersBox {
@@ -16,40 +17,7 @@
 	padding: 10px;
 	padding-left: 15px;
 	width: 100%;
-	overflow: hidden;
-	display: block;
 }
-
-#NewUsersContainer #NewUsersBox tr {
-	display: inline-block;
-	animation-name: moveSlideshow;
-	animation-duration: 25s;
-	animation-iteration-count: infinite;
-	animation-timing-function: linear;
-}
-
-#NewUsersContainer #NewUsersBox tr#Other {
-	margin-top: -172px;
-	animation-name: moveSlideshowEvil;
-}
-
-@keyframes moveSlideshow {
-  0% {
-      transform: translateX(0%);
-  }
-  100% {
-      transform: translateX(-100%);
-  }
-}
-
-@keyframes moveSlideshowEvil {
-  0% {
-      transform: translateX(100%);
-  }
-  100% {
-      transform: translateX(0%);
-  }
-}  
 
 #NewUsersContainer #NewUsersBox .User {
 	border: 2px solid #090909;
@@ -200,4 +168,93 @@
 	padding: 25px;
 	margin-left: -15px;
 	font-size: 12px;
+}
+
+/* Animation shit goes here yay hi! */
+#IntroductoryArea #LogoPitch,
+#IntroductoryArea #LogoPitch img {
+	transition: transform 0.5s;
+}
+
+#IntroductoryArea #LogoPitch {
+	z-index: 5;
+	position:relative;
+	display: block;
+}
+
+#IntroductoryArea #LogoPitch:hover {
+	transform: scale(1.05) rotate(-6deg);
+}
+
+#IntroductoryArea #LogoPitch:hover img {
+	transform: scale(1.025) rotate(10deg);
+}
+
+#IntroductoryArea #TeapotsMayhem,
+#IntroductoryArea #TeapotsMayhem img {
+	transition: transform 0.5s;
+}
+
+#IntroductoryArea #TeapotsMayhem {
+	z-index: 5;
+	position:relative;
+	display: block;
+}
+
+#IntroductoryArea #TeapotsMayhem:hover {
+	transform: scale(1.05) rotate(-6deg);
+}
+
+#IntroductoryArea #TeapotsMayhem:hover img {
+	transform: scale(1.025) rotate(10deg);
+}
+
+#IntroductoryArea #Details {
+	z-index: 1;
+	position:relative;
+}
+
+#IntroductoryArea #GracingIt,
+#IntroductoryArea #GracingIt img,
+#IntroductoryArea #GracingIt #Label {
+	transition: transform 0.5s, margin-left 0.5s;
+}
+
+#IntroductoryArea #GracingIt:hover {
+	transform: scale(1.05) rotate(-6deg);
+}
+
+#IntroductoryArea #GracingIt:hover #Label {
+	transform: scale(0.9) rotate(6deg);
+	margin-left: -18px;
+}
+
+#IntroductoryArea #GracingIt:hover img {
+	transform: scale(1.025) rotate(10deg);
+}
+
+#IntroductoryArea #Details h2,
+#IntroductoryArea #Details code {
+	transition: transform 0.5s, margin-left 0.5s;
+}
+
+#IntroductoryArea #Details:hover h2 {
+	transform: scale(1.025) rotate(-2deg);
+}
+
+#IntroductoryArea #Details:hover code {
+	transform: scale(1.025) rotate(-3deg);
+}
+
+#NewUsersBox .User,
+#NewUsersBox .User * {
+	transition: transform 0.25s;
+}
+
+#NewUsersBox .User:hover {
+	transform: scale(1.05);
+}
+
+#NewUsersBox .User:hover img {
+	transform: scale(1.025) rotate(3deg);
 }
