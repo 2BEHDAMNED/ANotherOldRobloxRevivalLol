@@ -57,13 +57,36 @@
 
 			});
 		</script>
+		<style>
+			.FormImage {
+				width: 265px;
+				height: 309px;
+				border: 2px solid black;
+			}
+		
+			#BodyContainer > h2 {
+				margin: 0px;
+				width: calc(100% - 48px);
+				margin-bottom: 20px;
+				text-align: center;
+				background: none repeat-x;
+				background-size: 49px auto;
+				border: 4px solid black;
+				height: 21px;
+				background-blend-mode: difference;
+				background-image: linear-gradient(#ffb300,#ffb300),url(/images/header/navbar.jpg);
+			}
+		</style>
 	</head>
 	<body>
 		<div id="Container">
 		<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/header.php'; ?>
 			<div id="Body">
 				<div id="BodyContainer">
-					<div id="FormPanel">
+					<h2>&nbsp;</h2>
+					<img class="FormImage" src="/images/login/left.png" style="float: left;" >
+					<img class="FormImage" src="/images/login/right.png" style="float: right;" >
+					<div id="FormPanel" style="width: 240px;">
 						<form method="POST">
 							<div>
 								<h2>Welcome back!</h2>
@@ -108,7 +131,9 @@
 							</div>
 						</form>						
 					</div>
+					
 				</div>
+				<h2>&nbsp;</h2>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
 			</div>
 		</div>

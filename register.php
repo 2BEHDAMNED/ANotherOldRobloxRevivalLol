@@ -82,7 +82,26 @@
 			window.location.href = "/login";
 		</script>
 		<?php endif ?>
-		<!-- TODO: Add images on left and right when you get the right images -->
+		<style>
+			.FormImage {
+				width: 265px;
+				height: 410px;
+				border: 2px solid black;
+			}
+		
+			#BodyContainer > h2 {
+				margin: 0px;
+				width: calc(100% - 48px);
+				margin-bottom: 20px;
+				text-align: center;
+				background: none repeat-x;
+				background-size: 49px auto;
+				border: 4px solid black;
+				height: 21px;
+				background-blend-mode: difference;
+				background-image: linear-gradient(#ffb300,#ffb300),url(/images/header/navbar.jpg);
+			}
+		</style>
 	</head>
 	<body>
 		<div id="Container">
@@ -90,7 +109,10 @@
 			<div id="Body">
 				<div id="BodyContainer">
 					<?php if(!$istoomany): ?>
-					<div id="FormPanel">
+					<h2>&nbsp;</h2>
+					<img class="FormImage" src="/images/register/left.png" style="float: left;" >
+					<img class="FormImage" src="/images/register/right.png" style="float: right;" >
+					<div id="FormPanel" style="width: 240px;">
 						<form method="POST">
 							<div>
 								<h2>Registration</h2>
@@ -136,6 +158,7 @@
 							</div>
 						</form>
 					</div>
+					<h2>&nbsp;</h2>
 					<?php endif ?>
 				</div>
 				<?php include $_SERVER['DOCUMENT_ROOT'].'/core/ui/footer.php'; ?>
