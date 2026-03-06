@@ -151,7 +151,7 @@
 										}
 									?>
 								</span>
-								<input type="password" id="ANORRL_Signup_AccessKey" name="ANORRL$Signup$AccessKey" placeholder="Check your discord for it!" maxlength="36" required>
+								<input type="password" id="ANORRL_Signup_AccessKey" name="ANORRL$Signup$AccessKey" placeholder="Check dms from ANORRLBot!" maxlength="36" required>
 							</div>
 							<div style="margin-top: 10px;">
 								<input type="submit" id="ANORRL_Signup_Submit" name="ANORRL$Signup$Submit" value="Register">
