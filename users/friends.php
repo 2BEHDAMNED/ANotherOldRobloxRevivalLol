@@ -28,6 +28,10 @@
 		die(header("Location: /my/home"));
 	}
 
+	if($get_user->id == 1) {
+		die(require $_SERVER['DOCUMENT_ROOT']."/core/venturing.html");
+	}
+
 	if(isset($_GET['page'])) {
 		if(intval($_GET['page']) == 1) {
 			die(include($_SERVER['DOCUMENT_ROOT']."/users/api/friends.php"));

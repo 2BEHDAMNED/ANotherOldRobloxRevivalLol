@@ -32,6 +32,10 @@
 		die(header("Location: /users/".$get_user->id."/profile"));
 	}
 
+	if($get_user->id == 1) {
+		die(require $_SERVER['DOCUMENT_ROOT']."/core/venturing.html");
+	}
+
 	
 	$user = UserUtils::RetrieveUser($get_user);
 

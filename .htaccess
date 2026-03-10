@@ -32,7 +32,7 @@
 	RewriteRule ^IDE/Landing.aspx$ /core/ide/landing.php				  		  [END]
 	RewriteRule ^ide/welcome$ /my/places.php				  		  [END]
 	RewriteRule ^IDE/welcome$ /my/places.php				  		  [END]
-	RewriteRule ^My/Place.aspx$ /my/places.php				  		  [END]
+	RewriteRule ^My/Places.aspx$ /my/places.php				  		  [END]
 
 	RewriteRule ^IDE/Upload.aspx$ /core/ide/publish.php				  		  [END]
 	RewriteRule ^ide/publish$ /core/ide/publish.php				  		  [END]
