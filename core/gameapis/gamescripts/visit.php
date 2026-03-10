@@ -111,8 +111,10 @@ end
 if success then
 	pcall(function() warn("PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!") end)
 
-	--wait(1)
-	--pcall(function() game:GetService("Chat"):Chat(player.Character, "PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!", Enum.ChatColor.Red) end)
+
+	-- whatever.
+	--[[wait(1)
+	pcall(function() game:GetService("Chat"):Chat(player.Character, "PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!", Enum.ChatColor.Red) end)]]
 
 	message.Parent = nil
 else
