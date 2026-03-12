@@ -110,7 +110,7 @@ end
 
 if success then
 	pcall(function() warn("PLEASE DON'T USE THIS FOR ACTUAL TESTING BECAUSE THIS ISN'T FUCKING ACCURATE! USE THE SERVER/CLIENT TESTING WAY!!!!!") end)
-
+	pcall(function() warn("i feel like im being stretched thin. hung up on a display and observed like an animal") end)
 
 	-- whatever.
 	--[[wait(1)
