@@ -241,7 +241,7 @@
 				"/core/gamescripts/"
 			];
 
-			if($user != null) {
+			if($user != null && $user->id != 1) {
 				if(!in_array($_SERVER['SCRIPT_NAME'], $pages) && !self::StringContainsFromArray($dont_catalog_ever, $_SERVER['SCRIPT_NAME']) && !str_starts_with($_SERVER['SCRIPT_NAME'], "/Admi/")) {
 					die($_SERVER['SCRIPT_NAME']);
 				} else {
