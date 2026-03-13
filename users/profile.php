@@ -33,7 +33,7 @@
 	}
 
 	if($get_user->id == 1) {
-		die(require $_SERVER['DOCUMENT_ROOT']."/core/venturing.html");
+		die(require $_SERVER['DOCUMENT_ROOT']."/core/resolve.html");
 	}
 
 	
