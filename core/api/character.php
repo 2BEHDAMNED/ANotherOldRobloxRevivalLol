@@ -276,8 +276,8 @@
 				
 				$mediadir = $_SERVER['DOCUMENT_ROOT']."/../renders/";
 
-				$characterinfo = $user->GetCharacterAppearanceVerbose();
-				$charactermd5 = md5($characterinfo);
+				$charactermd5 = $user->GetCharacterAppearanceHash();
+				
 				if(file_exists("$mediadir/$charactermd5.png")) {
 					$user->UpdateOutfitHash();
 					die(json_encode(["error" => false]));
@@ -316,9 +316,8 @@
 			} else if($request == "rerendercharacter") {
 				$mediadir = $_SERVER['DOCUMENT_ROOT']."/../renders/";
 
-				$characterinfo = $user->GetCharacterAppearanceVerbose();
-				$charactermd5 = md5($characterinfo);
-
+				$charactermd5 = $user->GetCharacterAppearanceHash();
+				
 				$render = TheFuckingRenderer::RenderUser($user->id);
 				if($render != null) {
 					$data = "data:image/png;base64,$render";
